@@ -10,10 +10,10 @@ Grow Your Business with <br/>
 </h1>
 <p className="text-center text-gray-500">From Business Development to Web Development,<br/> Our Digital and Consulting Experts Help Drive Your Business Forward</p>
 <div class="flex justify-center mt-6">
-  <form class="max-w-screen-lg">
+  <form class="max-w-screen-md">
     <div class="relative w-full">
       <input
-        class="w-full px-40 pl-36 pr-36 rounded-2xl border-spacing-1 border-2 py-4"
+        class="w-full px-5 pl-28 pr-28 rounded-2xl border-spacing-1 border-2 py-4"
         type="text"
       />
       <button
@@ -24,7 +24,6 @@ Grow Your Business with <br/>
     </div>
   </form>
 </div>
-
 
     </div>
     </div>
