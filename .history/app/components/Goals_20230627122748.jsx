@@ -39,11 +39,11 @@ export default function GoalsSection(){
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Use the map method to iterate over the sections array and render each section dynamically */}
             {sections.map((section) => (
-              <div key={section.title} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col lg:pr-12">
+              <div key={section.title} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col">
                 <Image className="w-full" src={section.image} alt={section.alt} width={600} height={200} />
                 <div className="p-4 flex flex-col justify-between flex-grow">
                   <div>
-                    <h2 className="text-2xl font-bold mb-2 pt-4 pb-4 ">{section.title}</h2>
+                    <h2 className="text-3xl font-bold mb-2">{section.title}</h2>
                     <p className="text-lg text-gray-600 mb-4">{section.description}</p>
                   </div>
                   <Link href={section.button.link} passHref>

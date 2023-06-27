@@ -43,7 +43,7 @@ export default function GoalsSection(){
                 <Image className="w-full" src={section.image} alt={section.alt} width={600} height={200} />
                 <div className="p-4 flex flex-col justify-between flex-grow">
                   <div>
-                    <h2 className="text-2xl font-bold mb-2 pt-4 pb-4 ">{section.title}</h2>
+                    <h2 className="text-2xl font-bold mb-2 py-12">{section.title}</h2>
                     <p className="text-lg text-gray-600 mb-4">{section.description}</p>
                   </div>
                   <Link href={section.button.link} passHref>
