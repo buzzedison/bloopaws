@@ -41,7 +41,7 @@ export default function GoalsSection(){
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {/* Use the map method to iterate over the sections array and render each section dynamically */}
             {sections.map((section) => (
-              <div key={section.title} className="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col w-full md:w-3/4 items-center ">
+              <div key={section.title} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col w-3/4 items-center ">
                 <Image className=" 
                 fill={true}
                 loader={imageLoader}
