@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import IdeaToCompanySection from "./components/Idea";
 import Logo from "./components/LogoSection";
 import Navbar from "./components/Navbar";
+import ProductsSection from "./components/Products";
 
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
 
 <IdeaToCompanySection/>
 <GoalsSection/>
+<ProductsSection/>
    </div>
    </>
   )
