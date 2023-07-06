@@ -1,4 +1,3 @@
-import Footer from "./components/Footer";
 import GoalsSection from "./components/Goals";
 import Hero from "./components/Hero";
 import IdeaToCompanySection from "./components/Idea";
@@ -18,8 +17,6 @@ export default function Home() {
 <IdeaToCompanySection/>
 <GoalsSection/>
 {/* <ProductsSection/> */}
-
-<Footer/>
    </div>
    </>
   )
