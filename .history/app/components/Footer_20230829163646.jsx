@@ -1,12 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
-
+import Image from "next/image"
 const Footer = () => (
   <footer className="bg-gray-900 text-white py-16 px-8 md:px-16">
     <div className="container mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <img src="/path/to/your/logo.png" alt="Your Company Logo" className="w-32 mb-4" />
+          <Image src="/images/logo.png" 
+          width={200} height={40}
+          alt="Your Company Logo" className="w-32 mb-4" />
           <h3 className="text-lg font-semibold mb-4">Site Map</h3>
           <ul className="space-y-2">
             <li>
@@ -93,7 +95,7 @@ const Footer = () => (
       </div>
       <div className="mt-12 border-t border-gray-700 pt-8">
         <p className="text-sm text-gray-300">
-          &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+          &copy; {new Date().getFullYear()} Bloop Global LLC. All rights reserved.
         </p>
       </div>
     </div>
