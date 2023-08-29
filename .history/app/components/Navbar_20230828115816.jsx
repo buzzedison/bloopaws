@@ -1,0 +1,94 @@
+"use client"
+// Client
+import { useState } from 'react';
+import Link from 'next/link';
+
+const DropdownMenu = ({ title, links }) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div className="relative group inline-block">
+      <button onClick={() => setIsOpen(!isOpen)} className="px-4 py-2 text-white hover:text-blue-400 transition duration-300">
+        {title}
+      </button>
+      {isOpen && (
+        <ul className="absolute left-0 mt-2 p-2 space-y-2 text-white bg-black border border-gray-800 rounded-md shadow-xl">
+          {links.map((link, index) => (
+            <li key={index}>
+              <Link href={link.path}>{link.label}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  return (
+    <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between bg-opacity-80 backdrop-blur-md px-4 py-2 text-white">
+      <div className="text-3xl font-semibold">
+        <Link href="/">Bloop</Link>
+      </div>
+      <ul className="hidden md:flex flex-grow justify-end space-x-10">
+        <li>
+          <Link href="/">Services</Link>
+        </li>
+        <li>
+          <Link href="/">Resources</Link>
+        </li>
+        <li>
+          <Link href="/">Brands</Link>
+        </li>
+        <li>
+          <Link href="/">About</Link>
+        </li>
+        <li>
+          <Link href="/">Insight</Link>
+        </li>
+        <li>
+          <Link href="/" className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-500 transition duration-300">
+            Sign Up
+          </Link>
+        </li>
+      </ul>
+      <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden text-white">
+        {/* Mobile Menu Icon */}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6 fill-current">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+      <div className={`fixed top-0 left-0 w-full h-full transition-transform duration-200 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} bg-black p-8`} >
+        <button onClick={() => setIsMobileMenuOpen(false)} className="absolute top-4 right-4 text-white">
+          Close
+        </button>
+        <ul className="flex flex-col space-y-4">
+          <li>
+            <Link href="/">Services</Link>
+          </li>
+          <li>
+            <Link href="/">Resources</Link>
+          </li>
+          <li>
+            <Link href="/">Brands</Link>
+          </li>
+          <li>
+            <Link href="/">About</Link>
+          </li>
+          <li>
+            <Link href="/">Insight</Link>
+          </li>
+          <li className="mt-4">
+            <Link href="/" className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-500 transition duration-300">
+              Sign Up
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
