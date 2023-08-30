@@ -17,9 +17,9 @@ export default function HeroPost({ post }: HeroPostProps) {
       <div className="z-[-1] inset-0">
         {post.mainImage ? (
           <Image
-            src={builder.image(post.mainImage).width(1200).height(650).url()}
+            src={builder.image(post.mainImage).width(1200).height(600).url()}
           fill={true}
-            style={{objectFit: "cover"}}
+            style={{objectFit: "contain"}}
             alt={post?.mainImage?.alt}
           />
         ) : null}

@@ -19,7 +19,7 @@ export default function BloopNavbar() {
   }, []);
 
   return (
-    <nav className={`fixed w-full z-50 transition-all ease-in-out duration-300 ${isScrolled ? 'bg-white text-black' : 'bg-transparent text-white'}`}>
+    <nav className={`fixed w-full z-40 transition-all ease-in-out duration-300 ${isScrolled ? 'bg-white text-black' : 'bg-transparent text-white'}`}>
       <div className="container mx-auto flex items-center justify-between p-6">
         <div className="text-4xl font-bold">
           <Link href="/">
@@ -50,15 +50,15 @@ export default function BloopNavbar() {
           </button>
           {isNavOpen && (
             <div className="fixed top-0 left-0 w-full h-full z-40 flex flex-col items-start justify-start p-4 bg-white text-black">
-              <button onClick={() => setIsNavOpen(false)} className="ml-auto text-2xl">
-                ✕
+              <button onClick={() => setIsNavOpen(false)}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
-              <div className="flex flex-col mt-5 space-y-4 text-lg md:font-extrabold hover:text-red-500">
-                <Link href="/about">About Us</Link>
-                <Link href="/services">Services</Link>
-                <Link href="/resources">Resources</Link>
-                <Link href="/contact">Contact Us</Link>
-              </div>
+              <Link href="/about">About Us</Link>
+              <Link href="/services">Services</Link>
+              <Link href="/resources">Resources</Link>
+              <Link href="/contact">Contact Us</Link>
             </div>
           )}
         </div>
@@ -69,12 +69,6 @@ export default function BloopNavbar() {
         }
         nav div a:hover {
           color: #42a5f5;
-        }
-        button {
-          transition: transform 0.3s ease-in-out;
-        }
-        button:hover {
-          transform: scale(1.1);
         }
       `}</style>
     </nav>

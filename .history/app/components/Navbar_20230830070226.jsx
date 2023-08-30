@@ -32,28 +32,18 @@ export default function BloopNavbar() {
           </Link>
         </div>
         <div className={`hidden lg:flex items-center space-x-8 ${isNavOpen ? 'flex' : 'hidden'}`}>
-          <Link href="/about">About</Link>
-          <Link href="/showcase">Showcase</Link>
-          <Link href="/services">Services</Link>
-          <Link href="/resources">Resources</Link>
-          <Link href="/contact">Contact Us</Link>
+          {/* ... Desktop Links ... */}
         </div>
         <div className="lg:hidden">
-          <button onClick={() => setIsNavOpen(!isNavOpen)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6">
-              {isNavOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
+          <button onClick={() => setIsNavOpen(!isNavOpen)} className="text-3xl">
+            ☰
           </button>
           {isNavOpen && (
             <div className="fixed top-0 left-0 w-full h-full z-40 flex flex-col items-start justify-start p-4 bg-white text-black">
               <button onClick={() => setIsNavOpen(false)} className="ml-auto text-2xl">
                 ✕
               </button>
-              <div className="flex flex-col mt-5 space-y-4 text-lg md:font-extrabold hover:text-red-500">
+              <div className="flex flex-col mt-5 space-y-4 text-xl">
                 <Link href="/about">About Us</Link>
                 <Link href="/services">Services</Link>
                 <Link href="/resources">Resources</Link>

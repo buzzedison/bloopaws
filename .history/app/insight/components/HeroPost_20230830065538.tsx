@@ -14,12 +14,12 @@ interface HeroPostProps {
 export default function HeroPost({ post }: HeroPostProps) {
   return (
     <div className="h-screen w-screen overflow-hidden">
-      <div className="z-[-1] inset-0">
+      <div className="">
         {post.mainImage ? (
           <Image
-            src={builder.image(post.mainImage).width(1200).height(650).url()}
+            src={builder.image(post.mainImage).width(1200).height(600).url()}
           fill={true}
-            style={{objectFit: "cover"}}
+            style={{objectFit: "contain"}}
             alt={post?.mainImage?.alt}
           />
         ) : null}

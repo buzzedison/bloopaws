@@ -53,7 +53,7 @@ export default function BloopNavbar() {
               <button onClick={() => setIsNavOpen(false)} className="ml-auto text-2xl">
                 ✕
               </button>
-              <div className="flex flex-col mt-5 space-y-4 text-lg md:font-extrabold hover:text-red-500">
+              <div className="flex flex-col mt-5 space-y-4 text-lg font-extrabold hover:text-red-500">
                 <Link href="/about">About Us</Link>
                 <Link href="/services">Services</Link>
                 <Link href="/resources">Resources</Link>

@@ -19,7 +19,7 @@ export default function HeroPost({ post }: HeroPostProps) {
           <Image
             src={builder.image(post.mainImage).width(1200).height(650).url()}
           fill={true}
-            style={{objectFit: "cover"}}
+            style={{objectFit: "contain"}}
             alt={post?.mainImage?.alt}
           />
         ) : null}
