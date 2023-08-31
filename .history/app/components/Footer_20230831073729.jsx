@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Image from "next/image"
 const Footer = () => (
-  <footer className="bg-gray-100 text-gray-900 py-16 px-8 md:px-16">
+  <footer className="bg-gray-100 text-white py-16 px-8 md:px-16">
     <div className="container mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
@@ -94,7 +94,7 @@ const Footer = () => (
         </div>
       </div>
       <div className="mt-12 border-t border-gray-700 pt-8">
-        <p className="text-sm text-gray-900">
+        <p className="text-sm text-gray-300">
           &copy; {new Date().getFullYear()} Bloop Global LLC. All rights reserved.
         </p>
       </div>

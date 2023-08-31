@@ -94,7 +94,7 @@ const Footer = () => (
         </div>
       </div>
       <div className="mt-12 border-t border-gray-700 pt-8">
-        <p className="text-sm text-gray-900">
+        <p className="text-sm text-gray-300">
           &copy; {new Date().getFullYear()} Bloop Global LLC. All rights reserved.
         </p>
       </div>
