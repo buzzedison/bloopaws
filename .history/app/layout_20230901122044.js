@@ -17,10 +17,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={pop.className}>
         <Navbar/>
-        <main>
         {children}
-        </main>
-     
         <Footer/>
         
         </body>

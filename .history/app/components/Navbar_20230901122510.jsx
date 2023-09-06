@@ -68,8 +68,8 @@ export default function BloopNavbar() {
           transition: color 0.3s ease-in-out;
         }
         
-        nav div a:hover {
-          color: #42a5f5;
+        nav div a {
+          color: black;
         }
         button {
           transition: transform 0.3s ease-in-out;

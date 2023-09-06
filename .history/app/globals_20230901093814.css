@@ -36,8 +36,9 @@
 
 
 .text-gray-500{
-
+color:aliceblue;
 }
 
-
-
+body{
+  color:aliceblue;
+}
