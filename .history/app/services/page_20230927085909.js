@@ -2,13 +2,12 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-
 const Services = () => {
   const servicesData = [
-    { name: 'Web Development', image: '/images/web.svg', link: '/web-development' },
+    { name: 'Web Development', image: '/images/web.svg' },
     { name: 'Mobile + Product Development', image: '/images/mobile.svg', link: '/mobile-product-development' },
     { name: 'Business Development and Fundraising', image: '/images/business.svg', link: '/services/business' },
-    { name: 'Training', image: '/images/training.svg', link: '/training' }
+    { name: 'Training', image: '/images/training.svg, ' }
   ];
 
   return (
@@ -37,24 +36,23 @@ const Services = () => {
           <h2 className="text-4xl font-bold mb-12 text-center">What We Offer</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12">
             {servicesData.map((service, index) => (
-              <Link href={service.link} key={service.name}>
-                <motion.div 
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.2 }}
-                  className="p-8 border-2 border-gray-200 hover:border-redå-500 rounded-lg cursor-pointer">
-                  <Image 
-                    src={service.image}
-                    width={80}
-                    height={80}
-                    alt={`${service.name} Icon`}
-                  />
-                  <h3 className="mt-4 text-xl font-bold">{service.name}</h3>
-                  <p className="mt-2 text-gray-600">
-                    We deliver exceptional {service.name.toLowerCase()} solutions tailored to your unique needs.
-                  </p>
-                </motion.div>
-              </Link>
+              <motion.div 
+              key={service.name}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2 }}
+                className="p-8 border-2 border-gray-200 hover:border-redå-500 rounded-lg">
+                <Image 
+                  src={service.image}
+                  width={80}
+                  height={80}
+                  alt={`${service.name} Icon`}
+                />
+                <h3 className="mt-4 text-xl font-bold">{service.name}</h3>
+                <p className="mt-2 text-gray-600">
+                  We deliver exceptional {service.name.toLowerCase()} solutions tailored to your unique needs.
+                </p>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -67,11 +65,9 @@ const Services = () => {
           <p className="text-xl mb-8">
             Let us turn your big ideas into remarkable success stories.
           </p>
-          <Link href="/get-started">
-            <button className="bg-white text-black px-8 py-3 text-xl font-bold rounded-full hover:bg-opacity-80 cursor-pointer">
-              Get Started
-            </button>
-          </Link>
+          <button className="bg-white text-black px-8 py-3 text-xl font-bold rounded-full hover:bg-opacity-80">
+            Get Started
+          </button>
         </div>
       </section>
     </div>
