@@ -3,22 +3,17 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import sendToAirtable from "../api/utils/sendToAirtable";
-import { useRouter } from "next/navigation";
 
 export default function NewsletterCTA() {
-  const router = useRouter()
-  const { handleSubmit, control, formState: { errors }, reset } = useForm({
-    onSubmit: async (data) => {
-      try {
-        await sendToAirtable(data.email);
-        router.push("/");
-        console.log("Email sent to Airtable successfully");
-      } catch (error) {
-        console.error("Error sending email to Airtable:", error);
-      }
-    },
-  });
-
+  const onSubmit = async (data) => {
+    try {
+      await sendToAirtable(data.email);
+      console.log("Email sent to Airtable successfully");
+      reset(); // reset form content
+    } catch (error) {
+      console.error("Error sending email to Airtable:", error);
+    }
+  };
   return (
     <div className="flex flex-col justify-center items-center bg-gradient-to-r from-red-400 via-red-700 to-red-500 py-16 px-0 w-full">
       <div className="md:w-1/2">
@@ -30,7 +25,7 @@ export default function NewsletterCTA() {
             Get ahead of the curve with cutting-edge insights, courses, and
             resources. All served fresh in our weekly newsletter.
           </p>
-          <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
+          <form className="mt-8 space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div className="relative rounded-full shadow-lg">
               <Controller
                 name="email"
@@ -45,7 +40,7 @@ export default function NewsletterCTA() {
                 }}
                 render={({ onChange, onBlur, value }) => (
                   <input
-                 
+                  suppressHydrationWarning={true}
                     id="email-address"
                     name="email"
                     type="email"

@@ -3,15 +3,12 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import sendToAirtable from "../api/utils/sendToAirtable";
-import { useRouter } from "next/navigation";
 
 export default function NewsletterCTA() {
-  const router = useRouter()
   const { handleSubmit, control, formState: { errors }, reset } = useForm({
     onSubmit: async (data) => {
       try {
         await sendToAirtable(data.email);
-        router.push("/");
         console.log("Email sent to Airtable successfully");
       } catch (error) {
         console.error("Error sending email to Airtable:", error);
