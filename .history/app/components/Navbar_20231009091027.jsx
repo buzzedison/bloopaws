@@ -1,9 +1,8 @@
 "use client"
-
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';  // corrected import
+import { useRouter } from 'next/navigation';
 
 export default function BloopNavbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -23,15 +22,11 @@ export default function BloopNavbar() {
 
   const isHomePage = router.pathname === '/';
 
-  function getLinkClass() {
-    return isHomePage && !isScrolled ? 'text-white' : 'text-black';
-  }
-
   return (
     <nav className={`fixed w-full z-50 transition-all ease-in-out duration-300 ${isHomePage ? 'bg-transparent text-white' : (isScrolled ? 'bg-white text-black' : 'bg-transparent text-white')}`}>
       <div className="container mx-auto flex items-center justify-between p-6">
         <div className="text-4xl font-bold">
-          <Link href="/">
+          <Link href="/" className={`${isHomePage ? 'text-white' : 'text-black'}`}>
             <Image
               width={150}
               height={40}
@@ -41,21 +36,11 @@ export default function BloopNavbar() {
           </Link>
         </div>
         <div className={`hidden lg:flex items-center space-x-8 ${isNavOpen ? 'flex' : 'hidden'}`}>
-            <Link href="/about">
-                <span className={getLinkClass()}>About</span>
-            </Link>
-            <Link href="/showcase">
-                <span className={getLinkClass()}>Showcase</span>
-            </Link>
-            <Link href="/services">
-                <span className={getLinkClass()}>Services</span>
-            </Link>
-            <Link href="/resources">
-                <span className={getLinkClass()}>Resources</span>
-            </Link>
-            <Link href="/contact">
-                <span className={getLinkClass()}>Contact Us</span>
-            </Link>
+            <Link href="/about" className={`${isHomePage && !isScrolled ? 'text-white' : 'text-black'}`}>About</Link>
+            <Link href="/showcase" className={`${isHomePage && !isScrolled ? 'text-white' : 'text-black'}`}>Showcase</Link>
+            <Link href="/services" className={`${isHomePage && !isScrolled ? 'text-white' : 'text-black'}`}>Services</Link>
+            <Link href="/resources" className={`${isHomePage && !isScrolled ? 'text-white' : 'text-black'}`}>Resources</Link>
+            <Link href="/contact" className={`${isHomePage && !isScrolled ? 'text-white' : 'text-black'}`}>Contact Us</Link>
         </div>
         <div className="lg:hidden">
           <button onClick={() => setIsNavOpen(!isNavOpen)}>

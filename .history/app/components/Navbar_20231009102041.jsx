@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';  // corrected import
+import { useRouter } from 'next/router';  // corrected import
 
 export default function BloopNavbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);

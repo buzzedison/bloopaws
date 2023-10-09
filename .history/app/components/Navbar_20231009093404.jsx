@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';  // corrected import
+import { useRouter } from 'next/navigation';
 
 export default function BloopNavbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -23,8 +23,8 @@ export default function BloopNavbar() {
 
   const isHomePage = router.pathname === '/';
 
-  function getLinkClass() {
-    return isHomePage && !isScrolled ? 'text-white' : 'text-black';
+  function getLinkClass(path) {
+    return router.pathname === path ? (isHomePage ? 'text-white' : 'text-black') : 'text-black';
   }
 
   return (
@@ -41,20 +41,20 @@ export default function BloopNavbar() {
           </Link>
         </div>
         <div className={`hidden lg:flex items-center space-x-8 ${isNavOpen ? 'flex' : 'hidden'}`}>
-            <Link href="/about">
-                <span className={getLinkClass()}>About</span>
+            <Link href="/about" className={router.pathname === '/' ? 'text-white' : 'text-black'}  >
+                <span className={getLinkClass('/about')}>About</span>
             </Link>
             <Link href="/showcase">
-                <span className={getLinkClass()}>Showcase</span>
+                <span className={getLinkClass('/showcase')}>Showcase</span>
             </Link>
             <Link href="/services">
-                <span className={getLinkClass()}>Services</span>
+                <span className={getLinkClass('/services')}>Services</span>
             </Link>
             <Link href="/resources">
-                <span className={getLinkClass()}>Resources</span>
+                <span className={getLinkClass('/resources')}>Resources</span>
             </Link>
             <Link href="/contact">
-                <span className={getLinkClass()}>Contact Us</span>
+                <span className={getLinkClass('/contact')}>Contact Us</span>
             </Link>
         </div>
         <div className="lg:hidden">
