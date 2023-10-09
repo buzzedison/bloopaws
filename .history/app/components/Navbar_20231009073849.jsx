@@ -2,10 +2,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';  // Import useRouter from next/navigation
 
 export default function BloopNavbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const router = useRouter();  // Initialize useRouter
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,25 +20,27 @@ export default function BloopNavbar() {
     };
   }, []);
 
+  const isHomePage = router.pathname === '/';  // Check if it's the home page
+
   return (
-    <nav className={`fixed w-full z-50 transition-all ease-in-out duration-300 ${isScrolled ? 'bg-white text-black' : 'bg-transparent text-white'}`}>
+    <nav className={`fixed w-full z-50 transition-all ease-in-out duration-300 ${isHomePage ? 'bg-transparent text-white' : 'bg-white text-black'}`}>
       <div className="container mx-auto flex items-center justify-between p-6">
         <div className="text-4xl font-bold">
-          <Link href="/">
+          <Link href="/" className={`${isHomePage ? 'text-white' : 'text-black'}`}>
             <Image
               width={150}
               height={40}
-              src="/images/bloop-logo.svg"
+              src="/images/blooplogo.png"
               alt="Bloop logo"
             />
           </Link>
         </div>
         <div className={`hidden lg:flex items-center space-x-8 ${isNavOpen ? 'flex' : 'hidden'}`}>
-          <Link href="/about">About</Link>
-          <Link href="/showcase">Showcase</Link>
-          <Link href="/services">Services</Link>
-          <Link href="/resources">Resources</Link>
-          <Link href="/contact">Contact Us</Link>
+          <Link href="/about" className={`${isHomePage ? 'text-white' : 'text-black'}`}>About</Link>
+          <Link href="/showcase" className={`${isHomePage ? 'text-white' : 'text-black'}`}>Showcase</Link>
+          <Link href="/services" className={`${isHomePage ? 'text-white' : 'text-black'}`}>Services</Link>
+          <Link href="/resources" className={`${isHomePage ? 'text-white' : 'text-black'}`}>Resources</Link>
+          <Link href="/contact" className={`${isHomePage ? 'text-white' : 'text-black'}`}>Contact Us</Link>
         </div>
         <div className="lg:hidden">
           <button onClick={() => setIsNavOpen(!isNavOpen)}>
@@ -53,11 +57,11 @@ export default function BloopNavbar() {
               <button onClick={() => setIsNavOpen(false)} className="ml-auto text-2xl">
                 ✕
               </button>
-              <div className="flex flex-col mt-5 space-y-4 text-xl hover:text-red">
-                <Link href="/about">About Us</Link>
-                <Link href="/services">Services</Link>
-                <Link href="/resources">Resources</Link>
-                <Link href="/contact">Contact Us</Link>
+              <div className="flex flex-col mt-5 space-y-4 text-lg md:font-extrabold hover:text-red-500">
+                <Link href="/about" className="text-black">About Us</Link>
+                <Link href="/services" className="text-black">Services</Link>
+                <Link href="/resources" className="text-black">Resources</Link>
+                <Link href="/contact" className="text-black">Contact Us</Link>
               </div>
             </div>
           )}
@@ -67,6 +71,7 @@ export default function BloopNavbar() {
         nav div a {
           transition: color 0.3s ease-in-out;
         }
+        
         nav div a:hover {
           color: #42a5f5;
         }
