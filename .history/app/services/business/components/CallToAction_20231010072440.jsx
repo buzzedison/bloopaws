@@ -1,7 +1,7 @@
 // CallToAction.js
 export default function CallToAction({ children }) {
   return (
-    <div className="bg-gradient-to-r from-red-600 via-red-500 to-purple-600 w-full py-16">
+    <div className="container fluid bg-gradient-to-r from-red-600 via-red-500 to-purple-600 w-full py-16">
       <div className="container mx-auto text-center space-y-4">
         <div className="text-4xl font-extrabold text-white">
           {children}

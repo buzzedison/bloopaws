@@ -59,7 +59,7 @@ export default function Services() {
           </section>
 
            {/* Services Section */}
-      <section id="services" className="md:container mx-auto md:p-10 sm:w-full">
+      <section id="services" className="container mx-auto p-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10">
           {services.map((service, i) => (
             <div key={i} className="flex flex-col bg-red-50 shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl hover:scale-105">

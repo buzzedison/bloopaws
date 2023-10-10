@@ -7,8 +7,8 @@ export default function Services() {
         {
             title: 'Business Strategy and Planning',
             items: [
-                'Market research and analysis ',
-                'Strategic business plans and roadmaps',
+                'Market research and analysis to identify growth opportunities',
+                'Development of strategic business plans and roadmaps',
                 'Building financial models and projections',
                 'Competitive analysis and positioning strategy',
                 'Go-to-market and expansion strategy',
@@ -18,8 +18,8 @@ export default function Services() {
         {
             title: 'Fundraising and Investor Relations',
             items: [
-                'Preparing pitch decks and investment memos',
-                'Introductions to investorsand other funding sources',
+                'Preparing pitch decks and investment memorandums',
+                'Introductions to investors, VCs, and other funding sources',
                 'Support on deal negotiation and closing',
                 'Ongoing investor relations and reporting',
             ],
@@ -28,8 +28,8 @@ export default function Services() {
         {
             title: 'Partnerships and Channel Development',
             items: [
-                'Identifying and vetting potential partners ',
-                'Structuring and negotiating partnerships  deals',
+                'Identifying and vetting potential partners and channels',
+                'Structuring and negotiating partnerships and channel deals',
                 'Managing and optimizing partner relationships',
                 'Developing joint go-to-market strategies',
             ],
@@ -58,44 +58,39 @@ export default function Services() {
               </div>
           </section>
 
-           {/* Services Section */}
-      <section id="services" className="md:container mx-auto md:p-10 sm:w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10">
-          {services.map((service, i) => (
-            <div key={i} className="flex flex-col bg-red-50 shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl hover:scale-105">
-              <div className="flex justify-center py-6">
-                <Image src={service.icon} alt={service.title} width={64} height={64} />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-center mb-4">{service.title}</h3>
-                <ul className="text-gray-600 px-10 text-left">
-                  {service.items.map((item, j) => (
-                    <li key={j} className="flex items-center mb-2">
-                      <svg className="h-5 w-5 mr-2 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" />
-                      </svg>
-                      {item}
-                    </li>
+          {/* Services Section */}
+          <section id="services" className="container mx-auto p-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10">
+                  {services.map((service, i) => (
+                      <div key={i} className="flex flex-col bg-red-50 shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl hover:scale-105">
+                          <div className="flex justify-center py-6">
+                              <Image src={service.icon} alt={service.title} width={64} height={64} />
+                          </div>
+                          <div className="p-6">
+                              <h3 className="text-xl font-semibold text-center mb-4">{service.title}</h3>
+                              <p className="text-gray-600 px-10 pb-5 text-center">
+                                  {service.items.join(', ')}
+                              </p>
+                          </div>
+                      </div>
                   ))}
-                </ul>
               </div>
-            </div>
-          ))}
-        </div>
 
-        <p className="text-lg text-gray-600 text-center pb-10">
-          Our team has decades of experience supporting high-growth companies across industries. 
-          <Link href="/services">
-            <button className="text-red-600 underline">Learn more about our services</button>
-          </Link> 
-          or 
-          <Link href="/contact">
-            <button className="text-red-600 underline">schedule a consultation</button>
-          </Link> 
-          to discuss how we can help take your business to the next level.
-        </p>
-      </section>
+              <p className="text-lg text-gray-600 text-center pb-10">
+                  Our team has decades of experience supporting high-growth companies across industries. 
+                  <Link href="/services">
+                      <button className="text-red-600 underline">Learn more about our services</button>
+                  </Link> 
+                  or 
+                  <Link href="/contact">
+                      <button className="text-red-600 underline">schedule a consultation</button>
+                  </Link> 
+                  to discuss how we can help take your business to the next level.
+              </p>
 
+            
+
+          </section>
           <CallToAction>
           Ready to Grow? Schedule a consultation today.
         </CallToAction>

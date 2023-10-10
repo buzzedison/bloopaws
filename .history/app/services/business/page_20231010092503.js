@@ -18,8 +18,8 @@ export default function Services() {
         {
             title: 'Fundraising and Investor Relations',
             items: [
-                'Preparing pitch decks and investment memos',
-                'Introductions to investorsand other funding sources',
+                'Preparing pitch decks and investment memorandums',
+                'Introductions to investors, VCs, and other funding sources',
                 'Support on deal negotiation and closing',
                 'Ongoing investor relations and reporting',
             ],
@@ -28,8 +28,8 @@ export default function Services() {
         {
             title: 'Partnerships and Channel Development',
             items: [
-                'Identifying and vetting potential partners ',
-                'Structuring and negotiating partnerships  deals',
+                'Identifying and vetting potential partners and channels',
+                'Structuring and negotiating partnerships and channel deals',
                 'Managing and optimizing partner relationships',
                 'Developing joint go-to-market strategies',
             ],
@@ -59,7 +59,7 @@ export default function Services() {
           </section>
 
            {/* Services Section */}
-      <section id="services" className="md:container mx-auto md:p-10 sm:w-full">
+      <section id="services" className="container mx-auto p-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10">
           {services.map((service, i) => (
             <div key={i} className="flex flex-col bg-red-50 shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out transform hover:shadow-2xl hover:scale-105">

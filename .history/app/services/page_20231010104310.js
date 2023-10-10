@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 const Services = () => {
     const servicesData = [
-        { name: 'Web Development', image: '/images/web.svg', link: '/services/web' },
-        { name: 'Mobile + Product Development', image: '/images/mobile.svg', link: '/services/mobile' },
+        { name: 'Web Development', image: '/images/web.svg', link: '/services/web-development' },
+        { name: 'Mobile + Product Development', image: '/images/mobile.svg', link: '/mobile-product-development' },
         { name: 'Business Development and Fundraising', image: '/images/business.svg', link: '/services/business' },
         { name: 'Training', image: '/images/training.svg', link: '/training' }
     ];
