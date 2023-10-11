@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-
+import NewsletterCTAB from "../components/CtaNew";
 const cardVariants = {
   offscreen: {
     y: 50,
@@ -140,7 +140,7 @@ const About = () => {
       </section>
 
       {/* Helping Brands Section */}
-      <section className="py-16 bg-gray-100">
+      <section className="py-16 bg-black">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold mb-12 text-center">Helping Brands</h2>
           
@@ -153,6 +153,7 @@ const About = () => {
           </div>
         </div>
       </section>
+      <NewsletterCTAB/>
     </div>
   );
 };

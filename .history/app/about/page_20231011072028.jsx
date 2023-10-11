@@ -140,9 +140,9 @@ const About = () => {
       </section>
 
       {/* Helping Brands Section */}
-      <section className="py-16 bg-black">
+      <section className="py-16 bg-gray-100">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-12 text-center text-white">Helping Brands</h2>
+          <h2 className="text-4xl font-bold mb-12 text-center">Helping Brands</h2>
           
           <div className="max-w-lg mx-auto p-8 bg-white shadow rounded">
             <h3 className="text-2xl font-bold mb-4"># Idea To Company</h3>
