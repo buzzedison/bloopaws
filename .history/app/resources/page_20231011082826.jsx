@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 export default function Home() {
   return (
-    <div className="bg-gradient-to-br from-red-50 to-red-100 min-h-screen">
+    <div className="bg-gradient-to-br from-red-50 to-red-100  p-8">
       <Head>
         <title>Resources</title>
       </Head>
@@ -17,7 +17,7 @@ export default function Home() {
       </div>
 
       {/* Resources Section */}
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
         {[
           {title: 'Games', description: 'Engage with our fun and educational games designed to enhance your skills.'},
           {title: 'Templates', description: 'Get started quickly with our ready-to-use templates for various projects.'},
