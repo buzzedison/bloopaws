@@ -23,27 +23,24 @@ export default function BloopNavbar() {
   const isHomePage = router.pathname === '/';
 
   function getLinkClass() {
-    if (isHomePage) {
-      return isScrolled ? 'text-black' : 'text-white';
-    }
-    return 'text-black';
+    return isHomePage ? 'text-white' : 'text-black';
   }
 
   return (
-    <nav className={`fixed w-full z-50 transition-all ease-in-out duration-300 ${isHomePage ? (isScrolled ? 'bg-white' : 'bg-transparent') : 'bg-white'}`}>
+    <nav className={`fixed w-full z-50 transition-all ease-in-out duration-300 ${isHomePage ? 'bg-transparent' : 'bg-white'}`}>
       <div className="container mx-auto flex items-center justify-between p-6">
         <div className="text-4xl font-bold">
           <Link href="/">
             <Image
               width={150}
               height={40}
-              src="/images/logo.png"
+              src="/images/blooplogo.png"
               alt="Bloop logo"
             />
           </Link>
         </div>
-        <div className={`lg:flex items-center space-x-8 ${isNavOpen ? 'flex' : 'hidden'}`}>
-        <Link href="/about">
+        <div className={`hidden lg:flex items-center space-x-8 ${isNavOpen ? 'flex' : 'hidden'}`}>
+          <Link href="/about">
             <span className={getLinkClass()}>About</span>
           </Link>
           <Link href="/showcase">
@@ -61,25 +58,32 @@ export default function BloopNavbar() {
         </div>
         <div className="lg:hidden">
           <button onClick={() => setIsNavOpen(!isNavOpen)}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6" stroke="red">
-  {isNavOpen ? (
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-  ) : (
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-  )}
-</svg>
-
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6">
+              {isNavOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
           </button>
           {isNavOpen && (
-            <div className="fixed inset-0 z-40 flex flex-col items-center justify-center p-4 bg-black bg-opacity-90 text-white">
-              <button onClick={() => setIsNavOpen(false)} className="ml-auto text-4xl">
+            <div className="fixed top-0 left-0 w-full h-full z-40 flex flex-col items-start justify-start p-4 bg-white text-black">
+              <button onClick={() => setIsNavOpen(false)} className="ml-auto text-2xl">
                 ✕
               </button>
-              <div className="flex flex-col mt-5 space-y-8 text-2xl">
-                <Link href="/about">About Us</Link>
-                <Link href="/services">Services</Link>
-                <Link href="/resources">Resources</Link>
-                <Link href="/contact">Contact Us</Link>
+              <div className="flex flex-col mt-5 space-y-4 text-lg md:font-extrabold hover:text-red-500">
+                <Link href="/about">
+                  <a className="text-black">About Us</a>
+                </Link>
+                <Link href="/services">
+                  <a className="text-black">Services</a>
+                </Link>
+                <Link href="/resources">
+                  <a className="text-black">Resources</a>
+                </Link>
+                <Link href="/contact">
+                  <a className="text-black">Contact Us</a>
+                </Link>
               </div>
             </div>
           )}

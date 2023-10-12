@@ -43,7 +43,8 @@ export default function BloopNavbar() {
           </Link>
         </div>
         <div className={`lg:flex items-center space-x-8 ${isNavOpen ? 'flex' : 'hidden'}`}>
-        <Link href="/about">
+        
+          <Link href="/about">
             <span className={getLinkClass()}>About</span>
           </Link>
           <Link href="/showcase">
@@ -59,16 +60,16 @@ export default function BloopNavbar() {
             <span className={getLinkClass()}>Contact Us</span>
           </Link>
         </div>
+        </div>
         <div className="lg:hidden">
           <button onClick={() => setIsNavOpen(!isNavOpen)}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6" stroke="red">
-  {isNavOpen ? (
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-  ) : (
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-  )}
-</svg>
-
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6">
+              {isNavOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" className="bg-red-500" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
           </button>
           {isNavOpen && (
             <div className="fixed inset-0 z-40 flex flex-col items-center justify-center p-4 bg-black bg-opacity-90 text-white">
@@ -83,7 +84,7 @@ export default function BloopNavbar() {
               </div>
             </div>
           )}
-        </div>
+        
       </div>
       <style jsx>{`
         nav div a {
