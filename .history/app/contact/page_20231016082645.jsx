@@ -10,8 +10,6 @@ export default function ContactForm() {
     service: '',
   });
 
-  const [submitStatus, setSubmitStatus] = useState(null);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -22,8 +20,8 @@ export default function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitStatus('Submitting...');
-
+  
+    // Construct the payload
     const payload = {
       api_key: process.env.NEXT_PUBLIC_CONVERTKIT_API_KEY,
       email: formData.email,
@@ -34,8 +32,9 @@ export default function ContactForm() {
         service: formData.service,
       },
     };
-
+  
     try {
+      // Send the payload to ConvertKit
       const res = await fetch(`https://api.convertkit.com/v3/forms/${process.env.NEXT_PUBLIC_CONVERTKIT_FORM_ID}/subscribe`, {
         method: 'POST',
         headers: {
@@ -43,22 +42,21 @@ export default function ContactForm() {
         },
         body: JSON.stringify(payload),
       });
-
+  
       if (!res.ok) {
-        throw new Error('Failed to subscribe');
+        // Handle error
+        console.error('Failed to subscribe:', await res.text());
+        return;
       }
-
-      const data = await res.json();
-      if (data.subscription.state === 'inactive') {
-        setSubmitStatus('Success! Please check your email to confirm your subscription.');
-      } else {
-        setSubmitStatus('Subscription successful!');
-      }
+  
+      // Handle success
+      console.log('Successfully subscribed:', await res.json());
     } catch (error) {
-      console.error('Error:', error);
-      setSubmitStatus('Failed to submit. Please try again later.');
+      // Handle network error
+      console.error('Network error:', error);
     }
   };
+  
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-red-200">
@@ -128,8 +126,8 @@ export default function ContactForm() {
             Submit
           </button>
         </form>
-        {submitStatus && <div className="submit-status mt-4">{submitStatus}</div>}
       </div>
     </div>
   );
 }
+
