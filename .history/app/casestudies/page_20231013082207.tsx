@@ -23,13 +23,11 @@
 // }
 
 import CaseStudies from "./components/Hero"
-import FeaturedContent from "./components/FeaturedContent"
 
 export default function Case(){
   return (
     <>
     <CaseStudies/>
-    <FeaturedContent/>
     </>
   )
 }

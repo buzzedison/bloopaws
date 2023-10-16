@@ -78,7 +78,6 @@ export default function BloopNavbar() {
               <div className="flex flex-col mt-5 space-y-8 text-2xl">
                 <Link href="/about">About Us</Link>
                 <Link href="/services">Services</Link>
-                <Link href="/casestudies">Case Studies</Link>
                 <Link href="/resources">Resources</Link>
                 <Link href="/contact">Contact Us</Link>
               </div>
