@@ -38,7 +38,7 @@ export default function GoalsSection() {
     <>
       <div className="mt-16">
         <div>
-          <h1 className="text-gray-500 text-lg md:text-3xl  text-center font-bold mb-0">
+          <h1 className="text-gray-500 text-2xl md:text-3xl  text-center font-bold mb-0">
             Let us help you achieve your goals
             <br />
             What can we do for you today?

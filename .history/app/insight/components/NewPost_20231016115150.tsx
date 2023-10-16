@@ -10,10 +10,10 @@ const builder = imageUrlBuilder(client);
 
 export default function Post({ post }: { post: SanityDocument }) {
   return (
-    <main className="container mx-auto prose prose-lg p-4">
+    <main className="container mx-auto prose prose-lg p-4 pt-24">
       {post ? (
         <>
-          <h1 className="mt-12">{post.title}</h1>
+          <h1 className="mt-2 md:mt-12">{post.title}</h1>
           <div className="relative w-full h-96">
             <div className="absolute z-[-1] inset-0">
               {post.mainImage ? (
@@ -27,7 +27,7 @@ export default function Post({ post }: { post: SanityDocument }) {
               ) : null}
             </div>
           </div>
-          <div className="mt-24">
+          <div className="mt-24 mb-24">
           {post.body ? <PortableText value={post.body} /> : null}
           </div>
         </>

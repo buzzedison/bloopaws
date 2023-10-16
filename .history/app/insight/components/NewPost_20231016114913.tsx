@@ -10,7 +10,7 @@ const builder = imageUrlBuilder(client);
 
 export default function Post({ post }: { post: SanityDocument }) {
   return (
-    <main className="mx-auto prose prose-lg p-4">
+    <main className="container mx-auto prose prose-lg p-4 pt-24">
       {post ? (
         <>
           <h1 className="mt-12">{post.title}</h1>

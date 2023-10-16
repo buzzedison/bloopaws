@@ -40,7 +40,7 @@ export default async function Home() {
 <GoalsSection/>
 {/* <ProductsSection/> */}
 <div className="container my-24">
-  <h1 className="md: px-5 md:px-24 text-lg md:text-3xl font-bold text-gray-500 text-center justify-items-center my-10"> 
+  <h1 className="md: px-5 md:px-24 text-2xl md:text-3xl font-bold text-gray-500 text-center justify-items-center my-10"> 
   Unlock Explosive Business Growth <br/> With Insight From Bloop </h1>
 <MajorPostsGrid posts={majorPosts} /> {/* Displaying the two major posts */}
       {/* Skip the two major posts */}
