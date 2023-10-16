@@ -34,9 +34,9 @@ export default async function Home() {
     {/* <HomePage/> */}
 
   {/* <Logo/> */}
-
+<div className="md: pt-2 sm:pt-24">
 <IdeaToCompanySection/>
-
+</div>
 <GoalsSection/>
 {/* <ProductsSection/> */}
 <div className="container my-24">

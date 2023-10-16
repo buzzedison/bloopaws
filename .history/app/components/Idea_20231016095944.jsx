@@ -106,7 +106,7 @@ export default function IdeaToCompanySection() {
             <div className="flex items-center mb-6 md:mt-4 sm:mt-24 sm:mb-8">
     <h2 className="text-4xl font-bold text-red-600 leading-tight pt-12 md:pt-6">
         Idea To Company:<br />
-        <span className="text-black leading-tight text-2xl md:text-4xl">
+        <span className="text-black leading-tight">
             Turning Ideas into Successful Businesses
         </span>
     </h2>

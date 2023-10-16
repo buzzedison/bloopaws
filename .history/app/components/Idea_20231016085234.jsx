@@ -103,14 +103,12 @@ export default function IdeaToCompanySection() {
         <div className="md:w-1/2 flex flex-col justify-center sm:mt-4">
           <div className="mx-auto md:ml-8 ">
             {/* Logo and Section Title */}
-            <div className="flex items-center mb-6 md:mt-4 sm:mt-24 sm:mb-8">
-    <h2 className="text-4xl font-bold text-red-600 leading-tight pt-12 md:pt-6">
-        Idea To Company:<br />
-        <span className="text-black leading-tight text-2xl md:text-4xl">
-            Turning Ideas into Successful Businesses
-        </span>
-    </h2>
-</div>
+            <div className="flex items-center mb-6 md:mt-4 sm:mt-24">
+              <h2 className="text-4xl font-bold text-red-600 leading-tight">
+                Idea To Company:<br />
+                <span className="text-black leading-tight">Turning Ideas into Successful Businesses</span>
+              </h2>
+            </div>
 
             {/* Section Description */}
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
