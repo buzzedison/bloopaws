@@ -30,7 +30,7 @@ const FeaturedContent: React.FC = () => {
 
         {/* Right - Image Section */}
         <div className="w-full md:w-1/2 relative h-56 md:h-96">
-          <Image src="/images/real.png" alt="Woman reading" fill={true} 	style={{objectFit: "cover"}} className="" />
+          <Image src="/images/crowdwriters.svg" alt="Woman reading" fill={true} 	style={{objectFit: "cover"}} className="" />
         </div>
 
         {/* Left - Content Section */}

@@ -40,7 +40,7 @@ export default function Myco (){
           "Positive feedback on user experience from site visitors."
       ]}
       >
-        {/* Any additional child content you want to place inside the CaseStudyDescription component */}
+       
       </CaseStudyDescription>
     </div>
 

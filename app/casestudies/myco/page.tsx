@@ -14,7 +14,6 @@ export default function Myco (){
 
 
 
-
     <div className="container mx-auto p-4">
     <CaseStudyDescription
         title="Around the US, more than one in three bridges are crumbling and need repair."
@@ -27,9 +26,16 @@ export default function Myco (){
         challenge="Here's the specific challenge that was faced..."
         solution="Here's how the challenge was innovatively addressed..."
         imageUrl="/images/web.png"
-      >
-        {/* Any additional child content you want to place inside the CaseStudyDescription component */}
-      </CaseStudyDescription>
+      
+        results={[
+        "Cut website load time in half for a 300% speed improvement",
+        "Increased organic traffic 2X in just 3 months after launch.",
+        "Improved Google search ranking for relevant keywords.",
+        "Greater brand awareness and customer satisfaction",
+     
+    ]}
+    >
+          </CaseStudyDescription>
     </div>
 
 

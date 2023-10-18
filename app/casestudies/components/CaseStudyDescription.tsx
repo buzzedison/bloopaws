@@ -11,6 +11,7 @@ type Props = {
     challenge: string;
     solution: string;
     results: string[];
+    children?: React.ReactNode;
 };
 
 const CaseStudyDescription: React.FC<Props> = ({ title, description, links, imageUrl, challenge, solution, results }) => {
