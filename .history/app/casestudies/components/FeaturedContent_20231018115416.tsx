@@ -39,7 +39,7 @@ const FeaturedContent: React.FC = () => {
           <p className="text-lg text-gray-700">
           A visionary platform designed to empower African creators by providing a space to showcase their work, earn from their creativity, and connect with like-minded individuals. 
           </p>
-          <Link href="#" className="text-red-600 font-medium hover:underline hover:text-red-800 transition duration-300">Learn more →</Link>
+          <Link href="#" className="text-blue-600 font-medium hover:underline hover:text-blue-800 transition duration-300">Discover their stories →</Link>
         </div>
       </div>
     </div>
