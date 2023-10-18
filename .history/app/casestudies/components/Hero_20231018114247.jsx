@@ -4,7 +4,7 @@ const CaseStudies = () => {
   return (
     <div className="min-h-screen p-4 sm:p-6 lg:p-10" style={{ backgroundImage: 'url(/images/specialhomes.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="max-w-7xl mx-auto py-12 sm:py-16 lg:py-20 rounded-xl mt-12 sm:mt-16 lg:mt-24">
-        <h1 className="text-center text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 text-white">Helping Special Homes <br/> Drive 300% More Leads</h1>
+        <h1 className="text-center text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 text-white">Helping Special Homes Drive 300% More Leads</h1>
         <p className="container mx-auto text-lg sm:text-xl lg:text-2xl 
         mb-6 sm:mb-8 text-white text-center p-2 sm:p-4 w-full md:w-3/4  ">
          Special Homes needed a website to showcase their luxury residential community as the first in Ghana with
@@ -28,7 +28,7 @@ const CaseStudies = () => {
             <h3 className="text-xl sm:text-2xl font-semibold mb-4">Building Web & Mobile App for America's care needs</h3>
           </div>
           <div className="bg-white p-4 sm:p-6 rounded shadow">
-            <h3 className="text-xl sm:text-2xl font-semibold mb-4">A community needed a business plan, and we delivered</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold mb-4">Some employees are destroying value. Others are building it. Do you know the difference?</h3>
           </div>
         </div>
       </div>

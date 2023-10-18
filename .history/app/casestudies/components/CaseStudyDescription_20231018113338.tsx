@@ -10,7 +10,7 @@ type Props = {
     imageUrl: string;
     challenge: string;
     solution: string;
-    results: string[];
+    results?: string;
 };
 
 const CaseStudyDescription: React.FC<Props> = ({ title, description, links, imageUrl, challenge, solution, results }) => {
@@ -48,17 +48,12 @@ const CaseStudyDescription: React.FC<Props> = ({ title, description, links, imag
       )}
 
        {/* Results Section */}
-       {results && results.length > 0 && (
-    <section className="space-y-4">
-        <h2 className="text-3xl font-medium text-gray-800 border-b-2 border-gray-200 pb-2">The Results</h2>
-        <ul className="list-disc list-inside text-lg text-gray-600 space-y-2">
-            {results.map((result, index) => (
-                <li key={index}>{result}</li>
-            ))}
-        </ul>
-    </section>
-)}
-
+       {results && (
+        <section className="space-y-4">
+          <h2 className="text-3xl font-medium text-gray-800 border-b-2 border-gray-200 pb-2">The Results</h2>
+          <p className="text-lg text-gray-600">{results}</p>
+        </section>
+      )}
     </div>
   );
 };

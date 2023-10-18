@@ -15,7 +15,7 @@ const CaseStudyHero = ({ title, subtitle, imageUrl, buttonText }: { title: strin
         <p className="text-lg md:text-xl max-w-3xl">
           {subtitle}
         </p>
-        <button className="md:w-1/2 w-full px-6 py-3 font-semibold rounded bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+        <button className="w-1/2 px-6 py-3 font-semibold rounded bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
           {buttonText}
         </button>
       </div>
