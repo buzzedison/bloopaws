@@ -6,9 +6,10 @@ export default function Myco (){
     <div className="">
     <CaseStudyHero 
     title="My Centre Office Innovation" 
-    subtitle="Sund & Bælt finds value in intelligent infrastructure" 
+    subtitle="Boosting Brand Awareness For An All-In-One Platform" 
     imageUrl="/images/back.png" 
-    buttonText="Explore the Project"
+    buttonText="Go to Website"
+    link ="https://www.mycenteroffice.com/"
 />
 
 
@@ -16,16 +17,18 @@ export default function Myco (){
 
     <div className="container mx-auto p-4">
     <CaseStudyDescription
-        title="Around the US, more than one in three bridges are crumbling and need repair."
-        description="The 2020 American Road & Transportation Builders Association (ARTBA) Bridge Report says that more than 46,000 US bridges are “structurally deficient” and are in poor condition—and that those bridges are crossed 178 million times a day. Crumbling infrastructures are a concern throughout the world. The G20 Global Infrastructure Outlook predicts that there will be a USD 15 trillion gap between infrastructure funding and the work that must be completed by 2040."
+        title="Revamping My Centre Office's Brand and Online Presence"
+        description="TMy Centre Office is an all-in-one business management platform that helps companies onboard customers, get paid, deliver services, track activities, and grow.
+
+        "
         links={[
-          { text: "Bridge Report", url: "https://www.example.com" },
-          { text: "Infrastructure Outlook", url: "https://www.example.com" }
+          { text: "Visit My Centre Office", url: "https://www.mycenteroffice.com/" },
+          { text: "Request a Quote", url: "https://www.bloopglobal.com/contact" }
         ]}
         
-        challenge="Here's the specific challenge that was faced..."
-        solution="Here's how the challenge was innovatively addressed..."
-        imageUrl="/images/web.png"
+        challenge="My Centre Office needed a complete brand and website overhaul to better represent their all-in-one business management platform online. But, their existing site was slow, outdated, and not showcasing their brand well."
+        solution="We delivered a lightning fast, completely custom website optimized for conversions by leveraging Next.js. This allowed us to showcase their new brand and provide a smooth, seamless UX."
+        imageUrl="/images/mycoweb.png"
       
         results={[
         "Cut website load time in half for a 300% speed improvement",

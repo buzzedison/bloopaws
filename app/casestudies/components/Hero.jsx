@@ -17,17 +17,22 @@ const CaseStudies = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mt-8 sm:mt-12">
-          <div className="bg-white p-4 sm:p-6 rounded shadow">
+          <Link href="/casestudies/myco">
+          <div className="bg-white p-4 sm:p-6 rounded shadow hover:bg-red-100">
             <h3 className="text-xl sm:text-2xl font-semibold mb-4">Revamping My Centre Office's Brand and Online Presences</h3>
+            
           </div>
-          <div className="bg-white p-4 sm:p-6 rounded shadow">
+          </Link>
+          <Link href="https://www.crowdpen.co">
+          <div className="bg-white p-4 sm:p-6 rounded shadow  hover:bg-red-100">
             <h3 className="text-xl sm:text-2xl font-semibold mb-4">
-          People who wanted to conquer the fish processing industry</h3>
+          Redefining Africa's Digital Media with Crowdpen</h3>
           </div>
-          <div className="bg-white p-4 sm:p-6 rounded shadow">
+          </Link>
+          <div className="bg-white p-4 sm:p-6 rounded shadow hover:bg-red-100">
             <h3 className="text-xl sm:text-2xl font-semibold mb-4">Building Web & Mobile App for America's care needs</h3>
           </div>
-          <div className="bg-white p-4 sm:p-6 rounded shadow">
+          <div className="bg-white p-4 sm:p-6 rounded shadow hover:bg-red-100">
             <h3 className="text-xl sm:text-2xl font-semibold mb-4">A community needed a business plan, and we delivered</h3>
           </div>
         </div>

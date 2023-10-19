@@ -8,7 +8,8 @@ export default function Myco (){
     title="Helping Special Homes Drive 300% More Leads With A Custom Website" 
     subtitle="Bringing Sustainable Luxury Living to Ghana" 
     imageUrl="/images/specialhomes.png" 
-    buttonText="Explore the Project"
+    buttonText="Go to Website" 
+    link ="https://specialhomesltd.com/"
 />
 
 
