@@ -14,12 +14,12 @@ const Games = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          className="bg-white p-8 rounded-lg shadow-lg text-center hover:bg-red-100"
+          className="bg-white p-8 rounded-lg shadow-lg text-center"
         >
           <h2 className="text-2xl font-bold mb-4 text-wine-900">Know Your Entrepreneur Type</h2>
           <p className="mb-8 text-wine-700">Discover what type of entrepreneur you are.</p>
-          <Link href="/games/entrepreneur">
-            <button className="bg-red-600 text-white rounded px-4 py-2">Go to Game</button>
+          <Link href="/entrepreneur-quiz">
+            <button className="bg-wine-600 text-white rounded px-4 py-2">Go to Game</button>
           </Link>
         </motion.div>
 
@@ -27,12 +27,12 @@ const Games = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          className="bg-white p-8 rounded-lg shadow-lg text-center  hover:bg-red-100"
+          className="bg-white p-8 rounded-lg shadow-lg text-center"
         >
           <h2 className="text-2xl font-bold mb-4 text-wine-900">Test Your Financial Literacy</h2>
           <p className="mb-8 text-wine-700">Evaluate your understanding of basic financial concepts.</p>
-          <Link href="/games/money">
-            <button className="bg-red-600 text-white rounded px-4 py-2">Go to Game</button>
+          <Link href="/financial-literacy-quiz">
+            <button className="bg-wine-600 text-white rounded px-4 py-2">Go to Game</button>
           </Link>
         </motion.div>
 
@@ -40,12 +40,12 @@ const Games = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          className="bg-white p-8 rounded-lg shadow-lg text-center  hover:bg-red-100"
+          className="bg-white p-8 rounded-lg shadow-lg text-center"
         >
           <h2 className="text-2xl font-bold mb-4 text-wine-900">Check Your Personality Type</h2>
           <p className="mb-8 text-wine-700">Uncover insights into your personality and how it affects your business decisions.</p>
           <Link href="/personality-quiz">
-            <button className="bg-red-600 text-white rounded px-4 py-2">Go to Game</button>
+            <button className="bg-wine-600 text-white rounded px-4 py-2">Go to Game</button>
           </Link>
         </motion.div>
       </div>

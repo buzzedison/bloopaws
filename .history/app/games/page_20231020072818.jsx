@@ -40,7 +40,7 @@ const Games = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          className="bg-white p-8 rounded-lg shadow-lg text-center  hover:bg-red-100"
+          className="bg-white p-8 rounded-lg shadow-lg text-center"
         >
           <h2 className="text-2xl font-bold mb-4 text-wine-900">Check Your Personality Type</h2>
           <p className="mb-8 text-wine-700">Uncover insights into your personality and how it affects your business decisions.</p>
