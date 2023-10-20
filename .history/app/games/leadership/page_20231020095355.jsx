@@ -141,7 +141,7 @@ const questions = [
                 placeholder="Full Name"
               />
               <button 
-                className="text-white bg-orange-800 rounded px-4 py-2"
+                className="text-white bg-blue-500 rounded px-4 py-2"
                 onClick={() => setQuizStarted(true)}
               >
                 Start Quiz
