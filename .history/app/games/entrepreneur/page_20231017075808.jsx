@@ -2,7 +2,6 @@
 // Import necessary libraries
 import React, { useState } from 'react';
 
-import Link from "next/link"
 // Define the questions and answers
 const questions = [
     {
@@ -148,8 +147,7 @@ const Quiz = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 pt-20">
-      <h1 className="text-4xl font-bold text-white mb-8 pt-12 md:pt-24 text-center">Entrepreneur Quiz</h1>
+    <div className="min-h-screen bg-gray-100 py-12 pt-20"> {/* Added pt-20 for padding */}
       {!quizStarted ? (
         <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow text-center">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Enter Your Name to Begin</h2>
@@ -188,36 +186,20 @@ const Quiz = () => {
         
       )}
 
-{showModal && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div className="bg-white rounded-lg p-8">
-      <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-        {name}, your Entrepreneurial Type is: {entrepreneurialType.type}
-      </h2>
-      <p className="text-lg text-gray-600 mb-4">{entrepreneurialType.description}</p>
-      <div className="bg-purple-100 rounded-lg p-6 mb-4">
-        <h3 className="text-xl font-bold text-gray-700 mb-2">Want more insights?</h3>
-        <p className="text-gray-600 mb-4">
-          Sign up for our newsletter to receive free business tips, guides, and more to help you grow your business.
-        </p>
-        <Link 
-          href="https://bloopglobal.ck.page/ebb664d278" 
-          className="text-purple-900 font-semibold hover:underline"
-        >
-          Sign up for Newsletter
-        </Link>
-      </div>
-      <button 
-        className="text-white bg-purple-900 rounded px-4 py-2" 
-        onClick={() => setShowModal(false)}
-      >
-        Close
-      </button>
-    </div>
-  
-  </div>
-)}
-
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg p-8">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">{name}, your Entrepreneurial Type is: {entrepreneurialType.type}</h2>
+            <p className="text-lg text-gray-600 mb-4">{entrepreneurialType.description}</p>
+            <button 
+              className="text-white bg-purple-900 rounded px-4 py-2" 
+              onClick={() => setShowModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

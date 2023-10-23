@@ -1,8 +1,7 @@
 "use client"
 // Import necessary libraries
 import React, { useState } from 'react';
-
-import Link from "next/link"
+import Newsletter from "../../components/Newsletter"
 // Define the questions and answers
 const questions = [
     {
@@ -200,12 +199,12 @@ const Quiz = () => {
         <p className="text-gray-600 mb-4">
           Sign up for our newsletter to receive free business tips, guides, and more to help you grow your business.
         </p>
-        <Link 
-          href="https://bloopglobal.ck.page/ebb664d278" 
+        <a 
+          href="#newsletter-signup" 
           className="text-purple-900 font-semibold hover:underline"
         >
           Sign up for Newsletter
-        </Link>
+        </a>
       </div>
       <button 
         className="text-white bg-purple-900 rounded px-4 py-2" 
@@ -214,7 +213,7 @@ const Quiz = () => {
         Close
       </button>
     </div>
-  
+    <Newsletter />
   </div>
 )}
 

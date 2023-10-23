@@ -1,7 +1,7 @@
 "use client"
 // Import necessary libraries
 import React, { useState } from 'react';
-
+import Newsletter from "../../components/NewsletterMain"
 import Link from "next/link"
 // Define the questions and answers
 const questions = [
@@ -214,7 +214,7 @@ const Quiz = () => {
         Close
       </button>
     </div>
-  
+    <Newsletter />
   </div>
 )}
 

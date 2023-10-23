@@ -1,7 +1,7 @@
 "use client"
 // Import necessary libraries
 import React, { useState } from 'react';
-
+import Newsletter from "../../components/NewsletterMain"
 import Link from "next/link"
 // Define the questions and answers
 const questions = [
@@ -201,7 +201,7 @@ const Quiz = () => {
           Sign up for our newsletter to receive free business tips, guides, and more to help you grow your business.
         </p>
         <Link 
-          href="https://bloopglobal.ck.page/ebb664d278" 
+          href="/games/entrepreneur/news" 
           className="text-purple-900 font-semibold hover:underline"
         >
           Sign up for Newsletter
@@ -214,7 +214,7 @@ const Quiz = () => {
         Close
       </button>
     </div>
-  
+    <Newsletter />
   </div>
 )}
 
