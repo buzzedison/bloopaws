@@ -25,7 +25,7 @@ export default function HeroPost({ post }: HeroPostProps) {
         ) : null}
       </div>
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center p-8 space-y-8 transition-all ease-in-out duration-500 transform translate-y-4 hover:translate-y-0">
-        <Link href={post.slug.current} className="text-5xl font-bold text-white hover:text-red-300 transition ease-in-out duration-300 text-center">
+        <Link href={post.slug.current} className="text-3xl md:text-5xl px-2 md:px-12 font-bold text-white hover:text-red-300 transition ease-in-out duration-300 text-center">
           {post.title}
         </Link>
         <p className="text-xl text-white max-w-2xl text-center">
