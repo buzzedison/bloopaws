@@ -27,7 +27,7 @@ export default function MajorPostsGrid({ posts }: MajorPostsGridProps) {
             )}
           </div>
           <div className="p-6">
-            <Link href={post.slug.current}className="text-2xl font-bold hover:text-blue-600 transition duration-300">
+            <Link href={post.slug.current}className="text-2xl font-bold hover:text-red-700 transition duration-300">
                 {post.title}
     
             </Link>

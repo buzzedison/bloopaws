@@ -7,7 +7,7 @@ import MajorPostsGrid from "./insight/components/MajorPostsGrid";
 import GoalsSection from "./components/Goals";
 // import Hero from "./components/Hero";
 // import HomePage from "./components/HeroHead";
-import IdeaToCompanySection from "./components/Idea";
+import IdeaToCompanySection from "./components/Idea";a
 import Logo from "./components/LogoSection";
 
 // import ProductsSection from "./components/Products";
@@ -17,7 +17,7 @@ export default async function Home() {
 
   const posts = await cachedClient(postsQuery);
   const heroPost = posts[1];
-  const majorPosts = posts.slice(0, 3); // Only taking two major posts
+  const majorPosts = posts.slice(1, 3); // Only taking two major posts
   return (
     
    <>

@@ -20,17 +20,16 @@ export default function MajorPostsGrid({ posts }: MajorPostsGridProps) {
             {post.mainImage && (
               <Image
                 src={builder.image(post.mainImage).url()}
-                layout="fill"
+                fill={true}
                 objectFit="cover"
                 alt={post?.mainImage?.alt || 'Post image'}
               />
             )}
           </div>
           <div className="p-6">
-            <Link href={post.slug.current}>
-              <a className="text-2xl font-bold hover:text-blue-600 transition duration-300">
+            <Link href={post.slug.current}className="text-2xl font-bold hover:text-red-700 transition duration-300">
                 {post.title}
-              </a>
+    
             </Link>
             <p className="mt-2 text-gray-600">
               {/* Add the excerpt here */}
