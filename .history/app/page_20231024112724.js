@@ -16,7 +16,7 @@ import NewsletterCTAB from "./components/CtaNew"
 export default async function Home() {
 
   const posts = await cachedClient(postsQuery);
-  const heroPost = posts[1];
+  const heroPost = posts[0];
   const majorPosts = posts.slice(1, 3); // Only taking two major posts
   return (
     

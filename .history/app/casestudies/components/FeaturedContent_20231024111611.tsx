@@ -21,7 +21,7 @@ const FeaturedContent: React.FC = () => {
            Funddesk a subset of our fundlab initiatve provided seed funds to a small number of SMEs.
            They showup for a pitch event, we select winners and provide them with softlanding funding.
           </p>
-          {/* <Link href="#" className="text-red-600 font-medium hover:underline hover:text-red-800 transition duration-300">Rise to the moment →</Link> */}
+          <Link href="#" className="text-red-600 font-medium hover:underline hover:text-red-800 transition duration-300">Rise to the moment →</Link>
         </div>
       </div>
 
