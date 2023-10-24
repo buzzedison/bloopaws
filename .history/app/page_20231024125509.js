@@ -17,7 +17,7 @@ export default async function Home() {
 
   const posts = await cachedClient(postsQuery);
   const heroPost = posts[1];
-  const majorPosts = posts.slice(1, 3); // Only taking two major posts
+  const majorPosts = posts.slice(1, 2); // Only taking two major posts
   return (
     
    <>
