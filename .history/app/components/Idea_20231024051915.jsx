@@ -100,7 +100,7 @@ export default function IdeaToCompanySection() {
         </div>
 
         {/* Content Section */}
-        <div className="md:w-1/2 flex flex-col justify-center sm:mt-4 pr-6">
+        <div className="md:w-1/2 flex flex-col justify-center sm:mt-4">
           <div className="mx-auto md:ml-8 ">
             {/* Logo and Section Title */}
             <div className="flex items-center mb-6 md:mt-4 sm:mt-24 sm:mb-8">

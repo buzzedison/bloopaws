@@ -56,37 +56,37 @@ const Services = () => {
                 <div className="container mx-auto px-4">
                     <h2 className="text-4xl font-extrabold mb-12 text-center">What We Offer</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-    {servicesData.map((service, index) => (
-        <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.2 }}
-            className="p-8 border-2 border-gray-200 hover:border-red-500 rounded-lg cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl"
-            key={index}  // Ensure a unique key is provided
-        >
-            <Image 
-                src={service.image}
-                width={80}
-                height={80}
-                alt={`${service.name} Icon`}
-            />
-            <h3 className="mt-4 text-xl font-extrabold">{service.name}</h3>
-            <p className="mt-2 text-gray-600">
-                {service.description}
-            </p>
-            <Link href={service.link} className="mt-4 inline-block text-purple-900 font-semibold hover:underline">
-                    Learn More
-                
-            </Link>
-        </motion.div>
-    ))}
-</div>
-
+                        {servicesData.map((service, index) => (
+                            <Link href={service.link} key={index}>
+                                <motion.div 
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.2 }}
+                                    className="p-8 border-2 border-gray-200 hover:border-red-500 rounded-lg cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl"
+                                >
+                                    <Image 
+                                        src={service.image}
+                                        width={80}
+                                        height={80}
+                                        alt={`${service.name} Icon`}
+                                    />
+                                    <h3 className="mt-4 text-xl font-extrabold">{service.name}</h3>
+                                    <p className="mt-2 text-gray-600">
+                                        {service.description}
+                                    </p>
+                                    <Link href={service.link}className="mt-4 inline-block text-purple-900 font-semibold hover:underline">
+                                            Learn More
+                                        
+                                    </Link>
+                                </motion.div>
+                            </Link>
+                        ))}
+                </div>
                 </div>
             </section>
 
             {/* CTA Section */}
-            <section className="py-16 bg-gradient-to-r from-red-700 via-red-700 to-red-800 text-white">
+            <section className="py-16 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white">
                 <div className="container mx-auto text-center">
                     <h2 className="text-4xl font-extrabold mb-8">Ready to Elevate Your Startup?</h2>
                     <p className="text-xl mb-8 font-light">

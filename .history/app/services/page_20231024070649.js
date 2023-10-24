@@ -86,7 +86,7 @@ const Services = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-16 bg-gradient-to-r from-red-700 via-red-700 to-red-800 text-white">
+            <section className="py-16 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white">
                 <div className="container mx-auto text-center">
                     <h2 className="text-4xl font-extrabold mb-8">Ready to Elevate Your Startup?</h2>
                     <p className="text-xl mb-8 font-light">

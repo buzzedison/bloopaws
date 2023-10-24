@@ -2,8 +2,9 @@
 import Link from 'next/link';
 import Image from "next/image"
 const Footer = () => (
-  <footer className="bg-gray-50 text-gray-900 py-16 px-8 md:px-16">
-    <div className="container mx-auto">
+  <div className="">
+  <footer className="bg-gray-50 text-gray-900 pt-24 pb-12 px-8 md:px-16 footer ">
+    <div className="container mx-auto pt-24 pb-12">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
           <Image src="/images/logo.png" 
@@ -58,12 +59,12 @@ const Footer = () => (
           <h3 className="text-lg font-semibold mb-4">Industries</h3>
           <ul className="space-y-2">
             <li>
-              <Link href="/industries/technology"className="hover:underline">Technology
-              </Link>
+Technology
+            
             </li>
             <li>
-              <Link href="/industries/healthcare"className="hover:underline">Healthcare
-              </Link>
+            Healthcare
+          
             </li>
             <li>
               <Link href="/industries/education"className="hover:underline">Education
@@ -100,6 +101,7 @@ const Footer = () => (
       </div>
     </div>
   </footer>
+  </div>
 );
 
 export default Footer;

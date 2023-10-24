@@ -54,22 +54,11 @@ export default function ContactForm() {
       } else {
         setSubmitStatus('Email sent successfully!');
       }
-
-      // Reset the form data
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-        service: '',
-      });
-
     } catch (error) {
       console.error('Error:', error);
       setSubmitStatus('Failed to submit. Please try again later.');
     }
-};
-
+  };
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-red-200">

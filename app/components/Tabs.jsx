@@ -6,7 +6,7 @@ export default function Tabs({ tabs }) {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className="text-gray-600">
+    <div className="text-gray-600 pr-6">
       {/* Use a div tag to wrap the tab labels */}
       <div className="flex ">
         {/* Use the map method to iterate over the tabs array and render each tab label as a button */}
