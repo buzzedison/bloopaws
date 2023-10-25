@@ -52,7 +52,7 @@ export default function BloopNavbar() {
           <Link href="/services">
             <span className={getLinkClass()}>Services</span>
           </Link>
-          <Link href="/insight">
+          <Link href="/Insight">
             <span className={getLinkClass()}>Insight</span>
           </Link>
           <Link href="/resources">

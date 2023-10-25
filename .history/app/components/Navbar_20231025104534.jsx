@@ -52,8 +52,8 @@ export default function BloopNavbar() {
           <Link href="/services">
             <span className={getLinkClass()}>Services</span>
           </Link>
-          <Link href="/insight">
-            <span className={getLinkClass()}>Insight</span>
+          <Link href="/Insight">
+            <span className={getLinkClass()}>Services</span>
           </Link>
           <Link href="/resources">
             <span className={getLinkClass()}>Resources</span>
@@ -83,7 +83,6 @@ export default function BloopNavbar() {
                 <Link href="/services">Services</Link>
                 <Link href="/casestudies">Case Studies</Link>
                 <Link href="/resources">Resources</Link>
-                <Link href="/insight">Insight</Link>
                 <Link href="/contact">Contact Us</Link>
               </div>
             </div>

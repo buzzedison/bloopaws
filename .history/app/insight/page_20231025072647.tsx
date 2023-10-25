@@ -5,12 +5,10 @@ import { cachedClient } from "../../sanity/lib/client";
 import { postsQuery } from "../../sanity/lib/queries";
 
 import HeroPost from "../insight/components/HeroPostInsight"; // Importing the HeroPost component
-import CardPosts from "./components/CardPosts";
 
 export default async function Home() {
   const posts = await cachedClient(postsQuery);
   const heroPost = posts[0];
-  
 
   return (
     <>
@@ -26,9 +24,6 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </div>
-      <div>
-      <CardPosts posts ={posts} />
       </div>
     </>
   );

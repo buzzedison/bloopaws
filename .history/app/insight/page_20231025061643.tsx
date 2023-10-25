@@ -11,15 +11,21 @@ export default async function Home() {
   const heroPost = posts[0];
 
   return (
-    <div className="flex flex-col items-center justify-center  bg-gray-100">
-      <div className="w-full p-8 mx-auto bg-white rounded-lg shadow-lg">
-       
-        <div className="mt-8">
-          <HeroPost post={heroPost} /> {/* Sending a single post object */}
-          <Posts posts={posts.slice(1)} />
-        </div>
+   // Inside your Home function
+
+<div className="flex flex-col items-center justify-center bg-gray-100">
+  <div className="w-full p-8 mx-auto bg-white rounded-lg shadow-lg">
+    <div className="mt-8 grid grid-cols-5 gap-4"> {/* Updated Line */}
+      <div className="col-span-3 w-1/2">
+        <HeroPost post={heroPost} /> 
+      </div>
+      <div className="col-span-2">
+        <Posts posts={posts.slice(1)} />
       </div>
     </div>
+  </div>
+</div>
+
   );
 }
 
