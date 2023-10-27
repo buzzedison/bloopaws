@@ -10,7 +10,7 @@ export default function AICourseDescription() {
             We'll guide you step-by-step to transform how you innovate, operate, and make decisions using AI...
           </p>
 <div className="flex flex-row ">
-  <div className="w-full md:w-1/2 pr-4 md:pr-12">
+  <div className="w-1/2 pr-4 md:pr-12">
           <p className="text-lg mb-4">
           Discover how industry leaders are using AI to:
           <ul className="list-disc list-inside">
@@ -26,14 +26,14 @@ export default function AICourseDescription() {
           Don't let competitors pull ahead. Join the AI revolution today and fuel game-changing business growth!
           Limited-time enrollment fee: $29
         </p>
-        <p className="text-lg mb-8 font-bold">
+        <p className="text-lg mb-8">
           You will finish ready to implement a strategic AI plan tailored to your business. Drive growth by increasing creativity, innovation, and competitive edge.
           Don't miss this opportunity. Join the AI revolution today and unlock your full business potential.
         </p>
         <a href="#signup" className="text-red-700 text-lg font-bold">Sign Up</a>
         </div>
-        <div className="w-full md:w-1/2">
-<Image className="rounded-2xl px-0 md:px-4" src="/images/aievent.png" width={500} height={500} alt="AI Event"/>
+        <div className="w-1/2">
+<Image className="px-0 md:px-4" src="/images/aievent.png" width={500} height={500} alt="AI Event"/>
      </div>
         </div>
     

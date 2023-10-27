@@ -8,7 +8,7 @@ export default function CourseHero() {
           <p className="text-xl mb-8">Harness the power of AI to drive your business forward</p>
           <div className="space-x-4">
             <Link href="#signup" className="bg-black text-white px-8 py-3 rounded-full font-semibold">Sign Up</Link>
-            <Link href="/courses/aicourse" className="bg-transparent border border-red-200 text-red-200 px-8 py-3 rounded-full font-semibold">Learn More</Link>
+            <Link href="/aicourse" className="bg-transparent border border-red-200 text-red-200 px-8 py-3 rounded-full font-semibold">Learn More</Link>
           </div>
         </div>
       </div>

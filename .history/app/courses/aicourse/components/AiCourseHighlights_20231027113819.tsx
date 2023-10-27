@@ -14,7 +14,7 @@ export default function AICourseHighlights() {
             <li> Learn how to use AI for almost everything in your business</li>
             <li>Fun and interactive elements</li>
 
- 
+            {/* ... */}
           </ul>
           <a href="#enroll" className="bg-red-800 text-white px-8 py-3 rounded-full font-semibold">Enroll Now</a>
         </div>
