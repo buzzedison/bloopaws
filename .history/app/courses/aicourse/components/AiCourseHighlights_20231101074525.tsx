@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function AICourseHighlights() {
     return (
       <div className="py-16 bg-red-100">
-        <div className="container mx-auto ml-0 md:ml-24">
+        <div className="container mx-auto ml-0 md:ml-8">
           <h2 className="text-2xl font-bold mb-4">Course Highlights</h2>
           <ul className="list-disc list-inside text-lg mb-8">
             {/* Add the highlights here */}

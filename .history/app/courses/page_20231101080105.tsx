@@ -20,14 +20,14 @@ export default function CoursePage() {
      subtitle: 'Walk you through what it takes to get the funding you need', 
      description: 'Looking for funding? This course will guide you through the process of securing the capital you need to start or grow your business. We will cover creating a solid business plan, identifying funding sources, perfecting your pitch, and navigating the legalities.', 
      imageSrc: '/images/fundingclass.png',
-     link:'/courses/investment' 
+     link:'/courses/aicourse' 
     
     },
     { title: 'Mental Models for Business Growth',
      subtitle: 'Learn how to make intelligent decisions', 
      description: 'Learn how to tap into mental models to enhance your decision making skills. In this course, you will discover how the brightest minds leverage mental models - conceptual frameworks that help understand the world and resolve problems - to make robust decisions under uncertainty. ', 
      imageSrc: '/images/mental.png', 
-     link:'/courses/mentalmodel'
+     link:'/courses/aicourse'
     },
   ];
 
