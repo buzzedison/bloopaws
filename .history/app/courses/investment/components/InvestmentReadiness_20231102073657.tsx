@@ -20,7 +20,7 @@ export default function InvestmentReadinessCourse() {
                 </div>
 
                 {/* Course Details Section */}
-                <div className="bg-red-800 p-10 rounded-lg shadow-lg text-white px-4 md:px-12 py-12 md:py-24">
+                <div className="bg-red-800 p-8 rounded-lg shadow-lg text-white px-2 md:px-12 py-2 md:py-24">
                     <h2 className="text-3xl font-bold mb-4 mt-12 md:mt-0 pl-8 md:pl-0">What You'll Learn</h2>
                     <ul className="list-disc list-inside mb-8 pl-8 md:pl-6 pr-1 md:pr-0">
                         <li>Creating a rock-solid business plan that gets investors pumped up</li>
@@ -31,10 +31,10 @@ export default function InvestmentReadinessCourse() {
                         <li>Negotiating a solid deal so you don't leave money on the table</li>
                     </ul>
                     <p className="text-lg mb-8 pl-8 md:pl-0">You'll walk away ready to score the funding your business deserves. Whether you need angel investors, VC capital, crowdfunding, loans, grants - we've got you covered.</p>
-                    <p className="text-lg font-bold mb-4 pl-8 md:pl-0 ">Tired of scraping by without enough cash? We'll help you get investment ready.</p>
+                    <p className="text-lg font-bold mb-4">Tired of scraping by without enough cash? We'll help you get investment ready.</p>
                     <motion.a
                         href="#signup"
-                        className="text-2xl font-bold text-red-200 pl-8 md:pl-0 pb-12 md:pb-0"
+                        className="text-2xl font-bold text-red-200"
                         initial={{ scale: 1 }}
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.3 }}

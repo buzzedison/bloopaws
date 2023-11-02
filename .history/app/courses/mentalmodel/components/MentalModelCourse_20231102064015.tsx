@@ -20,7 +20,7 @@ export default function MentalModelsCourse() {
                 </div>
 
                 {/* Course Details Section */}
-                <div className="bg-purple-900 p-8 rounded-lg shadow-lg text-white px-2 md:px-12 py-8 md:py-24">
+                <div className="bg-purple-900 p-8 rounded-lg shadow-lg text-white px-8 md:px-12 py-2 md:py-24">
                     <h2 className="text-2xl md:text-3xl font-bold mb-4 px-5 md:px-0 py-12 md:py-0">Unlock Next-Level Critical Thinking</h2>
                     <ul className="list-disc list-inside mb-8 pl-6 md:pl-0">
                         <li>Approach any problem like a pro</li>

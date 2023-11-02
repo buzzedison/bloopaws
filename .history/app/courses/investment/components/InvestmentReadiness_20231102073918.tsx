@@ -20,7 +20,7 @@ export default function InvestmentReadinessCourse() {
                 </div>
 
                 {/* Course Details Section */}
-                <div className="bg-red-800 p-10 rounded-lg shadow-lg text-white px-4 md:px-12 py-12 md:py-24">
+                <div className="bg-red-800 p-10 rounded-lg shadow-lg text-white px-2 md:px-12 py-12 md:py-24">
                     <h2 className="text-3xl font-bold mb-4 mt-12 md:mt-0 pl-8 md:pl-0">What You'll Learn</h2>
                     <ul className="list-disc list-inside mb-8 pl-8 md:pl-6 pr-1 md:pr-0">
                         <li>Creating a rock-solid business plan that gets investors pumped up</li>

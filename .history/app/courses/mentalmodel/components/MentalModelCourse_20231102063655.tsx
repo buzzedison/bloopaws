@@ -20,18 +20,18 @@ export default function MentalModelsCourse() {
                 </div>
 
                 {/* Course Details Section */}
-                <div className="bg-purple-900 p-8 rounded-lg shadow-lg text-white px-2 md:px-12 py-8 md:py-24">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4 px-5 md:px-0 py-12 md:py-0">Unlock Next-Level Critical Thinking</h2>
-                    <ul className="list-disc list-inside mb-8 pl-6 md:pl-0">
+                <div className="bg-purple-900 p-8 rounded-lg shadow-lg text-white px-2 md:px-12 py-2 md:py-24">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-4">Unlock Next-Level Critical Thinking</h2>
+                    <ul className="list-disc list-inside mb-8">
                         <li>Approach any problem like a pro</li>
                         <li>Make confident decisions under pressure</li>
                         <li>Generate creative solutions others miss</li>
                         <li>Get the growth-boosting skills top professionals rely on</li>
                     </ul>
-                    <p className="text-lg mb-8 pl-6 md:pl-0">Stop struggling and start excelling! Enrol in the Mental Models for Business Growth MasterClass and start making intelligent decisions today.</p>
+                    <p className="text-lg mb-8">Stop struggling and start excelling! Enrol in the Mental Models for Business Growth MasterClass and start making intelligent decisions today.</p>
                     <motion.a
                         href="#signup"
-                        className="text-2xl font-bold text-purple-300 pl-6 md:pl-0 pb-12 md:pb-0"
+                        className="text-2xl font-bold text-purple-300"
                         initial={{ scale: 1 }}
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.3 }}
