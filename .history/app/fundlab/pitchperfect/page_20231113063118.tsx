@@ -1,6 +1,6 @@
 // pages/index.tsx
 import Head from 'next/head';
-import Link from 'next/link';
+
 export default function HomePage() {
   return (
     <>
@@ -13,13 +13,10 @@ export default function HomePage() {
         {/* Hero Section */}
         <section className="text-center p-12 bg-red-700 text-white">
           <h1 className="text-5xl font-bold mb-6 pt-24 mt-12">Bring Your Ideas to Life</h1>
-          <p className="text-2xl mb-4">Pitch Your Startup to the World - The Online Pitch Event</p>
-          <p className="text-2xl font-bold text-red-200 mb-8"> Tuesday, December 12, 2023</p>
-         <Link href="https://airtable.com/app5IEtJhqo7tKWRf/shrb97BeZGsQAb6yV">
+          <p className="text-2xl mb-8">Pitch Your Startup to the World - The Online Pitch Event</p>
           <button className="bg-white text-red-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition duration-300">
          Apply Now
           </button>
-          </Link>
         </section>
 
         {/* About the Event */}
@@ -69,11 +66,9 @@ export default function HomePage() {
           <p className="text-lg mb-2">Sharpen your pitch, set up your backdrop, and get ready to charm screens across the globe.
           </p>
           <p className="mb-8 px-2 md:px-24 text-3xl font-extrabold"> Doesn’t matter if you're chasing capital or not, here's your spotlight to shine and capture the attention your venture deserves.</p>
-           <Link href="https://airtable.com/app5IEtJhqo7tKWRf/shrb97BeZGsQAb6yV">
           <button className="bg-white text-red-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition duration-300">
 Apply Now
           </button>
-          </Link>
         </section>
       </main>
     </>

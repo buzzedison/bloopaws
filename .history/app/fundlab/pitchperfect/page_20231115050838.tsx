@@ -14,7 +14,7 @@ export default function HomePage() {
         <section className="text-center p-12 bg-red-700 text-white">
           <h1 className="text-5xl font-bold mb-6 pt-24 mt-12">Bring Your Ideas to Life</h1>
           <p className="text-2xl mb-4">Pitch Your Startup to the World - The Online Pitch Event</p>
-          <p className="text-2xl font-bold text-red-200 mb-8"> Tuesday, December 12, 2023</p>
+          <p className="text-lg font-bold text-red-200 mb-8"> Tuesday, December 12, 2023</p>
          <Link href="https://airtable.com/app5IEtJhqo7tKWRf/shrb97BeZGsQAb6yV">
           <button className="bg-white text-red-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition duration-300">
          Apply Now
