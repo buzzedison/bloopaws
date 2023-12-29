@@ -118,9 +118,9 @@ through investment, guidance, and resources.</p>
           <p className="text-gray-700 mb-4">
             Get professional coaching to create a winning pitch deck.
           </p>
-          <Link href="/fundlab/pitchdeck" className="text-red-700 font-bold">
+          <a href="#pitch-deck-coaching" className="text-red-700 font-bold">
             Learn More
-          </Link>
+          </a>
         </div>
         {/* Pitch Perfect Event */}
         <div className="bg-white p-6 rounded shadow text-center">
