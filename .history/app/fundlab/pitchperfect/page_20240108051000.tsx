@@ -43,7 +43,7 @@ export default function HomePage() {
   <div className="flex flex-wrap justify-center gap-4">
     {/* Card 1 */}
     <div className="max-w-sm w-full bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 p-6 text-center">
-      <h3 className="text-xl font-semibold mb-2 text-red-600">Pocket a Cool $200</h3>
+      <h3 className="text-xl font-semibold mb-2 text-red-600">Pocket a Cool $100</h3>
       <p className="text-gray-600">It's not just about the money, but hey, it doesn’t hurt.</p>
     </div>
     {/* Card 2 */}
