@@ -1,6 +1,6 @@
 // pages/index.tsx
 import Head from 'next/head';
-import Link from 'next/link';
+
 const HomePage = () => {
   return (
     <>
@@ -27,16 +27,12 @@ const HomePage = () => {
             <p className="mb-6"> We have got you covered - from stunning design, compelling copywriting that triggers action, to technical development, engaging sales funnels,
                social media marketing, and advanced SEO optimization.</p>
             <div className="flex justify-center gap-4">
-            <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/s/6SCzru9ZGUeB8XFL-qW1Uw2">
               <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded">
                 I’m Interested in the offer
               </button>
-              </Link>
-              <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/s/6SCzru9ZGUeB8XFL-qW1Uw2">
               <button className="bg-transparent hover:bg-red-600 text-black hover:text-white border border-red-600 font-bold py-3 px-6 rounded">
                 Tell me more
               </button>
-              </Link>
             </div>
           </div>
         </section>
@@ -101,11 +97,9 @@ const HomePage = () => {
     <p className="text-lg text-gray-600 mb-8">
       Let us set the ball rolling with a free consultation. No pressure, just a chance to chat about your business goals and see how we can help you achieve them.
     </p>
-    <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/s/6SCzru9ZGUeB8XFL-qW1Uw2">
     <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded">
       Schedule Your Free Consultation
     </button>
-    </Link>
   </div>
 </section>
 
@@ -137,13 +131,10 @@ const HomePage = () => {
     <p className="text-lg text-gray-600 mb-8">
       Claim Your Business Growth Package Today before someone else takes your spot! This is your chance. Get your business growth started now!
     </p>
-    <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/s/6SCzru9ZGUeB8XFL-qW1Uw2">
     <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded">
       Schedule Consultation
     </button>
-    </Link>
   </div>
-  
 </section>
 
 

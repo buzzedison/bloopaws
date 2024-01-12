@@ -27,16 +27,12 @@ const HomePage = () => {
             <p className="mb-6"> We have got you covered - from stunning design, compelling copywriting that triggers action, to technical development, engaging sales funnels,
                social media marketing, and advanced SEO optimization.</p>
             <div className="flex justify-center gap-4">
-            <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/s/6SCzru9ZGUeB8XFL-qW1Uw2">
               <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded">
                 I’m Interested in the offer
               </button>
-              </Link>
-              <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/s/6SCzru9ZGUeB8XFL-qW1Uw2">
               <button className="bg-transparent hover:bg-red-600 text-black hover:text-white border border-red-600 font-bold py-3 px-6 rounded">
                 Tell me more
               </button>
-              </Link>
             </div>
           </div>
         </section>
