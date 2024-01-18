@@ -14,8 +14,8 @@ export default function HomePage() {
         <section className="text-center p-12 bg-red-700 text-white">
           <h1 className="text-5xl font-bold mb-6 pt-24 mt-12">Bring Your Ideas to Life</h1>
           <p className="text-2xl mb-4">Pitch Your Startup to the World - The Online Pitch Event</p>
-          <p className="text-2xl font-bold text-red-200 mb-8"> Tuesday, January 23, 2023</p>
-         <Link href="https://airtable.com/app5IEtJhqo7tKWRf/shrb97BeZGsQAb6yV">
+          <p className="text-2xl font-bold text-red-200 mb-8"> Wednesday February 28, 2024</p>
+         <Link href="https://crowdpen.co/challenges/Pitch%20Perfect%20February/c7f4b148-9883-433d-9ff3-c1a79e3eac13/Pitch-Perfect">
           <button className="bg-white text-red-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition duration-300">
          Apply Now
           </button>
@@ -43,7 +43,7 @@ export default function HomePage() {
   <div className="flex flex-wrap justify-center gap-4">
     {/* Card 1 */}
     <div className="max-w-sm w-full bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 p-6 text-center">
-      <h3 className="text-xl font-semibold mb-2 text-red-600">Pocket a Cool $100</h3>
+      <h3 className="text-xl font-semibold mb-2 text-red-600">Pocket a Cool $200</h3>
       <p className="text-gray-600">It's not just about the money, but hey, it doesn’t hurt.</p>
     </div>
     {/* Card 2 */}
