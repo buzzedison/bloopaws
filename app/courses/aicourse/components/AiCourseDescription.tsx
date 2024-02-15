@@ -27,7 +27,7 @@ export default function AICourseDescription() {
                         </motion.p>
                         <motion.p className="text-lg mb-4" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }}>
                             Don't let competitors pull ahead. Join the AI revolution today and fuel game-changing business growth!
-                            Limited-time enrollment fee: $29
+                            Limited-time enrollment fee: $45 
                         </motion.p>
                         <motion.p className="text-lg mb-8 font-bold" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }}>
                             You will finish ready to implement a strategic AI plan tailored to your business. Drive growth by increasing creativity, innovation, and competitive edge.

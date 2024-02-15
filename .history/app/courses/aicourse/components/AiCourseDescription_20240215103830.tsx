@@ -2,6 +2,7 @@
 // components/AICourseDescription.tsx
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function AICourseDescription() {
     return (
@@ -26,14 +27,14 @@ export default function AICourseDescription() {
                         </motion.p>
                         <motion.p className="text-lg mb-4" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }}>
                             Don't let competitors pull ahead. Join the AI revolution today and fuel game-changing business growth!
-                            Limited-time enrollment fee: $29
+                            Limited-time enrollment fee: $45 
                         </motion.p>
                         <motion.p className="text-lg mb-8 font-bold" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }}>
                             You will finish ready to implement a strategic AI plan tailored to your business. Drive growth by increasing creativity, innovation, and competitive edge.
                             Don't miss this opportunity. Join the AI revolution today and unlock your full business potential.
                         </motion.p>
                         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 }}>
-                            <a href="#signup" className="inline-block px-6 py-3 text-lg font-semibold text-white bg-red-700 rounded-md shadow-lg hover:bg-red-800 transition-all">Sign Up</a>
+                            <Link href="https://bloopglobal.ck.page/f1460a0d63" className="inline-block px-6 py-3 text-lg font-semibold text-white bg-red-700 rounded-md shadow-lg hover:bg-red-800 transition-all">Sign Up</Link>
                         </motion.div>
                     </div>
                     <div className="w-full md:w-1/2">
