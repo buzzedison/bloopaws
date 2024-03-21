@@ -46,6 +46,10 @@ export default function BloopNavbar() {
         <Link href="/about">
             <span className={getLinkClass()}>About</span>
           </Link>
+
+          <Link href="https://www.sme.bloopglobal.com">
+            <span className={getLinkClass()}>SME Websites</span>
+          </Link>
           <Link href="/casestudies">
             <span className={getLinkClass()}>Showcase</span>
           </Link>
