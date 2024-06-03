@@ -60,7 +60,7 @@ export default function IdeaToCompanySection() {
               alt="Video thumbnail"
               width={500}
               height={300}
-              className="rounded-lg shadow-lg pt-8"
+              className="rounded-full shadow-lg"
             />
             {/* Add a play button */}
             <div className="absolute inset-0 flex items-center justify-center">

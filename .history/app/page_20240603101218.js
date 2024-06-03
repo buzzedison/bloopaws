@@ -1,7 +1,7 @@
 // import Posts from "./insight/components/Posts";
-import { cachedClient } from "../sanity/lib/client"
-import { postsQuery } from "../sanity/lib/queries";
-import HeroPost from "./insight/components/HeroPost"; 
+// import { cachedClient } from "../sanity/lib/client"
+// import { postsQuery } from "../sanity/lib/queries";
+// import HeroPost from "./insight/components/HeroPost"; 
 
 import MajorPostsGrid from "./insight/components/MajorPostsGrid";
 import GoalsSection from "./components/Goals";
@@ -57,7 +57,7 @@ export default async function Home() {
 
 return (
   <>
-<div className="flex flex-col items-center justify-center  bg-gray-50">
+<div>
 <IdeaToCompanySection/>
 
 <GoalsSection/>

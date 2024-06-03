@@ -1,4 +1,4 @@
-// import Posts from "./insight/components/Posts";
+import Posts from "./insight/components/Posts";
 import { cachedClient } from "../sanity/lib/client"
 import { postsQuery } from "../sanity/lib/queries";
 import HeroPost from "./insight/components/HeroPost"; 
@@ -40,9 +40,9 @@ export default async function Home() {
   ];
 
 
-  const posts = await cachedClient(postsQuery);
-  const heroPost = posts[1];
-  const majorPosts = posts.slice(0, 3); // Only taking two major posts
+  // const posts = await cachedClient(postsQuery);
+  // const heroPost = posts[1];
+  // const majorPosts = posts.slice(0, 3); // Only taking two major posts
   // return (
     
   //  <>
@@ -57,7 +57,7 @@ export default async function Home() {
 
 return (
   <>
-<div className="flex flex-col items-center justify-center  bg-gray-50">
+<div>
 <IdeaToCompanySection/>
 
 <GoalsSection/>

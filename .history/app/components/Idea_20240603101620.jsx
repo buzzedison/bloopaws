@@ -46,7 +46,7 @@ export default function IdeaToCompanySection() {
 
   return (
     <div className="bg-red-100 py-16 md:mt-12 sm:mt-2 w-full">
-      <div className="container mx-auto px-4 py-2 md:py-12 flex flex-col md:flex-row ">
+      <div className="container mx-auto px-4 py-2 md:py-12 flex flex-col md:flex-row rounded-full">
         {/* Video Section */}
         <div className="md:w-1/2 flex items-center justify-center">
           {/* Use a div to wrap the Image component and play button */}
@@ -60,7 +60,7 @@ export default function IdeaToCompanySection() {
               alt="Video thumbnail"
               width={500}
               height={300}
-              className="rounded-lg shadow-lg pt-8"
+              className="rounded-lg shadow-lg"
             />
             {/* Add a play button */}
             <div className="absolute inset-0 flex items-center justify-center">
