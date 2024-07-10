@@ -25,11 +25,11 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-      <div className="md:w-1/2 flex items-center justify-center">
+      <div className="md:w-1/2 flex items-center justify-right">
         <Image
           src={heroImage}
           alt="Digital Transformation"
-          className="max-h-[100vh] object-contain animate-fade-in"
+          className="max-h-[80vh] object-contain animate-fade-in"
         />
       </div>
 

@@ -29,7 +29,7 @@ export default function HeroSection() {
         <Image
           src={heroImage}
           alt="Digital Transformation"
-          className="max-h-[100vh] object-contain animate-fade-in"
+          className="max-h-[80vh] object-contain animate-fade-in"
         />
       </div>
 
