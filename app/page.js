@@ -14,6 +14,7 @@ import Logo from "./components/LogoSection";
 import NewsletterCTAB from "./components/CtaNew"
 import CourseCard from "./components/CourseCard"
 import CoursesIntro from "./courses/components/CourseIntro";
+import HeroSection from "./components/HeroDigital";
 
 export default async function Home() {
 
@@ -58,6 +59,7 @@ export default async function Home() {
 return (
   <>
 <div className="flex flex-col items-center justify-center  bg-gray-50">
+  <HeroSection/>
 <IdeaToCompanySection/>
 
 <GoalsSection/>

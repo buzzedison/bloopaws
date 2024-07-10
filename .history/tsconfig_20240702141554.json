@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/blog/page.jsx", "app/insight/components/Slider.jsx", "app/showcase/page.js"  ],
+, "app/blog/page.jsx", "app/insight/components/Slider.jsx", "app/showcase/page.js", ".next/grafbase.config.ts"  ],
   "exclude": [
     "node_modules"
   ]
