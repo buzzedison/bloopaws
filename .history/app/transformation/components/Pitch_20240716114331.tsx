@@ -31,50 +31,50 @@ const ChallengeSolution = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-white">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <motion.section 
-        className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+        className="py-16 bg-white"
         initial="initial"
         animate="animate"
         variants={staggerContainer}
       >
-        <motion.h2 variants={fadeInUp} className="text-4xl sm:text-5xl font-bold text-center text-gray-900 mb-8">
+        <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-8">
           The World is Going Digital. Is Your Business Ready?
         </motion.h2>
-        <motion.p variants={fadeInUp} className="text-xl text-center text-gray-600 mb-16 max-w-3xl mx-auto">
+        <motion.p variants={fadeInUp} className="text-xl text-center text-gray-600 mb-12 max-w-3xl mx-auto">
           Every day, businesses leverage technology to work smarter, connect better, and achieve more. This is digital transformation, and it's no longer optional – it's essential.
         </motion.p>
-        <motion.div variants={fadeInUp} className="relative max-w-5xl mx-auto">
+        <motion.div variants={fadeInUp} className="relative max-w-4xl mx-auto">
           <Image
-            src="/images/digitalpeople.png"
+            src="/images/digital2.png"
             alt="Digital Transformation"
             width={1000}
             height={500}
-            className="rounded-2xl shadow-2xl"
+            className="rounded-lg shadow-xl"
           />
         </motion.div>
       </motion.section>
 
       <motion.section 
-        className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white"
+        className="py-16 bg-gray-100"
         initial="initial"
         animate="animate"
         variants={staggerContainer}
       >
-        <motion.h2 variants={fadeInUp} className="text-4xl sm:text-5xl font-bold text-center text-gray-900 mb-8">
+        <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-8">
           Your Digital Transformation Partner
         </motion.h2>
-        <motion.p variants={fadeInUp} className="text-xl text-center text-gray-600 mb-16 max-w-3xl mx-auto">
-          We're more than just a technology company. We're your partners in navigating the business environment and achieving lasting success.
+        <motion.p variants={fadeInUp} className="text-xl text-center text-gray-600 mb-12 max-w-3xl mx-auto">
+          We're more than just a technology company. We're your partners in navigating the digital landscape and achieving lasting success.
         </motion.p>
         <motion.div 
           variants={fadeInUp} 
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
         >
           {offerings.map((offering, index) => (
-            <div key={index} className="bg-gray-50 p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105">
-              <offering.icon className="text-5xl text-red-600 mb-6" />
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">{offering.title}</h3>
+            <div key={index} className="bg-white p-6 rounded-lg shadow-md">
+              <offering.icon className="text-4xl text-red-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{offering.title}</h3>
               <p className="text-gray-600">{offering.description}</p>
             </div>
           ))}

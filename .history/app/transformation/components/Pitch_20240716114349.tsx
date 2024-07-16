@@ -46,10 +46,10 @@ const ChallengeSolution = () => {
         </motion.p>
         <motion.div variants={fadeInUp} className="relative max-w-5xl mx-auto">
           <Image
-            src="/images/digitalpeople.png"
+            src="/images/digital2.png"
             alt="Digital Transformation"
-            width={1000}
-            height={500}
+            width={1200}
+            height={600}
             className="rounded-2xl shadow-2xl"
           />
         </motion.div>
@@ -65,7 +65,7 @@ const ChallengeSolution = () => {
           Your Digital Transformation Partner
         </motion.h2>
         <motion.p variants={fadeInUp} className="text-xl text-center text-gray-600 mb-16 max-w-3xl mx-auto">
-          We're more than just a technology company. We're your partners in navigating the business environment and achieving lasting success.
+          We're more than just a technology company. We're your partners in navigating the digital landscape and achieving lasting success.
         </motion.p>
         <motion.div 
           variants={fadeInUp} 
