@@ -14,7 +14,7 @@ import Logo from "./components/LogoSection";
 import NewsletterCTAB from "./components/CtaNew"
 import CourseCard from "./components/CourseCard"
 import CoursesIntro from "./courses/components/CourseIntro";
-// import HeroSection from "./components/HeroDigital";
+import HeroSection from "./components/HeroDigital";
 import HeroOffer from "./components/HeroOffer"
 export default async function Home() {
 
@@ -60,7 +60,7 @@ return (
   <>
 <div className="flex flex-col items-center justify-center  bg-gray-50">
  <HeroOffer/>
-  {/* <HeroSection/> */}
+  <HeroSection/>
 <IdeaToCompanySection/>
 
 <GoalsSection/>
