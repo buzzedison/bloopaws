@@ -14,7 +14,7 @@ export default function HeroOffer() {
       <div className="md:w-1/2 flex flex-col justify-center px-8 pt-16 pb-0 bg-red-600 text-white">
         <div className="max-w-md mx-auto">
           <motion.h1
-            className="mt-24 md:mt-0 text-3xl md:text-5xl font-bold mb-6"
+            className="text-3xl md:text-5xl font-bold mb-6"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 1, ease: "easeOut" }}
