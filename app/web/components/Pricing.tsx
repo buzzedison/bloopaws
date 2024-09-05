@@ -11,7 +11,7 @@ const Pricing = () => {
 
   useEffect(() => {
     // Fetch user's location based on IP address
-    fetch('https://api.geoapify.com/v1/ipinfo?apiKey=YOUR_API_KEY_HERE')
+    fetch('https://api.geoapify.com/v1/ipinfo?apiKey=804d4e83a85d425abd321a50550d4c0e')
       .then(response => response.json())
       .then(data => {
         const userCountry = data.country.iso_code;
@@ -28,7 +28,7 @@ const Pricing = () => {
 
         // Update pricing based on user's currency
         const conversionRates: { [key: string]: { [key: string]: number } } = {
-          USD: { GHC: 6.5, NGN: 410, GBP: 0.75 },
+          USD: { GHC: 12, NGN: 1200, GBP: 0.75 },
         };
         const updatedPricingInfo = { ...pricingInfo };
         for (const packageName in updatedPricingInfo) {
