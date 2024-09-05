@@ -17,8 +17,8 @@ const SolutionHead = () => {
           animate={{ y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
         >
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-5 leading-tight">
-            The Solution? <br/> Get More People to Your Website and Turn Them Into Customers.
+          <h1 className="text-4xl md:text-6xl font-bold mb-5 leading-tight">
+            The Solution? <br/> <span className="text-3xl md:text-4xl">Get More People to Your Website and Turn Them Into Customers.</span>
           </h1>
         </motion.div>
       </div>

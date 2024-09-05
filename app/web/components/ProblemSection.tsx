@@ -12,7 +12,7 @@ const ProblemSection = () => {
       transition={{ duration: 1 }}
     >
       <div className="container mx-auto text-center md:text-right p-10 md:w-1/2">
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-5">You have a people are not coming to my website problem</h1>
+        <h1 className="text-4xl md:text-6xl font-bold mb-5">You have a "people are not coming to my website problem"</h1>
         <p className="text-xl md:text-2xl mb-8">..And to make matters worse, the few visitors you do receive are not converting into enquiries.</p>
       </div>
       <div className="text-center md:text-left p-10 md:w-1/2">

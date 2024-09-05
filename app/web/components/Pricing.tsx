@@ -54,13 +54,13 @@ const Pricing = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.h2 
-          className="text-4xl md:text-6xl font-extrabold mb-10 text-center"
+          className="text-4xl md:text-5xl font-extrabold mb-10 text-center"
           initial={{ y: 50, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
         >
-          PRICING
+          Pricing
         </motion.h2>
         
         <p className="text-xl md:text-2xl text-center mb-20">

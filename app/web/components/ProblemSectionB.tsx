@@ -5,7 +5,7 @@ import React from 'react';
 const ConversionChallenges = () => {
   return (
     <motion.div
-      className="bg-gradient-to-r from-red-700 to-red-800 text-white py-20"
+      className="bg-gradient-to-r from-red-700 to-red-800 text-white py-32" // Increased padding top and bottom
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, delay: 0.5 }}
@@ -18,7 +18,7 @@ const ConversionChallenges = () => {
           </p>
         </div>
 
-        <div className="mt-10">
+        <div className="mt-16"> {/* Increased top margin for better spacing */}
           <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
             <div className="relative">
               <dt>

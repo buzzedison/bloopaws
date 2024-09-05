@@ -37,7 +37,7 @@ const FAQ = () => {
       <div className="relative z-10 w-full max-w-6xl">
         {/* Heading */}
         <motion.h1
-          className="text-7xl font-extrabold text-center mb-16"
+          className="text-5xl font-bold text-center mb-16"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -55,7 +55,7 @@ const FAQ = () => {
               layout
             >
               <motion.h2
-                className="text-3xl font-semibold cursor-pointer mb-4"
+                className="text-2xl font-semibold cursor-pointer mb-4"
                 onClick={() => setActiveIndex(activeIndex === index ? null : index)}
                 whileHover={{ color: "#FF006E" }}
               >
