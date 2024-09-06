@@ -24,10 +24,10 @@ const FAQ = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-black text-white p-10 overflow-hidden flex items-center justify-center">
+    <div className="relative min-h-screen bg-red-800 text-white p-10 overflow-hidden flex items-center justify-center">
       {/* Dynamic Background with subtle motion */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-700 to-red-900 opacity-50"
+        className="absolute inset-0 bg-gradient-to-r from-red-800 via-red-900 to-red-950 opacity-50"
         style={{
           transform: `translate(${mousePosition.x / 40}px, ${mousePosition.y / 40}px)`,
         }}
@@ -50,7 +50,7 @@ const FAQ = () => {
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
-              className="relative p-8 bg-opacity-20 bg-white rounded-lg backdrop-blur-lg shadow-xl transition-transform duration-300 hover:scale-105"
+              className="relative p-8 bg-opacity-20 bg-red-700 rounded-lg backdrop-blur-lg shadow-xl transition-transform duration-300 hover:scale-105"
               whileHover={{ scale: 1.05 }}
               layout
             >
@@ -67,7 +67,7 @@ const FAQ = () => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="text-gray-300"
+                    className="text-red-100"
                     transition={{ duration: 0.5 }}
                   >
                     {faq.answer}

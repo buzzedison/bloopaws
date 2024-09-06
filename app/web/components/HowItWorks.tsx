@@ -5,7 +5,7 @@ import React from 'react';
 const HowItWorks = () => {
   return (
     <motion.section 
-      className="bg-gradient-to-r from-red-800 to-red-900 text-white py-20"
+      className="bg-gradient-to-r from-red-700 to-red-800 text-white py-20"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
