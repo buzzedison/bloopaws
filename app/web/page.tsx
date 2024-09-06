@@ -1,4 +1,5 @@
 import HeroWeb from './components/Heroweb'
+import HeroPortfolio from './components/HeroPortfolio'
 import ProblemSection from './components/ProblemSection'
 import ConversionChallenges from './components/ProblemSectionB'
 import SolutionHead from './components/SolutionHead'
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <main>
       <HeroWeb />
+      <HeroPortfolio />
       <ProblemSection />
       <ConversionChallenges />
       <SolutionHead />
