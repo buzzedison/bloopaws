@@ -36,7 +36,7 @@ const sections = [
 export default function GoalsSection() {
   return (
     <>
-      <div className="mt-16">
+      <div className="mt-16 bg-gray-50 w-full">
         <div className="mt-2 md:mt-12">
           <h1 className="text-gray-500 text-lg md:text-3xl  text-center font-bold mb-0">
             Let us help you achieve your goals

@@ -1,4 +1,5 @@
 // import Posts from "./insight/components/Posts";
+import Link from "next/link"
 import { cachedClient } from "../sanity/lib/client"
 import { postsQuery } from "../sanity/lib/queries";
 import HeroPost from "./insight/components/HeroPost"; 
@@ -7,15 +8,18 @@ import MajorPostsGrid from "./insight/components/MajorPostsGrid";
 import GoalsSection from "./components/Goals";
 // import Hero from "./components/Hero";
 // import HomePage from "./components/HeroHead";
-import IdeaToCompanySection from "./components/Idea";
+// import IdeaToCompanySection from "./components/Idea";
 import Logo from "./components/LogoSection";
 
 // import ProductsSection from "./components/Products";
-import NewsletterCTAB from "./components/CtaNew"
-import CourseCard from "./components/CourseCard"
-import CoursesIntro from "./courses/components/CourseIntro";
+// // import NewsletterCTAB from "./components/CtaNew"
+// // import CourseCard from "./components/CourseCard"
+// import CoursesIntro from "./courses/components/CourseIntro";
 // import HeroSection from "./components/HeroDigital";
-import HeroOffer from "./components/HeroOffer"
+import HeroMain from "./components/HeroMain";
+// import HeroOffer from "./components/HeroOffer"
+import ProductShowcase from "./components/ProductShowcase";
+
 export default async function Home() {
 
   const courses = [
@@ -44,34 +48,39 @@ export default async function Home() {
   const posts = await cachedClient(postsQuery);
   const heroPost = posts[1];
   const majorPosts = posts.slice(0, 3); // Only taking two major posts
-  // return (
-    
-  //  <>
-  //    <div className="flex flex-col items-center justify-center  bg-gray-50">
-  //     <div className="w-full p-0 mx-auto bg-transparent rounded-lg shadow-lg">
-       
-  //       <div className="mt-0">
-  //         <HeroPost post={heroPost} /> {/* Sending a single post object */}
-  //         {/* <Posts posts={posts.slice(1)} /> */}
-  //       </div>
-  //     </div>
 
 return (
   <>
-<div className="flex flex-col items-center justify-center  bg-gray-50">
- <HeroOffer/>
-  {/* <HeroSection/> */}
-<IdeaToCompanySection/>
-
+<div className="flex flex-col items-center justify-center ">
+  <HeroMain/>
+  <ProductShowcase />
+{/* <IdeaToCompanySection/> */}
 <GoalsSection/>
-{/* <ProductsSection/> */}
-<div className="container my-24">
-  <h1 className="md: px-5 md:px-24 text-lg md:text-3xl font-bold text-gray-500 text-center justify-items-center my-10"> 
-  Unlock Explosive Business Growth <br/> With Insight From Bloop </h1>
-<MajorPostsGrid posts={majorPosts} /> {/* Displaying the two major posts */}
-      {/* Skip the two major posts */}
-          </div>
-<div className="bg-red-200 w-screen">
+
+<div className="w-full px-4 py-16 bg-gradient-to-b from-white to-red-100">
+  <div className="container mx-auto">
+  <h1 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-8">
+    <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-red-400">
+      Unlock Explosive Business Growth
+    </span>
+    <br />
+    <span className="text-2xl md:text-3xl font-semibold text-gray-600">
+      With Insight From Bloop
+    </span>
+  </h1>
+  <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
+    <MajorPostsGrid posts={majorPosts} />
+  </div>
+  <div className="mt-8 text-center">
+    <Link href="/insight">
+    <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+      Explore More Insights
+    </button>
+    </Link>
+  </div>
+  </div>
+</div>
+{/* <div className="bg-red-200 w-screen">
           <div className="container mx-auto p-4 mb-12">
           <CoursesIntro />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -80,8 +89,8 @@ return (
           ))}
         </div>
         </div>
-        </div>
-<NewsletterCTAB/>
+        </div> */}
+{/* <NewsletterCTAB/> */}
    </div>
    </>
   )

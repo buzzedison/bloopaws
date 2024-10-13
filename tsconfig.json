@@ -21,14 +21,23 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "app/blog/page.jsx", "app/insight/components/Slider.jsx", "app/showcase/page.js", ".next/grafbase.config.ts", "app/transformation/components/Contact.jsx"  ],
+    "**/*.tsx",
+    "app/blog/page.jsx",
+    "app/insight/components/Slider.jsx",
+    "app/showcase/page.js",
+    ".next/grafbase.config.ts",
+    "app/transformation/components/Contact.jsx"
+  ],
   "exclude": [
     "node_modules"
   ]
