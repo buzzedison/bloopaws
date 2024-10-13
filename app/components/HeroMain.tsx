@@ -27,25 +27,25 @@ export default function Component() {
         </div>
 
         {/* Workflow Illustration */}
-        <div className="mt-16 w-full max-w-4xl">
-          <div className="relative w-full h-[400px] bg-gradient-to-br from-gray-100 to-white rounded-xl shadow-2xl overflow-hidden">
+        <div className="mt-16 w-full max-w-4xl ">
+          <div className="relative w-full h-auto px-2 md:px-12 py-2 md:py-12 bg-gradient-to-br from-gray-100 to-white rounded-xl shadow-2xl overflow-hidden p-6">
             <div className="absolute inset-0 bg-pattern opacity-10"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="grid grid-cols-3 gap-6">
+            <div className="relative">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <WorkflowStep icon="💡" text="You Share Your Idea" />
-                <div className="flex items-center justify-center">
+                <div className="hidden sm:flex items-center justify-center">
                   <div className="bg-white rounded-full p-4 shadow-lg">
                     <ChevronRight className="w-8 h-8 text-red-600" />
                   </div>
                 </div>
                 <WorkflowStep icon="🔧" text="We Build the Product" />
-                <div className="flex items-center justify-center">
+                <div className="hidden sm:flex items-center justify-center">
                   <div className="bg-red-600 rounded-full p-3 shadow-lg">
                     <ChevronRight className="w-8 h-8 text-white" />
                   </div>
                 </div>
                 <WorkflowStep icon="🚀" text="We Launch & Grow It" />
-                <div className="flex items-center justify-center">
+                <div className="hidden sm:flex items-center justify-center">
                   <div className="bg-white rounded-full p-3 shadow-lg">
                     <Plus className="w-8 h-8 text-red-600" />
                   </div>
