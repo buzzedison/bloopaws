@@ -12,7 +12,7 @@ export default async function Home() {
 
   return (
     <div className="bg-gray-50 min-h-screen font-sans">
-      <header className="bg-white border-b border-gray-200">
+      {/* <header className="bg-white border-b border-gray-200">
         <div className="container mx-auto py-10 px-4 pt-12 md:pt-24 ">
           <h1 className="text-center text-5xl md:text-6xl font-bold text-gray-900 tracking-tight pt-6 md:pt-12">
             Insights
@@ -21,10 +21,10 @@ export default async function Home() {
        Leading research and ideas shaping the future of business, technology and management
           </p>
         </div>
-      </header>
+      </header> */}
 
       <main className="container mx-auto px-4 py-16">
-        <section className="mb-20">
+        <section className="mb-20 my-8">
           <HeroPost post={heroPost} />
         </section>
 
