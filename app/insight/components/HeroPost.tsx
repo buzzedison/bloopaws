@@ -1,42 +1,40 @@
-// HeroPost.tsx
-import Link from "next/link";
-import Image from "next/image";
-import imageUrlBuilder from "@sanity/image-url";
-import { SanityDocument } from "@sanity/client";
-import { client } from "../../../sanity/lib/client"; // Adjust this import to your file structure
+import Image from 'next/image';
+import Link from 'next/link';
 
-const builder = imageUrlBuilder(client);
-
-interface HeroPostProps {
-  post: SanityDocument;
+interface Post {
+  mainImage: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  excerpt: string;
 }
 
-export default function HeroPost({ post }: HeroPostProps) {
+export default function HeroPost({ post }: { post: Post }) {
   return (
-    <div className="h-screen w-screen overflow-hidden">
-      <div className="absolute inset-0">
-        {post.mainImage ? (
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="md:flex">
+        <div className="md:flex-shrink-0">
           <Image
-            src={builder.image(post.mainImage).width(1200).height(650).url()}
-          fill={true}
-            style={{objectFit: "cover"}}
-            alt={post?.mainImage?.alt}
+            src={post.mainImage}
+            alt={post.title}
+            width={600}
+            height={400}
+            className="h-48 w-full object-cover md:h-full md:w-48"
           />
-        ) : null}
-      </div>
-      <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center p-8 space-y-8 transition-all ease-in-out duration-500 transform translate-y-4 hover:translate-y-0">
-        <Link href={post.slug.current} className="text-3xl md:text-5xl px-2 md:px-12 font-bold text-white hover:text-red-300 transition ease-in-out duration-300 text-center">
-          {post.title}
-        </Link>
-        <p className="text-xl text-white max-w-2xl text-center">
-          {post.excerpt} {/* Displaying the excerpt */}
-        </p>
-        <Link href={post.slug.current} className="flex items-center text-xl text-white hover:text-red-300 transition ease-in-out duration-300">
-          Read More 
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </Link>
+        </div>
+        <div className="p-8">
+          <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+            Featured
+          </div>
+          <Link href={`/posts/${post.slug.current}`} className="block mt-1 text-2xl leading-tight font-medium text-black hover:underline">
+            {post.title}
+          </Link>
+          <p className="mt-2 text-gray-500">{post.excerpt}</p>
+          <Link href={`/posts/${post.slug.current}`} className="mt-4 inline-block px-4 py-2 bg-red-700 text-white rounded hover:bg-red-800 transition-colors duration-200">
+            Read More
+          </Link>
+        </div>
       </div>
     </div>
   );
