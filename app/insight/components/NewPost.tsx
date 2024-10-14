@@ -11,7 +11,7 @@ export default function Post({ post }: { post: SanityDocument }) {
   return (
     <main className="bg-white min-h-screen">
       {post ? (
-        <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+        <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-24">
           <header className="mb-8">
             <h1 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 mb-4 pt-4 md:pt-12">{post.title}</h1>
             <div className="flex items-start mb-4">
