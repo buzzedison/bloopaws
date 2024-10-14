@@ -1,84 +1,169 @@
-"use client";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
-import { useState, useRef } from "react";
+'use client'
 
-const HeroPortfolio = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 
-  const portfolioItems = [
-    { id: 1, title: "Edlizer Beauty", imgUrl: "/images/portfolio/edlizer.png", link: "/project1" },
-    { id: 2, title: "Blessed Home & Creche", imgUrl: "/images/portfolio/creche.png", link: "/project2" },
-    { id: 3, title: "De Namud", imgUrl: "/images/portfolio/dena.png", link: "/project3" },
-    { id: 4, title: "Special Homes Ltd", imgUrl: "/images/portfolio/edlizer.png", link: "/project1" },
-    { id: 5, title: "Toot", imgUrl: "/images/portfolio/toot.png", link: "/project2" },
-    { id: 6, title: "Taskwit", imgUrl: "/images/portfolio/taskwit.png", link: "/project3" },
-  ];
+const portfolioItems = [
+  { id: 1, title: "Edlizer Beauty", description: "E-commerce beauty store", imgUrl: "/images/portfolio/edlizer.png", link: "/project1", website: "https://edlizerbeauty.com" },
+  { id: 2, title: "Blessed Home & Creche", description: "Childcare service website", imgUrl: "/images/portfolio/creche.png", link: "/project2", website: "https://blessedhomeandcreche.com" },
+  { id: 3, title: "De Namud", description: "Fashion brand website", imgUrl: "/images/portfolio/dena.png", link: "/project3", website: "https://denamud.com" },
+  { id: 4, title: "Special Homes Ltd", description: "Real estate company website", imgUrl: "/images/portfolio/special.png", link: "/project4", website: "https://specialhomesltd.com" },
+  { id: 5, title: "Toot", description: "Creative Agency", imgUrl: "/images/portfolio/toot.png", link: "/project5", website: "https://toot.com" },
+  { id: 6, title: "Taskwit", description: "Training and Course Platform", imgUrl: "/images/portfolio/taskwit.png", link: "/project6", website: "https://taskwit.co" },
+  { id: 7, title: "Tutu's Cupcakes", description: "Bakery website", imgUrl: "/images/portfolio/tutus_cupcakes.png", link: "/project7", website: "https://tutuscupcakes.com" },
+  { id: 8, title: "Mr Fish Processing", description: "Seafood processing company", imgUrl: "/images/portfolio/mrfish.png", link: "/project8", website: "https://mrfishprocessing.com" },
+  { id: 9, title: "OBP Women's Hospital", description: "Healthcare provider website", imgUrl: "/images/portfolio/OBP Women's Hospital.png", link: "/project9", website: "https://obpwomenshospital.com" },
+  { id: 10, title: "James and Sandra", description: "Wedding website", imgUrl: "/images/portfolio/james.png", link: "/project10", website: "https://jamesandsandra.com" },
+]
 
-  const scroll = (direction: string) => {
-    if (scrollRef.current) {
-      const { scrollLeft, clientWidth } = scrollRef.current;
-      const scrollTo = direction === "left" ? scrollLeft - clientWidth : scrollLeft + clientWidth;
-      scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+export default function Component() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [direction, setDirection] = useState(0)
+  const maxIndex = Math.max(0, portfolioItems.length - 3)
+
+  const nextSlide = () => {
+    setDirection(1)
+    setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, maxIndex))
+  }
+
+  const prevSlide = () => {
+    setDirection(-1)
+    setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0))
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') prevSlide()
+      if (e.key === 'ArrowRight') nextSlide()
     }
-  };
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  const autoSlide = () => {
+    if (currentIndex < maxIndex) {
+      nextSlide()
+    } else {
+      setCurrentIndex(0)
+      setDirection(1)
+    }
+  }
+
+  useEffect(() => {
+    const interval = setInterval(autoSlide, 10000) // Changed from 5000 to 10000 (10 seconds)
+    return () => clearInterval(interval)
+  }, [currentIndex, maxIndex])
 
   return (
-    <div className="relative h-screen bg-red-700 text-white overflow-hidden">
-      {/* Left Arrow */}
-      <button
-        onClick={() => scroll("left")}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white text-black p-2 rounded-full z-10"
-      >
-        &#8592;
-      </button>
-
-      {/* Right Arrow */}
-      <button
-        onClick={() => scroll("right")}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white text-black p-2 rounded-full z-10"
-      >
-        &#8594;
-      </button>
-
-      {/* Portfolio Items */}
-      <div
-        className="flex space-x-4 items-center justify-start w-full h-full overflow-x-scroll snap-x snap-mandatory no-scrollbar"
-        ref={scrollRef}
-      >
-        {portfolioItems.map((item, index) => (
-          <Link href={item.link} key={item.id}>
-            <motion.div
-              className="relative min-w-[300px] h-[450px] overflow-hidden cursor-pointer group snap-center"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              whileHover={{ scale: 1.1, rotateY: 15 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Image
-                src={item.imgUrl}
-                alt={item.title}
-                layout="fill"
-                objectFit="cover"
-                className="transition-transform duration-500 ease-out"
-              />
-              {/* Title Overlay */}
-              <motion.div
-                className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: hoveredIndex === index ? 1 : 0 }}
+    <div className="relative min-h-screen bg-gradient-to-br from-red-800 to-red-900 text-white overflow-hidden">
+      <div className="absolute inset-0 bg-[url('/placeholder.svg?height=1080&width=1920')] opacity-5 bg-cover bg-center mix-blend-overlay" />
+      <div className="relative z-10 h-full flex flex-col justify-center items-center px-4 py-16">
+        <motion.h1 
+          className="text-5xl md:text-6xl font-extrabold mb-12 text-center"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-200">
+            Check out our <span className="text-yellow-300">recent work</span>
+          </span>
+        </motion.h1>
+        <motion.div 
+          className="w-full max-w-full"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        >
+          <div className="relative">
+            <div className="flex overflow-hidden space-x-6">
+              <AnimatePresence initial={false} custom={direction} mode="wait">
+                {portfolioItems.slice(currentIndex, currentIndex + 3).map((item, index) => (
+                  <motion.div
+                    key={item.id}
+                    custom={direction}
+                    initial={{
+                      opacity: 0,
+                      x: direction > 0 ? 100 : -100
+                    }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{
+                      opacity: 0,
+                      x: direction > 0 ? -100 : 100
+                    }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    className="w-1/3 flex-shrink-0"
+                  >
+                    <Card className="overflow-hidden bg-white/10 hover:bg-white/20 transition-colors duration-300 h-full shadow-lg">
+                      <CardContent className="p-0 h-full">
+                        <div className="relative aspect-[3/4] overflow-hidden group h-full">
+                          <Image
+                            src={item.imgUrl}
+                            alt={item.title}
+                            fill 
+                            style={{ objectFit: "cover" }}
+                            className="transition-transform duration-300 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          <div className="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h2 className="text-2xl text-white font-semibold mb-3">{item.title}</h2>
+                            <p className="text-base text-red-200 mb-5">{item.description}</p>
+                            <div className="flex space-x-3">
+                              <Link href={item.link} className="text-base bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-full transition-colors duration-300">
+                                View Project
+                              </Link>
+                              <a href={item.website} target="_blank" rel="noopener noreferrer" className="text-base bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-full transition-colors duration-300 flex items-center">
+                                Visit Website <ExternalLink className="w-5 h-5 ml-2" />
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+            <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none">
+              <Button
+                onClick={prevSlide}
+                disabled={currentIndex === 0}
+                className="pointer-events-auto"
+                variant="ghost"
+                size="lg"
+                aria-label="Previous projects"
               >
-                <h2 className="text-3xl font-bold">{item.title}</h2>
-              </motion.div>
-            </motion.div>
-          </Link>
-        ))}
+                <ChevronLeft className="w-8 h-8" />
+              </Button>
+              <Button
+                onClick={nextSlide}
+                disabled={currentIndex === maxIndex}
+                className="pointer-events-auto"
+                variant="ghost"
+                size="lg"
+                aria-label="Next projects"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+        <motion.div 
+          className="mt-12 w-full max-w-7xl bg-white/10 rounded-full overflow-hidden"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+        >
+          <div
+            className="h-2 bg-white transition-all duration-300 ease-out"
+            style={{ width: `${((currentIndex + 1) / (maxIndex + 1)) * 100}%` }}
+          />
+        </motion.div>
       </div>
     </div>
-  );
-};
-
-export default HeroPortfolio;
+  )
+}

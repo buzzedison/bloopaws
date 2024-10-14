@@ -45,6 +45,8 @@ const Pricing = () => {
       });
   }, []);
 
+  const calculateDiscountedPrice = (price: number) => Math.round(price * 0.6);
+
   return (
     <motion.section 
       className="bg-gradient-to-r from-red-900 to-red-700 text-white py-20"
@@ -76,10 +78,14 @@ const Pricing = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-3xl font-bold mb-5">One-Time Package</h3>
-            <p className="text-5xl font-bold mb-5">{pricingInfo.One_Time_Package.currency} {pricingInfo.One_Time_Package.price}</p>
+            <div className="flex items-center mb-5">
+              <p className="text-5xl font-bold line-through text-gray-500">{pricingInfo.One_Time_Package.currency} {pricingInfo.One_Time_Package.price}</p>
+              <p className="text-5xl font-bold text-green-600 ml-4">{pricingInfo.One_Time_Package.currency} {calculateDiscountedPrice(pricingInfo.One_Time_Package.price)}</p>
+            </div>
+            <p className="text-xl font-semibold text-green-600 mb-5">Limited Time Offer!</p>
             <p className="text-lg mb-8">
               Launch your high-impact website in just 7 days!
-              Perfect for a single, conversion-focused landing page that gets results.
+              Perfect for businesses who want results, conversion-focused website that gets results.
             </p>
             <button className="bg-red-600 text-white px-8 py-3 rounded-full text-lg font-bold hover:bg-red-700 transition duration-300">
               Get started today
@@ -124,8 +130,11 @@ const Pricing = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-3xl font-bold mb-5">Monthly Retainer</h3>
-            <p className="text-5xl font-bold mb-5">{pricingInfo.Monthly_Retainer.currency} {pricingInfo.Monthly_Retainer.price}/mo</p>
-            <p className="text-2xl font-bold text-green-600 mb-5">BEST VALUE</p>
+            <div className="flex items-center mb-5">
+              <p className="text-5xl font-bold line-through text-gray-500">{pricingInfo.Monthly_Retainer.currency} {pricingInfo.Monthly_Retainer.price}/mo</p>
+              <p className="text-5xl font-bold text-green-600 ml-4">{pricingInfo.Monthly_Retainer.currency} {calculateDiscountedPrice(pricingInfo.Monthly_Retainer.price)}/mo</p>
+            </div>
+            <p className="text-xl font-semibold text-green-600 mb-5">Limited Time Offer!</p>
             <p className="text-lg mb-8">
               Pause or cancel anytime!
               Ideal for businesses needing ongoing design and development support.
@@ -173,8 +182,8 @@ const Pricing = () => {
           transition={{ duration: 1, delay: 0.6 }}
           viewport={{ once: true }}
         >
-          After your one-off project, upgrade to our Monthly Retainer within 3 months for just {userCurrency} {Math.round(pricingInfo.Monthly_Retainer.price - pricingInfo.One_Time_Package.price)} more.<br />
-          Upgrade now and save {userCurrency} {Math.round(pricingInfo.Monthly_Retainer.price - (pricingInfo.Monthly_Retainer.price - pricingInfo.One_Time_Package.price))}!
+          After your one-off project, upgrade to our Monthly Retainer within 3 months for just {userCurrency} {Math.round(calculateDiscountedPrice(pricingInfo.Monthly_Retainer.price) - calculateDiscountedPrice(pricingInfo.One_Time_Package.price))} more.<br />
+          Upgrade now and save {userCurrency} {Math.round(calculateDiscountedPrice(pricingInfo.Monthly_Retainer.price) - (calculateDiscountedPrice(pricingInfo.Monthly_Retainer.price) - calculateDiscountedPrice(pricingInfo.One_Time_Package.price)))}!
         </motion.p>
       </div>
     </motion.section>

@@ -1,98 +1,118 @@
-"use client"
-import { motion } from 'framer-motion';
-import React from 'react';
+'use client'
 
-const HowItWorks = () => {
+import { motion } from 'framer-motion'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Lightbulb, PenTool, Rocket, CreditCard, MessageSquare, Monitor } from 'lucide-react'
+
+const steps = [
+  {
+    title: "In-Depth Market Research",
+    description: "We analyze your competitors, audience, and market trends to craft a strategy that meets your business goals.",
+    icon: <Lightbulb className="h-8 w-8" />,
+  },
+  {
+    title: "Custom Copy & Design",
+    description: "We develop engaging copy and design that align with your brand and convert visitors into customers.",
+    icon: <PenTool className="h-8 w-8" />,
+  },
+  {
+    title: "Launch & Optimize",
+    description: "We launch your site and provide ongoing support to refine and scale your business.",
+    icon: <Rocket className="h-8 w-8" />,
+  },
+]
+
+const features = [
+  {
+    title: "Secure Payments",
+    description: "Through Stripe/Paystack",
+    icon: <CreditCard className="h-6 w-6" />,
+  },
+  {
+    title: "Communicate",
+    description: "Via Asana",
+    icon: <MessageSquare className="h-6 w-6" />,
+  },
+  {
+    title: "Delivered With",
+    description: "Figma, JavaScript frameworks, or WordPress",
+    icon: <Monitor className="h-6 w-6" />,
+  },
+]
+
+export default function Component() {
   return (
-    <motion.section 
-      className="bg-gradient-to-r from-red-700 to-red-800 text-white py-20"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-    >
+    <section className="bg-gradient-to-br from-red-800 to-red-900 text-white py-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.h2 
-          className="text-4xl md:text-5xl font-extrabold mb-10 text-center"
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
+          className="text-center mb-16"
         >
-    How It Works
-        </motion.h2>
+          <Badge variant="secondary" className="mb-4">Our Process</Badge>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-4">How It Works</h2>
+          <p className="text-xl text-red-100 max-w-2xl mx-auto">
+            Our streamlined process ensures your project is completed efficiently and effectively.
+          </p>
+        </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <motion.div 
-            className="bg-white text-red-900 p-10 rounded-lg shadow-lg"
-            initial={{ x: -50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-2xl font-bold mb-5">In-Depth Market Research</h3>
-            <p className="text-lg">
-              We analyze your competitors, audience, and market trends to craft a strategy that meets your business goals.
-            </p>
-          </motion.div>
-
-          <motion.div 
-            className="bg-white text-red-900 p-10 rounded-lg shadow-lg"
-            initial={{ x: 50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-2xl font-bold mb-5">Custom Copy & Design</h3>
-            <p className="text-lg">
-              We develop engaging copy and design that align with your brand and convert visitors into customers.
-            </p>
-          </motion.div>
-
-          <motion.div 
-            className="bg-white text-red-900 p-10 rounded-lg shadow-lg md:col-span-2"
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-2xl font-bold mb-5">Launch & Optimize</h3>
-            <p className="text-lg">
-              We launch your site and provide ongoing support to refine and scale your business.
-            </p>
-          </motion.div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              viewport={{ once: true }}
+            >
+              <Card className="bg-white/10 border-none shadow-lg hover:bg-white/20 transition-colors duration-300">
+                <CardHeader>
+                  <div className="bg-red-200 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                    {step.icon}
+                  </div>
+                  <CardTitle className="text-2xl text-white font-bold">{step.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-red-100">{step.description}</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </div>
 
-        <motion.div 
-          className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-10"
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.8 }}
+          transition={{ duration: 1, delay: 0.5 }}
           viewport={{ once: true }}
+          className="bg-gradient-to-r from-red-700 to-red-600 rounded-2xl p-8 shadow-2xl"
         >
-          <div className="text-center">
-            <svg className="h-10 w-10 mx-auto mb-3 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            <p className="text-lg">Secure payments through Stripe/Paystack</p>
-          </div>
-
-          <div className="text-center">
-            <svg className="h-10 w-10 mx-auto mb-3 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-            <p className="text-lg">Communicate via Asana</p>
-          </div>
-
-          <div className="text-center">
-            <svg className="h-10 w-10 mx-auto mb-3 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            <p className="text-lg">Delivered with Figma, JavaScript frameworks, or WordPress</p>
+          <h3 className="text-2xl font-bold mb-6 text-center">Additional Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="flex items-center space-x-4"
+              >
+                <div className="bg-red-800 p-3 rounded-full">
+                  {feature.icon}
+                </div>
+                <div>
+                  <h4 className="font-semibold">{feature.title}</h4>
+                  <p className="text-sm text-red-100">{feature.description}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>
-    </motion.section>
-  );
-};
-
-export default HowItWorks;
+    </section>
+  )
+}

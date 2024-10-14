@@ -1,6 +1,7 @@
 "use client"
 import React from 'react';
 import { motion } from 'framer-motion';
+import Link from "next/link"
 
 const CTA = () => {
   return (
@@ -17,6 +18,7 @@ const CTA = () => {
         <p className="text-xl md:text-2xl text-gray-600 mb-8">
           Hit that button, book a call, and let's get this show on the road!
         </p>
+        <Link href="/contact">
         <motion.button
           className="bg-gradient-to-r from-red-800 to-red-900 text-white text-lg md:text-xl font-semibold py-4 px-8 rounded-full hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
           whileHover={{ scale: 1.05 }}
@@ -24,6 +26,7 @@ const CTA = () => {
         >
      Hit Me Now !
         </motion.button>
+        </Link>
       </motion.div>
     </div>
   );
