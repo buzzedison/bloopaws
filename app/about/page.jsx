@@ -1,161 +1,152 @@
-"use client"
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import NewsletterCTAB from "../components/CtaNew";
-const cardVariants = {
-  offscreen: {
-    y: 50,
-    opacity: 0
-  },
-  onscreen: {
-    y: 0, 
-    opacity: 1,
-    transition: {
-      type: "spring",
-      bounce: 0.4,
-      duration: 0.8
-    }
-  }
-};
+import Image from 'next/image'
+import { ArrowRight, Globe, Zap, Target, Users, BarChart } from 'lucide-react'
 
-const iconVariants = {
-  offscreen: {
-    scale: 0
-  },
-  onscreen: {
-    scale: 1,
-    transition: {
-      type: "spring",
-      damping: 10,
-      stiffness: 100
-    }
-  }
-};
-const About = () => {
+export default function AboutPage() {
   return (
-    <div>
-        <motion.div initial="offscreen" whileInView="onscreen" viewport={{ once: true }}></motion.div>
-      {/* Hero Section */}
-      <div className="relative h-[600px] mb-16">
-        <Image 
-          src="/images/back.png" 
-          fill={true}
-          objectFit="cover"
-          alt="About hero"
-        />
-
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center bg-black bg-opacity-50 text-white">
-          <h1 className="text-6xl font-bold">What We Do</h1>
-          
-          <p className="mt-4 text-xl max-w-3xl">
-            We guide visionary startups by illuminating strategy, defining winning plans, markets, and roadmaps. We help build winning products every step of the way from brainstorming to launch.
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24">
+        <header className="py-20 md:py-28 mb-16">
+          <h1 className="text-5xl md:text-7xl font-bold text-black mb-6">
+            We Transform <span className="text-red-600">Ideas</span> into <span className="text-red-600">Industry Leaders</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl">
+            From disruptive startups to Fortune 500 innovators, Bloop Global catalyzes unprecedented growth and market leadership.
           </p>
-        </div>
-      </div>
+          <button className="bg-red-600 text-white font-semibold py-4 px-8 rounded-full text-lg hover:bg-red-700 transition-colors inline-flex items-center">
+            Start Your Transformation
+            <ArrowRight className="ml-2" />
+          </button>
+        </header>
 
-      {/* How We Do It Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-        <motion.h2 
-            initial={{ y: -20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl font-bold mb-12 text-center">
-            How We Do It
-          </motion.h2>
-          
-          <div className="flex flex-wrap -mx-4">
-            <div className="w-full md:w-1/2 px-4 mb-8">
-              <div className="p-8 bg-white hover:bg-opacity-75 shadow rounded">
-              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" 
-              fill="#a70606" stroke="#a70606"
-              className="w-20"
-              >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" 
-                stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs>
-</defs><path class="a" d="M27.8821,33.5677,24,4.5m0,0L41.0023,39.473l-13.12-5.9053L24,43.5m0-39v39m-3.882-9.9323L24,4.5m0,0L6.9977,39.473l13.12-5.9053L24,43.5">
-                        </path></g></svg>
-
-                <h3 className="mt-4 text-xl font-bold">Big Ideas</h3>
-                
-                <p className="mt-2 text-gray-600">
-                  We hunt big, world-changing ideas and help them take flight.
-                </p>
-              </div>
+        <section className="mb-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-black mb-6">Our Vision</h2>
+              <p className="text-xl text-gray-700 leading-relaxed">
+                To be the premier catalyst for business innovation and growth, empowering companies of all sizes to create industry-leading products and services that reshape markets globally.
+              </p>
             </div>
-
-            <div className="w-full md:w-1/2 px-4 mb-8">
-              <div className="p-8 bg-white shadow rounded">
-              <Image 
-                  src="/images/teamnew.svg"  
-                  width={80}
-                  height={80}
-                  alt="Rocket icon"
-                />
-
-                <h3 className="mt-4 text-xl font-bold">Assemble the Team</h3>
-                
-                <p className="mt-2 text-gray-600">
-                  We rally the right team to fuel the journey, raise funds, and make the vision take flight.
-                </p>
-              </div>
-            </div>
-
-            <div className="w-full md:w-1/2 px-4 mb-8">
-              <div className="p-8 bg-white shadow rounded">
-              <Image 
-                  src="/images/fuel.svg"  
-                  width={80}
-                  height={80}
-                  alt="Rocket icon"
-                />
-
-                <h3 className="mt-4 text-xl font-bold">Fuel the Journey</h3>
-                
-                <p className="mt-2 text-gray-600">
-                  We provide hands-on support to build, launch, and rapidly grow successful companies.
-                </p>
-              </div>
-            </div>
-
-            <div className="w-full md:w-1/2 px-4 mb-8">
-              <div className="p-8 bg-white shadow rounded">
-                <Image 
-                  src="/images/driveresults.svg" 
-                  width={80}
-                  height={80}
-                  alt="Trophy icon"
-                />
-
-                <h3 className="mt-4 text-xl font-bold">Drive Results</h3>
-                
-                <p className="mt-2 text-gray-600">
-                  Our goal is to build businesses that can compete with the biggest names in the world.
-                </p>
-              </div>
+            <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
+              <Image
+                src="/images/digital.png"
+                alt="Bloop Global Vision"
+                layout="fill"
+                objectFit="cover"
+              />
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Helping Brands Section */}
-      <section className="py-16 bg-black">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-12 text-center text-white">Helping Brands</h2>
-          
-          <div className="max-w-lg mx-auto p-8 bg-white shadow rounded">
-            <h3 className="text-2xl font-bold mb-4"># Idea To Company</h3>
-            
-            <p className="text-gray-600">
-              At Bloop Global, we partner with top talent to invest in, build, and grow successful companies. Our mission is to tackle big problems, create products people love, and build businesses that compete globally.
+        <section className="mb-24 bg-white rounded-3xl shadow-xl overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="p-12 bg-red-600 text-white">
+              <h2 className="text-3xl font-bold mb-8">The Bloop Advantage</h2>
+              <ul className="space-y-6">
+                <li className="flex items-start">
+                  <Zap className="mr-4 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-xl mb-2">Big Ideas, Bigger Impact</h3>
+                    <p>We focus on ideas that have the power to revolutionize industries and improve lives.</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <Globe className="mr-4 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-xl mb-2">Comprehensive Growth Ecosystem</h3>
+                    <p>We offer end-to-end support tailored to your business stage and needs.</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <Target className="mr-4 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-xl mb-2">Global Perspective, Local Expertise</h3>
+                    <p>We position our partner companies for success in both established and emerging markets.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div className="relative">
+              <Image
+                src="/images/digitald.png"
+                alt="Bloop Global Advantage"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="mb-24">
+          <h2 className="text-4xl font-bold text-black mb-12 text-center">How We Drive Success. The Bloop Method</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: "Identify Opportunities", icon: Target, description: "We pinpoint opportunities for groundbreaking growth and innovation." },
+              { title: "Assemble Elite Teams", icon: Users, description: "We bring together world-class talent, pairing visionary leaders with experienced industry experts." },
+              { title: "Fuel Growth and Innovation", icon: Zap, description: "We provide hands-on support tailored to your business needs." },
+              { title: "Drive Market Leadership", icon: BarChart, description: "Our ultimate goal is to build or transform businesses into market leaders." }
+            ].map((step, index) => (
+              <div key={index} className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="bg-red-600 text-white rounded-full p-3 inline-block mb-4">
+                  <step.icon className="w-8 h-8" />
+                </div>
+                <h3 className="text-2xl font-semibold text-black mb-4">{step.title}</h3>
+                <p className="text-gray-700">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-24">
+          <h2 className="text-4xl font-bold text-black mb-12 text-center">Our Track Record. From Startups to Industry Giants</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { 
+                title: "Startup Success", 
+                description: "Launched and scaled ventures like CrowdPen, TaskWit, and Ding",
+                image: "/images/digitalpeople.png"
+              },
+              { 
+                title: "Corporate Innovation", 
+                description: "Assisted Fortune 500 companies in developing new product lines and entering emerging markets",
+                image: "/images/real.png"
+              },
+              { 
+                title: "Digital Transformation", 
+                description: "Guided established businesses through successful digital overhauls, resulting in increased efficiency and market share",
+                image: "/images/digitala.png"
+              }
+            ].map((record, index) => (
+              <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div className="relative h-48">
+                  <Image
+                    src={record.image}
+                    alt={record.title}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-2xl font-semibold text-black mb-4">{record.title}</h3>
+                  <p className="text-gray-700">{record.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="bg-gradient-to-r from-red-600 to-red-800 text-white p-12 rounded-3xl shadow-xl">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-4xl font-bold mb-6">Partner with Bloop Global</h2>
+            <p className="text-xl mb-8">
+              Whether you're a startup founder with a game-changing idea or a corporate leader looking to drive innovation and growth, Bloop Global is your ideal partner. We're not just consultants or investors – we're co-creators and growth accelerators, committed to your success at every stage of your business journey.
             </p>
+            <button className="inline-flex items-center bg-white text-red-600 font-semibold py-4 px-8 rounded-full text-lg hover:bg-gray-50 transition-colors">
+              Contact Us to Accelerate Your Growth
+              <ArrowRight className="ml-2" />
+            </button>
           </div>
-        </div>
-      </section>
-      <NewsletterCTAB/>
+        </section>
+      </div>
     </div>
-  );
-};
-
-export default About;
+  )
+}
