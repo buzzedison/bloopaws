@@ -140,10 +140,12 @@ export default function AboutPage() {
             <p className="text-xl mb-8">
               Whether you're a startup founder with a game-changing idea or a corporate leader looking to drive innovation and growth, Bloop Global is your ideal partner. We're not just consultants or investors – we're co-creators and growth accelerators, committed to your success at every stage of your business journey.
             </p>
+            <Link href="/contact">
             <button className="inline-flex items-center bg-white text-red-600 font-semibold py-4 px-8 rounded-full text-lg hover:bg-gray-50 transition-colors">
               Contact Us to Accelerate Your Growth
               <ArrowRight className="ml-2" />
             </button>
+            </Link>
           </div>
         </section>
       </div>
