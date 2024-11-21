@@ -1,11 +1,25 @@
-import { cachedClient } from "../../sanity/lib/client";
-import { postsQuery } from "../../sanity/lib/queries";
+import { client } from "../../sanity/lib/client";
+import { groq } from 'next-sanity';
 import HeroPost from "../insight/components/HeroPostInsight";
 import FeaturedPosts from "./components/FeaturedPosts";
 import CardPosts from "./components/CardPosts";
 
+export const revalidate = 0;
+
+const postsQuery = groq`
+*[_type == "post"] | order(publishedAt desc) {
+  _id,
+  title,
+  slug,
+  mainImage,
+  excerpt,
+  publishedAt,
+  author->,
+  categories[]->
+}`;
+
 export default async function Home() {
-  const posts = await cachedClient(postsQuery);
+  const posts = await client.fetch(postsQuery);
   const heroPost = posts[0];
   const featuredPosts = posts.slice(1, 4);
   const remainingPosts = posts.slice(4);
