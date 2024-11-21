@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { ArrowRight, Globe, Zap, Target, Users, BarChart } from 'lucide-react'
+import Link from "next/link"
 
 export default function AboutPage() {
   return (
