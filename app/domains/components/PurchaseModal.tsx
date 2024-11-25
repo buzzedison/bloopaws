@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
-import { X, Loader2 } from 'lucide-react';
+import { X, Loader2, CreditCard } from 'lucide-react';
 import { toast } from 'sonner';
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -15,6 +15,8 @@ interface PurchaseModalProps {
   domain: string;
   price: number;
 }
+
+const USD_TO_GHS_RATE = 12.50; // Keep in sync with the API rate
 
 export default function PurchaseModal({
   isOpen,
@@ -30,12 +32,11 @@ export default function PurchaseModal({
     company: '',
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleStripePayment = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
 
     try {
-      // Create payment session
       const response = await fetch('/api/domains/payment', {
         method: 'POST',
         headers: {
@@ -51,26 +52,52 @@ export default function PurchaseModal({
 
       const { sessionId, error } = await response.json();
 
-      if (error) {
-        throw new Error(error);
-      }
+      if (error) throw new Error(error);
 
-      // Get Stripe instance
       const stripe = await stripePromise;
       if (!stripe) throw new Error('Stripe failed to initialize');
 
-      // Redirect to Stripe checkout
       const { error: stripeError } = await stripe.redirectToCheckout({
         sessionId,
       });
 
-      if (stripeError) {
-        throw new Error(stripeError.message);
-      }
+      if (stripeError) throw new Error(stripeError.message);
 
     } catch (error) {
-      console.error('Payment error:', error);
-      toast.error('Error processing payment request');
+      console.error('Stripe payment error:', error);
+      toast.error('Error processing Stripe payment');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handlePaystackPayment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsProcessing(true);
+
+    try {
+      const response = await fetch('/api/domains/paystack', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          domain,
+          price,
+          email: formData.email,
+          name: formData.name,
+        }),
+      });
+
+      const { authorization_url, error } = await response.json();
+
+      if (error) throw new Error(error);
+
+      window.location.href = authorization_url;
+
+    } catch (error) {
+      console.error('Paystack payment error:', error);
+      toast.error('Error processing Paystack payment');
     } finally {
       setIsProcessing(false);
     }
@@ -102,7 +129,7 @@ export default function PurchaseModal({
             <p className="text-gray-600">Price: <span className="font-semibold text-gray-900">${price}</span></p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Full Name
@@ -153,23 +180,47 @@ export default function PurchaseModal({
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={isProcessing}
-              className="w-full py-3 px-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-md hover:from-red-700 hover:to-red-800 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-            >
-              {isProcessing ? (
-                <>
-                  <Loader2 className="animate-spin" />
-                  <span>Processing...</span>
-                </>
-              ) : (
-                <>
-                  <span>Proceed to Payment</span>
-                  <span className="text-sm">({price} USD)</span>
-                </>
-              )}
-            </button>
+            <div className="space-y-3">
+              <button
+                onClick={handleStripePayment}
+                disabled={isProcessing}
+                className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-md hover:from-blue-700 hover:to-blue-800 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              >
+                {isProcessing ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    <span>Processing...</span>
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-5 h-5" />
+                    <span>Pay with Stripe</span>
+                    <span className="text-sm">({price} USD)</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={handlePaystackPayment}
+                disabled={isProcessing}
+                className="w-full py-3 px-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-md hover:from-green-700 hover:to-green-800 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              >
+                {isProcessing ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    <span>Processing...</span>
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-5 h-5" />
+                    <span>Pay with Paystack</span>
+                    <span className="text-sm">
+                      (GH₵{(price * USD_TO_GHS_RATE).toLocaleString()} GHS)
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
           </form>
         </div>
       </div>
