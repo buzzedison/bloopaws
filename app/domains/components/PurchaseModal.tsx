@@ -89,15 +89,22 @@ export default function PurchaseModal({
         }),
       });
 
-      const { authorization_url, error } = await response.json();
+      const data = await response.json();
 
-      if (error) throw new Error(error);
+      if (data.error) {
+        throw new Error(data.error);
+      }
 
-      window.location.href = authorization_url;
+      if (!data.authorization_url) {
+        throw new Error('No payment URL received');
+      }
 
-    } catch (error) {
+      // Redirect to Paystack payment page
+      window.location.href = data.authorization_url;
+
+    } catch (error: any) {
       console.error('Paystack payment error:', error);
-      toast.error('Error processing Paystack payment');
+      toast.error(error.message || 'Error processing Paystack payment');
     } finally {
       setIsProcessing(false);
     }
