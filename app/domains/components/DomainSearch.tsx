@@ -14,12 +14,12 @@ interface DomainExtension {
 }
 
 const domainExtensions: DomainExtension[] = [
-  { id: 'com', name: '.com', price: 12.99 },
-  { id: 'co', name: '.co', price: 24.99 },
-  { id: 'net', name: '.net', price: 11.99 },
-  { id: 'org', name: '.org', price: 13.99 },
-  { id: 'io', name: '.io', price: 39.99 },
-  { id: 'ai', name: '.ai', price: 79.99 },
+  { id: 'com', name: '.com', price: 19.99 },
+  { id: 'co', name: '.co', price: 34.99 },
+  { id: 'net', name: '.net', price: 19.99 },
+  { id: 'org', name: '.org', price: 138.99 },
+  { id: 'io', name: '.io', price: 59.99 },
+  { id: 'ai', name: '.ai', price: 99.99 },
 ];
 
 export default function DomainSearch() {

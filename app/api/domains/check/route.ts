@@ -59,14 +59,14 @@ export async function POST(req: Request) {
 
 function getPrice(extension: string) {
   const prices: { [key: string]: number } = {
-    com: 12.99,
-    co: 24.99,
-    net: 11.99,
-    org: 13.99,
-    io: 39.99,
-    ai: 79.99,
+    com: 19.99,
+    co: 34.99,
+    net: 18.99,
+    org: 18.99,
+    io: 59.99,
+    ai: 99.99,
   };
-  return prices[extension] || 14.99;
+  return prices[extension] || 18.99;
 }
 
 function generateSuggestions(domain: string, extension: string) {

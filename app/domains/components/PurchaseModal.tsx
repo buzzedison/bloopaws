@@ -4,6 +4,10 @@ import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { X, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { loadStripe } from '@stripe/stripe-js';
+
+// Initialize Stripe
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 interface PurchaseModalProps {
   isOpen: boolean;
@@ -31,13 +35,42 @@ export default function PurchaseModal({
     setIsProcessing(true);
 
     try {
-      // Simulate API call - replace with actual payment processing
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      
-      toast.success('Purchase request submitted successfully!');
-      onClose();
+      // Create payment session
+      const response = await fetch('/api/domains/payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          domain,
+          price,
+          email: formData.email,
+          name: formData.name,
+        }),
+      });
+
+      const { sessionId, error } = await response.json();
+
+      if (error) {
+        throw new Error(error);
+      }
+
+      // Get Stripe instance
+      const stripe = await stripePromise;
+      if (!stripe) throw new Error('Stripe failed to initialize');
+
+      // Redirect to Stripe checkout
+      const { error: stripeError } = await stripe.redirectToCheckout({
+        sessionId,
+      });
+
+      if (stripeError) {
+        throw new Error(stripeError.message);
+      }
+
     } catch (error) {
-      toast.error('Error processing purchase request');
+      console.error('Payment error:', error);
+      toast.error('Error processing payment request');
     } finally {
       setIsProcessing(false);
     }
@@ -64,9 +97,9 @@ export default function PurchaseModal({
             Purchase Domain
           </Dialog.Title>
 
-          <div className="mb-6">
-            <p className="text-gray-600">Domain: {domain}</p>
-            <p className="text-gray-600">Price: ${price}</p>
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+            <p className="text-gray-600 mb-2">Domain: <span className="font-semibold text-gray-900">{domain}</span></p>
+            <p className="text-gray-600">Price: <span className="font-semibold text-gray-900">${price}</span></p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -79,7 +112,7 @@ export default function PurchaseModal({
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
@@ -92,7 +125,7 @@ export default function PurchaseModal({
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
@@ -104,7 +137,7 @@ export default function PurchaseModal({
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
@@ -116,19 +149,25 @@ export default function PurchaseModal({
                 type="text"
                 value={formData.company}
                 onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
             <button
               type="submit"
               disabled={isProcessing}
-              className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:bg-blue-400 flex items-center justify-center"
+              className="w-full py-3 px-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-md hover:from-red-700 hover:to-red-800 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
               {isProcessing ? (
-                <Loader2 className="animate-spin" />
+                <>
+                  <Loader2 className="animate-spin" />
+                  <span>Processing...</span>
+                </>
               ) : (
-                'Submit Purchase Request'
+                <>
+                  <span>Proceed to Payment</span>
+                  <span className="text-sm">({price} USD)</span>
+                </>
               )}
             </button>
           </form>
