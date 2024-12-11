@@ -29,18 +29,6 @@ const web3Query = groq`*[_type == "category" && title match "web3" || title matc
   title
 }`;
 
-interface Post {
-  _id: string;
-  mainImage: any;
-  title: string;
-  slug: { current: string };
-  excerpt: string;
-}
-
-interface CategoryMap {
-  [key: string]: Post[];
-}
-
 export default async function Home() {
   const [posts, allCategories, web3Categories] = await Promise.all([
     client.fetch(postsQuery),
@@ -141,31 +129,21 @@ export default async function Home() {
 
         {/* Category-based content */}
         <div className="space-y-24">
-          {Object.entries(postsByCategory as CategoryMap)
-            .sort(([a], [b]) => {
-              const categoryA = a.toLowerCase().trim();
-              const categoryB = b.toLowerCase().trim();
-
-              // Check for Entrepreneurship (case insensitive and trimmed)
-              if (categoryA.startsWith('entrepreneurship')) return -1;
-              if (categoryB.startsWith('entrepreneurship')) return 1;
-
-              // Then web3
-              if (categoryA === 'web3') return -1;
-              if (categoryB === 'web3') return 1;
-
-              // Then alphabetical for the rest
-              return a.trim().localeCompare(b.trim());
-            })
-            .map(([category, categoryPosts]) => (
-              category !== "Featured Posts" && categoryPosts.length > 0 && (
-                <CategoryPosts 
-                  key={category} 
-                  category={category} 
-                  posts={categoryPosts} 
-                />
-              )
-            ))}
+          {Object.entries(postsByCategory).map(([category, categoryPosts]) => (
+            category !== "Featured Posts" && categoryPosts.length > 0 && (
+              <CategoryPosts 
+                key={category} 
+                category={category} 
+                posts={categoryPosts as Array<{
+                  _id: string;
+                  mainImage: any;
+                  title: string;
+                  slug: { current: string };
+                  excerpt: string;
+                }>} 
+              />
+            )
+          ))}
         </div>
       </main>
 

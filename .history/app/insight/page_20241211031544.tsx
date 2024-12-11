@@ -29,18 +29,6 @@ const web3Query = groq`*[_type == "category" && title match "web3" || title matc
   title
 }`;
 
-interface Post {
-  _id: string;
-  mainImage: any;
-  title: string;
-  slug: { current: string };
-  excerpt: string;
-}
-
-interface CategoryMap {
-  [key: string]: Post[];
-}
-
 export default async function Home() {
   const [posts, allCategories, web3Categories] = await Promise.all([
     client.fetch(postsQuery),
@@ -89,20 +77,33 @@ export default async function Home() {
     }
   });
 
-  // Initialize categories with all available categories
-  const postsByCategory = allCategories.reduce((acc: { [key: string]: any[] }, category: any) => {
-    acc[category.title] = [];
+  // Group remaining posts by category
+  const postsByCategory = remainingPosts.reduce((acc: { [key: string]: any[] }, post: any) => {
+    post.categories?.forEach((category: any) => {
+      const categoryTitle = category.title;
+      // Debug: Log when processing web3 category
+      if (categoryTitle.toLowerCase() === 'web3') {
+        console.log('Processing web3 post:', post.title);
+      }
+      // Debug: Log exact category title
+      if (categoryTitle.toLowerCase().includes('web')) {
+        console.log('Found Web-related category:', {
+          exactTitle: categoryTitle,
+          titleLength: categoryTitle.length,
+          containsSpaces: categoryTitle.includes(' ')
+        });
+      }
+      // Debug: Log when Web3 category is found
+      if (categoryTitle.toLowerCase().includes('web3')) {
+        console.log('Found Web3 post:', post.title);
+      }
+      if (!acc[categoryTitle]) {
+        acc[categoryTitle] = [];
+      }
+      acc[categoryTitle].push(post);
+    });
     return acc;
   }, {});
-
-  // Add ALL posts to their categories (including featured posts)
-  posts.forEach((post: any) => {
-    post.categories?.forEach((category: any) => {
-      if (category && category.title && postsByCategory[category.title] !== undefined) {
-        postsByCategory[category.title].push(post);
-      }
-    });
-  });
 
   // Debug: Check final categories
   console.log('All category titles:', Object.keys(postsByCategory));
@@ -141,31 +142,11 @@ export default async function Home() {
 
         {/* Category-based content */}
         <div className="space-y-24">
-          {Object.entries(postsByCategory as CategoryMap)
-            .sort(([a], [b]) => {
-              const categoryA = a.toLowerCase().trim();
-              const categoryB = b.toLowerCase().trim();
-
-              // Check for Entrepreneurship (case insensitive and trimmed)
-              if (categoryA.startsWith('entrepreneurship')) return -1;
-              if (categoryB.startsWith('entrepreneurship')) return 1;
-
-              // Then web3
-              if (categoryA === 'web3') return -1;
-              if (categoryB === 'web3') return 1;
-
-              // Then alphabetical for the rest
-              return a.trim().localeCompare(b.trim());
-            })
-            .map(([category, categoryPosts]) => (
-              category !== "Featured Posts" && categoryPosts.length > 0 && (
-                <CategoryPosts 
-                  key={category} 
-                  category={category} 
-                  posts={categoryPosts} 
-                />
-              )
-            ))}
+          {Object.entries(postsByCategory).map(([category, categoryPosts]) => (
+            category !== "Featured Posts" && categoryPosts.length > 0 && (
+              <CategoryPosts key={category} category={category} posts={categoryPosts} />
+            )
+          ))}
         </div>
       </main>
 

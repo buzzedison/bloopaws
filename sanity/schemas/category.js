@@ -7,6 +7,15 @@ const category = {
       name: 'title',
       title: 'Title',
       type: 'string',
+      options: {
+        list: [
+          { title: 'Web 3', value: 'Web 3' },
+          { title: 'The Future of Work', value: 'The Future of Work' },
+          { title: 'Management', value: 'Management' },
+          { title: 'Case Studies', value: 'Case Studies' },
+          { title: 'Featured Posts', value: 'Featured Posts' }
+        ]
+      }
     },
     {
       name: 'description',
