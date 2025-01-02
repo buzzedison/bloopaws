@@ -83,16 +83,16 @@ export default async function CategoryPage({ params }: PageProps) {
   const allPosts = await client.fetch(query);
   
   // Debug: Log all categories from all posts
-  const allCategories = allPosts.flatMap((post: any) => 
-    post.categories?.map((cat: any) => cat.title) || []
+  const allCategories = allPosts.flatMap((post: Post) => 
+    post.categories?.map((cat: Category) => cat.title) || []
   ).filter((title: string) => title);
   console.log('All categories in posts:', allCategories);
 
   // Filter posts for the specific category
-  const posts = allPosts.filter((post: any) => {
-    const postCategories = post.categories?.map((cat: any) => cat.title) || [];
+  const posts = allPosts.filter((post: Post) => {
+    const postCategories = post.categories?.map((cat: Category) => cat.title) || [];
     console.log('Post categories:', postCategories, 'Looking for:', categoryTitle);
-    return postCategories.some(cat => 
+    return postCategories.some((cat: string) => 
       // Try different matching approaches
       cat === categoryTitle || // Exact match
       cat.trim() === categoryTitle.trim() || // Trimmed match
@@ -103,7 +103,7 @@ export default async function CategoryPage({ params }: PageProps) {
   // Debug: Log found posts
   console.log('Found posts for category:', posts.length);
   if (posts.length > 0) {
-    console.log('First post categories:', posts[0].categories?.map((c: any) => c.title));
+    console.log('First post categories:', posts[0].categories?.map((c: Category) => c.title));
   }
 
   return (
