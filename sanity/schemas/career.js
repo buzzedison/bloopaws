@@ -1,7 +1,8 @@
 export default {
   name: 'career',
-  title: 'Career',
+  title: 'Careers',
   type: 'document',
+  icon: () => '💼',
   fields: [
     {
       name: 'title',

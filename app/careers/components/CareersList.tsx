@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { Briefcase, MapPin, Clock } from 'lucide-react';
 
@@ -27,23 +26,19 @@ interface CareersListProps {
 
 export default function CareersList({ careers }: CareersListProps) {
   return (
-    <div className="space-y-6">
+    <div className="grid gap-4">
       {careers.map((career) => (
         <Link 
           key={career._id}
           href={`/careers/${career.slug.current}`}
-          className="block bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-100 p-6"
+          className="block bg-white rounded-lg border border-gray-200 p-6 hover:border-red-200 hover:shadow-md transition-all duration-200"
         >
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
             <div className="flex-1">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 {career.title}
               </h3>
               <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-3">
-                <div className="flex items-center">
-                  <Briefcase className="w-4 h-4 mr-2" />
-                  {career.department}
-                </div>
                 <div className="flex items-center">
                   <MapPin className="w-4 h-4 mr-2" />
                   {career.location}
