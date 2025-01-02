@@ -1,6 +1,6 @@
 import { groq } from 'next-sanity';
 import { client } from '../../../../sanity/lib/client';
-import NextImage from 'next/image';
+import NextImage from 'next/legacy/image';
 import NextLink from 'next/link';
 import imageUrlBuilder from "@sanity/image-url";
 
@@ -18,8 +18,8 @@ interface Author {
 
 interface Post {
   _id: string;
-  mainImage: any;
   title: string;
+  mainImage: any;
   slug: {
     current: string;
   };
@@ -80,19 +80,19 @@ export default async function CategoryPage({ params }: PageProps) {
     categories[]->
   } | order(publishedAt desc)`;
 
-  const allPosts = await client.fetch<Post[]>(query);
+  const allPosts = await client.fetch(query);
   
   // Debug: Log all categories from all posts
-  const allCategories = allPosts.flatMap((post: Post) => 
-    post.categories?.map((cat: Category) => cat.title) || []
+  const allCategories = allPosts.flatMap((post: any) => 
+    post.categories?.map((cat: any) => cat.title) || []
   ).filter((title: string) => title);
   console.log('All categories in posts:', allCategories);
 
   // Filter posts for the specific category
-  const posts = allPosts.filter((post: Post) => {
-    const postCategories = post.categories?.map((cat: Category) => cat.title) || [];
+  const posts = allPosts.filter((post: any) => {
+    const postCategories = post.categories?.map((cat: any) => cat.title) || [];
     console.log('Post categories:', postCategories, 'Looking for:', categoryTitle);
-    return postCategories.some((cat: string) => 
+    return postCategories.some(cat => 
       // Try different matching approaches
       cat === categoryTitle || // Exact match
       cat.trim() === categoryTitle.trim() || // Trimmed match
@@ -103,7 +103,7 @@ export default async function CategoryPage({ params }: PageProps) {
   // Debug: Log found posts
   console.log('Found posts for category:', posts.length);
   if (posts.length > 0) {
-    console.log('First post categories:', posts[0].categories?.map((c: Category) => c.title));
+    console.log('First post categories:', posts[0].categories?.map((c: any) => c.title));
   }
 
   return (
