@@ -145,6 +145,7 @@ export default {
       title: 'Active',
       type: 'boolean',
       initialValue: true,
+      description: 'Set to false to hide this position from the careers page'
     },
   ],
   preview: {
@@ -152,11 +153,12 @@ export default {
       title: 'title',
       department: 'department',
       location: 'location',
+      isActive: 'isActive'
     },
     prepare(selection) {
-      const { title, department, location } = selection;
+      const { title, department, location, isActive } = selection;
       return {
-        title: title,
+        title: `${title} ${!isActive ? '(Inactive)' : ''}`,
         subtitle: `${department} • ${location}`,
       };
     },

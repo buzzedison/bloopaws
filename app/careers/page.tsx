@@ -9,8 +9,7 @@ export const metadata: Metadata = {
   description: 'Join our team and help shape the future of technology',
 };
 
-const careersQuery = groq`
-*[_type == "career" && isActive == true] | order(publishedAt desc) {
+const careersQuery = groq`*[_type == "career"]{
   _id,
   title,
   slug,
@@ -20,11 +19,16 @@ const careersQuery = groq`
   experience,
   summary,
   salary,
-  publishedAt
+  publishedAt,
+  isActive
 }`;
 
 export default async function CareersPage() {
   const careers = await client.fetch(careersQuery);
+  
+  // Add debug logs
+  console.log('Fetched careers:', careers);
+  console.log('Number of careers found:', careers.length);
 
   // Group careers by department
   const careersByDepartment = careers.reduce((acc: any, career: any) => {
@@ -34,6 +38,9 @@ export default async function CareersPage() {
     acc[career.department].push(career);
     return acc;
   }, {});
+
+  // Debug grouped careers
+  console.log('Careers by department:', careersByDepartment);
 
   return (
     <div className="min-h-screen bg-white">
@@ -46,7 +53,7 @@ export default async function CareersPage() {
               <span className="block text-red-600 mt-2">Bloop Global</span>
             </h1>
             <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-500">
-              Help us build the future of technology. We're looking for exceptional people who are passionate about making a difference.
+              Help us build the future of business and technology. We're looking for exceptional people who are passionate about making a difference.
             </p>
           </div>
         </div>
@@ -61,8 +68,8 @@ export default async function CareersPage() {
                 <Globe2 className="w-8 h-8 text-red-600" />
               </div>
               <div className="mt-4 text-center">
-                <h3 className="text-lg font-medium text-gray-900">Remote First</h3>
-                <p className="mt-2 text-sm text-gray-500">Work from anywhere in the world</p>
+                <h3 className="text-lg font-medium text-gray-900">Results Oriented</h3>
+                <p className="mt-2 text-sm text-gray-500">No Excuses. Extreme Bias for Action.</p>
               </div>
             </div>
             <div className="flex flex-col items-center p-6 bg-gray-50 rounded-2xl">
