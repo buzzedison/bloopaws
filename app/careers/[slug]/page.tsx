@@ -32,7 +32,7 @@ export default async function CareerPage({ params }: CareerPageProps) {
     <div className="min-h-screen bg-gray-50 py-12">
       <article className="max-w-4xl mx-auto bg-white shadow-sm rounded-xl px-8 py-12">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-6 mt-12">
             {career.title}
           </h1>
 
