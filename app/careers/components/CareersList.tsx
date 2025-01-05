@@ -84,7 +84,7 @@ export default function CareersList({ careers }: CareersListProps) {
                     {career.salary.currency} {career.salary.min.toLocaleString()} - {career.salary.max.toLocaleString()}
                   </span>
                   <span className="text-sm text-gray-500">
-                    per {career.salary.period}
+                    {career.salary.period}
                   </span>
                 </div>
               </div>
