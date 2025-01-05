@@ -60,7 +60,7 @@ export default async function CareerPage({ params }: CareerPageProps) {
               <div className="text-lg font-medium text-gray-900">
                 {career.salary.currency} {career.salary.min.toLocaleString()} - {career.salary.max.toLocaleString()}
                 <span className="text-sm text-gray-500 ml-1">
-                  per {career.salary.period}
+                   {career.salary.period}
                 </span>
               </div>
             </div>

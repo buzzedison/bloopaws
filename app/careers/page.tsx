@@ -48,7 +48,7 @@ export default async function CareersPage() {
       <div className="relative bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 md:pt-32 md:pb-24">
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+            <h1 className="mt-24 md:mt-12 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
               <span className="block">Join Our Team at</span>
               <span className="block text-red-600 mt-2">Bloop Global</span>
             </h1>
