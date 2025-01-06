@@ -3,6 +3,7 @@ import { groq } from 'next-sanity';
 import { client } from '../../../sanity/lib/client';
 import { PortableText } from '@portabletext/react';
 import { Briefcase, MapPin, Clock, GraduationCap } from 'lucide-react';
+import Link from 'next/link';
 
 interface CareerPageProps {
   params: {
@@ -92,14 +93,14 @@ export default async function CareerPage({ params }: CareerPageProps) {
           </div>
 
           <div className="mt-8 border-t pt-8">
-            <a
+            <Link
               href={career.applicationUrl || '#'}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors duration-200"
             >
               Apply for this position
-            </a>
+            </Link>
           </div>
         </div>
       </article>
