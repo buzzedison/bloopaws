@@ -15,7 +15,7 @@ export default function VentureBridgePage() {
         <div className="max-w-7xl mx-auto">
           <div className="relative z-10 pt-20 pb-12 sm:pt-32 sm:pb-16">
             <div className="text-center px-4 sm:px-6 lg:px-8">
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl mt-24">
                 <span className="block">Connecting Startups</span>
                 <span className="block text-red-600 mt-2">with Professionals Who Care</span>
               </h1>
