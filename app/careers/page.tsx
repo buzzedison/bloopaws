@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Join our team and help shape the future of technology',
 };
 
-const careersQuery = groq`*[_type == "career"]{
+const careersQuery = groq`*[_type == "career" && isActive == true] | order(publishedAt desc) {
   _id,
   title,
   slug,
@@ -26,11 +26,11 @@ const careersQuery = groq`*[_type == "career"]{
 export default async function CareersPage() {
   const careers = await client.fetch(careersQuery);
   
-  // Add debug logs
-  console.log('Fetched careers:', careers);
-  console.log('Number of careers found:', careers.length);
+  // Debug logs will now only show active careers
+  console.log('Fetched active careers:', careers);
+  console.log('Number of active careers:', careers.length);
 
-  // Group careers by department
+  // Group active careers by department
   const careersByDepartment = careers.reduce((acc: any, career: any) => {
     if (!acc[career.department]) {
       acc[career.department] = [];
