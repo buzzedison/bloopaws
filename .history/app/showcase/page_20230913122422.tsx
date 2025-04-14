@@ -1,0 +1,106 @@
+"use client"
+
+import { useEffect, useState } from 'react';
+import NavBarNew from './components/NavbarNew';
+import Categories from '../showcase/components/Categories';
+import LoadMore from '../showcase/components/LoadMore';
+import ProjectCard from '../showcase/components/ProjectCard';
+import { fetchAllProjects } from '../../lib/actions';
+import { ProjectInterface } from '../../common.types';
+
+type SearchParams = {
+  category?: string | null;
+  endcursor?: string | null;
+}
+
+type Props = {
+  searchParams: SearchParams;
+}
+
+type ProjectSearch = {
+  projectSearch: {
+    edges: { node: ProjectInterface }[];
+    pageInfo: {
+      hasPreviousPage: boolean;
+      hasNextPage: boolean;
+      startCursor: string;
+      endCursor: string;
+    };
+  };
+}
+
+const Home: React.FC<Props> = ({ searchParams: { category, endcursor } }) => {
+  const [projectsToDisplay, setProjectsToDisplay] = useState<{ node: ProjectInterface }[]>([]);
+  const [pageInfo, setPageInfo] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);  // New state for loading
+  const [error, setError] = useState<any>(null);  // New state for errors
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const data = await fetchAllProjects(category, endcursor) as ProjectSearch;
+        // Data integrity check here (optional)
+        setProjectsToDisplay(data?.projectSearch?.edges || []);
+        setPageInfo(data?.projectSearch?.pageInfo || null);
+      } catch (error) {
+        console.error("There was an error fetching the data", error);
+        setError(error);  // Set error state
+      } finally {
+        setIsLoading(false);  // Set loading state to false when done
+      }
+    };
+
+    fetchData();
+  }, [category, endcursor]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;  // Loading state
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;  // Error state
+  }
+
+  if (projectsToDisplay.length === 0) {
+    return (
+      <>
+        <NavBarNew />
+        <section className="flexStart flex-col paddings">
+          <Categories />
+          <p className="no-result-text text-center">No projects found, go create some first.</p>
+        </section>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <NavBarNew />
+      <section className="flexStart flex-col paddings mb-16">
+        <Categories />
+        <section className="projects-grid">
+          {projectsToDisplay.map(({ node }) => (
+            <ProjectCard
+              key={node?.id}
+              id={node?.id}
+              image={node?.image}
+              title={node?.title}
+              name={node?.createdBy.name}
+              avatarUrl={node?.createdBy.avatarUrl}
+              userId={node?.createdBy.id}
+            />
+          ))}
+        </section>
+        <LoadMore
+          startCursor={pageInfo?.startCursor}
+          endCursor={pageInfo?.endCursor}
+          hasPreviousPage={pageInfo?.hasPreviousPage}
+          hasNextPage={pageInfo?.hasNextPage}
+        />
+      </section>
+    </>
+  );
+};
+
+export default Home;
