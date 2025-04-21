@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getReferrals, getReferralStats, updateReferralStatus } from "../actions";
+import { useRouter } from "next/navigation";
+import { createClient } from '@/lib/supabase/client';
+import { getReferrals, getReferralStats, updateReferralStatus, generateReferralCode } from "../actions";
 
 interface ReferralStats {
   totalReferrals: number;
@@ -24,7 +26,10 @@ interface Referral {
 }
 
 export default function ReferralDashboardPage() {
+  const router = useRouter();
+  const supabase = createClient();
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [stats, setStats] = useState<ReferralStats>({
     totalReferrals: 0,
@@ -34,8 +39,35 @@ export default function ReferralDashboardPage() {
   });
   const [activeTab, setActiveTab] = useState("all");
   const [statusUpdateLoading, setStatusUpdateLoading] = useState(false);
+  const [referralCode, setReferralCode] = useState<string>("");
+  const [copySuccess, setCopySuccess] = useState(false);
   
   useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      
+      if (authError || !user) {
+        console.error("Auth error or no user, redirecting to login:", authError);
+        router.push("/login?redirect=/referral/dashboard");
+        return;
+      }
+      
+      setIsAuthenticated(true);
+      
+      try {
+        const { code } = await generateReferralCode();
+        setReferralCode(code);
+      } catch (error) {
+        console.error("Error getting referral code:", error);
+      }
+    };
+    
+    checkAuth();
+  }, [router, supabase]);
+  
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    
     const fetchData = async () => {
       try {
         const [referralsData, statsData] = await Promise.all([
@@ -53,7 +85,7 @@ export default function ReferralDashboardPage() {
     };
     
     fetchData();
-  }, []);
+  }, [isAuthenticated]);
   
   const handleStatusUpdate = async (referralId: string, newStatus: string) => {
     setStatusUpdateLoading(true);
@@ -61,7 +93,6 @@ export default function ReferralDashboardPage() {
     try {
       await updateReferralStatus(referralId, newStatus);
       
-      // Update the local state
       setReferrals(prevReferrals => 
         prevReferrals.map(referral => 
           referral.id === referralId 
@@ -84,8 +115,25 @@ export default function ReferralDashboardPage() {
     return true;
   });
   
+  if (isLoading || !isAuthenticated) {
+    return (
+      <main className="flex flex-col min-h-screen bg-gray-50 items-center justify-center">
+        <div className="text-center p-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your dashboard...</p>
+        </div>
+      </main>
+    );
+  }
+  
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/referral?code=${referralCode}`);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 3000);
+  };
+  
   return (
-    <main className="flex flex-col min-h-screen bg-gray-50">
+    <main className="flex flex-col min-h-screen bg-gray-50 pt-24">
       <div className="bg-red-600 text-white py-16 px-4">
         <div className="container mx-auto max-w-6xl">
           <h1 className="text-3xl md:text-4xl font-bold mb-4">Referral Dashboard</h1>
@@ -115,7 +163,28 @@ export default function ReferralDashboardPage() {
             <h3 className="text-3xl font-bold">${stats.totalEarnings.toFixed(2)}</h3>
           </div>
         </div>
-        
+
+        {referralCode && (
+          <div className="bg-white p-6 rounded-xl shadow-sm mb-8 border border-red-100">
+            <h4 className="text-lg font-semibold text-gray-800 mb-3">Your Referral Link</h4>
+            <p className="text-sm text-gray-600 mb-4">Share this link with your friends or colleagues. When they sign up or make a purchase using this link, you'll get rewarded!</p>
+            <div className="flex items-center space-x-3 bg-gray-100 p-3 rounded-lg">
+              <input 
+                type="text" 
+                readOnly 
+                value={`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/referral?code=${referralCode}`}
+                className="flex-grow bg-transparent border-none text-gray-50 focus:outline-none text-sm md:text-base"
+              />
+              <button
+                onClick={copyToClipboard}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${copySuccess ? 'bg-green-500 text-white' : 'bg-red-600 text-white hover:bg-red-700'}`}
+              >
+                {copySuccess ? 'Copied!' : 'Copy Link'}
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-8">
           <div className="flex border-b">
             <button 
@@ -220,35 +289,6 @@ export default function ReferralDashboardPage() {
               </table>
             </div>
           )}
-        </div>
-        
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-xl font-bold mb-4">Commission Structure</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="border border-gray-200 rounded-lg p-4">
-              <div className="flex items-center mb-2">
-                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-red-600 font-bold">5%</span>
-                </div>
-                <h3 className="text-lg font-medium">Recommend Only</h3>
-              </div>
-              <p className="text-gray-600">
-                You earn 5% commission when you refer a client who signs up for our services, without any additional involvement in the sales process.
-              </p>
-            </div>
-            
-            <div className="border border-gray-200 rounded-lg p-4">
-              <div className="flex items-center mb-2">
-                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-red-600 font-bold">15%</span>
-                </div>
-                <h3 className="text-lg font-medium">Refer & Close</h3>
-              </div>
-              <p className="text-gray-600">
-                You earn 15% commission when you refer a client and actively help in the sales process to close the deal.
-              </p>
-            </div>
-          </div>
         </div>
         
         <div className="mt-8 text-center">

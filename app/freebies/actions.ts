@@ -16,8 +16,8 @@ export async function submitApplication(data: ApplicationData) {
   try {
     // Send notification email to admin
     await resend.emails.send({
-      from: 'Freebies Application <no-reply@yourdomain.com>',
-      to: 'admin@yourdomain.com', // Change to your admin email
+      from: 'Freebies Application <no-reply@bloopglobal.com>',
+      to: 'ask@bloopglobal.com',
       subject: `New Website Application: ${data.businessName}`,
       html: `
         <h1>New Website Application</h1>
@@ -31,7 +31,7 @@ export async function submitApplication(data: ApplicationData) {
 
     // Send confirmation email to applicant
     await resend.emails.send({
-      from: 'Your Website Application <no-reply@yourdomain.com>',
+      from: 'Your Website Application <no-reply@bloopglobal.com>',
       to: data.email,
       subject: 'We received your application!',
       html: `
