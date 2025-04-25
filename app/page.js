@@ -1,97 +1,143 @@
-// import Posts from "./insight/components/Posts";
 import Link from "next/link"
+import Image from "next/image"
 import { cachedClient } from "../sanity/lib/client"
 import { postsQuery } from "../sanity/lib/queries";
-import HeroPost from "./insight/components/HeroPost"; 
-
-import MajorPostsGrid from "./insight/components/MajorPostsGrid";
-import GoalsSection from "./components/Goals";
-// import Hero from "./components/Hero";
-// import HomePage from "./components/HeroHead";
-// import IdeaToCompanySection from "./components/Idea";
-import Logo from "./components/LogoSection";
-
-// import ProductsSection from "./components/Products";
-// // import NewsletterCTAB from "./components/CtaNew"
-// // import CourseCard from "./components/CourseCard"
-// import CoursesIntro from "./courses/components/CourseIntro";
-// import HeroSection from "./components/HeroDigital";
-import HeroMain from "./components/HeroMain";
-// import HeroOffer from "./components/HeroOffer"
-import ProductShowcase from "./components/ProductShowcase";
+import InsightsInnovative from "./components/InsightsInnovative";
+import { ArrowRight, CheckCircle2, Download, ExternalLink } from "lucide-react";
+import HeroInnovative from "./components/HeroInnovative";
+import ServicesOrbitalRefined from "./components/ServicesOrbitalRefined";
+import FlagshipOfferInnovative from "./components/FlagshipOfferInnovative";
+import TrainingSimple from "./components/TrainingSimple";
+import SuccessStoriesInnovative from "./components/SuccessStoriesInnovative";
+import WhyBloopLight from "./components/WhyBloopLight";
+import ProcessSideBySide from "./components/ProcessSideBySide";
 
 export default async function Home() {
-
-  const courses = [
-    { title: 'AI for Business Growth', 
-    subtitle: 'The Complete Guide to Transforming Your Business with Generative AI', 
-    description: 'We will guide you step-by-step to transform how you innovate, operate, and make decisions using AI. You will learn hands-on with tools like GPT and DALL-E 2 and other amazing tools from real-world case studies.', 
-    imageSrc: '/images/aibusiness.png',
-    link:'/courses/aicourse'
-  
-  },
-    { title: 'Investment Readiness Masterclass',
-     subtitle: 'Walk you through what it takes to get the funding you need', 
-     description: 'Looking for funding? This course will guide you through the process of securing the capital you need to start or grow your business. We will cover creating a solid business plan, identifying funding sources, perfecting your pitch, and navigating the legalities.', 
-     imageSrc: '/images/fundingclass.png',
-     link:'/courses/investment'
-    },
-    { title: 'Mental Models for Business Growth',
-     subtitle: 'Learn how to make intelligent decisions', 
-     description: 'Learn how to tap into mental models to enhance your decision making skills. In this course, you will discover how the brightest minds leverage mental models - conceptual frameworks that help understand the world and resolve problems - to make robust decisions under uncertainty. ', 
-     imageSrc: '/images/mental.png',
-     link:'/courses/mentalmodel' 
-    },
-  ];
-
-
   const posts = await cachedClient(postsQuery);
-  const heroPost = posts[1];
-  const majorPosts = posts.slice(0, 3); // Only taking two major posts
+  const majorPosts = posts.slice(0, 3);
 
-return (
-  <>
-<div className="flex flex-col items-center justify-center ">
-  <HeroMain/>
-  <ProductShowcase />
-{/* <IdeaToCompanySection/> */}
-<GoalsSection/>
+  return (
+    <div className="flex flex-col w-full">
+      {/* Innovative Hero Section */}
+      <HeroInnovative />
+      
+      {/* Creative Proof Bar */}
+      <section className="relative overflow-hidden w-full">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-black transform skew-y-[-1.5deg] origin-top-right scale-y-110"></div>
+        
+        <div className="relative z-10 py-8 px-4">
+          <div className="max-w-7xl mx-auto">
+            {/* Animated ticker/marquee effect */}
+            <div className="overflow-hidden whitespace-nowrap">
+              <div className="inline-block animate-marquee">
+                <div className="flex items-center space-x-16">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-red-500 font-bold text-2xl">10+</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Countries</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-red-500 font-bold text-2xl">$120M</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Influenced</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-red-500 font-bold text-2xl">900+</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Professionals Trained</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-red-500 font-bold text-2xl">10+</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Countries</span>
+                  </div>
+                </div>
+              </div>
+              <div className="inline-block animate-marquee2">
+                <div className="flex items-center space-x-16">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-red-500 font-bold text-2xl">10+</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Countries</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-red-500 font-bold text-2xl">$120M</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Influenced</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-red-500 font-bold text-2xl">900+</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Professionals Trained</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-red-500 font-bold text-2xl">10+</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Countries</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-<div className="w-full px-4 py-16 bg-gradient-to-b from-white to-red-100">
-  <div className="container mx-auto">
-  <h1 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-8">
-    <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-red-400">
-      Unlock Explosive Business Growth
-    </span>
-    <br />
-    <span className="text-2xl md:text-3xl font-semibold text-gray-600">
-      With Insight From Bloop
-    </span>
-  </h1>
-  <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
-    <MajorPostsGrid posts={majorPosts} />
-  </div>
-  <div className="mt-8 text-center">
-    <Link href="/insight">
-    <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
-      Explore More Insights
-    </button>
-    </Link>
-  </div>
-  </div>
-</div>
-{/* <div className="bg-red-200 w-screen">
-          <div className="container mx-auto p-4 mb-12">
-          <CoursesIntro />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {courses.map((course, index) => (
-            <CourseCard key={index} {...course} />
-          ))}
+      {/* Refined Orbital Services Section */}
+      <ServicesOrbitalRefined />
+
+      {/* Innovative Flagship Offer Section */}
+      <FlagshipOfferInnovative />
+
+      {/* Simple Modern Training & Capacity Building Section */}
+      <TrainingSimple />
+
+      {/* Innovative Success Stories Section */}
+      <SuccessStoriesInnovative />
+
+      {/* Light-Themed Why Bloop Section */}
+      <WhyBloopLight />
+
+      {/* Side-by-Side Process Section */}
+      <ProcessSideBySide />
+
+      {/* Innovative Insights Section */}
+      <InsightsInnovative posts={majorPosts} />
+
+      {/* 9. Final CTA Banner */}
+      <section className="py-16 px-4 bg-gradient-to-br from-red-600 to-red-700 text-white">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to build smarter?</h2>
+          <p className="text-xl mb-8">Your 30‑day sprint to an AI‑powered business starts here.</p>
+          <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/">
+            <button className="bg-white text-red-600 hover:bg-black hover:text-white font-bold py-4 px-10 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
+              Book a Strategy Call
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </button>
+          </Link>
         </div>
-        </div>
-        </div> */}
-{/* <NewsletterCTAB/> */}
-   </div>
-   </>
+      </section>
+    </div>
   )
+}
+
+// Component for service cards in the "What We Do" section
+function ServiceCard({ title, description, iconPath }) {
+  return (
+    <div className="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+      <div className="h-12 w-12 mb-4 text-red-600">
+        <Image src={iconPath || "/images/icon-default.svg"} width={48} height={48} alt={title} />
+      </div>
+      <h3 className="text-xl font-bold mb-2">{title}</h3>
+      <p className="text-gray-600 mb-4">{description}</p>
+    </div>
+  );
+}
+
+// Component for process steps in the "Our Process" section
+function ProcessStep({ number, title, description }) {
+  return (
+    <div className="flex items-start md:items-center">
+      <div className="relative">
+        <div className="bg-red-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl z-10 relative">
+          {number}
+        </div>
+      </div>
+      <div className="ml-6 md:ml-12 bg-white rounded-xl p-6 shadow-md flex-1">
+        <h3 className="text-xl font-bold mb-1">{title}</h3>
+        <p className="text-gray-600">{description}</p>
+      </div>
+    </div>
+  );
 }

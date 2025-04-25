@@ -1,12 +1,14 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';  // Corrected import
+import { useRouter } from 'next/navigation';
 
 export default function BloopNavbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeItem, setActiveItem] = useState('');
+  const navRef = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -14,108 +16,140 @@ export default function BloopNavbar() {
       setIsScrolled(window.scrollY > 10);
     };
 
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setIsNavOpen(false);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
+    document.addEventListener('mousedown', handleClickOutside);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
   const isHomePage = router.pathname === '/';
 
-  function getLinkClass() {
-    if (isHomePage) {
-      return isScrolled ? 'text-black' : 'text-white';
-    }
-    return 'text-black';
-  }
+  const navItems = [
+    { name: 'About', href: '/about' },
+    { name: 'Showcase', href: '/casestudies' },
+    { name: 'Services', href: '/services' },
+    { name: 'Education', href: '/education' },
+    { name: 'Insight', href: '/insight' },
+    { name: 'Referral Program', href: '/referral' },
+  ];
 
   return (
-    <nav className={`fixed w-full z-50 transition-all ease-in-out duration-300 ${isHomePage ? (isScrolled ? 'bg-white' : 'bg-transparent') : 'bg-white'}`}>
-      <div className="container mx-auto flex items-center justify-between p-6">
-        <div className="text-4xl font-bold">
-          <Link href="/">
-            <Image
-              width={150}
-              height={40}
-              src="/images/logo.png"
-              alt="Bloop logo"
-            />
-          </Link>
-        </div>
-        <div className={`lg:flex items-center space-x-8 ${isNavOpen ? 'flex' : 'hidden'}`}>
-        <Link href="/about">
-            <span className={getLinkClass()}>About</span>
-          </Link>
-{/* 
-          <Link href="https://sme.bloopglobal.com/">
-            <span className={getLinkClass()}>SME Websites</span>
-          </Link> */}
-          <Link href="/casestudies">
-            <span className={getLinkClass()}>Showcase</span>
-          </Link>
-          <Link href="/services">
-            <span className={getLinkClass()}>Services</span>
-          </Link>
-          {/* <Link href="/fundlab">
-            <span className={getLinkClass()}>Fundlab</span>
-          </Link> */}
-           <Link href="/careers">
-            <span className={getLinkClass()}>Careers</span>
-          </Link>
-          <Link href="/insight">
-            <span className={getLinkClass()}>Insight</span>
-          </Link>
-          <Link href="/referral">
-            <span className={getLinkClass()}>Referral Program</span>
-          </Link>
-          <Link href="/contact">
-            <span className={getLinkClass()}>Contact Us</span>
-          </Link>
-        </div>
-        <div className="lg:hidden">
-          <button onClick={() => setIsNavOpen(!isNavOpen)}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6" stroke="red">
-  {isNavOpen ? (
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-  ) : (
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-  )}
-</svg>
-
-          </button>
-          {isNavOpen && (
-            <div className="fixed inset-0 z-40 flex flex-col items-center justify-center p-4 bg-black bg-opacity-90 text-white">
-              <button onClick={() => setIsNavOpen(false)} className="ml-auto text-4xl">
-                ✕
-              </button>
-              <div className="flex flex-col mt-5 space-y-8 text-2xl">
-                <Link href="/about">About Us</Link>
-                <Link href="/services">Services</Link>
-                <Link href="/casestudies">Case Studies</Link>
-                <Link href="/careers">Careers</Link>
-                <Link href="/insight">Insight</Link>
-                <Link href="/referral">Referral Program</Link>
-                <Link href="/contact">Contact Us</Link>
+    <div ref={navRef}>
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/10 backdrop-blur-md shadow-lg' : 'bg-white shadow-sm'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <div className="flex-shrink-0 flex items-center">
+              <Link href="/" className="flex items-center">
+                <Image
+                  width={150}
+                  height={40}
+                  src="/images/logo.png"
+                  alt="Bloop logo"
+                  className="transition-transform duration-300 hover:scale-105"
+                />
+                <div className="ml-1 w-2 h-2 rounded-full bg-red-600 animate-pulse hidden md:block"></div>
+              </Link>
+            </div>
+            
+            {/* Desktop Menu */}
+            <div className="hidden lg:block">
+              <div className="ml-10 flex items-baseline space-x-6">
+                {navItems.map((item) => (
+                  <div
+                    key={item.name}
+                    className="relative group"
+                    onMouseEnter={() => setActiveItem(item.name)}
+                    onMouseLeave={() => setActiveItem('')}
+                  >
+                    <Link
+                      href={item.href}
+                      className={`px-3 py-2 text-sm font-medium transition-colors duration-300 text-gray-800`}
+                    >
+                      {item.name}
+                    </Link>
+                    <div
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600 transform origin-left transition-transform duration-300"
+                      style={{ 
+                        transform: activeItem === item.name ? 'scaleX(1)' : 'scaleX(0)'
+                      }}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
-          )}
+            
+            {/* CTA Button */}
+            <div className="hidden lg:block">
+              <Link
+                href="/contact"
+                className="bg-red-600 text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-red-700 transition duration-300 shadow-md hover:shadow-lg"
+              >
+                Contact Us
+              </Link>
+            </div>
+            
+            {/* Mobile Menu Button */}
+            <div className="lg:hidden">
+              <button 
+                onClick={() => setIsNavOpen(!isNavOpen)}
+                className="text-gray-800 hover:text-red-600 inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-transform duration-300 hover:scale-105"
+                aria-label="Toggle menu"
+              >
+                {!isNavOpen ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6" stroke="currentColor" fill="none">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6" stroke="currentColor" fill="none">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-      <style jsx>{`
-        nav div a {
-          transition: color 0.3s ease-in-out;
-        }
-        
-        nav div a:hover {
-          color: #42a5f5;
-        }
-        button {
-          transition: transform 0.3s ease-in-out;
-        }
-        button:hover {
-          transform: scale(1.1);
-        }
-      `}</style>
-    </nav>
+      </nav>
+      
+      {/* Mobile Menu Dropdown */}
+      {isNavOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden pt-20 bg-black/90 backdrop-blur-md">
+          <div className="px-6 py-8 space-y-3">
+            {navItems.map((item) => (
+              <div
+                key={item.name}
+                className="block w-full"
+              >
+                <Link 
+                  href={item.href}
+                  className="block text-white text-lg font-medium py-3 px-4 rounded-lg hover:bg-white/10 transition-colors duration-200"
+                  onClick={() => setIsNavOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              </div>
+            ))}
+            <div className="pt-4 mt-4 border-t border-white/20">
+              <Link 
+                href="/contact"
+                className="block w-full text-center bg-red-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors duration-200"
+                onClick={() => setIsNavOpen(false)}
+              >
+                Contact Us
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
