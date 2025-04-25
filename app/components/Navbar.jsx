@@ -53,7 +53,7 @@ export default function BloopNavbar() {
                 <Image
                   width={150}
                   height={40}
-                  src="/images/logo.png"
+                  src="/images/blooplogo2.png"
                   alt="Bloop logo"
                   className="transition-transform duration-300 hover:scale-105"
                 />
