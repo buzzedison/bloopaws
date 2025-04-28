@@ -18,15 +18,26 @@ export default function ThankYouPage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/claim-offer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setFormSubmitted(true);
+      } else {
+        // Optionally handle error
+        alert('There was a problem submitting your claim. Please try again.');
+      }
+    } catch (err) {
+      alert('There was a problem submitting your claim. Please try again.');
+    } finally {
       setIsLoading(false);
-      setFormSubmitted(true);
-    }, 1000);
+    }
   };
 
   const closeBanner = () => {

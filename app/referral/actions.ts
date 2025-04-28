@@ -87,7 +87,7 @@ export async function createReferral(formData: ReferralFormData) {
 
     // Send notification email to admin
     await resend.emails.send({
-      from: "Referral Program <no-reply@bloopglobal.com>",
+      from: "Referral Program <no-reply@updates.bloopglobal.com>",
       to: "ask@bloopglobal.com",
       subject: `New Referral: ${formData.referralName} from ${formData.name}`,
       html: `
@@ -112,7 +112,7 @@ export async function createReferral(formData: ReferralFormData) {
 
     // Send confirmation email to referrer
     await resend.emails.send({
-      from: "Bloop Referral Program <no-reply@bloopglobal.com>",
+      from: "Bloop Referral Program <no-reply@updates.bloopglobal.com>",
       to: formData.email,
       subject: "Thank you for your referral!",
       html: `

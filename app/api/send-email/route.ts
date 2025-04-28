@@ -27,7 +27,7 @@ export async function POST(request: Request) {
 
     const data = await resend.emails.send({
       from: 'Bloop Global LLC <onboarding@resend.dev>', // Update this
-      to: ['ask@bloopglobal.com'], // Update this
+      to: ['ask@updates.bloopglobal.com'], // Update this
       subject: `New Contact Form Submission from ${name}`,
       html: `
         <!DOCTYPE html>
