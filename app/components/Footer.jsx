@@ -9,9 +9,9 @@ const Footer = () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         <div>
           <div className="flex items-center mb-3">
-            <Image src="/images/logo.png" 
+            <Image src="/images/blooplogo2.png" 
               width={150} height={40}
-              alt="Bloop Logo" className="h-8 w-auto" />
+              alt="Bloop logo" className="h-8 w-auto" />
             <div className="ml-1 w-2 h-2 rounded-full bg-red-600 animate-pulse"></div>
           </div>
           <p className="text-gray-600 mb-6 text-sm max-w-xs">Turning ideas into businesses with innovative technology solutions and strategic partnerships.</p>

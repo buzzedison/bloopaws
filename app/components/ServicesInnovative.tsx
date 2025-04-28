@@ -126,7 +126,7 @@ export default function ServicesInnovative() {
         {/* Section header */}
         <div className="text-center mb-20">
           <motion.h2 
-            className="text-4xl md:text-5xl font-bold mb-4 inline-block"
+            className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 px-2 sm:px-0 inline-block leading-tight text-gray-900"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={titleVariants}
@@ -134,7 +134,7 @@ export default function ServicesInnovative() {
             We build growth engines, not just websites.
           </motion.h2>
           <motion.p
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
+            className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-2 sm:px-0"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={subtitleVariants}
@@ -223,7 +223,7 @@ export default function ServicesInnovative() {
           </AnimatePresence>
           
           {/* Service cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {services.map((service, index) => (
               <motion.div
                 key={service.id}
@@ -245,17 +245,28 @@ export default function ServicesInnovative() {
                 ></div>
                 
                 {/* Card content */}
-                <div className="relative z-10 p-6 h-full flex flex-col">
-                  <div className="flex items-start mb-4">
-                    <div className={`${service.bgColor} p-3 rounded-xl mr-4 group-hover:bg-white/20 transition-colors duration-300`}>
-                      {React.cloneElement(service.icon, { 
-                        className: `w-6 h-6 ${service.textColor} group-hover:text-white transition-colors duration-300` 
-                      })}
-                    </div>
-                    <h3 className={`text-xl font-bold ${service.textColor} group-hover:text-white transition-colors duration-300`}>
-                      {service.title}
-                    </h3>
-                  </div>
+                <div className="relative z-10 p-4 sm:p-6 h-full flex flex-col">
+                  <div className="flex items-center mb-4">
+  <div className={`${service.bgColor} p-3 rounded-xl mr-4 group-hover:bg-white/20 transition-colors duration-300`}>
+    {React.cloneElement(service.icon, { 
+      className: `w-6 h-6 ${service.textColor} group-hover:text-white transition-colors duration-300` 
+    })}
+  </div>
+  <h3 className={`text-xl font-bold ${service.textColor} group-hover:text-white transition-colors duration-300 flex-1`}>
+    {service.title}
+  </h3>
+  <span className="flex items-center">
+    <svg
+      className={`w-6 h-6 transition-transform duration-300 ml-1 ${activeIndex === index ? 'rotate-90' : 'rotate-0'} ${activeIndex === index ? 'text-primary' : 'text-gray-500'}`}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.5}
+      viewBox="0 0 24 24"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </span>
+</div>
                   
                   <p className="text-gray-600 group-hover:text-white/90 transition-colors duration-300 mb-6">
                     {service.description}

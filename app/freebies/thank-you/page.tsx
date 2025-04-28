@@ -51,7 +51,7 @@ export default function ThankYouPage() {
         <div className="bg-red-600 text-white py-3 px-4 text-center font-medium sticky top-0 z-50 flex justify-between items-center">
           <div className="flex-1"></div>
           <div className="flex-1 text-center">
-            🚨 Next selection closes April 30. Only 1 slot available!
+            🚨 Next selection closes May 30. Only 1 slot available!
           </div>
           <div className="flex-1 flex justify-end">
             <button 

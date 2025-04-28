@@ -17,7 +17,7 @@ export async function submitApplication(data: ApplicationData) {
     // Send notification email to admin
     await resend.emails.send({
       from: 'Freebies Application <no-reply@updates.bloopglobal.com>',
-      to: 'ask@updates.bloopglobal.com',
+      to: ['ask@bloopglobal.com'],
       subject: `New Website Application: ${data.businessName}`,
       html: `
         <h1>New Website Application</h1>
