@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next/types';
 import Link from 'next/link';
 import { ArrowRight, Briefcase, Users, Lightbulb, Target, BarChart, Shield } from 'lucide-react';
 

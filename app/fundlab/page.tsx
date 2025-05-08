@@ -1,5 +1,5 @@
 // pages/fundlab.tsx
-import { NextPage } from 'next';
+import type { NextPage } from 'next/types';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';

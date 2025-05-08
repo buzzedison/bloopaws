@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { Metadata } from 'next';
+import type { Metadata } from 'next/types';
 import Link from 'next/link';
 
 export const metadata: Metadata = {

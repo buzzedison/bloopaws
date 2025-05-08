@@ -1,11 +1,11 @@
-import { GetStaticProps, GetStaticPaths } from 'next';
+import type { GetStaticProps, GetStaticPaths } from 'next/types';
 import { SanityDocument } from "@sanity/client";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { format } from 'date-fns';
 import imageUrlBuilder from "@sanity/image-url";
 import { client } from "../../../sanity/lib/client";
-import { Metadata } from 'next';
+import type { Metadata } from 'next/types';
 
 const builder = imageUrlBuilder(client);
 

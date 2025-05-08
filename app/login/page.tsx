@@ -9,26 +9,29 @@ const supabase = createClient();
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") || "/";
+  const redirect = searchParams.get("redirect") || "/dashboard";
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isSignUp, setIsSignUp] = useState(false);
+  // Check if signup=1 is in the URL
+  const signup = searchParams.get("signup") === "1";
+  const [isSignUp, setIsSignUp] = useState(signup);
   const [name, setName] = useState("");
   
   // Check if user is already logged in
   useEffect(() => {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
-      if (data.session) {
+      // Only redirect if user is logged in AND not trying to sign up
+      if (data.session && !signup) {
         router.push(redirect);
       }
     };
     
     checkSession();
-  }, [redirect, router]);
+  }, [redirect, router, signup]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,16 +54,28 @@ export default function LoginPage() {
         if (error) throw error;
         
         if (data.user) {
-          // Create profile in database
-          const { error: profileError } = await supabase
-            .from('profiles')
-            .insert({
-              id: data.user.id,
-              name,
-              email
-            });
-            
-          if (profileError) throw profileError;
+          try {
+            // Use upsert to handle duplicate emails
+            const { error: profileError } = await supabase
+              .from('profiles')
+              .upsert({
+                id: data.user.id,
+                name,
+                email
+              }, {
+                onConflict: 'email', // Specify which column has the unique constraint
+                ignoreDuplicates: false // Update the record if it exists
+              });
+              
+            if (profileError) {
+              console.error('Profile error:', profileError);
+              // Continue with sign-up process even if profile creation fails
+              // We don't want to block the user from signing up
+            }
+          } catch (err) {
+            console.error('Error creating profile:', err);
+            // Continue with sign-up process
+          }
         }
         
         // Show confirmation message
@@ -75,7 +90,7 @@ export default function LoginPage() {
         
         if (error) throw error;
         
-        // Redirect to the intended page
+        // Redirect to dashboard after successful login
         router.push(redirect);
       }
     } catch (error: any) {

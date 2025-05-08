@@ -4,17 +4,15 @@ import Navbar from "./components/Navbar"
 import Footer from "./components/Footer";
 import TidioChat from './components/TidioChat';
 import GoogleAnalytics from "../app/components/GoogleAnalytics";
-import { Metadata } from 'next';
+// Metadata is imported via the export const metadata object below
 const pop = Poppins({ 
   subsets: ['latin'] ,
   weight:["400", "500", "600"]
 })
 
-export async function generateMetadata() {
-  return {
-    title: 'Bloop Global LLC',
-    description: 'Turning Ideas into Businesses',
-  }
+export const metadata = {
+  title: 'Bloop Global LLC',
+  description: 'Turning Ideas into Businesses'
 }
 
 export default function RootLayout({ children }) {

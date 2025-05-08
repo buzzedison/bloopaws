@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Check, Phone, MessageCircle } from "lucide-react"
 import Link from "next/link"
-import { Metadata } from 'next'
+import type { Metadata } from 'next/types'
 
 export const metadata: Metadata = {
   title: "MVP Builder Package | For Idea-Stage Companies",

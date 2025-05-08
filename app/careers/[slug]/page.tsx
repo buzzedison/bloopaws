@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next/types';
 import { groq } from 'next-sanity';
 import { client } from '../../../sanity/lib/client';
 import { PortableText } from '@portabletext/react';
