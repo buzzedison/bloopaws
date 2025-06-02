@@ -167,8 +167,8 @@ export default function PitchPerfectPage() {
             {[
               { number: "2.5", label: "Hours", suffix: "hrs" },
               { number: "1000", label: "Prize Pool", prefix: "₵" },
-              { number: "50+", label: "Founders", suffix: "+" },
-              { number: "100%", label: "Learning", suffix: "%" }
+              { number: "50", label: "Founders", suffix: "+" },
+              { number: "100", label: "Learning", suffix: "%" }
             ].map((stat, index) => (
               <div key={index} className="text-center group">
                 <div className="text-3xl md:text-4xl font-black text-black-100 mb-2 group-hover:text-red-600 transition-colors">
