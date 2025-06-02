@@ -5,13 +5,54 @@ import { motion, useInView, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, ArrowUpRight, Quote, ChevronRight, ChevronLeft, Star } from 'lucide-react'
+import { urlForImage } from '@/sanity/lib/image'
 
-export default function SuccessStoriesInnovative() {
+// Define the CaseStudy interface for Sanity data
+interface CaseStudy {
+  _id: string;
+  title: string;
+  subtitle: string;
+  slug: { current: string };
+  result: string;
+  description: string;
+  quote: string;
+  author: string;
+  metrics: Array<{ label: string; value: string; period: string }>;
+  mainImage: any;
+  logo: any;
+  tags: string[];
+}
+
+// Define the fallback case study interface
+interface FallbackCaseStudy {
+  id: number;
+  title: string;
+  subtitle: string;
+  result: string;
+  description: string;
+  quote: string;
+  author: string;
+  metrics: Array<{ label: string; value: string; period: string }>;
+  image: string;
+  logo: string;
+  link: string;
+  tags: string[];
+}
+
+// Union type for both case study types
+type CaseStudyType = CaseStudy | FallbackCaseStudy;
+
+interface SuccessStoriesProps {
+  caseStudies?: CaseStudy[];
+}
+
+export default function SuccessStoriesInnovative({ caseStudies = [] }: SuccessStoriesProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: false, amount: 0.2 })
   const [activeCase, setActiveCase] = useState(0)
   
-  const caseStudies = [
+  // Fallback case studies if none are provided from Sanity
+  const fallbackCaseStudies: FallbackCaseStudy[] = [
     {
       id: 1,
       title: "Crowdpen",
@@ -86,21 +127,68 @@ export default function SuccessStoriesInnovative() {
     }
   ]
   
+  // Use Sanity data if available, otherwise use fallback data
+  const displayCaseStudies: CaseStudyType[] = caseStudies.length > 0 ? caseStudies : fallbackCaseStudies
+  
+  // Early return if no case studies are available
+  if (!displayCaseStudies || displayCaseStudies.length === 0) {
+    return null
+  }
+  
+  // Ensure we have valid data and activeCase is within bounds
+  const currentCaseStudy = displayCaseStudies[activeCase] || displayCaseStudies[0] || fallbackCaseStudies[0]
+  const validCaseStudiesCount = displayCaseStudies.length || fallbackCaseStudies.length
+  
   const nextCase = () => {
-    setActiveCase((prev) => (prev === caseStudies.length - 1 ? 0 : prev + 1))
+    if (validCaseStudiesCount > 0) {
+      setActiveCase((prev) => (prev + 1) % validCaseStudiesCount)
+    }
   }
   
   const prevCase = () => {
-    setActiveCase((prev) => (prev === 0 ? caseStudies.length - 1 : prev - 1))
+    if (validCaseStudiesCount > 0) {
+      setActiveCase((prev) => (prev - 1 + validCaseStudiesCount) % validCaseStudiesCount)
+    }
+  }
+  
+  // Helper function to get image URL based on case study type
+  const getImageUrl = (caseStudy: CaseStudyType): string => {
+    if ('mainImage' in caseStudy && caseStudy.mainImage) {
+      return urlForImage(caseStudy.mainImage).url()
+    } else if ('image' in caseStudy) {
+      return caseStudy.image
+    }
+    return '/images/placeholder.svg'
+  }
+  
+  // Helper function to get logo URL based on case study type
+  const getLogoUrl = (caseStudy: CaseStudyType): string => {
+    if ('logo' in caseStudy) {
+      if (typeof caseStudy.logo === 'string') {
+        return caseStudy.logo
+      } else if (caseStudy.logo) {
+        return urlForImage(caseStudy.logo).url()
+      }
+    }
+    return '/images/placeholder-logo.svg'
+  }
+  
+  // Helper function to get case study URL
+  const getCaseStudyUrl = (caseStudy: CaseStudyType): string => {
+    if ('slug' in caseStudy && caseStudy.slug) {
+      return `/casestudies/${caseStudy.slug.current}`
+    } else if ('link' in caseStudy) {
+      return caseStudy.link
+    }
+    return '#'
   }
   
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.2,
-        delayChildren: 0.3
+      opacity: 1, 
+      transition: {
+        staggerChildren: 0.1
       }
     }
   }
@@ -110,9 +198,8 @@ export default function SuccessStoriesInnovative() {
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { 
-        duration: 0.6,
-        ease: [0.215, 0.61, 0.355, 1]
+      transition: {
+        duration: 0.6
       }
     }
   }
@@ -120,181 +207,146 @@ export default function SuccessStoriesInnovative() {
   return (
     <section 
       ref={containerRef}
-      className="relative py-24 overflow-hidden bg-gradient-to-b from-gray-50 to-white"
+      className="py-20 px-4 bg-white overflow-hidden"
     >
-      {/* Decorative elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="max-w-7xl mx-auto">
         <motion.div 
-          className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600/20 to-transparent"
-          initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-          transition={{ duration: 1.5, ease: [0.215, 0.61, 0.355, 1] }}
-        ></motion.div>
-        
-        <motion.div 
-          className="absolute -top-64 -right-64 w-[500px] h-[500px] rounded-full border border-red-200/30 opacity-60"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={isInView ? { scale: 1, opacity: 0.6 } : { scale: 0.8, opacity: 0 }}
-          transition={{ duration: 1.5 }}
-        ></motion.div>
-        
-        <motion.div 
-          className="absolute -bottom-32 -left-32 w-64 h-64 rounded-full border border-red-200/30 opacity-60"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={isInView ? { scale: 1, opacity: 0.6 } : { scale: 0.8, opacity: 0 }}
-          transition={{ duration: 1.5, delay: 0.2 }}
-        ></motion.div>
-      </div>
-      
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Section header */}
-        <motion.div 
-          className="mb-16"
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={containerVariants}
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6 }}
         >
-          <motion.div className="flex justify-between items-end flex-wrap gap-y-6" variants={itemVariants}>
-            <div>
-              <span className="bg-red-100 text-red-600 text-sm font-semibold px-4 py-1 rounded-full inline-block mb-4">
-                Success Stories
-              </span>
-              <h2 className="text-4xl md:text-5xl font-bold relative inline-block">
-                Our Impact
-                <motion.div 
-                  className="absolute -bottom-2 left-0 h-1 bg-red-600 w-full rounded-full"
-                  initial={{ width: 0 }}
-                  animate={isInView ? { width: '100%' } : { width: 0 }}
-                  transition={{ delay: 0.5, duration: 0.8 }}
-                ></motion.div>
-              </h2>
-            </div>
-            
-            {/* Navigation controls */}
-            <div className="flex items-center space-x-4">
-              <div className="text-sm font-medium text-gray-500 mr-2">
-                {activeCase + 1} / {caseStudies.length}
-              </div>
-              <div className="flex space-x-2">
-                <motion.button
-                  className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors"
-                  onClick={prevCase}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </motion.button>
-                <motion.button
-                  className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors"
-                  onClick={nextCase}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Success Stories</h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            See how we've helped businesses across industries achieve remarkable results with innovative solutions.
+          </p>
         </motion.div>
         
-        {/* Featured case study */}
         <AnimatePresence mode="wait">
           <motion.div
             key={`case-${activeCase}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="relative"
           >
-            {/* Left column - Image and metrics */}
-            <div className="lg:col-span-5 flex flex-col gap-6">
-              <motion.div 
-                className="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-lg"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
-              >
-                <Image 
-                  src={caseStudies[activeCase].image} 
-                  alt={caseStudies[activeCase].title} 
-                  fill 
-                  style={{ objectFit: "cover" }} 
-                  className="transition-transform duration-700 hover:scale-105"
-                />
-                
-                {/* Overlay with gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                
-                {/* Logo overlay */}
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow-md">
-                  <div className="relative w-12 h-12">
-                    <Image 
-                      src={caseStudies[activeCase].logo || "/images/default-logo.png"} 
-                      alt={`${caseStudies[activeCase].title} logo`} 
-                      fill 
-                      style={{ objectFit: "contain" }} 
-                    />
+            <div className="flex flex-col lg:flex-row gap-8 items-start">
+              <div className="lg:w-1/2 relative">
+                {/* Navigation controls */}
+                <div className="flex items-center space-x-4">
+                  <div className="text-sm font-medium text-gray-500 mr-2">
+                    {activeCase + 1} / {validCaseStudiesCount}
+                  </div>
+                  <div className="flex space-x-2">
+                    <motion.button
+                      onClick={prevCase}
+                      className="bg-white hover:bg-gray-100 p-2 rounded-full border border-gray-200 shadow-sm"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <ChevronLeft className="w-5 h-5 text-gray-700" />
+                    </motion.button>
+                    <motion.button
+                      onClick={nextCase}
+                      className="bg-white hover:bg-gray-100 p-2 rounded-full border border-gray-200 shadow-sm"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <ChevronRight className="w-5 h-5 text-gray-700" />
+                    </motion.button>
                   </div>
                 </div>
                 
-                {/* Result badge */}
-                <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md">
-                  <div className="text-sm font-bold text-red-600">{caseStudies[activeCase].result}</div>
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mt-4 mb-6">
+                  {(currentCaseStudy?.tags || []).map((tag, idx) => (
+                    <span 
+                      key={`tag-${idx}`}
+                      className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-1 rounded"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-              </motion.div>
+                
+                {/* Main image */}
+                <motion.div 
+                  className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg mb-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
+                >
+                  <Image 
+                    src={getImageUrl(currentCaseStudy)} 
+                    alt={currentCaseStudy.title} 
+                    fill 
+                    style={{ objectFit: "cover" }} 
+                    className="transition-transform duration-700 hover:scale-105"
+                  />
+                  
+                  {/* Logo badge */}
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow-md">
+                    <div className="relative w-12 h-12">
+                      <Image 
+                        src={getLogoUrl(currentCaseStudy)} 
+                        alt={`${currentCaseStudy.title} logo`} 
+                        fill 
+                        style={{ objectFit: "contain" }} 
+                      />
+                    </div>
+                  </div>
+                
+                  {/* Result badge */}
+                  <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md">
+                    <div className="text-sm font-bold text-red-600">{currentCaseStudy.result}</div>
+                  </div>
+                </motion.div>
+                
+                {/* Metrics */}
+                <motion.div 
+                  className="grid grid-cols-3 gap-4 mb-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
+                  {(currentCaseStudy?.metrics || []).map((metric, idx) => (
+                    <motion.div 
+                      key={`metric-${idx}`}
+                      className="bg-white rounded-2xl p-4 shadow-md flex flex-col items-center text-center"
+                      whileHover={{ y: -5, boxShadow: "0 12px 20px -5px rgba(0, 0, 0, 0.1)" }}
+                    >
+                      <p className="text-3xl font-bold text-red-600">{metric.value}</p>
+                      <p className="text-sm text-gray-600">{metric.label}</p>
+                      <p className="text-xs text-gray-500">{metric.period}</p>
+                    </motion.div>
+                  ))}
+                </motion.div>
+                
+                {/* Tags */}
+                <motion.div 
+                  className="flex flex-wrap gap-2 mb-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                >
+                  {(currentCaseStudy?.tags || []).map((tag, idx) => (
+                    <motion.span 
+                      key={`tag-${idx}`}
+                      className="bg-red-600 text-white text-xs font-medium px-3 py-1 rounded-full"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      {tag}
+                    </motion.span>
+                  ))}
+                </motion.div>
+              </div>
               
-              {/* Metrics cards */}
               <motion.div 
-                className="grid grid-cols-3 gap-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-              >
-                {caseStudies[activeCase].metrics.map((metric, idx) => (
-                  <motion.div 
-                    key={`metric-${idx}`}
-                    className="bg-white rounded-2xl p-4 shadow-md flex flex-col items-center text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + idx * 0.1, duration: 0.5 }}
-                    whileHover={{ y: -5, boxShadow: "0 12px 20px -5px rgba(0, 0, 0, 0.1)" }}
-                  >
-                    <div className="text-2xl font-bold text-gray-900 mb-1">{metric.value}</div>
-                    <div className="text-sm font-medium text-gray-600 mb-1">{metric.label}</div>
-                    <div className="text-xs text-gray-500">{metric.period}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
-              
-              {/* Tags */}
-              <motion.div 
-                className="flex flex-wrap gap-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-              >
-                {caseStudies[activeCase].tags.map((tag, idx) => (
-                  <motion.span 
-                    key={`tag-${idx}`}
-                    className="bg-black text-white text-xs font-medium px-3 py-1 rounded-full"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6 + idx * 0.1, duration: 0.4 }}
-                  >
-                    {tag}
-                  </motion.span>
-                ))}
-              </motion.div>
-            </div>
-            
-            {/* Right column - Content */}
-            <div className="lg:col-span-7 flex flex-col">
-              <motion.div 
-                className="bg-white rounded-3xl p-8 shadow-xl mb-6 relative overflow-hidden"
+                className="lg:w-1/2 bg-white rounded-2xl p-8 shadow-xl relative"
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
+                transition={{ delay: 0.2, duration: 0.6 }}
               >
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -303,23 +355,23 @@ export default function SuccessStoriesInnovative() {
                 >
                   <div className="flex items-start mb-6">
                     <div className="flex-1">
-                      <h3 className="text-3xl font-bold mb-2">{caseStudies[activeCase].title}</h3>
-                      <p className="text-xl text-gray-600">{caseStudies[activeCase].subtitle}</p>
+                      <h3 className="text-3xl font-bold mb-2">{currentCaseStudy.title}</h3>
+                      <p className="text-xl text-gray-600">{currentCaseStudy.subtitle}</p>
                     </div>
                   </div>
                   
-                  <p className="text-gray-700 mb-8 text-lg">{caseStudies[activeCase].description}</p>
+                  <p className="text-gray-700 mb-8 text-lg">{currentCaseStudy.description}</p>
                   
                   {/* Quote */}
                   <div className="bg-gray-50 rounded-2xl p-6 mb-6 relative">
                     <Quote className="absolute text-red-200 w-12 h-12 -top-2 -left-2 opacity-50" />
                     <div className="relative z-10">
-                      <p className="text-gray-700 italic mb-4">"{caseStudies[activeCase].quote}"</p>
-                      <p className="text-gray-900 font-medium">{caseStudies[activeCase].author}</p>
+                      <p className="text-gray-700 italic mb-4">"{currentCaseStudy.quote}"</p>
+                      <p className="text-gray-900 font-medium">{currentCaseStudy.author}</p>
                     </div>
                   </div>
                   
-                  <Link href={caseStudies[activeCase].link}>
+                  <Link href={getCaseStudyUrl(currentCaseStudy)}>
                     <motion.button 
                       className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition-all flex items-center justify-center"
                       whileHover={{ scale: 1.02, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
@@ -334,38 +386,38 @@ export default function SuccessStoriesInnovative() {
                 {/* Background pattern */}
                 <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full border border-red-200/20 pointer-events-none"></div>
                 <div className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full border border-red-200/20 pointer-events-none"></div>
-              </motion.div>
-              
-              {/* Other case studies thumbnails */}
-              <motion.div 
-                className="grid grid-cols-4 gap-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-              >
-                {caseStudies.map((caseStudy, idx) => (
+                  
+                  {/* Other case studies thumbnails */}
                   <motion.div 
-                    key={`thumbnail-${idx}`}
-                    className={`relative rounded-xl overflow-hidden cursor-pointer transition-all ${idx === activeCase ? 'ring-2 ring-red-600 ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
-                    onClick={() => setActiveCase(idx)}
-                    whileHover={{ y: -5 }}
-                    whileTap={{ scale: 0.95 }}
+                    className="grid grid-cols-4 gap-2 mt-6"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
                   >
-                    <div className="relative aspect-video">
-                      <Image 
-                        src={caseStudy.image} 
-                        alt={caseStudy.title} 
-                        fill 
-                        style={{ objectFit: "cover" }} 
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                      <div className="absolute bottom-2 left-2 right-2">
-                        <p className="text-white text-xs font-medium truncate">{caseStudy.title}</p>
-                      </div>
-                    </div>
+                    {(displayCaseStudies || []).map((caseStudy, idx) => (
+                      <motion.div 
+                        key={`thumbnail-${idx}`}
+                        className={`relative rounded-lg overflow-hidden cursor-pointer transition-all ${idx === activeCase ? 'ring-2 ring-red-600 ring-offset-1' : 'opacity-70 hover:opacity-100'}`}
+                        onClick={() => setActiveCase(idx)}
+                        whileHover={{ y: -3 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <div className="relative aspect-video">
+                          <Image 
+                            src={getImageUrl(caseStudy)} 
+                            alt={caseStudy.title} 
+                            fill 
+                            style={{ objectFit: "cover" }} 
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                          <div className="absolute bottom-1 left-1 right-1">
+                            <p className="text-white text-[10px] font-medium truncate">{caseStudy.title}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
                   </motion.div>
-                ))}
-              </motion.div>
+                </motion.div>
             </div>
           </motion.div>
         </AnimatePresence>
@@ -377,7 +429,7 @@ export default function SuccessStoriesInnovative() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ delay: 0.7, duration: 0.6 }}
         >
-          <Link href="/case-studies">
+          <Link href="/casestudies">
             <motion.button 
               className="bg-black border border-black text-white hover:bg-black/90 font-semibold py-3 px-8 rounded-full shadow-sm transition-all inline-flex items-center group"
               whileHover={{ y: -5, boxShadow: "0 12px 20px -5px rgba(0, 0, 0, 0.2)" }}

@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { cachedClient } from "../sanity/lib/client"
 import { postsQuery } from "../sanity/lib/queries";
+import { caseStudiesQuery } from "../sanity/lib/caseStudyQueries";
 import InsightsInnovative from "./components/InsightsInnovative";
 import { ArrowRight, CheckCircle2, Download, ExternalLink } from "lucide-react";
 import HeroInnovative from "./components/HeroInnovative";
@@ -13,8 +14,12 @@ import WhyBloopLight from "./components/WhyBloopLight";
 import ProcessSideBySide from "./components/ProcessSideBySide";
 
 export default async function Home() {
+  // Fetch blog posts from Sanity
   const posts = await cachedClient(postsQuery);
   const majorPosts = posts.slice(0, 3);
+  
+  // Fetch case studies from Sanity
+  const caseStudies = await cachedClient(caseStudiesQuery);
 
   return (
     <div className="flex flex-col w-full">
@@ -84,7 +89,7 @@ export default async function Home() {
       <TrainingSimple />
 
       {/* Innovative Success Stories Section */}
-      <SuccessStoriesInnovative />
+      <SuccessStoriesInnovative caseStudies={caseStudies} />
 
       {/* Light-Themed Why Bloop Section */}
       <WhyBloopLight />
