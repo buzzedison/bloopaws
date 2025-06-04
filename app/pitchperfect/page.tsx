@@ -68,7 +68,9 @@ export default function PitchPerfectPage() {
               {/* Clean CTAs */}
               <div className="flex flex-col sm:flex-row gap-4 pt-6">
                 <a 
-                  href="#register"
+                  href="https://airtable.com/app7rzeBLQmXIiBQ5/pagizk846OC11kbiX/form"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all shadow-lg hover:shadow-xl"
                 >
                   Reserve Your Spot
@@ -515,15 +517,16 @@ export default function PitchPerfectPage() {
               </div>
             </div>
             
-            <a 
-              href="mailto:events@bloopglobal.com?subject=Founder-First Pitch Event Registration"
-              className="group inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white font-bold py-5 px-10 rounded-full text-2xl transition-all shadow-2xl hover:shadow-red-500/25 hover:scale-105"
-            >
-              Reserve Your Spot Now
-              <svg className="w-6 h-6 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
+            <div id="register" className="mt-12 text-center">
+              <a
+                href="https://airtable.com/app7rzeBLQmXIiBQ5/pagizk846OC11kbiX/form"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-10 rounded-xl text-xl transition-all shadow-lg hover:shadow-xl"
+              >
+                {selectedParticipation === "pitch" ? "Register to Pitch" : selectedParticipation === "learn" ? "Register to Learn" : "Choose an Option to Register"}
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -539,6 +542,21 @@ export default function PitchPerfectPage() {
           </p>
         </div>
       </section>
+
+      <div className="mt-20 text-center">
+        <h3 className="text-4xl font-bold text-black-100 mb-6">Ready to Join Us?</h3>
+        <p className="text-xl text-gray mb-10 max-w-2xl mx-auto">
+          Secure your spot at the most supportive pitch event in town. Whether you're pitching or learning, you're in for a treat.
+        </p>
+        <a
+          href="https://airtable.com/app7rzeBLQmXIiBQ5/pagizk846OC11kbiX/form"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-bold py-5 px-12 rounded-xl text-xl transition-all shadow-xl hover:shadow-2xl transform hover:scale-105"
+        >
+          Sign Up for Pitch Perfect
+        </a>
+      </div>
     </main>
   );
 } 
