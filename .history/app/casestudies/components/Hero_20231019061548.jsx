@@ -1,0 +1,42 @@
+import Link from "next/link";
+
+const CaseStudies = () => {
+  return (
+    <div className="min-h-screen p-4 sm:p-6 lg:p-10" style={{ backgroundImage: 'url(/images/specialhomes.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className="max-w-7xl mx-auto py-12 sm:py-16 lg:py-20 rounded-xl mt-12 sm:mt-16 lg:mt-24">
+        <h1 className="text-center text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 text-white">Helping Special Homes <br/> Drive 300% More Leads</h1>
+        <p className="container mx-auto text-lg sm:text-xl lg:text-2xl 
+        mb-6 sm:mb-8 text-white text-center p-2 sm:p-4 w-full md:w-3/4  ">
+         Special Homes needed a website to showcase their luxury residential community as the first in Ghana with
+          unique sustainable living features like backyard gardens
+        </p>
+        <div className="flex justify-center">
+          <Link href="/casestudies/specialgardens">
+          <button className="bg-red-700 text-white px-4 sm:px-6 py-2 sm:py-4 rounded-lg">Learn More</button>
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mt-8 sm:mt-12">
+          <Link href="/casestudies/myco">
+          <div className="bg-white p-4 sm:p-6 rounded shadow hover:bg-red-100">
+            <h3 className="text-xl sm:text-2xl font-semibold mb-4">Revamping My Centre Office's Brand and Online Presences</h3>
+            
+          </div>
+          </Link>
+          <div className="bg-white p-4 sm:p-6 rounded shadow  hover:bg-red-100">
+            <h3 className="text-xl sm:text-2xl font-semibold mb-4">
+          People who wanted to conquer the fish processing industry</h3>
+          </div>
+          <div className="bg-white p-4 sm:p-6 rounded shadowhover:bg-red-100">
+            <h3 className="text-xl sm:text-2xl font-semibold mb-4">Building Web & Mobile App for America's care needs</h3>
+          </div>
+          <div className="bg-white p-4 sm:p-6 rounded shadowhover:bg-red-100">
+            <h3 className="text-xl sm:text-2xl font-semibold mb-4">A community needed a business plan, and we delivered</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CaseStudies;

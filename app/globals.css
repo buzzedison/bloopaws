@@ -1,0 +1,276 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom animations */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes marquee2 {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee2 {
+  animation: marquee2 25s linear infinite;
+}
+
+.embla {
+    overflow: hidden;
+  }
+  
+  .embla__container {
+    display: flex;
+    will-change: transform;
+  }
+  
+  .embla__slide {
+    position: relative;
+    flex: 0 0 100%;
+  }
+
+
+  /* Use @apply to apply tailwind classes to custom classes */
+.hero-title {
+  @apply text-5xl pt-24 pb-4 px-24 text-center;
+}
+
+.hero-subtitle {
+  @apply text-center text-gray-500;
+}
+
+.hero-input {
+  @apply w-full px-40 pl-36 pr-36 rounded-2xl border-spacing-1 border-2 py-4;
+}
+
+.hero-button {
+  @apply absolute right-0 top-0 bottom-0 m-1 bg-red-600 hover:bg-black text-white px-6 py-4 rounded-lg;
+}
+
+
+.text-gray-500{
+
+}
+
+
+
+.flexCenter {
+  @apply flex justify-center items-center;
+}
+
+.flexBetween {
+  @apply flex justify-between items-center;
+}
+
+.flexStart {
+  @apply flex items-center justify-start;
+}
+
+.text-small {
+  @apply text-sm font-medium;
+}
+
+.paddings {
+  @apply lg:px-20 py-6 px-5;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 12px;
+}
+
+.modal-head-text {
+  @apply md:text-5xl text-3xl font-extrabold text-left max-w-5xl w-full;
+}
+
+.no-result-text {
+  @apply w-full text-center my-10 px-2;
+}
+
+/* Project Details */
+.user-actions_section {
+  @apply fixed max-md:hidden flex gap-4 flex-col right-10 top-20;
+}
+
+.user-info {
+  @apply flex flex-wrap whitespace-nowrap text-sm font-normal gap-2 w-full;
+}
+
+/* Home */
+.projects-grid {
+  @apply grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10 mt-10 w-full;
+}
+
+/* Project Actions */
+.edit-action_btn {
+  @apply p-3 text-gray-100 bg-light-white-400 rounded-lg text-sm font-medium;
+}
+
+.delete-action_btn {
+  @apply p-3 text-gray-100 hover:bg-red-600 rounded-lg text-sm font-medium;
+}
+
+/* Related Project Card */
+.related_project-card {
+  @apply flex-col rounded-2xl min-w-[210px] min-h-[197px];
+}
+
+.related_project-card_title {
+  @apply justify-end items-end w-full h-1/3 bg-gradient-to-b from-transparent to-black/50 rounded-b-2xl gap-2 absolute bottom-0 right-0 font-semibold text-lg text-white p-4;
+}
+
+.related_projects-grid {
+  @apply grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mt-5;
+}
+
+/* Custom Menu */
+.custom_menu-btn {
+  @apply gap-4 w-full rounded-md bg-light-white-100 p-4 text-base outline-none capitalize;
+}
+
+.custom_menu-items {
+  @apply flex-col absolute left-0 mt-2 xs:min-w-[300px] w-fit max-h-64 origin-top-right rounded-xl bg-white border border-nav-border shadow-menu overflow-y-auto;
+}
+
+.custom_menu-item {
+  @apply text-left w-full px-5 py-2 text-sm hover:bg-light-white-100 self-start whitespace-nowrap capitalize;
+}
+
+/* Footer */
+.footer {
+  @apply flex-col paddings w-full gap-20 bg-light-white;
+}
+
+.footer_copyright {
+  @apply max-sm:flex-col w-full text-sm font-normal;
+}
+
+.footer_column {
+  @apply flex-1 flex flex-col gap-3 text-sm min-w-max;
+}
+
+/* Form Field */
+.form_field-input {
+  @apply w-full outline-0 bg-light-white-100 rounded-xl p-4;
+}
+
+/* Modal */
+.modal {
+  @apply fixed z-10 left-0 right-0 top-0 bottom-0 mx-auto bg-black/80;
+}
+
+.modal_wrapper {
+  @apply flex justify-start items-center flex-col absolute h-[95%] w-full bottom-0 bg-white rounded-t-3xl lg:px-40 px-8 pt-14 pb-72 overflow-auto;
+}
+
+/* Navbar */
+.navbar {
+  @apply py-5 px-8 border-b border-nav-border gap-4;
+}
+
+/* Profile Menu */
+.profile_menu-items {
+  @apply flex-col absolute right-1/2 translate-x-1/2 mt-3 p-7 sm:min-w-[300px] min-w-max rounded-xl bg-white border border-nav-border shadow-menu;
+}
+
+/* Profile Card */
+.profile_card-title {
+  @apply justify-end items-end w-full h-1/3 bg-gradient-to-b from-transparent to-black/50 rounded-b-2xl gap-2 absolute bottom-0 right-0 font-semibold text-lg text-white p-4;
+}
+
+/* Project Form */
+.form {
+  @apply flex-col w-full lg:pt-24 pt-12 gap-10 text-lg max-w-5xl mx-auto;
+}
+
+.form_image-container {
+  @apply w-full lg:min-h-[400px] min-h-[200px] relative;
+}
+
+.form_image-label {
+  @apply z-10 text-center w-full h-full p-20 text-gray-100 border-2 border-gray-50 border-dashed;
+}
+
+.form_image-input {
+  @apply absolute z-30 w-full opacity-0 h-full cursor-pointer;
+}
+
+/* Profile Projects */
+.profile_projects {
+  @apply grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mt-5;
+}
+@layer base {
+  :root {
+        --background: 0 0% 100%;
+        --foreground: 0 0% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 3.9%;
+        --primary: 0 0% 9%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 0 0% 96.1%;
+        --secondary-foreground: 0 0% 9%;
+        --muted: 0 0% 96.1%;
+        --muted-foreground: 0 0% 45.1%;
+        --accent: 0 0% 96.1%;
+        --accent-foreground: 0 0% 9%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 89.8%;
+        --input: 0 0% 89.8%;
+        --ring: 0 0% 3.9%;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+    }
+  .dark {
+        --background: 0 0% 3.9%;
+        --foreground: 0 0% 98%;
+        --card: 0 0% 3.9%;
+        --card-foreground: 0 0% 98%;
+        --popover: 0 0% 3.9%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 0 0% 98%;
+        --primary-foreground: 0 0% 9%;
+        --secondary: 0 0% 14.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 0 0% 14.9%;
+        --muted-foreground: 0 0% 63.9%;
+        --accent: 0 0% 14.9%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 14.9%;
+        --input: 0 0% 14.9%;
+        --ring: 0 0% 83.1%;
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+    }
+}
+@layer base {
+  * {
+    @apply border-border;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+}
+
