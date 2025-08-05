@@ -7,11 +7,10 @@ import InsightsInnovative from "./components/InsightsInnovative";
 import { ArrowRight, CheckCircle2, Download, ExternalLink } from "lucide-react";
 import HeroInnovative from "./components/HeroInnovative";
 import ServicesOrbitalRefined from "./components/ServicesOrbitalRefined";
-    // import FlagshipOfferInnovative from "./components/FlagshipOfferInnovative";
-    // import TrainingSimple from "./components/TrainingSimple";
-// import SuccessStoriesInnovative from "./components/SuccessStoriesInnovative";
 import WhyBloopLight from "./components/WhyBloopLight";
 import ProcessSideBySide from "./components/ProcessSideBySide";
+import PricingInnovative from "./components/PricingInnovative";
+import FAQInnovative from "./components/FAQInnovative";
 
 export default async function Home() {
   // Fetch blog posts from Sanity
@@ -23,7 +22,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col w-full">
-      {/* Innovative Hero Section */}
+      {/* Hero Section with new copy */}
       <HeroInnovative />
       
       {/* Creative Proof Bar */}
@@ -32,45 +31,45 @@ export default async function Home() {
         
         <div className="relative z-10 py-8 px-4">
           <div className="max-w-7xl mx-auto">
-            {/* Animated ticker/marquee effect */}
+            {/* Updated stats */}
             <div className="overflow-hidden whitespace-nowrap">
               <div className="inline-block animate-marquee">
                 <div className="flex items-center space-x-16">
                   <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">10+</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Countries</span>
+                    <span className="text-red-500 font-bold text-2xl">$120M+</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Generated</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">$120M</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Influenced</span>
+                    <span className="text-red-500 font-bold text-2xl">90 Days</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Average Launch</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">900+</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Professionals Trained</span>
+                    <span className="text-red-500 font-bold text-2xl">8+ Years</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Avg Experience</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">10+</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Countries</span>
+                    <span className="text-red-500 font-bold text-2xl">$120M+</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Generated</span>
                   </div>
                 </div>
               </div>
               <div className="inline-block animate-marquee2">
                 <div className="flex items-center space-x-16">
                   <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">10+</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Countries</span>
+                    <span className="text-red-500 font-bold text-2xl">$120M+</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Generated</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">$120M</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Influenced</span>
+                    <span className="text-red-500 font-bold text-2xl">90 Days</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Average Launch</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">900+</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Professionals Trained</span>
+                    <span className="text-red-500 font-bold text-2xl">8+ Years</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Avg Experience</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">10+</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Countries</span>
+                    <span className="text-red-500 font-bold text-2xl">$120M+</span>
+                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Generated</span>
                   </div>
                 </div>
               </div>
@@ -79,70 +78,54 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Refined Orbital Services Section */}
+      {/* Services Section with updated copy */}
       <ServicesOrbitalRefined />
 
-      {/* Innovative Flagship Offer Section */}
-      {/* <FlagshipOfferInnovative /> */}
-
-      {/* Simple Modern Training & Capacity Building Section */}
-      {/* <TrainingSimple /> */}
-
-      {/* Innovative Success Stories Section */}
-      {/* <SuccessStoriesInnovative caseStudies={caseStudies} /> */}
-
-      {/* Light-Themed Why Bloop Section */}
+      {/* Why Bloop Section with updated copy */}
       <WhyBloopLight />
 
-      {/* Side-by-Side Process Section */}
-      <ProcessSideBySide />
+      {/* Process Section with updated copy */}
+      <div id="process">
+        <ProcessSideBySide />
+      </div>
 
-      {/* Innovative Insights Section */}
+      {/* Pricing Section */}
+      <PricingInnovative />
+
+      {/* FAQ Section */}
+      <FAQInnovative />
+
+      {/* Insights Section */}
       <InsightsInnovative posts={majorPosts} />
 
-      {/* 9. Final CTA Banner */}
+      {/* Updated Final CTA */}
       <section className="py-16 px-4 bg-gradient-to-br from-red-600 to-red-700 text-white">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to build smarter?</h2>
-          <p className="text-xl mb-8">Your 30‑day sprint to an AI‑powered business starts here.</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Build Your Revenue Engine?</h2>
+          <p className="text-xl mb-4 opacity-90">
+            <strong>The longer you wait, the more market share your competitors capture.</strong>
+          </p>
+          <p className="text-lg mb-8 opacity-80">
+            Most successful SaaS platforms launched their MVP within 6 months of having the idea. 
+            Where will you be in 6 months—still planning, or already generating revenue?
+          </p>
           <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/">
             <button className="bg-white text-red-600 hover:bg-black hover:text-white font-bold py-4 px-10 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
-              Book a Strategy Call
+              Schedule Strategy Call
               <ArrowRight className="ml-2 w-5 h-5" />
             </button>
           </Link>
+          <p className="text-sm opacity-70 mt-4">
+            Or email us at{" "}
+            <a href="mailto:ask@bloopglobal.com" className="underline hover:no-underline">
+              ask@bloopglobal.com
+            </a>{" "}
+            with your project details
+          </p>
         </div>
       </section>
     </div>
   )
 }
 
-// Component for service cards in the "What We Do" section
-function ServiceCard({ title, description, iconPath }) {
-  return (
-    <div className="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-      <div className="h-12 w-12 mb-4 text-red-600">
-        <Image src={iconPath || "/images/icon-default.svg"} width={48} height={48} alt={title} />
-      </div>
-      <h3 className="text-xl font-bold mb-2">{title}</h3>
-      <p className="text-gray-600 mb-4">{description}</p>
-    </div>
-  );
-}
 
-// Component for process steps in the "Our Process" section
-function ProcessStep({ number, title, description }) {
-  return (
-    <div className="flex items-start md:items-center">
-      <div className="relative">
-        <div className="bg-red-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl z-10 relative">
-          {number}
-        </div>
-      </div>
-      <div className="ml-6 md:ml-12 bg-white rounded-xl p-6 shadow-md flex-1">
-        <h3 className="text-xl font-bold mb-1">{title}</h3>
-        <p className="text-gray-600">{description}</p>
-      </div>
-    </div>
-  );
-}

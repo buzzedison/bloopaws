@@ -15,53 +15,53 @@ export default function ProcessSideBySide() {
     {
       id: 1,
       number: "01",
-      title: "Discovery & Planning",
-      description: "We start by understanding your business goals, target audience, and project requirements to create a strategic roadmap.",
+      title: "Strategic Foundation",
+      description: "Business model validation, technical architecture planning, UX wireframing, and development roadmap creation.",
       icon: <FileText className="w-6 h-6" />,
       details: [
-        "Stakeholder interviews",
-        "Requirements gathering",
-        "Strategic planning",
-        "Project roadmap creation"
+        "Business model validation",
+        "Technical architecture planning",
+        "User experience wireframing",
+        "Development roadmap creation"
       ]
     },
     {
       id: 2,
       number: "02",
-      title: "Design & Prototyping",
-      description: "Our design team creates intuitive user experiences and visually appealing interfaces that align with your brand.",
-      icon: <Users className="w-6 h-6" />,
+      title: "Core Development",
+      description: "MVP feature development, database & API construction, user interface implementation, and payment system integration.",
+      icon: <Cpu className="w-6 h-6" />,
       details: [
-        "UX/UI design",
-        "Interactive prototyping",
-        "User testing",
-        "Design iteration"
+        "MVP feature development",
+        "Database & API construction",
+        "User interface implementation",
+        "Payment system integration"
       ]
     },
     {
       id: 3,
       number: "03",
-      title: "Development & Testing",
-      description: "Our engineers build your solution using modern technologies, with rigorous testing throughout the process.",
-      icon: <Cpu className="w-6 h-6" />,
+      title: "Launch Preparation",
+      description: "Quality assurance testing, performance optimization, deployment & hosting setup, and launch strategy execution.",
+      icon: <Rocket className="w-6 h-6" />,
       details: [
-        "Agile development",
-        "Quality assurance",
+        "Quality assurance testing",
         "Performance optimization",
-        "Security testing"
+        "Deployment & hosting setup",
+        "Launch strategy execution"
       ]
     },
     {
       id: 4,
       number: "04",
-      title: "Launch & Growth",
-      description: "We deploy your solution and provide ongoing support to ensure continued success and growth.",
-      icon: <Rocket className="w-6 h-6" />,
+      title: "Growth Partnership",
+      description: "Performance monitoring, feature iteration based on user feedback, scaling infrastructure, and continuous optimization.",
+      icon: <Users className="w-6 h-6" />,
       details: [
-        "Deployment",
-        "User onboarding",
-        "Analytics setup",
-        "Continuous improvement"
+        "Performance monitoring",
+        "Feature iteration based on user feedback",
+        "Scaling infrastructure as you grow",
+        "Continuous optimization"
       ]
     }
   ]
@@ -102,7 +102,7 @@ export default function ProcessSideBySide() {
   return (
     <section 
       ref={containerRef}
-      className="relative py-24 overflow-hidden bg-gradient-to-b from-white to-gray-50"
+      className="relative py-24 overflow-hidden bg-gradient-to-b from-white to-pink-50"
     >
       {/* Decorative elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -128,10 +128,10 @@ export default function ProcessSideBySide() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">Our Process</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-black">Our Process</h2>
           <div className="h-1 w-24 bg-red-600 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600">
-            A streamlined approach that delivers results efficiently and effectively
+          <p className="text-xl text-black">
+            From idea to revenue in 12 weeks or less
           </p>
         </motion.div>
         
@@ -141,7 +141,7 @@ export default function ProcessSideBySide() {
           <div className="lg:col-span-5 flex justify-center">
             <div className="relative w-[300px] h-[300px]">
               {/* Circle background with gradient */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 shadow-inner"></div>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-gradient-to-br from-pink-50 to-pink-100 border border-pink-200 shadow-inner"></div>
               
               {/* Progress circle */}
               <svg className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px]" viewBox="0 0 100 100">
@@ -195,7 +195,7 @@ export default function ProcessSideBySide() {
                     transition={{ duration: 0.5 }}
                   >
                     <div 
-                      className={`flex items-center justify-center w-12 h-12 rounded-full cursor-pointer ${isActive ? 'bg-red-600 text-white' : 'bg-white text-gray-700 border border-gray-200 hover:border-red-200'}`}
+                      className={`flex items-center justify-center w-12 h-12 rounded-full cursor-pointer ${isActive ? 'bg-red-600 text-white' : 'bg-white text-black border border-pink-200 hover:border-red-200'}`}
                       onClick={() => handleStepChange(idx)}
                     >
                       <div className="text-sm font-bold">{step.number}</div>
@@ -229,8 +229,8 @@ export default function ProcessSideBySide() {
                       {steps[activeStep].icon}
                     </div>
                     
-                    <h3 className="text-2xl font-bold mb-4 text-gray-900">{steps[activeStep].title}</h3>
-                    <p className="text-gray-600 mb-8">{steps[activeStep].description}</p>
+                    <h3 className="text-2xl font-bold mb-4 text-black">{steps[activeStep].title}</h3>
+                    <p className="text-black mb-8">{steps[activeStep].description}</p>
                     
                     <motion.div className="space-y-4">
                       {steps[activeStep].details.map((detail, idx) => (
@@ -242,7 +242,7 @@ export default function ProcessSideBySide() {
                           transition={{ delay: 0.1 * idx, duration: 0.4 }}
                         >
                           <ArrowRight className="w-4 h-4 text-red-600 mr-2 flex-shrink-0 mt-1" />
-                          <p className="text-gray-700">{detail}</p>
+                          <p className="text-black">{detail}</p>
                         </motion.div>
                       ))}
                     </motion.div>
@@ -269,20 +269,20 @@ export default function ProcessSideBySide() {
                         <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3">
                           <div className="text-sm font-medium mb-1">Timeline</div>
                           <div className="text-base font-bold">
-                            {activeStep === 0 && "1-2 weeks"}
-                            {activeStep === 1 && "2-4 weeks"}
-                            {activeStep === 2 && "4-8 weeks"}
-                            {activeStep === 3 && "1-2 weeks"}
+                            {activeStep === 0 && "Weeks 1-2"}
+                            {activeStep === 1 && "Weeks 3-8"}
+                            {activeStep === 2 && "Weeks 9-12"}
+                            {activeStep === 3 && "Ongoing"}
                           </div>
                         </div>
                         
                         <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3">
                           <div className="text-sm font-medium mb-1">Deliverables</div>
                           <div className="text-base font-bold">
-                            {activeStep === 0 && "Project plan & roadmap"}
-                            {activeStep === 1 && "Design prototypes"}
-                            {activeStep === 2 && "Functional product"}
-                            {activeStep === 3 && "Live solution & support"}
+                            {activeStep === 0 && "Strategy & roadmap"}
+                            {activeStep === 1 && "MVP & integrations"}
+                            {activeStep === 2 && "Launch-ready product"}
+                            {activeStep === 3 && "Ongoing growth support"}
                           </div>
                         </div>
                       </motion.div>
@@ -295,7 +295,7 @@ export default function ProcessSideBySide() {
             {/* Step navigation */}
             <div className="flex justify-between mt-6">
               <motion.button
-                className={`px-4 py-2 rounded-lg ${activeStep === 0 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-black text-white hover:bg-black/90 shadow-sm'}`}
+                className={`px-4 py-2 rounded-lg ${activeStep === 0 ? 'bg-pink-100 text-black cursor-not-allowed' : 'bg-black text-white hover:bg-black/90 shadow-sm'}`}
                 onClick={() => activeStep > 0 && handleStepChange(activeStep - 1)}
                 disabled={activeStep === 0}
                 whileHover={activeStep > 0 ? { y: -3 } : {}}
@@ -308,7 +308,7 @@ export default function ProcessSideBySide() {
               </motion.button>
               
               <motion.button
-                className={`px-4 py-2 rounded-lg ${activeStep === steps.length - 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-red-600 text-white hover:bg-red-700 shadow-sm'}`}
+                className={`px-4 py-2 rounded-lg ${activeStep === steps.length - 1 ? 'bg-pink-100 text-black cursor-not-allowed' : 'bg-red-600 text-white hover:bg-red-700 shadow-sm'}`}
                 onClick={() => activeStep < steps.length - 1 && handleStepChange(activeStep + 1)}
                 disabled={activeStep === steps.length - 1}
                 whileHover={activeStep < steps.length - 1 ? { y: -3 } : {}}

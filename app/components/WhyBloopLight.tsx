@@ -13,32 +13,32 @@ export default function WhyBloopLight() {
   const values = [
     {
       id: 1,
-      title: "Innovative Approach",
-      description: "We blend cutting-edge technology with creative thinking to deliver solutions that stand out in the market.",
-      icon: <Lightbulb className="w-6 h-6" />,
+      title: "Speed Without Shortcuts",
+      description: "Most agencies take 6+ months to deliver. We ship your MVP in 8-12 weeks using proven frameworks and reusable components.",
+      icon: <Zap className="w-6 h-6" />,
       color: "bg-red-600",
       textColor: "text-red-600"
     },
     {
       id: 2,
-      title: "Speed & Efficiency",
-      description: "Our streamlined processes and expert team ensure rapid delivery without compromising on quality.",
-      icon: <Zap className="w-6 h-6" />,
+      title: "Revenue-First Thinking",
+      description: "We don't just build features—we build business models. Every line of code is written with your revenue goals in mind.",
+      icon: <Lightbulb className="w-6 h-6" />,
       color: "bg-red-600",
       textColor: "text-red-600"
     },
     {
       id: 3,
       title: "Technical Excellence",
-      description: "Our engineering team brings deep expertise across multiple technologies to build robust, scalable solutions.",
+      description: "Our senior developers average 8+ years experience. We use modern, scalable tech stacks that won't break as you grow.",
       icon: <Code className="w-6 h-6" />,
       color: "bg-red-600",
       textColor: "text-red-600"
     },
     {
       id: 4,
-      title: "Client-Centric Focus",
-      description: "We prioritize understanding your unique needs and goals to deliver solutions that truly serve your business.",
+      title: "Post-Launch Partnership",
+      description: "Launch is just the beginning. We provide ongoing optimization, feature additions, and scaling support.",
       icon: <Users className="w-6 h-6" />,
       color: "bg-red-600",
       textColor: "text-red-600"
@@ -70,12 +70,12 @@ export default function WhyBloopLight() {
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
             transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-black">
               Why Choose <span className="text-red-600">Bloop</span>
             </h2>
             <div className="h-1 w-24 bg-red-600 mb-6"></div>
-            <p className="text-xl text-gray-700">
-              What makes us different from other agencies and why clients choose to work with us
+            <p className="text-xl text-black">
+              We don't just build software—we build businesses
             </p>
           </motion.div>
           
@@ -115,7 +115,7 @@ export default function WhyBloopLight() {
               </div>
               
               <h3 className="text-2xl font-bold mb-4">{value.title}</h3>
-              <p className={activeValue === idx ? 'text-white/90' : 'text-gray-600'}>{value.description}</p>
+              <p className={activeValue === idx ? 'text-white/90' : 'text-black'}>{value.description}</p>
             </motion.div>
           ))}
         </div>
@@ -130,21 +130,21 @@ export default function WhyBloopLight() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
             <div className="md:col-span-7 md:col-start-6 bg-white rounded-xl p-8 relative z-10 shadow-xl border border-gray-100">
               <div className="text-5xl font-serif text-red-600 mb-6">"</div>
-              <p className="text-xl text-gray-700 mb-6">
+              <p className="text-xl text-black mb-6">
                 Bloop transformed our business with their innovative approach. Their team delivered a solution that exceeded our expectations and helped us achieve our goals faster than we thought possible.
               </p>
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded-full bg-red-100 mr-4 flex items-center justify-center text-red-600 font-bold">KM</div>
                 <div>
-                  <div className="font-bold text-gray-900">Kofi Mensah</div>
-                  <div className="text-gray-600 text-sm">CEO, TechVentures Ghana</div>
+                  <div className="font-bold text-black">Kofi Mensah</div>
+                  <div className="text-black text-sm">CEO, TechVentures Ghana</div>
                 </div>
               </div>
             </div>
             
             <div className="md:col-span-6 md:col-start-1 md:row-start-1 bg-red-600 rounded-xl p-8 h-full flex items-center">
               <div className="text-2xl font-bold text-white">
-                We've helped 50+ businesses accelerate their digital transformation journey
+                We've helped 100+ businesses accelerate their digital transformation journey
               </div>
             </div>
           </div>

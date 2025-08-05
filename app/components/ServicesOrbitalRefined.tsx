@@ -20,32 +20,32 @@ export default function ServicesOrbitalRefined() {
   const services = [
     {
       id: 1,
-      title: "Digital Product Dev",
-      description: "MVPs, SaaS, e‑commerce & mobile—future‑proof from day one.",
+      title: "Custom SaaS Development",
+      description: "Transform your business model into a recurring revenue platform. We build subscription-based software that customers pay for monthly.",
       icon: <Code className="w-6 h-6" />,
       position: { x: 0, y: -1 }, // top - most prominent position
       initialDelay: 0, // Lowest delay to appear first
     },
     {
       id: 2,
-      title: "AI Automations",
-      description: "Chatbots, content engines, dashboards that save 100+ hrs/quarter.",
+      title: "Mobile Apps That Scale",
+      description: "iOS and Android apps designed for growth, not just downloads. Built with revenue models from day one.",
       icon: <Bot className="w-6 h-6" />,
       position: { x: 1, y: 0 }, // right
       initialDelay: 0.1,
     },
     {
       id: 3,
-      title: "Strategy & Advisory",
-      description: "GTM plans, pricing models, investor decks that raise capital.",
+      title: "AI Business Automations",
+      description: "Replace manual tasks with intelligent systems that work 24/7. Save 20+ hours per week on routine operations.",
       icon: <LineChart className="w-6 h-6" />,
       position: { x: 0, y: 1 }, // bottom
       initialDelay: 0.2,
     },
     {
       id: 4,
-      title: "Training & Taskwit Academy",
-      description: "Live cohorts and custom workshops that turn teams into operators.",
+      title: "Strategic Advisory",
+      description: "Beyond development—we help you launch, price, and scale profitably.",
       icon: <GraduationCap className="w-6 h-6" />,
       position: { x: -1, y: 0 }, // left
       initialDelay: 0.3,
@@ -135,7 +135,7 @@ export default function ServicesOrbitalRefined() {
           variants={titleVariants}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 inline-block relative">
-            We build growth engines, not just websites.
+            What We Build
             <motion.div 
               className="absolute -bottom-3 left-0 h-1 bg-red-600"
               initial={{ width: 0 }}
@@ -143,6 +143,9 @@ export default function ServicesOrbitalRefined() {
               transition={{ duration: 1, delay: 0.8, ease: "easeInOut" }}
             />
           </h2>
+                      <p className="text-xl text-black max-w-3xl mx-auto">
+            Revenue-first development that transforms your business model into scalable, profitable software
+          </p>
         </motion.div>
         
         {/* Interactive orbit layout */}
@@ -226,7 +229,7 @@ export default function ServicesOrbitalRefined() {
                           {React.cloneElement(service.icon, { className: "w-6 h-6 text-red-600" })}
                         </motion.div>
                         <motion.h3 
-                          className="text-xl font-bold text-gray-900"
+                          className="text-xl font-bold text-black"
                           initial={{ opacity: 0, x: -10 }}
                           animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
                           transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
@@ -236,7 +239,7 @@ export default function ServicesOrbitalRefined() {
                       </div>
                       
                       <motion.p 
-                        className="text-gray-600 mb-6"
+                        className="text-black mb-6"
                         initial={{ opacity: 0, y: 10 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                         transition={{ duration: 0.5, delay: 0.4 + (index * 0.1) }}

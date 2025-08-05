@@ -163,7 +163,7 @@ export default function WhyBloopUnique() {
             
             <div className="md:col-span-6 md:col-start-1 md:row-start-1 bg-red-600/40 rounded-xl p-8 h-full flex items-center border border-red-500/50">
               <div className="text-2xl font-bold text-white">
-                We've helped 50+ businesses accelerate their digital transformation journey
+                We've helped 100+ businesses accelerate their digital transformation journey
               </div>
             </div>
           </div>

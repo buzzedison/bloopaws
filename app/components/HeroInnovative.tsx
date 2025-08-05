@@ -44,9 +44,13 @@ export default function HeroInnovative() {
   
   // Headline words with custom styling
   const headlineWords = [
-    { text: "Build.", className: "text-gray-900" },
-    { text: "Automate.", className: "text-gray-900" },
-    { text: "Upskill.", className: "text-red-600" }
+    { text: "Turn", className: "text-black" },
+    { text: "Your", className: "text-black" },
+    { text: "Business", className: "text-black" },
+    { text: "Idea", className: "text-black" },
+    { text: "Into", className: "text-black" },
+    { text: "Revenue-Generating", className: "text-red-600" },
+    { text: "Companies", className: "text-black" }
   ]
   
   // Calculate dynamic positions for floating elements
@@ -68,7 +72,7 @@ export default function HeroInnovative() {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full min-h-[90vh] bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden"
+      className="relative w-full min-h-[90vh] bg-gradient-to-br from-pink-50 via-white to-pink-50 overflow-hidden"
     >
       {/* Animated background shapes */}
       {isMounted && shapes.map((shape, i) => (
@@ -110,7 +114,7 @@ export default function HeroInnovative() {
           <div className="lg:col-span-7 space-y-12 lg:pr-12">
             {/* Animated headline */}
             <div className="overflow-hidden">
-              <h1 className="text-6xl md:text-7xl xl:text-8xl font-bold leading-tight tracking-tight mb-6">
+              <h1 className="text-5xl md:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight mb-6">
                 <div className="flex flex-wrap gap-x-6">
                   {headlineWords.map((word, i) => (
                     <motion.span
@@ -130,7 +134,7 @@ export default function HeroInnovative() {
             
             {/* Animated subtitle */}
             <motion.p 
-              className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-2xl mt-6"
+              className="text-xl md:text-2xl text-black leading-relaxed max-w-2xl mt-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ 
                 opacity: 1, 
@@ -142,7 +146,9 @@ export default function HeroInnovative() {
                 }
               }}
             >
-              Launch world-class digital products, infuse them with AI, and train your team to scale—​in 30 days.
+              We build websites, custom SaaS platforms, mobile apps, and 
+              AI automations that generate measurable ROI within 90 days. 
+              From MVP to scale, we're your technical co-founder.
             </motion.p>
             
             {/* CTA buttons with staggered animation */}
@@ -159,14 +165,14 @@ export default function HeroInnovative() {
                 }
               }}
             >
-              <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/">
+              <Link href="/contact">
                 <motion.button 
                   className="group relative overflow-hidden bg-red-600 text-white font-medium py-4 px-8 rounded-full shadow-lg"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="relative z-10 flex items-center">
-                    Book a Strategy Call
+                    Get in touch
                     <motion.span
                       className="inline-block ml-2"
                       initial={{ x: 0 }}
@@ -184,30 +190,29 @@ export default function HeroInnovative() {
                 </motion.button>
               </Link>
               
-              <Link href="/casestudies">
-                <motion.button 
-                  className="group relative overflow-hidden bg-transparent border border-gray-300 text-gray-800 font-medium py-4 px-8 rounded-full"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <span className="relative z-10 flex items-center">
-                    See Our Work
-                    <motion.span
-                      className="inline-block ml-2"
-                      initial={{ x: 0 }}
-                      whileHover={{ x: 5 }}
-                    >
-                      <ArrowRight className="w-5 h-5" />
-                    </motion.span>
-                  </span>
-                  <motion.div 
-                    className="absolute inset-0 bg-gray-100"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  />
-                </motion.button>
-              </Link>
+              <motion.button 
+                className="group relative overflow-hidden bg-transparent border border-pink-300 text-black font-medium py-4 px-8 rounded-full"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => document.getElementById('process')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                <span className="relative z-10 flex items-center">
+                  View Our Process
+                  <motion.span
+                    className="inline-block ml-2"
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 5 }}
+                  >
+                    <ArrowRight className="w-5 h-5" />
+                  </motion.span>
+                </span>
+                <motion.div 
+                  className="absolute inset-0 bg-pink-100"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                />
+              </motion.button>
             </motion.div>
           </div>
           
