@@ -1,8 +1,17 @@
 import { groq } from "next-sanity";
 
 // Get all posts
-export const postsQuery = groq`*[_type == "post" && defined(slug.current)]{
-    _id, title, slug, mainImage, excerpt
+export const postsQuery = groq`*[_type == "post" && defined(slug.current)] | order(publishedAt desc){
+    _id, title, slug, mainImage, excerpt, publishedAt,
+    categories[]->{
+      _id,
+      title
+    }
+  }`;
+
+// Get all categories
+export const categoriesQuery = groq`*[_type == "category"]{
+    _id, title
   }`;
 
 // Get a single post by its slug

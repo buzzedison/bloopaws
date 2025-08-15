@@ -6,11 +6,51 @@ import { caseStudiesQuery } from "../sanity/lib/caseStudyQueries";
 import InsightsInnovative from "./components/InsightsInnovative";
 import { ArrowRight, CheckCircle2, Download, ExternalLink } from "lucide-react";
 import HeroInnovative from "./components/HeroInnovative";
-import ServicesOrbitalRefined from "./components/ServicesOrbitalRefined";
-import WhyBloopLight from "./components/WhyBloopLight";
-import ProcessSideBySide from "./components/ProcessSideBySide";
-import PricingInnovative from "./components/PricingInnovative";
-import FAQInnovative from "./components/FAQInnovative";
+import RealityCheck from "./components/RealityCheck";
+import ServiceTeaser from "./components/ServiceTeaser";
+import SocialProofStories from "./components/SocialProofStories";
+import PlaybookTeaser from "./components/PlaybookTeaser";
+
+export const metadata = {
+  title: "Turn Your Incredible Idea Into a Real Business | Bloop Global",
+  description: "We turn big ideas into businesses that actually work. From web development to SaaS platforms, mobile apps, and AI automations - we handle the tricky parts so you can focus on your vision.",
+  keywords: "business development, SaaS development, web development, mobile app development, AI automation, startup funding, business strategy, technical co-founder",
+  openGraph: {
+    title: "Turn Your Incredible Idea Into a Real Business | Bloop Global",
+    description: "We turn big ideas into businesses that actually work. We've been in the trenches, built our own stuff, and we're here to help you build yours.",
+    type: "website",
+    url: "https://bloopglobal.com",
+    siteName: "Bloop Global",
+    images: [
+      {
+        url: "/images/blooplogo.png",
+        width: 1200,
+        height: 630,
+        alt: "Bloop Global - Turn Ideas Into Businesses"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Turn Your Incredible Idea Into a Real Business | Bloop Global",
+    description: "We turn big ideas into businesses that actually work. We've been in the trenches, built our own stuff, and we're here to help you build yours.",
+    images: ["/images/blooplogo.png"]
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+  },
+}
 
 export default async function Home() {
   // Fetch blog posts from Sanity
@@ -20,104 +60,107 @@ export default async function Home() {
   // Fetch case studies from Sanity
   const caseStudies = await cachedClient(caseStudiesQuery);
 
+  // Structured data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Bloop Global",
+    "url": "https://bloopglobal.com",
+    "logo": "https://bloopglobal.com/images/blooplogo.png",
+    "description": "We turn big ideas into businesses that actually work. From web development to SaaS platforms, mobile apps, and AI automations.",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+1-XXX-XXX-XXXX",
+      "contactType": "customer service",
+      "email": "ask@bloopglobal.com"
+    },
+    "sameAs": [
+      "https://twitter.com/bloopglobal",
+      "https://linkedin.com/company/bloopglobal"
+    ],
+    "service": [
+      {
+        "@type": "Service",
+        "name": "SaaS Development",
+        "description": "Custom SaaS platform development that generates measurable ROI"
+      },
+      {
+        "@type": "Service", 
+        "name": "Web Development",
+        "description": "Modern web applications that turn visitors into customers"
+      },
+      {
+        "@type": "Service",
+        "name": "Mobile App Development", 
+        "description": "Mobile apps that scale and engage users"
+      },
+      {
+        "@type": "Service",
+        "name": "AI Business Automation",
+        "description": "AI automations that streamline business operations"
+      }
+    ]
+  };
+
   return (
-    <div className="flex flex-col w-full">
-      {/* Hero Section with new copy */}
+    <>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      
+      <div className="flex flex-col w-full">
+      {/* Hero Section */}
       <HeroInnovative />
       
-      {/* Creative Proof Bar */}
-      <section className="relative overflow-hidden w-full">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-black transform skew-y-[-1.5deg] origin-top-right scale-y-110"></div>
-        
-        <div className="relative z-10 py-8 px-4">
-          <div className="max-w-7xl mx-auto">
-            {/* Updated stats */}
-            <div className="overflow-hidden whitespace-nowrap">
-              <div className="inline-block animate-marquee">
-                <div className="flex items-center space-x-16">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">$120M+</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Generated</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">90 Days</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Average Launch</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">8+ Years</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Avg Experience</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">$120M+</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Generated</span>
-                  </div>
-                </div>
-              </div>
-              <div className="inline-block animate-marquee2">
-                <div className="flex items-center space-x-16">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">$120M+</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Generated</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">90 Days</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Average Launch</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">8+ Years</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Avg Experience</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-red-500 font-bold text-2xl">$120M+</span>
-                    <span className="text-gray-300 text-sm uppercase tracking-wider">Revenue Generated</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Section 2: The Reality Check */}
+      <RealityCheck />
 
-      {/* Services Section with updated copy */}
-      <ServicesOrbitalRefined />
+      {/* Section 3: How We Can Help - Service Teaser */}
+      <ServiceTeaser />
 
-      {/* Why Bloop Section with updated copy */}
-      <WhyBloopLight />
+      {/* Section 4: Social Proof - Our Stories Teaser */}
+      <SocialProofStories />
 
-      {/* Process Section with updated copy */}
-      <div id="process">
-        <ProcessSideBySide />
-      </div>
-
-      {/* Pricing Section */}
-      <PricingInnovative />
-
-      {/* FAQ Section */}
-      <FAQInnovative />
+      {/* Section 5: The Playbook - Content Hub Teaser */}
+      <PlaybookTeaser />
 
       {/* Insights Section */}
       <InsightsInnovative posts={majorPosts} />
 
-      {/* Updated Final CTA */}
-      <section className="py-16 px-4 bg-gradient-to-br from-red-600 to-red-700 text-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Build Your Revenue Engine?</h2>
-          <p className="text-xl mb-4 opacity-90">
-            <strong>The longer you wait, the more market share your competitors capture.</strong>
+      {/* Final CTA Section */}
+      <section className="py-24 px-4 bg-gradient-to-br from-red-600 to-red-700 text-white relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
+          <div className="absolute bottom-20 right-20 w-24 h-24 bg-white/5 rounded-full blur-lg"></div>
+          <div className="absolute top-1/2 left-10 w-2 h-48 bg-gradient-to-b from-white/20 to-transparent transform -rotate-12"></div>
+          <div className="absolute top-1/3 right-10 w-2 h-32 bg-gradient-to-b from-white/10 to-transparent transform rotate-12"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6">
+            Ready to make it{" "}
+            <span className="text-white">real?</span>
+          </h2>
+          
+          <p className="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto">
+            Enough thinking, more doing. Let's talk about that idea of yours.
           </p>
-          <p className="text-lg mb-8 opacity-80">
-            Most successful SaaS platforms launched their MVP within 6 months of having the idea. 
-            Where will you be in 6 months—still planning, or already generating revenue?
-          </p>
-          <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/">
-            <button className="bg-white text-red-600 hover:bg-black hover:text-white font-bold py-4 px-10 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
-              Schedule Strategy Call
-              <ArrowRight className="ml-2 w-5 h-5" />
+          
+          <Link href="/contact">
+            <button className="group relative overflow-hidden bg-white text-red-600 hover:bg-black hover:text-white font-bold py-4 px-10 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
+              <span className="relative z-10 flex items-center">
+                Let's Chat
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </span>
             </button>
           </Link>
-          <p className="text-sm opacity-70 mt-4">
+          
+          <p className="text-sm opacity-70 mt-8">
             Or email us at{" "}
-            <a href="mailto:ask@bloopglobal.com" className="underline hover:no-underline">
+            <a href="mailto:ask@bloopglobal.com" className="underline hover:no-underline font-medium">
               ask@bloopglobal.com
             </a>{" "}
             with your project details
@@ -125,6 +168,7 @@ export default async function Home() {
         </div>
       </section>
     </div>
+    </>
   )
 }
 

@@ -52,23 +52,11 @@ export default function BloopNavbar() {
   const isHomePage = router.pathname === '/';
 
   const navItems = [
-    // Only show Dashboard if authenticated
-    ...(isAuthenticated ? [{ name: 'Dashboard', href: '/dashboard' }] : []),
-    { name: 'About', href: '/about' },
-    { name: 'Showcase', href: '/casestudies' },
-    { name: 'Services', href: '/services' },
-    { name: 'Talent', href: 'https://www.taskwit.co' },
-    { name: 'Insight', href: '/insight' },
-    { name: 'For Creators', href: 'https://www.crowdpen.co' },
-    {
-      name: 'Referral',
-      submenu: [
-        { name: 'Referral Home', href: '/referral' },
-        // Only show dashboard if authenticated
-        ...(isAuthenticated ? [{ name: 'Dashboard', href: '/referral/dashboard' }] : []),
-        { name: 'Terms', href: '/referral/terms' },
-      ],
-    },
+    { name: 'How We Help', href: '/services' },
+    { name: 'Our Stories', href: '/casestudies' },
+    { name: 'The Playbook', href: '/freebies' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Join the Crew', href: '/careers' },
   ];
 
   return (
@@ -162,9 +150,9 @@ export default function BloopNavbar() {
             <div className="hidden lg:block">
               <Link
                 href="/contact"
-                className="bg-red-600 text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-red-700 transition duration-300 shadow-md hover:shadow-lg"
+                className="relative bg-red-600 text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-black transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 inline-block"
               >
-                Contact Us
+                Let's Chat
               </Link>
             </div>
             
@@ -227,10 +215,10 @@ export default function BloopNavbar() {
             <div className="pt-4 mt-4 border-t border-white/20">
               <Link 
                 href="/contact"
-                className="block w-full text-center bg-red-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors duration-200"
+                className="block w-full text-center bg-red-600 text-white py-3 px-4 rounded-full font-medium hover:bg-red-700 transition-colors duration-200"
                 onClick={() => setIsNavOpen(false)}
               >
-                Contact Us
+                Let's Chat
               </Link>
             </div>
           </div>

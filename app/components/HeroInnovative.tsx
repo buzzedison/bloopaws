@@ -44,13 +44,12 @@ export default function HeroInnovative() {
   
   // Headline words with custom styling
   const headlineWords = [
-    { text: "Turn", className: "text-black" },
-    { text: "Your", className: "text-black" },
-    { text: "Business", className: "text-black" },
-    { text: "Idea", className: "text-black" },
-    { text: "Into", className: "text-black" },
-    { text: "Revenue-Generating", className: "text-red-600" },
-    { text: "Companies", className: "text-black" }
+    { text: "You've", className: "text-black" },
+    { text: "got", className: "text-black" },
+    { text: "this", className: "text-black" },
+    { text: "incredible", className: "text-red-600" },
+    { text: "idea,", className: "text-black" },
+    { text: "right?", className: "text-black" }
   ]
   
   // Calculate dynamic positions for floating elements
@@ -146,9 +145,7 @@ export default function HeroInnovative() {
                 }
               }}
             >
-              We build websites, custom SaaS platforms, mobile apps, and 
-              AI automations that generate measurable ROI within 90 days. 
-              From MVP to scale, we're your technical co-founder.
+              We turn big ideas into businesses that actually work. We've been there, we've built our own stuff, and we're here to help you build yours.
             </motion.p>
             
             {/* CTA buttons with staggered animation */}
@@ -172,7 +169,7 @@ export default function HeroInnovative() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="relative z-10 flex items-center">
-                    Get in touch
+                    See the Playbook
                     <motion.span
                       className="inline-block ml-2"
                       initial={{ x: 0 }}
@@ -190,29 +187,9 @@ export default function HeroInnovative() {
                 </motion.button>
               </Link>
               
-              <motion.button 
-                className="group relative overflow-hidden bg-transparent border border-pink-300 text-black font-medium py-4 px-8 rounded-full"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => document.getElementById('process')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                <span className="relative z-10 flex items-center">
-                  View Our Process
-                  <motion.span
-                    className="inline-block ml-2"
-                    initial={{ x: 0 }}
-                    whileHover={{ x: 5 }}
-                  >
-                    <ArrowRight className="w-5 h-5" />
-                  </motion.span>
-                </span>
-                <motion.div 
-                  className="absolute inset-0 bg-pink-100"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                />
-              </motion.button>
+              <Link href="/contact" className="text-black hover:text-red-600 transition-colors duration-300">
+                or, let's chat about your project →
+              </Link>
             </motion.div>
           </div>
           

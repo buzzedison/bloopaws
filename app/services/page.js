@@ -4,80 +4,104 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import React, { useRef } from 'react'; 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Code, Bot, LineChart, GraduationCap } from 'lucide-react';
+import { ArrowRight, Code, Bot, LineChart, GraduationCap, DollarSign, Smartphone, Target, Zap, Users } from 'lucide-react';
 
 const services = [
   {
     id: 1,
-    title: "Digital Product Dev",
-    description: "From concept to launch, we build MVPs, robust SaaS platforms, engaging e-commerce experiences, and intuitive mobile apps. Our solutions are scalable, secure, and designed for future growth.",
-    details: [
-      "Rapid MVP development & validation",
-      "Scalable SaaS & E-commerce platforms",
-      "Intuitive cross-platform mobile apps",
-      "Future-proof architecture & design"
+    title: "Finding Funding: Getting the \"Yes\"",
+    problem: "Pitch decks are a nightmare. You've got one shot to convince investors, and you're not sure what they actually want to see.",
+    approach: "We don't just pretty up your slides. We help you build a bulletproof business case and a compelling story. We've been on both sides of the table, so we know what works.",
+    deliverables: [
+      "Pitch Deck Strategy & Design",
+      "Financial Modeling",
+      "Investor Targeting",
+      "Pitch Coaching"
     ],
-    icon: <Code size={28} className="text-red-600" />,
+    icon: <DollarSign size={28} className="text-red-600" />,
     bgColor: "bg-red-100/60", 
     textColor: "text-red-950", 
     accentColor: "text-red-600",
     primaryColor: "#ef4444", // Red
     secondaryColor: "#fee2e2", // Light red
-    link: "/services/web"
+    link: "/services/funding"
   },
   {
     id: 2,
-    title: "AI Automations",
-    description: "Leverage the power of AI to streamline operations and unlock new efficiencies. We build custom AI chatbots, content generation engines, intelligent dashboards, and automated workflows.",
-    details: [
-      "Intelligent chatbots & customer support AI",
-      "Automated content & marketing workflows",
-      "Data-driven dashboards & predictive insights",
-      "Custom AI models tailored to your business"
+    title: "Web & App Builds: Building Something People Love (and Use)",
+    problem: "Tech can feel like a black box. You need more than just a website; you need a platform that converts, a product that works, and an experience that keeps users coming back.",
+    approach: "We build with your business goals in mind. Every line of code, every pixel, and every user flow is designed to get a result—whether that's a sale, a signup, or a subscription.",
+    deliverables: [
+      "MVP Development",
+      "Full-Stack Web & App Builds",
+      "UI/UX Design",
+      "Conversion Rate Optimization"
     ],
-    icon: <Bot size={28} className="text-violet-600" />,
+    icon: <Smartphone size={28} className="text-violet-600" />,
     bgColor: "bg-violet-100/60", 
     textColor: "text-violet-950",
     accentColor: "text-violet-600",
     primaryColor: "#8b5cf6", // Violet
     secondaryColor: "#ede9fe", // Light violet
-    link: "/services/ai"
+    link: "/services/web"
   },
   {
     id: 3,
-    title: "Strategy & Advisory",
-    description: "Navigate the complexities of growth with expert guidance. We help startups define go-to-market strategies, craft compelling pricing models, develop investor-ready decks, and secure funding.",
-    details: [
-      "Data-backed go-to-market strategies",
-      "Effective pricing & monetization models",
-      "Investor deck creation & pitch coaching",
-      "Fractional leadership & strategic advisory"
+    title: "AI & Automation: Put Your Business on Autopilot",
+    problem: "Your to-do list is endless. Repetitive, manual tasks are eating up the hours you should be spending on growth. You hear about AI everywhere, but it feels like a complicated, expensive world you don't have time to enter.",
+    approach: "We skip the hype. Our goal is simple: find the parts of your business that are slowing you down and automate them. We integrate smart AI tools and build custom workflows that handle the grunt work—from qualifying leads to answering customer queries. It's about freeing up your best people (especially you) to do their best work.",
+    deliverables: [
+      "Custom Workflow Automation",
+      "AI-Powered Chatbots",
+      "Automated Lead Nurturing",
+      "Smart Internal Tools & Dashboards"
     ],
-    icon: <LineChart size={28} className="text-amber-600" />,
+    icon: <Zap size={28} className="text-amber-600" />,
     bgColor: "bg-amber-100/60", 
     textColor: "text-amber-950",
     accentColor: "text-amber-600",
     primaryColor: "#d97706", // Amber
     secondaryColor: "#fef3c7", // Light amber
-    link: "/services/strategy"
+    link: "/services/ai"
   },
   {
     id: 4,
-    title: "Training & Bloop Academy",
-    description: "Empower your team with the skills they need to excel. We offer live cohorts, custom corporate workshops, and online courses through Bloop Academy, transforming teams into high-performing operators.",
-    details: [
-      "Hands-on training cohorts & workshops",
-      "Customized corporate training programs",
-      "Comprehensive online courses (Bloop Academy)",
-      "Building internal capabilities & skills"
+    title: "Market Strategy: Finding Your People",
+    problem: "You built something amazing, but nobody knows it exists. Shouting into the void of social media isn't a strategy.",
+    approach: "We skip the fluff and find the most direct path to your ideal customers. We use data to understand who they are, where they hang out, and what they want to hear.",
+    deliverables: [
+      "Market Research",
+      "Go-to-Market Strategy",
+      "Customer Persona Development",
+      "Digital Marketing Roadmaps"
     ],
-    icon: <GraduationCap size={28} className="text-red-600" />, 
+    icon: <Target size={28} className="text-purple-600" />,
+    bgColor: "bg-purple-100/60", 
+    textColor: "text-purple-950",
+    accentColor: "text-purple-600",
+    primaryColor: "#9333ea", // Purple
+    secondaryColor: "#f3e8ff", // Light purple
+    link: "/services/strategy"
+  },
+  {
+    id: 5,
+    title: "TaskWit Training: Build a Rockstar Crew",
+    problem: "Your team is smart and capable, but they need the right tools and processes to truly crush it. Boring lectures just won't cut it.",
+    approach: "We got so obsessed with making teams work smarter that we built a dedicated training arm to teach our methods. That's TaskWit. It's our system for hands-on, real-world workshops that actually stick, delivered with the same practical, no-fluff approach we apply to everything we do.",
+    deliverables: [
+      "Agile & Scrum bootcamps",
+      "Sales process workshops", 
+      "Digital marketing training",
+      "Custom team effectiveness programs"
+    ],
+    icon: <Users size={28} className="text-red-600" />, 
     bgColor: "bg-red-100/60", 
     textColor: "text-red-950", 
     accentColor: "text-red-600",
     primaryColor: "#ef4444", // Red
     secondaryColor: "#fee2e2", // Light red
-    link: "/services/training"
+    link: "https://www.taskwit.co",
+    isExternal: true
   }
  ];
 
@@ -234,7 +258,7 @@ const ServiceSection = ({ service, index }) => {
           </>
         );
         
-      case 2: // Strategy & Advisory - Charts and growth patterns
+      case 2: // AI & Automation - Neural network inspired
         return (
           <>
             {/* Gradient background - softer */}
@@ -292,7 +316,55 @@ const ServiceSection = ({ service, index }) => {
           </>
         );
         
-      case 3: // Training & Academy - Learning and growth
+      case 3: // Market Strategy - Charts and growth patterns
+        return (
+          <>
+            {/* Gradient background - softer */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-green-50/30"></div>
+            
+            {/* Target/bullseye pattern */}
+            <motion.div 
+              className="absolute left-[10%] top-[20%] w-[35vw] h-[35vw] rounded-full opacity-10"
+              style={{ 
+                background: `radial-gradient(circle at 50% 50%, transparent 30%, ${service.primaryColor}40 32%, transparent 34%, transparent 50%, ${service.primaryColor}30 52%, transparent 54%)`,
+                scale: shapeScale2,
+                x: shapeX2,
+                opacity: bgOpacity
+              }}
+            />
+            
+            {/* Customer journey dots */}
+            {[1, 2, 3, 4, 5].map(i => (
+              <motion.div 
+                key={i}
+                className="absolute rounded-full opacity-15"
+                style={{ 
+                  backgroundColor: `${service.primaryColor}90`,
+                  width: `${i * 2 + 8}px`,
+                  height: `${i * 2 + 8}px`,
+                  left: `${i * 12 + 25}%`,
+                  top: `${(i * 8 + 40) % 70}%`,
+                  scale: useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.2, 0.9]),
+                  opacity: bgOpacity
+                }}
+              />
+            ))}
+            
+            {/* Strategic shape */}
+            <motion.div 
+              className="absolute right-[20%] bottom-[25%] w-[25vw] h-[25vw] opacity-10"
+              style={{ 
+                background: `radial-gradient(circle at 40% 40%, ${service.secondaryColor}60, ${service.primaryColor}30)`,
+                borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+                scale: shapeScale1,
+                rotate: shapeRotate2,
+                opacity: bgOpacity
+              }}
+            />
+          </>
+        );
+        
+      case 4: // Training & Academy - Learning and growth
         return (
           <>
             {/* Gradient background - softer */}
@@ -349,61 +421,203 @@ const ServiceSection = ({ service, index }) => {
   return (
     <section 
       ref={sectionRef}
-      className={`relative py-32 md:py-48 min-h-[110vh] overflow-hidden`}
+      className="relative py-32 overflow-hidden bg-gradient-to-br from-pink-50 via-white to-pink-50"
     >
-      {/* Dynamic Background Composition */}
-      <div className="absolute inset-0 overflow-hidden">
-        {renderBackgroundShapes()}
+      {/* Enhanced background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-red-100/40 to-pink-200/40 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-pink-200/30 to-red-100/30 rounded-full blur-2xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-red-50/20 to-pink-50/20 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Content Overlay - Sticky positioned, asymmetric alignment */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full h-full">
-        <div className={`flex items-start h-full ${alignmentClass}`}>
-          <motion.div 
-            className={`sticky ${stickyTopClass} md:w-1/2 ${textWidthClass} p-8 md:p-10 rounded-xl shadow-xl backdrop-blur-lg bg-white/90`}
-            style={{ 
-              opacity: textOpacity, 
-              y: textY,
-              rotate: textRotate
-            }}
-            variants={textContainerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-          >
-            <motion.div className="inline-flex items-center space-x-3 mb-6" variants={itemVariants}> 
-              <span className={`p-3 rounded-full ${service.bgColor}`}>{service.icon}</span> 
-              <h2 className={`text-3xl lg:text-4xl font-bold tracking-tight ${service.textColor}`}>{service.title}</h2>
-            </motion.div>
-            <motion.p className="text-base lg:text-lg text-gray-700 mb-7 leading-relaxed" variants={itemVariants}> 
-              {service.description}
-            </motion.p>
-            <ul className="space-y-3 mb-9 text-gray-600 text-sm lg:text-base"> 
-              {service.details.map((detail, i) => (
-                <motion.li key={i} className="flex items-start" variants={itemVariants}>
-                  <svg className={`w-5 h-5 ${service.accentColor} mr-3 mt-[0.1rem] flex-shrink-0`} fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span>{detail}</span>
-                </motion.li>
-              ))}
-            </ul>
-            <motion.div variants={itemVariants}>
-              {/* Updated Button Style - assuming a primary style exists */} 
-              <Link href={service.link}>
-                <button className={`group inline-flex items-center justify-center px-6 py-3 rounded-md text-base font-semibold transition-all duration-300 ease-in-out 
-                                   ${service.accentColor.replace('text-', 'bg-')} text-white 
-                                   hover:opacity-90 hover:shadow-md 
-                                   focus:outline-none focus:ring-2 focus:ring-offset-2 ${service.accentColor.replace('text-', 'focus:ring-')}
-                                   `}> 
-                  Learn More 
-                  <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        {/* Service card */}
+        <motion.div
+          className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-pink-200/50 overflow-hidden group hover:shadow-red-200/50 transition-all duration-700"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          whileHover={{ y: -10 }}
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[600px]">
+            
+            {/* Icon side - enhanced */}
+            <div className={`lg:col-span-5 relative flex items-center justify-center p-12 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+              <div className="absolute inset-0 bg-gradient-to-br from-red-50 to-pink-100 opacity-50"></div>
+              <motion.div
+                className="relative z-10"
+                initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+              >
+                {/* Main icon container */}
+                <div className="relative">
+                  <div className="w-80 h-80 bg-gradient-to-br from-white to-pink-50 rounded-full flex items-center justify-center shadow-2xl border border-pink-200/30">
+                    <div className="w-64 h-64 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-inner">
+                      <div className="text-white scale-[4] drop-shadow-lg">
+                        {React.cloneElement(service.icon, { className: "text-white" })}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Floating elements around icon */}
+                  {[...Array(12)].map((_, i) => {
+                    const angle = (i / 12) * Math.PI * 2
+                    const radius = 180 + (i % 3) * 20
+                    const x = Math.cos(angle) * radius
+                    const y = Math.sin(angle) * radius
+                    
+                    return (
+                      <motion.div
+                        key={`element-${i}`}
+                        className="absolute"
+                        style={{
+                          top: "50%",
+                          left: "50%",
+                          translateX: "-50%",
+                          translateY: "-50%",
+                          x,
+                          y
+                        }}
+                        initial={{ opacity: 0, scale: 0 }}
+                        whileInView={{ 
+                          opacity: 0.6, 
+                          scale: 1,
+                        }}
+                        viewport={{ once: true }}
+                        animate={{
+                          rotate: [0, 360],
+                          scale: [1, 1.2, 1]
+                        }}
+                        transition={{ 
+                          opacity: { delay: 0.8 + (i * 0.1), duration: 0.6, ease: "easeOut" },
+                          scale: { delay: 0.8 + (i * 0.1), duration: 0.6, ease: "easeOut", repeat: Infinity, repeatType: "reverse", repeatDelay: 2 },
+                          rotate: { duration: 20, repeat: Infinity, ease: "linear" }
+                        }}
+                      >
+                        <div className={`w-4 h-4 rounded-full ${i % 3 === 0 ? 'bg-white' : i % 3 === 1 ? 'bg-pink-200' : 'bg-pink-100'} shadow-lg`}></div>
+                      </motion.div>
+                    )
+                  })}
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Content side - enhanced */}
+            <div className={`lg:col-span-7 p-12 flex flex-col justify-center ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+              <motion.div 
+                className="space-y-8"
+                variants={textContainerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                {/* Service number */}
+                <motion.div className="mb-6" variants={itemVariants}>
+                  <span className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 text-white text-2xl font-bold rounded-2xl shadow-lg">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </motion.div>
+                
+                {/* Title */}
+                <motion.div className="mb-8" variants={itemVariants}> 
+                  <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-black leading-tight">
+                    {service.title}
+                  </h2>
+                </motion.div>
+                
+                {/* Problem section */}
+                <motion.div className="mb-8 p-6 bg-red-50 rounded-2xl border-l-4 border-red-500" variants={itemVariants}>
+                  <h3 className="text-xl font-bold text-red-600 mb-3 flex items-center">
+                    <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                    The Problem
+                  </h3>
+                  <p className="text-lg text-black leading-relaxed">{service.problem}</p>
+                </motion.div>
+                
+                {/* Approach section */}
+                <motion.div className="mb-8 p-6 bg-pink-50 rounded-2xl border-l-4 border-pink-500" variants={itemVariants}>
+                  <h3 className="text-xl font-bold text-pink-600 mb-3 flex items-center">
+                    <span className="w-2 h-2 bg-pink-500 rounded-full mr-3"></span>
+                    Our Approach
+                  </h3>
+                  <p className="text-lg text-black leading-relaxed">{service.approach}</p>
+                </motion.div>
+                
+                {/* Deliverables section */}
+                <motion.div className="mb-10 p-6 bg-gradient-to-br from-gray-50 to-pink-50 rounded-2xl" variants={itemVariants}>
+                  <h3 className="text-xl font-bold text-black mb-6 flex items-center">
+                    <span className="w-2 h-2 bg-black rounded-full mr-3"></span>
+                    What You Get
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                    {service.deliverables.map((deliverable, i) => (
+                      <motion.div 
+                        key={i} 
+                        className="flex items-center p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.02 }}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                          <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <span className="text-black font-medium">{deliverable}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+                
+                {/* CTA Button */}
+                <motion.div variants={itemVariants}>
+                  {service.isExternal ? (
+                    <a href={service.link} target="_blank" rel="noopener noreferrer">
+                      <motion.button 
+                        className="group relative overflow-hidden bg-gradient-to-r from-red-500 to-red-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      > 
+                        <span className="relative z-10 flex items-center text-lg">
+                          {service.id === 5 ? 'Explore Courses on Taskwit.co' : 'Learn More'}
+                          <ArrowRight className="ml-3 w-6 h-6 transition-transform duration-300 group-hover:translate-x-1" />
+                        </span>
+                        <motion.div 
+                          className="absolute inset-0 bg-black"
+                          initial={{ x: "-100%" }}
+                          whileHover={{ x: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                        />
+                      </motion.button>
+                    </a>
+                  ) : (
+                    <Link href={service.link}>
+                      <motion.button 
+                        className="group relative overflow-hidden bg-gradient-to-r from-red-500 to-red-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      > 
+                        <span className="relative z-10 flex items-center text-lg">
+                          Learn More 
+                          <ArrowRight className="ml-3 w-6 h-6 transition-transform duration-300 group-hover:translate-x-1" />
+                        </span>
+                        <motion.div 
+                          className="absolute inset-0 bg-black"
+                          initial={{ x: "-100%" }}
+                          whileHover={{ x: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                        />
+                      </motion.button>
+                    </Link>
+                  )}
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -422,39 +636,33 @@ const ServicesPage = () => {
 
   return (
     <div className="font-sans antialiased text-gray-900 bg-white overflow-x-hidden"> 
-      <div ref={heroRef} className="relative h-[80vh] md:h-[90vh]"> 
-        <motion.div 
-          className="sticky top-0 h-full flex items-center justify-center text-center overflow-hidden bg-gradient-to-br from-gray-50 to-red-100/50" 
-        >
-          <motion.div 
-            className="absolute inset-0 z-0 opacity-10"
-            style={{ 
-              y: patternY, 
-              opacity: patternOpacity, // Apply fade out
-              backgroundImage: 'url(/images/patterns/hero-subtle-waves.svg)', // Ensure pattern is applied
-              backgroundRepeat: 'repeat',
-              backgroundSize: 'auto 400px' // Adjust size if needed
-            }}
-          />
-          
-          <motion.div 
-            className="max-w-4xl mx-auto px-6 relative z-10"
-          >
+      {/* Hero Section - Matching homepage style */}
+      <div ref={heroRef} className="relative min-h-[90vh] bg-gradient-to-br from-pink-50 via-white to-pink-50 overflow-hidden"> 
+        {/* Background decorative elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-red-100 rounded-full opacity-20 blur-xl"></div>
+          <div className="absolute bottom-20 right-20 w-24 h-24 bg-pink-100 rounded-full opacity-30 blur-lg"></div>
+          <div className="absolute top-1/2 left-10 w-2 h-48 bg-gradient-to-b from-red-200 to-transparent transform -rotate-12"></div>
+          <div className="absolute top-1/3 right-10 w-2 h-32 bg-gradient-to-b from-pink-200 to-transparent transform rotate-12"></div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 flex flex-col items-center justify-center min-h-[90vh]">
+          <div className="text-center max-w-5xl">
             <motion.h1 
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight tracking-tighter" 
+              className="text-5xl md:text-6xl xl:text-7xl font-extrabold text-black mb-6 leading-tight tracking-tight" 
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
             >
-              Fueling Growth, <span className="text-red-600">Building Futures</span>
+              We handle the <span className="text-red-600">hard parts.</span>
             </motion.h1>
             <motion.p 
-              className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10" 
+              className="text-xl md:text-2xl text-black max-w-4xl mx-auto mb-12 leading-relaxed" 
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
             >
-              Explore our comprehensive suite of services designed to accelerate your startup's journey from idea to impact.
+              You've got the vision. We've got the toolkit to build it. We plug in where you need us most, from getting that first check to putting your operations on autopilot.
             </motion.p>
             <motion.div
                initial={{ y: 30, opacity: 0 }}
@@ -462,13 +670,32 @@ const ServicesPage = () => {
                transition={{ duration: 0.8, ease: 'easeOut', delay: 0.5 }}
             >
               <Link href="/contact">
-                  <button className="bg-red-600 text-white font-semibold py-3.5 px-9 rounded-full hover:bg-red-700 transition-all duration-300 shadow-lg hover:shadow-xl text-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"> 
-                      Get Started Today
-                  </button>
+                <motion.button 
+                  className="group relative overflow-hidden bg-red-600 text-white font-medium py-4 px-8 rounded-full shadow-lg"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <span className="relative z-10 flex items-center">
+                    Get Started Today
+                    <motion.span
+                      className="inline-block ml-2"
+                      initial={{ x: 0 }}
+                      whileHover={{ x: 5 }}
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.span>
+                  </span>
+                  <motion.div 
+                    className="absolute inset-0 bg-black"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  />
+                </motion.button>
               </Link>
             </motion.div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
       {/* Sections now stack directly */}
@@ -478,41 +705,67 @@ const ServicesPage = () => {
         ))}
       </div>
 
-      <section className="relative py-24 md:py-32 bg-gradient-to-br from-red-600 to-red-800 text-white overflow-hidden"> 
-        <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/3 -translate-y-1/3 filter blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-white/10 rounded-full translate-x-1/4 translate-y-1/4 filter blur-3xl"></div>
+      {/* Final CTA Section - Matching homepage style */}
+      <section className="py-24 px-4 bg-gradient-to-br from-red-600 to-red-700 text-white relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
+          <div className="absolute bottom-20 right-20 w-24 h-24 bg-white/5 rounded-full blur-lg"></div>
+          <div className="absolute top-1/2 left-10 w-2 h-48 bg-gradient-to-b from-white/20 to-transparent transform -rotate-12"></div>
+          <div className="absolute top-1/3 right-10 w-2 h-32 bg-gradient-to-b from-white/10 to-transparent transform rotate-12"></div>
+        </div>
 
-        <div className="relative max-w-4xl mx-auto px-6 text-center z-10"> 
+        <div className="max-w-7xl mx-auto text-center relative z-10">
           <motion.h2 
-            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 tracking-tight" 
-            initial={{ opacity: 0, y: 20 }}
+            className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            Ready to Transform Your Vision into Reality?
+            Ready to make it{" "}
+            <span className="text-white">real?</span>
           </motion.h2>
+          
           <motion.p 
-            className="text-lg md:text-xl mb-10 text-red-100 max-w-2xl mx-auto" 
-            initial={{ opacity: 0, y: 20 }}
+            className="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
-            Partner with Bloop Global and let's build something extraordinary together. We're excited to hear about your project.
+            Enough thinking, more doing. Let's talk about that idea of yours.
           </motion.p>
+          
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           >
             <Link href="/contact">
-                <button className="bg-white text-red-700 font-bold py-4 px-10 rounded-full hover:bg-red-50 transition-all duration-300 shadow-xl text-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-red-700"> 
-                    Discuss Your Project
-                </button>
+              <button className="group relative overflow-hidden bg-white text-red-600 hover:bg-black hover:text-white font-bold py-4 px-10 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
+                <span className="relative z-10 flex items-center">
+                  Let's Chat
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </span>
+              </button>
             </Link>
-           </motion.div>
+          </motion.div>
+          
+          <motion.p 
+            className="text-sm opacity-70 mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            Or email us at{" "}
+            <a href="mailto:ask@bloopglobal.com" className="underline hover:no-underline font-medium">
+              ask@bloopglobal.com
+            </a>{" "}
+            with your project details
+          </motion.p>
         </div>
       </section>
     </div>

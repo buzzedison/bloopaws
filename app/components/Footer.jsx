@@ -23,73 +23,68 @@ const Footer = () => (
               </Link>
             </li>
             <li>
+              <Link href="/services" className="hover:text-red-600 transition-colors duration-200">
+                How We Help
+              </Link>
+            </li>
+            <li>
+              <Link href="/casestudies" className="hover:text-red-600 transition-colors duration-200">
+                Our Stories
+              </Link>
+            </li>
+            <li>
+              <Link href="/freebies" className="hover:text-red-600 transition-colors duration-200">
+                The Playbook
+              </Link>
+            </li>
+            <li>
+              <Link href="/about" className="hover:text-red-600 transition-colors duration-200">
+                About Us
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-gray-800">Bloop Global</h3>
+          <ul className="space-y-2">
+            <li>
               <Link href="/about" className="hover:text-red-600 transition-colors duration-200">
                 About Us
               </Link>
             </li>
             <li>
-              <Link href="/services" className="hover:text-red-600 transition-colors duration-200">
-                Services
+              <Link href="/casestudies" className="hover:text-red-600 transition-colors duration-200">
+                Our Stories
               </Link>
             </li>
             <li>
-              <Link href="/insight" className="hover:text-red-600 transition-colors duration-200">
-                Insight
+              <Link href="/contact" className="hover:text-red-600 transition-colors duration-200">
+                Contact
               </Link>
             </li>
             <li>
               <Link href="/careers" className="hover:text-red-600 transition-colors duration-200">
-                Careers
+                Join the Crew
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-800">Services</h3>
+          <h3 className="text-lg font-semibold mb-4 text-gray-800">Resources</h3>
           <ul className="space-y-2">
             <li>
-              <Link href="/services/web" className="hover:text-red-600 transition-colors duration-200">Web Development
+              <Link href="/freebies" className="hover:text-red-600 transition-colors duration-200">
+                The Playbook
               </Link>
             </li>
             <li>
-              <Link href="/services/mobile" className="hover:text-red-600 transition-colors duration-200">Mobile Development
+              <Link href="/insight" className="hover:text-red-600 transition-colors duration-200">
+                Start Here
               </Link>
             </li>
             <li>
-              <Link href="/services/business" className="hover:text-red-600 transition-colors duration-200">Business Development
-              </Link>
-            </li>
-            <li>
-              <Link href="/services/training" className="hover:text-red-600 transition-colors duration-200">Training
-              </Link>
-            </li>
-            <li>
-              <Link href="/education" className="hover:text-red-600 transition-colors duration-200">Education
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-800">Industries</h3>
-          <ul className="space-y-2">
-            <li>
-              <Link href="/industries/technology" className="hover:text-red-600 transition-colors duration-200">
-                Technology
-              </Link>
-            </li>
-            <li>
-              <Link href="/industries/healthcare" className="hover:text-red-600 transition-colors duration-200">
-                Healthcare
-              </Link>
-            </li>
-            <li>
-              <Link href="/industries/education" className="hover:text-red-600 transition-colors duration-200">
-                Education
-              </Link>
-            </li>
-            <li>
-              <Link href="/industries/finance" className="hover:text-red-600 transition-colors duration-200">
-                Finance
+              <Link href="/resources" className="hover:text-red-600 transition-colors duration-200">
+                Tools We Use
               </Link>
             </li>
           </ul>

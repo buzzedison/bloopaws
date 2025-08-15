@@ -52,14 +52,15 @@ export default function InsightsInnovative({ posts }: InsightsInnovativeProps) {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-black">
+            Growth Isn't Magic.{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-red-400">
-              Unlock Explosive Business Growth
+              It's a Playbook.
             </span>
           </h2>
           <div className="h-1 w-24 bg-red-600 mx-auto mb-6"></div>
-          <p className="text-2xl text-gray-700 max-w-3xl mx-auto">
-            With Insight From Bloop
+          <p className="text-xl text-black max-w-4xl mx-auto leading-relaxed">
+            Big growth comes from getting a thousand small things right. We've been in the trenches, made the mistakes, and found what works—and we wrote it all down. This is our collection of no-BS insights, actionable guides, and lessons learned the hard way.
           </p>
         </motion.div>
         
