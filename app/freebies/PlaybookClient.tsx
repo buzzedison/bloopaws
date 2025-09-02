@@ -5,6 +5,10 @@ import Link from "next/link";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { Search, Target, DollarSign, TrendingUp, ArrowRight, Mail } from "lucide-react";
+import imageUrlBuilder from "@sanity/image-url";
+import { client } from "../../sanity/lib/client";
+
+const builder = imageUrlBuilder(client);
 
 interface Article {
   _id: string;
@@ -13,6 +17,10 @@ interface Article {
   slug: { current: string };
   publishedAt?: string;
   categories?: Category[];
+  mainImage?: {
+    asset: { _id: string };
+    alt: string;
+  };
 }
 
 interface Category {
@@ -137,22 +145,101 @@ export default function PlaybookClient({
     return categories[index % categories.length];
   };
 
-  return (
-    <main className="flex flex-col min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] bg-gradient-to-br from-pink-50 via-white to-pink-50 overflow-hidden">
-        {/* Background decorative elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-red-100 rounded-full opacity-20 blur-xl"></div>
-          <div className="absolute bottom-20 right-20 w-24 h-24 bg-pink-100 rounded-full opacity-30 blur-lg"></div>
-          <div className="absolute top-1/2 left-10 w-2 h-48 bg-gradient-to-b from-red-200 to-transparent transform -rotate-12"></div>
-          <div className="absolute top-1/3 right-10 w-2 h-32 bg-gradient-to-b from-pink-200 to-transparent transform rotate-12"></div>
-        </div>
+  // Select featured post (first of allPosts)
+  const featured = allPosts[0];
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 flex flex-col items-center justify-center min-h-[90vh]">
-          <div className="text-center max-w-5xl">
+  return (
+    <main className="flex flex-col min-h-screen bg-white pt-8">
+      {/* Featured lead article (Big Think-style) - now first */}
+      <section id="featured" className="py-12 px-4 bg-white">
+
+        <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          {/* Lead feature */}
+          <div className="lg:col-span-2">
+            {featured && (
+              <motion.article
+                className="group relative overflow-hidden rounded-3xl border border-pink-200/60 bg-white shadow-sm hover:shadow-lg transition"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.7, ease: 'easeOut' }}
+              >
+                {featured.mainImage && (
+                  <div className="relative h-56 md:h-72 w-full overflow-hidden">
+                    <Image
+                      src={builder.image(featured.mainImage).width(1200).height(675).url()}
+                      alt={featured?.mainImage?.alt || featured.title}
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 1024px) 66vw, 100vw"
+                    />
+                  </div>
+                )}
+                <div className="p-8 md:p-10">
+                  {featured.categories?.length ? (
+                    <span className="inline-flex items-center rounded-full bg-red-100 text-red-700 text-xs px-3 py-1 mb-4">
+                      {featured.categories[0].title}
+                    </span>
+                  ) : null}
+                  <h2 className="text-3xl md:text-4xl font-extrabold leading-tight mb-3">
+                    <Link href={`/insight/${featured.slug.current}`} className="hover:text-red-600 transition-colors">
+                      {featured.title}
+                    </Link>
+                  </h2>
+                  <p className="text-neutral-700 mb-6">{featured.excerpt || 'Actionable insight from the trenches.'}</p>
+                  <Link href={`/insight/${featured.slug.current}`} className="inline-flex items-center text-red-600 font-medium">
+                    Read more
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+              </motion.article>
+            )}
+          </div>
+
+          {/* Side rail: newsletter + trending */}
+          <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 self-start">
+            <div className="rounded-3xl border border-pink-200/60 bg-white p-6">
+              <h3 className="text-lg font-semibold mb-2">Subscribe to The Build Sheet</h3>
+              <p className="text-sm text-neutral-600 mb-4">Weekly ideas, tools, and zero hype.</p>
+              <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
+                <input className="flex-1 rounded-xl border border-pink-200 px-3 py-2" placeholder="you@company.com"/>
+                <button className="rounded-xl bg-red-600 px-4 py-2 text-white">Subscribe</button>
+              </form>
+            </div>
+
+            <div className="rounded-3xl border border-pink-200/60 bg-white p-6">
+              <h3 className="text-lg font-semibold mb-3">Trending</h3>
+              <ul className="space-y-3">
+                {allPosts.slice(1,6).map((p) => (
+                  <li key={p._id} className="flex items-start gap-3">
+                    {p.mainImage ? (
+                      <div className="relative w-16 h-12 flex-shrink-0 overflow-hidden rounded">
+                        <Image
+                          src={builder.image(p.mainImage).width(160).height(120).url()}
+                          alt={p?.mainImage?.alt || p.title}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
+                        />
+                      </div>
+                    ) : null}
+                    <Link href={`/insight/${p.slug.current}`} className="text-sm hover:text-red-600 leading-snug">
+                      {p.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+            {/* Hero with integrated search - Big Think style */}
+      <section className="relative bg-gradient-to-b from-white to-pink-50/60 overflow-hidden">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
+          <div className="text-center max-w-5xl mx-auto">
             <motion.h1 
-              className="text-5xl md:text-6xl xl:text-7xl font-extrabold text-black mb-6 leading-tight tracking-tight" 
+              className="text-5xl md:text-6xl xl:text-7xl font-extrabold text-black mb-8 leading-tight tracking-tight"
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
@@ -161,247 +248,286 @@ export default function PlaybookClient({
               <span className="text-red-600">Than a Guess.</span>
             </motion.h1>
             <motion.p 
-              className="text-xl md:text-2xl text-black max-w-4xl mx-auto mb-12 leading-relaxed" 
+              className="text-xl md:text-2xl text-black max-w-4xl mx-auto mb-16 leading-relaxed"
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
             >
               We've launched products, chased funding, and learned countless lessons the hard way. This is where we share everything. The strategies, the mistakes, the templates—all of it. No fluff, no gatekeeping. Just real-world advice from the trenches to help you build something that lasts.
             </motion.p>
-          </div>
-        </div>
-      </section>
 
-      {/* Featured "Start Here" Section */}
-      <section className="py-24 px-4 bg-gradient-to-br from-white via-pink-50 to-white relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-1/4 w-1 h-40 bg-gradient-to-b from-red-200 to-transparent transform rotate-45"></div>
-          <div className="absolute bottom-10 right-1/4 w-1 h-40 bg-gradient-to-b from-pink-200 to-transparent transform -rotate-45"></div>
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto">
+            {/* Premium Big Think-style search area */}
           <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
-              New Here? <span className="text-red-600">Start With These.</span>
-            </h2>
-          </motion.div>
+              className="max-w-6xl mx-auto mb-8"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 }}
+            >
+              {/* Elegant search container with premium styling */}
+              <div className="relative">
+                {/* Sophisticated background effects */}
+                <div className="absolute inset-0 bg-gradient-to-r from-red-50/40 via-white to-pink-50/40 rounded-3xl blur-2xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-red-50/30 to-pink-50/30 rounded-3xl"></div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {cornerstoneArticles.map((article, index) => {
-              const articleIcon = getArticleIcon(index);
-              // Truncate title if too long
-              const shortTitle = article.title.length > 60 
-                ? article.title.substring(0, 60) + "..." 
-                : article.title;
-              // Create short excerpt (limit to ~100 chars)
-              const shortExcerpt = article.excerpt 
-                ? (article.excerpt.length > 100 ? article.excerpt.substring(0, 100) + "..." : article.excerpt)
-                : "Discover actionable insights and proven strategies from our experience.";
-              
-              return (
-                <motion.div
-                  key={article._id}
-                  className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-pink-200/50 p-8 hover:shadow-xl hover:shadow-red-100/50 hover:-translate-y-2 transition-all duration-300 group"
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
-                >
-                  <div className={`w-16 h-16 bg-gradient-to-br ${articleIcon.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <div className="text-white">
-                      {articleIcon.icon}
+                {/* Main search card with luxury styling */}
+                <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl border border-red-100/50 shadow-2xl shadow-red-100/30 p-12">
+                  {/* Premium header */}
+                  <div className="text-center mb-10">
+                    <div className="inline-flex items-center gap-2 mb-4">
+                      <div className="w-2 h-2 bg-gradient-to-r from-red-500 to-pink-500 rounded-full"></div>
+                      <span className="text-red-600 font-semibold text-sm tracking-wider uppercase">Search & Discover</span>
+                      <div className="w-2 h-2 bg-gradient-to-r from-pink-500 to-red-500 rounded-full"></div>
                     </div>
+                    <h3 className="text-3xl font-bold text-gray-900 mb-3">Find the Perfect Insight</h3>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Explore our curated collection of strategies, case studies, and actionable advice from seasoned builders</p>
                   </div>
-                  <h3 className="text-xl font-bold text-black mb-4 leading-tight">
-                    {shortTitle}
-                  </h3>
-                  <p className="text-black leading-relaxed mb-6">
-                    {shortExcerpt}
-                  </p>
-                  <Link href={`/insight/${article.slug.current}`} className="inline-flex items-center text-red-600 font-medium hover:text-red-700 transition-colors duration-300">
-                    Read More
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-                  </Link>
-                </motion.div>
-              );
-            })}
+
+                  {/* Elegant search input */}
+                  <div className="relative mb-10">
+                    <div className="relative group">
+                      {/* Premium search icon */}
+                      <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-10">
+                        <div className="bg-gradient-to-r from-red-500 via-red-600 to-pink-600 p-4 rounded-2xl shadow-lg shadow-red-200/50 group-hover:shadow-red-300/50 transition-all duration-300">
+                          <Search className="w-7 h-7 text-white" />
           </div>
         </div>
-      </section>
 
-      {/* Content Hub / Filtering Section */}
-      <section className="py-24 px-4 bg-gradient-to-br from-pink-50 via-white to-pink-50">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
-              Find Your <span className="text-red-600">Play</span>
-            </h2>
-            <p className="text-xl text-black max-w-3xl mx-auto leading-relaxed mb-8">
-              Dive into our full library of insights. Use the filters to find exactly what you need for the challenge you're facing today.
-            </p>
-            
-            {(searchQuery || activeFilter !== "All Posts") && (
-              <div className="mb-6 text-center">
-                <p className="text-gray-600">
-                  {filteredPosts.length === 0 
-                    ? "No posts found matching your criteria" 
-                    : `Showing ${filteredPosts.length} post${filteredPosts.length === 1 ? '' : 's'}`
-                  }
-                  {searchQuery && ` for "${searchQuery}"`}
-                  {activeFilter !== "All Posts" && ` in ${activeFilter}`}
-                </p>
-              </div>
-            )}
-
-            {/* Search Bar */}
-            <div className="relative max-w-2xl mx-auto mb-8">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search all insights..."
+                        placeholder="What challenge are you facing today?"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 rounded-full border border-pink-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white/80 backdrop-blur-sm text-lg"
-              />
+                        className="w-full pl-24 pr-8 py-6 text-xl border-0 focus:ring-0 focus:outline-none placeholder-gray-400 bg-gradient-to-r from-white to-red-50/30 rounded-2xl hover:from-red-50/50 hover:to-pink-50/50 transition-all duration-300 shadow-inner border border-red-100/30 focus:border-red-200 focus:shadow-lg focus:shadow-red-100/50"
+                      />
+
+                      {/* Subtle focus ring effect */}
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-400/20 to-pink-400/20 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 -z-10"></div>
+                    </div>
+                  </div>
+
+                  {/* Premium popular searches */}
+                  <div className="flex flex-wrap items-center justify-center gap-4">
+                    <div className="text-red-600 font-semibold text-sm px-4 py-2 rounded-full bg-red-50 border border-red-100">
+                      Trending searches
             </div>
 
-            {/* Filter Buttons */}
-            <div className="flex flex-wrap justify-center gap-3">
-              {filters.map((filter) => (
+                    {[
+                      { term: 'startup funding', color: 'from-red-500 to-red-600' },
+                      { term: 'product strategy', color: 'from-red-500 to-red-600' },
+                      { term: 'team building', color: 'from-red-500 to-red-600' },
+                      { term: 'market validation', color: 'from-red-500 to-red-600' }
+                    ].map(({ term, color }) => (
                 <button
-                  key={filter}
-                  onClick={() => setActiveFilter(filter)}
-                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                    activeFilter === filter
-                      ? 'bg-red-600 text-white shadow-lg'
-                      : 'bg-white/80 text-black border border-pink-200 hover:bg-red-50 hover:border-red-200'
-                  }`}
-                >
-                  {filter}
+                        key={term}
+                        onClick={() => setSearchQuery(term)}
+                        className="group relative px-6 py-3 rounded-full bg-white text-gray-700 hover:text-white transition-all duration-300 font-medium text-sm border border-red-100 hover:border-transparent hover:shadow-lg hover:shadow-red-200/50 overflow-hidden"
+                      >
+                        <div className={`absolute inset-0 bg-gradient-to-r ${color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                        <div className="relative">
+                          {term}
+                        </div>
                 </button>
               ))}
+                  </div>
+
+                  {/* Elegant decorative elements */}
+                  <div className="absolute -top-3 -right-3 w-6 h-6 bg-gradient-to-br from-red-400 to-pink-500 rounded-full opacity-70 shadow-lg"></div>
+                  <div className="absolute -bottom-3 -left-3 w-5 h-5 bg-gradient-to-br from-pink-400 to-red-500 rounded-full opacity-70 shadow-lg"></div>
+                  <div className="absolute top-1/2 -right-2 w-2 h-2 bg-gradient-to-br from-red-300 to-pink-300 rounded-full opacity-50"></div>
+                  <div className="absolute top-1/4 -left-2 w-3 h-3 bg-gradient-to-br from-pink-300 to-red-300 rounded-full opacity-50"></div>
+                </div>
             </div>
           </motion.div>
 
-          {/* Display filtered results when there are active filters */}
-          {(searchQuery || activeFilter !== "All Posts") && (
-            <div className="mt-12">
-              {filteredPosts.length === 0 ? (
-                <div className="text-center py-16">
-                  <div className="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                    <Search className="w-8 h-8 text-gray-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-2">No posts found</h3>
-                  <p className="text-gray-500 mb-6">Try adjusting your search or selecting a different category</p>
-                  <button
-                    onClick={() => {
-                      setSearchQuery("");
-                      setActiveFilter("All Posts");
-                    }}
-                    className="bg-red-600 text-white px-6 py-3 rounded-full font-medium hover:bg-red-700 transition-colors duration-300"
-                  >
-                    Clear Filters
-                  </button>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {filteredPosts.slice(0, 12).map((post, index) => (
-                    <motion.div
-                      key={post._id}
-                      className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-pink-200/50 p-6 hover:shadow-xl hover:shadow-red-100/50 hover:-translate-y-2 transition-all duration-300 group"
-                      initial={{ opacity: 0, y: 40 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.3 }}
-                      transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
+            {/* Search Results - HBR Style Professional Layout */}
+            {searchQuery && (
+              <motion.div
+                className="max-w-7xl mx-auto mt-16 px-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* HBR-style header */}
+                <div className="border-b border-gray-200 pb-8 mb-12">
+                  <div className="flex items-center justify-between">
+                    <div>
+                                              <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{fontFamily: 'Georgia, "Times New Roman", Times, serif'}}>
+                          Search Results
+                        </h2>
+                      <p className="text-gray-600 font-medium">
+                        {filteredPosts.length === 0
+                          ? `No articles found for "${searchQuery}"`
+                          : `${filteredPosts.length} article${filteredPosts.length === 1 ? '' : 's'} for "${searchQuery}"`
+                        }
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="text-gray-500 hover:text-gray-700 font-medium text-sm border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-50 transition-colors"
                     >
-                      {post.categories && post.categories.length > 0 && (
-                        <div className="mb-4">
-                          <span className="inline-block px-3 py-1 bg-red-100 text-red-600 text-sm font-medium rounded-full">
+                      Clear Search
+                    </button>
+                  </div>
+                </div>
+
+                {filteredPosts.length > 0 && (
+                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+                    {/* Main content area - HBR magazine style */}
+                    <div className="lg:col-span-3">
+                      <div className="space-y-8">
+                  {filteredPosts.slice(0, 12).map((post, index) => (
+                          <motion.article
+                      key={post._id}
+                            className="group border-b border-gray-100 pb-8 last:border-b-0"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: index * 0.1 }}
+                          >
+                            <div className="flex gap-6">
+                              {/* Article image - HBR style */}
+                              {post.mainImage && (
+                                <div className="flex-shrink-0">
+                                  <div className="relative w-32 h-32 overflow-hidden rounded-md bg-gray-100">
+                                    <Image
+                                      src={builder.image(post.mainImage).width(160).height(160).url()}
+                                      alt={post?.mainImage?.alt || post.title}
+                                      fill
+                                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                      sizes="128px"
+                                    />
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Article content */}
+                              <div className="flex-1 min-w-0">
+                                {post.categories?.length ? (
+                                  <div className="mb-3">
+                                    <span className="inline-block bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-sm uppercase tracking-wide">
                             {post.categories[0].title}
                           </span>
                         </div>
-                      )}
-                      <h3 className="text-xl font-bold text-black mb-3 leading-tight">
+                                ) : null}
+
+                                <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-red-600 transition-colors" style={{fontFamily: 'Georgia, "Times New Roman", Times, serif'}}>
+                                  <Link href={`/insight/${post.slug.current}`}>
                         {post.title}
+                                  </Link>
                       </h3>
-                      <p className="text-black leading-relaxed mb-4">
-                        {post.excerpt || "Discover actionable insights and proven strategies from our experience."}
-                      </p>
-                      <Link href={`/insight/${post.slug.current}`} className="inline-flex items-center text-red-600 font-medium hover:text-red-700 transition-colors duration-300">
-                        Read More
-                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+
+                                <p className="text-gray-600 mb-4 leading-relaxed" style={{
+                                  display: '-webkit-box',
+                                  WebkitLineClamp: 3,
+                                  WebkitBoxOrient: 'vertical',
+                                  overflow: 'hidden'
+                                }}>
+                                  {post.excerpt || 'Discover actionable insights and proven strategies from our experience.'}
+                                </p>
+
+                                <div className="flex items-center justify-between">
+                                  <Link
+                                    href={`/insight/${post.slug.current}`}
+                                    className="inline-flex items-center text-red-600 font-semibold hover:text-red-700 transition-colors group"
+                                  >
+                                    Read Article
+                                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                       </Link>
-                    </motion.div>
+
+                                  {post.publishedAt && (
+                                    <time className="text-sm text-gray-500 font-medium">
+                                      {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                      })}
+                                    </time>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </motion.article>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* HBR-style sidebar */}
+                    <aside className="lg:col-span-1">
+                      <div className="sticky top-8 space-y-8">
+                        {/* Related searches - HBR style */}
+                        <div className="bg-gray-50 p-6 rounded-lg">
+                          <h4 className="text-lg font-bold text-gray-900 mb-4" style={{fontFamily: 'Georgia, "Times New Roman", Times, serif'}}>Related Searches</h4>
+                          <div className="space-y-3">
+                            {['product development', 'startup growth', 'market fit', 'customer acquisition'].map((suggestion) => (
+                              <button
+                                key={suggestion}
+                                onClick={() => setSearchQuery(suggestion)}
+                                className="w-full text-left p-3 rounded-md hover:bg-white hover:shadow-sm transition-all duration-200 border border-transparent hover:border-gray-200"
+                              >
+                                <span className="text-sm font-medium text-gray-700">{suggestion}</span>
+                              </button>
                   ))}
                 </div>
-              )}
+                        </div>
+
+                        {/* Search tips - HBR style */}
+                        <div className="bg-white border border-gray-200 p-6 rounded-lg">
+                          <h4 className="text-lg font-bold text-gray-900 mb-4" style={{fontFamily: 'Georgia, "Times New Roman", Times, serif'}}>Search Tips</h4>
+                          <ul className="space-y-3 text-sm text-gray-600">
+                            <li className="flex items-start gap-2">
+                              <span className="w-1 h-1 bg-red-600 rounded-full mt-2 flex-shrink-0"></span>
+                              Use specific keywords for better results
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="w-1 h-1 bg-red-600 rounded-full mt-2 flex-shrink-0"></span>
+                              Try synonyms if you don't find what you're looking for
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="w-1 h-1 bg-red-600 rounded-full mt-2 flex-shrink-0"></span>
+                              Browse categories for broader discovery
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </aside>
             </div>
           )}
+
+                {filteredPosts.length === 0 && (
+                  <div className="text-center py-20">
+                    <div className="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                      <Search className="w-8 h-8 text-gray-400" />
+        </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4" style={{fontFamily: 'Georgia, "Times New Roman", Times, serif'}}>No Results Found</h3>
+                    <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                      We couldn't find any articles matching "{searchQuery}".
+                      Try refining your search terms or explore our categories.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                      <button
+                        onClick={() => setSearchQuery("")}
+                        className="bg-red-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-red-700 transition-colors"
+                      >
+                        Browse All Articles
+                      </button>
+                      <button
+                        onClick={() => setActiveFilter("All Posts")}
+                        className="border border-gray-300 text-gray-700 px-8 py-3 rounded-md font-semibold hover:bg-gray-50 transition-colors"
+                      >
+                        View Categories
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            )}
+
+
+          </div>
         </div>
       </section>
 
       {/* Email CTA Section */}
       <EmailSignupSection />
-
-      {/* Latest Posts Section */}
-      <section className="py-24 px-4 bg-gradient-to-br from-white via-pink-50 to-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
-              Fresh From the <span className="text-red-600">Trenches</span>
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {freshPosts.map((post, index) => (
-              <motion.div
-                key={post._id}
-                className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-pink-200/50 p-6 hover:shadow-xl hover:shadow-red-100/50 hover:-translate-y-2 transition-all duration-300 group"
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
-              >
-                {post.categories && post.categories.length > 0 && (
-                  <div className="mb-4">
-                    <span className="inline-block px-3 py-1 bg-red-100 text-red-600 text-sm font-medium rounded-full">
-                      {post.categories[0].title}
-                    </span>
-                  </div>
-                )}
-                <h3 className="text-xl font-bold text-black mb-3 leading-tight">
-                  {post.title}
-                </h3>
-                <p className="text-black leading-relaxed mb-4">
-                  {post.excerpt || "Discover actionable insights and proven strategies from our experience."}
-                </p>
-                <Link href={`/insight/${post.slug.current}`} className="inline-flex items-center text-red-600 font-medium hover:text-red-700 transition-colors duration-300">
-                  Read More
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

@@ -14,7 +14,7 @@ export default function ServiceTeaser() {
       icon: DollarSign,
       title: "Finding Funding",
       description: "We help you craft a story (and a deck) that gets investors to listen.",
-      link: "/services"
+      link: "/funding"
     },
     {
       icon: Smartphone,
