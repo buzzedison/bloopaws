@@ -67,6 +67,11 @@ const Footer = () => (
                 Join the Crew
               </Link>
             </li>
+            <li>
+              <Link href="/vanguard" className="hover:text-red-600 transition-colors duration-200">
+                The Vanguard Program
+              </Link>
+            </li>
           </ul>
         </div>
         <div>

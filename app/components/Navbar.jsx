@@ -57,6 +57,7 @@ export default function BloopNavbar() {
     { name: 'The Playbook', href: '/freebies' },
     { name: 'About Us', href: '/about' },
     { name: 'Join the Crew', href: '/careers' },
+    { name: 'The Vanguard Program', href: '/vanguard' },
   ];
 
   return (
