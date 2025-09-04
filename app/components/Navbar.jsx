@@ -60,6 +60,13 @@ export default function BloopNavbar() {
     { name: 'The Vanguard Program', href: '/vanguard' },
   ];
 
+  const adminItems = [
+    { name: 'Dashboard', href: '/admin' },
+    { name: 'Applications', href: '/admin/applications' },
+    { name: 'Quiz Invitations', href: '/admin/quiz-invitations' },
+    { name: 'Referrals', href: '/admin/referrals' },
+  ];
+
   return (
     <div ref={navRef}>
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/10 backdrop-blur-md shadow-lg' : 'bg-white shadow-sm'}`}>
@@ -144,6 +151,42 @@ export default function BloopNavbar() {
                     </div>
                   )
                 ))}
+
+                {/* Admin Dropdown - Only show for authenticated users */}
+                {isAuthenticated && (
+                  <div
+                    className="relative group"
+                    onMouseEnter={() => setActiveItem('admin')}
+                    onMouseLeave={() => setActiveItem('')}
+                  >
+                    <button
+                      className={`px-3 py-2 text-sm font-medium transition-colors duration-300 text-gray-800 flex items-center`}
+                      type="button"
+                    >
+                      Admin
+                      <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    <div className={`absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-2 ${activeItem === 'admin' ? '' : 'hidden'}`}>
+                      {adminItems.map((item) => (
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm"
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+                    <div
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600 transform origin-left transition-transform duration-300"
+                      style={{
+                        transform: activeItem === 'admin' ? 'scaleX(1)' : 'scaleX(0)'
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
             
@@ -213,6 +256,24 @@ export default function BloopNavbar() {
                 </div>
               )
             ))}
+
+            {/* Admin Links - Mobile */}
+            {isAuthenticated && (
+              <div className="pt-4 mt-4 border-t border-white/20">
+                <div className="text-white text-lg font-medium py-3 px-4">Admin</div>
+                {adminItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="block text-white text-base font-normal py-2 px-8 rounded-lg hover:bg-white/10 transition-colors duration-200"
+                    onClick={() => setIsNavOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+
             <div className="pt-4 mt-4 border-t border-white/20">
               <Link 
                 href="/contact"

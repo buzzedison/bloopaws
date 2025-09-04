@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { createClient } from '@/lib/supabase/server'
+import type { Database } from '@/types/supabase'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -212,6 +214,48 @@ export async function POST(request: NextRequest) {
 
     const firstName = applicationData.fullName.split(' ')[0]
 
+    // Save to Supabase
+    const supabase = createClient()
+    let applicationRecord = null
+
+    try {
+      const { data, error } = await supabase
+        .from('applications')
+        .insert({
+          role: applicationData.role as Database['public']['Tables']['applications']['Row']['role'],
+          full_name: applicationData.fullName,
+          email: applicationData.email,
+          phone: applicationData.phone,
+          location: applicationData.location,
+          experience: applicationData.experience,
+          portfolio: applicationData.portfolio,
+          linkedin: applicationData.linkedin || null,
+          github: applicationData.github || null,
+          motivation: applicationData.motivation,
+          availability: applicationData.availability,
+          referral_source: applicationData.referralSource || null,
+          status: 'pending',
+          source_ip: request.headers.get('x-forwarded-for') ||
+                    request.headers.get('x-real-ip') ||
+                    'unknown',
+          user_agent: request.headers.get('user-agent') || null
+        })
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Supabase insertion error:', error)
+        throw error
+      }
+
+      applicationRecord = data
+      console.log('Application saved to database:', data.application_id)
+
+    } catch (dbError) {
+      console.error('Database error:', dbError)
+      // Continue with email sending even if DB fails
+    }
+
     // Add to ConvertKit (don't fail if this doesn't work)
     await addToConvertKit(applicationData.email, firstName, applicationData.role)
 
@@ -226,9 +270,11 @@ export async function POST(request: NextRequest) {
         success: true,
         message: 'Application submitted successfully',
         data: {
+          applicationId: applicationRecord?.application_id,
           role: applicationData.role,
           email: applicationData.email,
-          submittedAt: new Date().toISOString()
+          submittedAt: new Date().toISOString(),
+          status: 'saved_to_db'
         }
       },
       { status: 200 }

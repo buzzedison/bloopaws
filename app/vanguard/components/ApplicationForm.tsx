@@ -163,10 +163,54 @@ export default function ApplicationForm({ isOpen, onClose, selectedRole }: Appli
               >
                 <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
                 <h3 className="text-2xl font-bold text-black mb-2">Application Submitted!</h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 mb-4">
                   Thank you for applying to The Vanguard Program. We'll review your application and get back to you within 48 hours.
-                  If selected, we'll send you a link to complete our assessment quiz.
                 </p>
+
+                {/* Quiz Link Section */}
+                <div className="bg-gradient-to-r from-pink-50 to-red-50 border border-pink-200 rounded-xl p-6 mb-6">
+                  <h4 className="text-lg font-semibold text-black mb-3">🎯 Next Step: Assessment Quiz</h4>
+                  <p className="text-gray-700 mb-4">
+                    If your application is approved, you'll need to complete our assessment quiz to proceed.
+                    The quiz is designed to evaluate your skills and fit for the role.
+                  </p>
+
+                  <div className="bg-white rounded-lg p-4 border border-pink-100">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm font-medium text-gray-600">Your Selected Role:</span>
+                      <span className="text-sm font-semibold text-pink-600">
+                        {selectedRoleData?.title}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2 text-sm text-gray-600">
+                      <div className="flex justify-between">
+                        <span>Quiz Duration:</span>
+                        <span className="font-medium">
+                          {formData.role === 'mobile' ? '45' :
+                           formData.role === 'bd-sales' ? '40' :
+                           formData.role === 'investment' ? '45' : '45'} minutes
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Passing Score:</span>
+                        <span className="font-medium">70%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Format:</span>
+                        <span className="font-medium">MCQ + Short Answer</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                      <p className="text-xs text-yellow-800">
+                        <strong>Note:</strong> Quiz links will be sent via email after application review.
+                        You can only take the quiz once, so prepare thoroughly!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 <button
                   onClick={onClose}
                   className="bg-gradient-to-r from-pink-600 to-red-600 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-all"
