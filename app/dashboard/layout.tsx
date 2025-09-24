@@ -6,12 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "../../lib/supabase/client";
 import '../globals.css';
-import { Poppins } from 'next/font/google';
-
-const pop = Poppins({ 
-  subsets: ['latin'],
-  weight: ["400", "500", "600"]
-});
 
 const supabase = createClient();
 
@@ -54,7 +48,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className={pop.className}>
+    <div>
       {/* Dashboard Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
