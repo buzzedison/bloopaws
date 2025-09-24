@@ -53,6 +53,18 @@ export async function POST(request: NextRequest) {
     // Calculate score
     const scoreResult = calculateScore(flattenedAnswers, quizConfig);
 
+    // Debug logging
+    console.log('Quiz Scoring Debug:', {
+      role,
+      totalQuestions: Object.keys(flattenedAnswers).length,
+      scoreResult,
+      quizConfig: {
+        totalPoints: quizConfig.totalPoints,
+        passingScore: quizConfig.passingScore,
+        sectionsCount: quizConfig.sections.length
+      }
+    });
+
     // Create submission
     const submissionId = `quiz_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const submission: QuizSubmission = {

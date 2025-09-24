@@ -532,20 +532,38 @@ export function calculateScore(answers: Record<string, any>, quizConfig: QuizCon
   const sectionScores: Record<string, number> = {};
   const breakdown: Record<string, { earned: number; total: number; percentage: number }> = {};
 
+  console.log('CalculateScore Debug - Answers received:', answers);
+
   quizConfig.sections.forEach(section => {
     let sectionScore = 0;
+    console.log(`Processing section: ${section.id} (${section.type})`);
 
     if (section.type === 'mcq') {
       const mcqQuestions = section.questions as MCQQuestion[];
       mcqQuestions.forEach(question => {
         const answer = answers[question.id];
-        if (answer === question.correctAnswer) {
+        const isCorrect = answer === question.correctAnswer;
+        console.log(`MCQ Question ${question.id}: Answer="${answer}", Correct="${question.correctAnswer}", Points=${question.points}, Correct=${isCorrect}`);
+        if (isCorrect) {
           sectionScore += question.points;
         }
       });
+    } else if (section.type === 'short_answer') {
+      // For short answer questions, give partial credit if they provide any answer
+      // This will be adjusted later during manual grading
+      const shortAnswerQuestions = section.questions as ShortAnswerQuestion[];
+      shortAnswerQuestions.forEach(question => {
+        const answer = answers[question.id];
+        const hasAnswer = answer && typeof answer === 'string' && answer.trim().length > 0;
+        const partialPoints = hasAnswer ? Math.round(question.points * 0.5) : 0;
+        console.log(`Short Answer ${question.id}: HasAnswer=${hasAnswer}, Points=${question.points}, PartialPoints=${partialPoints}`);
+        if (hasAnswer) {
+          sectionScore += partialPoints;
+        }
+      });
     }
-    // For short answer questions, we'll need manual grading
-    // For now, we'll assume they're graded separately
+
+    console.log(`Section ${section.id} final score: ${sectionScore}/${section.totalPoints}`);
 
     sectionScores[section.id] = sectionScore;
     totalScore += sectionScore;
@@ -557,10 +575,13 @@ export function calculateScore(answers: Record<string, any>, quizConfig: QuizCon
     };
   });
 
-  return {
+  const result = {
     totalScore,
     sectionScores,
     passed: totalScore >= quizConfig.passingScore,
     breakdown
   };
+
+  console.log('CalculateScore Final Result:', result);
+  return result;
 }
