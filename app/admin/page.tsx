@@ -102,6 +102,14 @@ export default function AdminDashboard() {
       color: 'bg-green-500'
     },
     {
+      title: 'Quiz Submissions',
+      description: 'Review completed quiz attempts and scores',
+      href: '/admin/quiz-submissions',
+      icon: '📝',
+      stats: `${stats.quizCompleted} completed`,
+      color: 'bg-red-500'
+    },
+    {
       title: 'Referrals',
       description: 'Manage referral partnerships and commissions',
       href: '/admin/referrals',
@@ -193,7 +201,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Admin Sections */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           {adminSections.map((section) => (
             <Link
               key={section.title}
