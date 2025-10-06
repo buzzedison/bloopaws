@@ -20,8 +20,8 @@ import {
 const eventMeta = [
   {
     icon: CalendarDays,
-    label: "November 1st, 2025",
-    helper: "Applications close October 25th"
+    label: "December 6th, 2025",
+    helper: "Applications close November 30th"
   },
   {
     icon: Clock,
@@ -136,12 +136,12 @@ const agenda = [
 const prizes = [
   {
     place: "1st Place",
-    reward: "₵1,500 + Venture Studio Fast-Track",
+    reward: "₵2,000 + Venture Studio Fast-Track",
     highlight: "Direct path into EV Venture Studio + investor follow-ups"
   },
   {
     place: "2nd Place",
-    reward: "₵750",
+    reward: "₵1,000",
     highlight: "Investor matchmaking + mentorship sprint"
   },
   {
@@ -209,7 +209,7 @@ export default function PitchPerfectPage() {
                   Turn Your Agribusiness Idea Into <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">Investment-Ready Reality</span>
                 </h1>
                 <p className="text-lg text-gray">
-                  What if three minutes could change everything for your agribusiness? On November 1st, Ghana's most promising agripreneurs will pitch to investors who actually understand agriculture. Will you be one of them?
+                  What if three minutes could change everything for your agribusiness? On December 6th, Ghana's most promising agripreneurs will pitch to investors who actually understand agriculture. Will you be one of them?
                 </p>
               </div>
               
@@ -271,7 +271,7 @@ export default function PitchPerfectPage() {
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-red-500">Deadline Alert</p>
               <h2 className="text-2xl font-bold text-black-100 sm:text-3xl">
-                Applications close October 25th – don't miss your shot.
+                Applications close November 30th – don't miss your shot.
               </h2>
             </div>
             <a
@@ -460,7 +460,7 @@ export default function PitchPerfectPage() {
             </span>
               </div>
               <p className="mt-4 text-base text-gray">
-                Submit by October 25th. Take the stage for three minutes, earn direct feedback, and compete for the prize pool plus Venture Studio access.
+                Submit by November 30th. Take the stage for three minutes, earn direct feedback, and compete for the prize pool plus Venture Studio access.
               </p>
               <ul className="mt-6 space-y-3 text-gray">
                 <li className="flex items-start gap-3">
@@ -603,7 +603,7 @@ export default function PitchPerfectPage() {
             🔥 Only Qualified Ventures Get to Pitch – Apply Now
           </h2>
           <p className="mx-auto max-w-3xl text-center text-lg text-white/90">
-            Applications close October 25th. Limited spots. Don't let this be the opportunity you wish you'd taken.
+            Applications close November 30th. Limited spots. Don't let this be the opportunity you wish you'd taken.
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -613,7 +613,7 @@ export default function PitchPerfectPage() {
               rel="noopener noreferrer"
               className="group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-4 text-base font-semibold text-black-100 transition hover:bg-light-white-100"
             >
-              Apply to Pitch (Deadline: Oct 25)
+              Apply to Pitch (Deadline: Nov 30)
               <ArrowRight className="h-5 w-5" />
             </a>
               <a
@@ -640,7 +640,7 @@ export default function PitchPerfectPage() {
           </p>
           <div className="h-px w-full bg-light-white-200" />
           <p className="text-sm text-gray">
-            The Enterprise Village • Pitch Perfect: Green Ventures • November 1st, 2025
+            The Enterprise Village • Pitch Perfect: Green Ventures • December 6th, 2025
           </p>
         </div>
       </footer>
