@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Users, DollarSign, Target, ArrowRight, Sparkles, Trophy, Brain } from 'lucide-react';
+import { Users, DollarSign, Target, ArrowRight, Sparkles, Trophy, Brain, TrendingUp } from 'lucide-react';
 
 const games = [
   {
@@ -34,6 +34,36 @@ const games = [
     bgColor: 'bg-red-50',
     textColor: 'text-red-600',
     features: ['Leadership style analysis', 'Team management insights', 'Growth recommendations']
+  },
+  {
+    id: 'strategy',
+    title: 'Business Strategy Assessment',
+    description: 'Evaluate your strategic thinking and business planning capabilities for long-term success.',
+    icon: TrendingUp,
+    color: 'from-red-500 to-red-600',
+    bgColor: 'bg-red-50',
+    textColor: 'text-red-600',
+    features: ['Strategic mindset evaluation', 'Business model analysis', 'Growth planning insights']
+  },
+  {
+    id: 'risk',
+    title: 'Risk Assessment Game',
+    description: 'Discover your risk tolerance and learn to make calculated decisions under uncertainty.',
+    icon: Target,
+    color: 'from-red-500 to-red-600',
+    bgColor: 'bg-red-50',
+    textColor: 'text-red-600',
+    features: ['Risk personality profiling', 'Decision-making scenarios', 'Risk management strategies']
+  },
+  {
+    id: 'marketing',
+    title: 'Marketing Knowledge Quiz',
+    description: 'Test your marketing strategy skills and customer acquisition expertise.',
+    icon: Users,
+    color: 'from-red-500 to-red-600',
+    bgColor: 'bg-red-50',
+    textColor: 'text-red-600',
+    features: ['Marketing strategy assessment', 'Customer journey analysis', 'Growth tactics evaluation']
   }
 ];
 
@@ -145,7 +175,7 @@ const Games = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
           >
             {games.map((game) => {
               const IconComponent = game.icon;
