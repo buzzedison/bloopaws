@@ -49,7 +49,7 @@ const headlineHighlights = [
 
 const rewards = [
   {
-    title: "₵1,500 + Venture Studio Fast-Track",
+    title: "₵2,000 + Venture Studio Fast-Track",
     description: "First place winner unlocks funding support, expert mentorship, and a direct interview for our Q1 2026 acceleration program.",
     accent: "bg-white border-light-white-200"
   },
@@ -137,7 +137,7 @@ const prizes = [
   {
     place: "1st Place",
     reward: "₵2,000 + Venture Studio Fast-Track",
-    highlight: "Direct path into EV Venture Studio + investor follow-ups"
+    highlight: "First place winner unlocks funding support, expert mentorship, and a direct interview for our Q1 2026 acceleration program."
   },
   {
     place: "2nd Place",
@@ -476,16 +476,19 @@ export default function PitchPerfectPage() {
                   <span>Comprehensive feedback dossier post-event</span>
                 </li>
               </ul>
-                <button 
-                onClick={() => setSelectedPath("pitch")}
-                className={`mt-8 w-full rounded-xl border px-6 py-3 text-base font-semibold transition ${
-                  selectedPath === "pitch"
-                    ? "border-red-500 bg-red-600 text-white"
-                    : "border-light-white-300 bg-light-white-100 text-black-100 hover:border-red-300"
+                <a
+                  href="https://airtable.com/app7rzeBLQmXIiBQ5/pagizk846OC11kbiX/form"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setSelectedPath("pitch")}
+                  className={`mt-8 inline-flex w-full items-center justify-center rounded-xl border px-6 py-3 text-base font-semibold transition ${
+                    selectedPath === "pitch"
+                      ? "border-red-500 bg-red-600 text-white"
+                      : "border-light-white-300 bg-light-white-100 text-black-100 hover:border-red-300"
                   }`}
                 >
                   I Want to Pitch
-                </button>
+                </a>
               </div>
 
             <div
@@ -514,16 +517,19 @@ export default function PitchPerfectPage() {
                   <span>Actionable playbooks and templates to take home</span>
                 </li>
               </ul>
-                <button 
-                onClick={() => setSelectedPath("learn")}
-                className={`mt-8 w-full rounded-xl border px-6 py-3 text-base font-semibold transition ${
-                  selectedPath === "learn"
-                    ? "border-red-500 bg-red-600 text-white"
-                    : "border-light-white-300 bg-light-white-100 text-black-100 hover:border-red-300"
-                }`}
-              >
-                I Want to Attend
-                </button>
+                <a
+                  href="https://airtable.com/app7rzeBLQmXIiBQ5/pagizk846OC11kbiX/form"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setSelectedPath("learn")}
+                  className={`mt-8 inline-flex w-full items-center justify-center rounded-xl border px-6 py-3 text-base font-semibold transition ${
+                    selectedPath === "learn"
+                      ? "border-red-500 bg-red-600 text-white"
+                      : "border-light-white-300 bg-light-white-100 text-black-100 hover:border-red-300"
+                  }`}
+                >
+                  I Want to Attend
+                </a>
             </div>
           </div>
           
@@ -627,7 +633,7 @@ export default function PitchPerfectPage() {
             </div>
 
           <div className="rounded-3xl border border-white/40 bg-white/10 p-6 text-center text-sm text-white/80">
-            Organized by The Enterprise Village – where ideas become ventures.
+            Organized by Bloop, Enterprise Village and AgriPro.
           </div>
         </div>
       </section>
