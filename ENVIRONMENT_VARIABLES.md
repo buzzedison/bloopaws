@@ -14,10 +14,11 @@ RESEND_API_KEY=your_resend_api_key_here
 ```
 CONVERTKIT_API_KEY=your_convertkit_api_key_here
 CONVERTKIT_VANGUARD_FORM_ID=your_convertkit_form_id_here
+CONVERTKIT_BUILD_SHEET_FORM_ID=your_convertkit_build_sheet_form_id_here
 ```
 - Get your API key from [ConvertKit Account Settings](https://app.convertkit.com/account_settings/advanced)
-- Create a form in ConvertKit for Vanguard applicants
-- Used to automatically add applicants to your email marketing lists
+- Create forms in ConvertKit for Vanguard applicants and Build Sheet subscribers
+- Used to automatically add applicants and newsletter subscribers to your email marketing lists
 
 ### Supabase Database
 ```
