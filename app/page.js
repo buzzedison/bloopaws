@@ -7,6 +7,7 @@ import InsightsInnovative from "./components/InsightsInnovative";
 import { ArrowRight, CheckCircle2, Download, ExternalLink } from "lucide-react";
 import HeroInnovative from "./components/HeroInnovative";
 import RealityCheck from "./components/RealityCheck";
+import BuildersDilemma from "./components/BuildersDilemma";
 import ServiceTeaser from "./components/ServiceTeaser";
 import SocialProofStories from "./components/SocialProofStories";
 import PlaybookTeaser from "./components/PlaybookTeaser";
@@ -117,7 +118,10 @@ export default async function Home() {
       {/* Section 2: The Reality Check */}
       <RealityCheck />
 
-      {/* Section 3: How We Can Help - Service Teaser */}
+      {/* Section 3: The Builder's Dilemma - Diagnostic Tool */}
+      <BuildersDilemma />
+
+      {/* Section 4: How We Can Help - Service Teaser */}
       <ServiceTeaser />
 
       {/* Section 4: Social Proof - Our Stories Teaser */}

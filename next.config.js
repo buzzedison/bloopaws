@@ -10,7 +10,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ['cloudinary', 'graphql-request'],
+    serverComponentsExternalPackages: ['cloudinary', 'graphql-request', 'pdfkit'],
     serverActions: true
   },
   eslint: {

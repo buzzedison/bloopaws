@@ -1,51 +1,167 @@
 "use client"
 import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+
+type PlanKey = 'One_Time_Package' | 'Monthly_Retainer';
+
+interface PlanPricing {
+  price: number;
+  discountedPrice: number;
+  currency: string;
+}
+
+const BASE_PRICING: Record<PlanKey, number> = {
+  One_Time_Package: 1200,
+  Monthly_Retainer: 2000,
+};
+
+const COUNTRY_TO_CURRENCY: Record<string, string> = {
+  GH: 'GHS',
+  NG: 'NGN',
+  GB: 'GBP',
+  US: 'USD',
+  CA: 'CAD',
+  EU: 'EUR',
+  DE: 'EUR',
+  FR: 'EUR',
+  ES: 'EUR',
+  IT: 'EUR',
+  NL: 'EUR',
+  IE: 'EUR',
+  AU: 'AUD',
+  NZ: 'NZD',
+  ZA: 'ZAR',
+  KE: 'KES',
+  IN: 'INR',
+};
+
+const CURRENCY_RATES: Record<string, number> = {
+  USD: 1,
+  EUR: 0.92,
+  GBP: 0.78,
+  CAD: 1.37,
+  AUD: 1.53,
+  NZD: 1.67,
+  NGN: 1500,
+  GHS: 13.5,
+  ZAR: 18.5,
+  KES: 135,
+  INR: 83,
+};
+
+const CURRENCY_PRECISION: Record<string, number> = {
+  USD: 0,
+  EUR: 0,
+  GBP: 0,
+  CAD: 0,
+  AUD: 0,
+  NZD: 0,
+  NGN: 0,
+  GHS: 0,
+  ZAR: 0,
+  KES: 0,
+  INR: 0,
+};
+
+const CURRENCY_FALLBACK_SYMBOL: Record<string, string> = {
+  USD: '$',
+  EUR: '€',
+  GBP: '£',
+  CAD: 'CA$',
+  AUD: 'A$',
+  NZD: 'NZ$',
+  NGN: '₦',
+  GHS: '₵',
+  ZAR: 'R',
+  KES: 'KSh',
+  INR: '₹',
+};
+
+const convertPricing = (currency: string): Record<PlanKey, PlanPricing> => {
+  const rate = CURRENCY_RATES[currency] ?? 1;
+  const precision = CURRENCY_PRECISION[currency] ?? 0;
+  const multiplier = Math.pow(10, precision);
+
+  return Object.entries(BASE_PRICING).reduce((acc, [plan, basePrice]) => {
+    const converted = basePrice * rate;
+    const price = Math.round(converted * multiplier) / multiplier;
+    const discounted = Math.round(converted * 0.6 * multiplier) / multiplier;
+
+    acc[plan as PlanKey] = {
+      price,
+      discountedPrice: discounted,
+      currency,
+    };
+
+    return acc;
+  }, {} as Record<PlanKey, PlanPricing>);
+};
+
+const formatCurrency = (value: number, currency: string) => {
+  try {
+    const precision = CURRENCY_PRECISION[currency] ?? 0;
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: precision,
+      minimumFractionDigits: precision,
+    }).format(value);
+  } catch {
+    const symbol = CURRENCY_FALLBACK_SYMBOL[currency] || '';
+    return `${symbol}${value.toFixed(CURRENCY_PRECISION[currency] ?? 0)}`.trim();
+  }
+};
 
 const Pricing = () => {
   const [userCurrency, setUserCurrency] = useState('USD');
-  const [pricingInfo, setPricingInfo] = useState({
-    One_Time_Package: { price: 1200, currency: 'USD' },
-    Monthly_Retainer: { price: 2000, currency: 'USD' },
-  });
+  const [pricingInfo, setPricingInfo] = useState<Record<PlanKey, PlanPricing>>(
+    () => convertPricing('USD')
+  );
 
   useEffect(() => {
-    // Fetch user's location based on IP address
-    fetch('https://api.geoapify.com/v1/ipinfo?apiKey=804d4e83a85d425abd321a50550d4c0e')
-      .then(response => response.json())
-      .then(data => {
-        const userCountry = data.country.iso_code;
-        const currencyMap: { [key: string]: string } = {
-          GH: 'GHC',
-          NG: 'NGN',
-          GB: 'GBP',
-          US: 'USD',
-          CA: 'CAD',
-          EU: 'EUR',
-        };
-        const currency = currencyMap[userCountry] || 'USD';
-        setUserCurrency(currency);
+    const detectCurrency = async () => {
+      try {
+        const response = await fetch('https://api.geoapify.com/v1/ipinfo?apiKey=804d4e83a85d425abd321a50550d4c0e');
+        if (!response.ok) throw new Error('Failed to detect location');
+        const data = await response.json();
+        const userCountry = data?.country?.iso_code;
+        const detectedCurrency = COUNTRY_TO_CURRENCY[userCountry] || 'USD';
 
-        // Update pricing based on user's currency
-        const conversionRates: { [key: string]: { [key: string]: number } } = {
-          USD: { GHC: 12, NGN: 1200, GBP: 0.75 },
-        };
-        const updatedPricingInfo = { ...pricingInfo };
-        for (const packageName in updatedPricingInfo) {
-          if (Object.prototype.hasOwnProperty.call(updatedPricingInfo, packageName)) {
-            const conversionRate = conversionRates[updatedPricingInfo[packageName as keyof typeof updatedPricingInfo].currency]?.[currency] || 1;
-            updatedPricingInfo[packageName as keyof typeof updatedPricingInfo].price = Math.round(updatedPricingInfo[packageName as keyof typeof updatedPricingInfo].price * conversionRate);
-            updatedPricingInfo[packageName as keyof typeof updatedPricingInfo].currency = currency;
-          }
-        }
-        setPricingInfo(updatedPricingInfo);
-      })
-      .catch(error => {
+        setUserCurrency(detectedCurrency);
+        setPricingInfo(convertPricing(detectedCurrency));
+      } catch (error) {
         console.error('Error fetching geolocation data:', error);
-      });
+        setUserCurrency('USD');
+        setPricingInfo(convertPricing('USD'));
+      }
+    };
+
+    detectCurrency();
   }, []);
 
-  const calculateDiscountedPrice = (price: number) => Math.round(price * 0.6);
+  const currencyLabel = useMemo(() => userCurrency, [userCurrency]);
+
+  const upgradeDifference = useMemo(() => {
+    const diff =
+      pricingInfo.Monthly_Retainer.discountedPrice -
+      pricingInfo.One_Time_Package.discountedPrice;
+    return diff > 0 ? diff : 0;
+  }, [pricingInfo]);
+
+  const retainerSavings = useMemo(() => {
+    const diff = pricingInfo.Monthly_Retainer.price - pricingInfo.Monthly_Retainer.discountedPrice;
+    return diff > 0 ? diff : 0;
+  }, [pricingInfo]);
+
+  const oneTimePlan = pricingInfo.One_Time_Package;
+  const retainerPlan = pricingInfo.Monthly_Retainer;
+
+  const formattedOneTimePrice = formatCurrency(oneTimePlan.price, oneTimePlan.currency);
+  const formattedOneTimeDiscount = formatCurrency(oneTimePlan.discountedPrice, oneTimePlan.currency);
+  const formattedRetainerPrice = formatCurrency(retainerPlan.price, retainerPlan.currency);
+  const formattedRetainerDiscount = formatCurrency(retainerPlan.discountedPrice, retainerPlan.currency);
+  const formattedUpgradeDiff = formatCurrency(upgradeDifference, retainerPlan.currency);
+  const formattedRetainerSavings = formatCurrency(retainerSavings, retainerPlan.currency);
 
   return (
     <motion.section 
@@ -79,8 +195,8 @@ const Pricing = () => {
           >
             <h3 className="text-3xl font-bold mb-5">One-Time Package</h3>
             <div className="flex items-center mb-5">
-              <p className="text-5xl font-bold line-through text-gray-500">{pricingInfo.One_Time_Package.currency} {pricingInfo.One_Time_Package.price}</p>
-              <p className="text-5xl font-bold text-green-600 ml-4">{pricingInfo.One_Time_Package.currency} {calculateDiscountedPrice(pricingInfo.One_Time_Package.price)}</p>
+              <p className="text-5xl font-bold line-through text-gray-500">{formattedOneTimePrice}</p>
+              <p className="text-5xl font-bold text-green-600 ml-4">{formattedOneTimeDiscount}</p>
             </div>
             <p className="text-xl font-semibold text-green-600 mb-5">Limited Time Offer!</p>
             <p className="text-lg mb-8">
@@ -131,8 +247,8 @@ const Pricing = () => {
           >
             <h3 className="text-3xl font-bold mb-5">Monthly Retainer</h3>
             <div className="flex items-center mb-5">
-              <p className="text-5xl font-bold line-through text-gray-500">{pricingInfo.Monthly_Retainer.currency} {pricingInfo.Monthly_Retainer.price}/mo</p>
-              <p className="text-5xl font-bold text-green-600 ml-4">{pricingInfo.Monthly_Retainer.currency} {calculateDiscountedPrice(pricingInfo.Monthly_Retainer.price)}/mo</p>
+              <p className="text-5xl font-bold line-through text-gray-500">{formattedRetainerPrice}/mo</p>
+              <p className="text-5xl font-bold text-green-600 ml-4">{formattedRetainerDiscount}/mo</p>
             </div>
             <p className="text-xl font-semibold text-green-600 mb-5">Limited Time Offer!</p>
             <p className="text-lg mb-8">
@@ -182,8 +298,8 @@ const Pricing = () => {
           transition={{ duration: 1, delay: 0.6 }}
           viewport={{ once: true }}
         >
-          After your one-off project, upgrade to our Monthly Retainer within 3 months for just {userCurrency} {Math.round(calculateDiscountedPrice(pricingInfo.Monthly_Retainer.price) - calculateDiscountedPrice(pricingInfo.One_Time_Package.price))} more.<br />
-          Upgrade now and save {userCurrency} {Math.round(calculateDiscountedPrice(pricingInfo.Monthly_Retainer.price) - (calculateDiscountedPrice(pricingInfo.Monthly_Retainer.price) - calculateDiscountedPrice(pricingInfo.One_Time_Package.price)))}!
+          After your one-off project, upgrade to our Monthly Retainer within 3 months for just {formattedUpgradeDiff} more per month.<br />
+          Upgrade now and save {formattedRetainerSavings} every month you stay on retainer.
         </motion.p>
       </div>
     </motion.section>
