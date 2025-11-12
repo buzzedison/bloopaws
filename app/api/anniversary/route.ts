@@ -6,12 +6,20 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, package: packageType, message } = body;
+    const { name, email, phone, package: packageType, howDidYouHear, howDidYouHearOther, message } = body;
 
     // Input validation
-    if (!name || !email || !phone || !packageType) {
+    if (!name || !email || !phone || !packageType || !howDidYouHear) {
       return NextResponse.json(
-        { error: 'Name, email, phone, and package are required' },
+        { error: 'Name, email, phone, package, and how you heard about us are required' },
+        { status: 400 }
+      );
+    }
+
+    // If "other" is selected, require the other field
+    if (howDidYouHear === 'other' && !howDidYouHearOther) {
+      return NextResponse.json(
+        { error: 'Please specify where you heard about us' },
         { status: 400 }
       );
     }
@@ -32,6 +40,23 @@ export async function POST(request: Request) {
     };
 
     const packagePrice = packagePrices[packageType] || 'Contact for pricing';
+
+    // Map howDidYouHear values to readable labels
+    const howDidYouHearLabels: Record<string, string> = {
+      'social-media': 'Social Media (Facebook, Instagram, Twitter, LinkedIn)',
+      'google-search': 'Google Search',
+      'friend-referral': 'Friend/Colleague Referral',
+      'email-marketing': 'Email Marketing',
+      'website': 'Our Website',
+      'blog-article': 'Blog Article or Content',
+      'podcast': 'Podcast',
+      'youtube': 'YouTube',
+      'other': 'Other'
+    };
+
+    const howDidYouHearLabel = howDidYouHear === 'other' 
+      ? `Other: ${howDidYouHearOther || 'Not specified'}`
+      : (howDidYouHearLabels[howDidYouHear] || howDidYouHear);
 
     // Send email to admin
     await resend.emails.send({
@@ -77,6 +102,10 @@ export async function POST(request: Request) {
               <div class="field">
                 <span class="label">Phone:</span>
                 <div class="value">${phone}</div>
+              </div>
+              <div class="field">
+                <span class="label">How they heard about us:</span>
+                <div class="value">${howDidYouHearLabel}</div>
               </div>
               ${message ? `
               <div class="field">
@@ -131,7 +160,7 @@ export async function POST(request: Request) {
 
                 <div class="next-steps">
                   <strong>Need to reach us?</strong>
-                  <p style="margin: 8px 0 0 0;">Reply to this email or contact us at <a href="mailto:ask@updates.bloopglobal.com">ask@updates.bloopglobal.com</a></p>
+                  <p style="margin: 8px 0 0 0;">Reply to this email or contact us at <a href="mailto:ask@bloopglobal.com">ask@bloopglobal.com</a></p>
                 </div>
 
                 <p>We're excited to work with you!</p>

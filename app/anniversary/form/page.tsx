@@ -15,6 +15,8 @@ export default function AnniversaryFormPage() {
     email: "",
     phone: "",
     package: packageParam,
+    howDidYouHear: "",
+    howDidYouHearOther: "",
     message: "",
   })
 
@@ -60,6 +62,16 @@ export default function AnniversaryFormPage() {
     setIsSubmitting(true)
     setSubmitStatus({ type: null, message: "" })
 
+    // Validate "other" field if "other" is selected
+    if (formData.howDidYouHear === "other" && !formData.howDidYouHearOther.trim()) {
+      setSubmitStatus({
+        type: "error",
+        message: "Please specify where you heard about us",
+      })
+      setIsSubmitting(false)
+      return
+    }
+
     try {
       const response = await fetch("/api/anniversary", {
         method: "POST",
@@ -86,6 +98,8 @@ export default function AnniversaryFormPage() {
         email: "",
         phone: "",
         package: packageParam,
+        howDidYouHear: "",
+        howDidYouHearOther: "",
         message: "",
       })
 
@@ -220,6 +234,56 @@ export default function AnniversaryFormPage() {
               placeholder="+233 XX XXX XXXX"
             />
           </div>
+
+          {/* How Did You Hear About This */}
+          <div>
+            <label htmlFor="howDidYouHear" className="block text-sm font-semibold mb-2 text-gray-900">
+              How did you hear about this? *
+            </label>
+            <select
+              id="howDidYouHear"
+              name="howDidYouHear"
+              value={formData.howDidYouHear}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white"
+            >
+              <option value="">Select an option</option>
+              <option value="social-media">Social Media (Facebook, Instagram, Twitter, LinkedIn)</option>
+              <option value="google-search">Google Search</option>
+              <option value="friend-referral">Friend/Colleague Referral</option>
+              <option value="email-marketing">Email Marketing</option>
+              <option value="website">Our Website</option>
+              <option value="blog-article">Blog Article or Content</option>
+              <option value="podcast">Podcast</option>
+              <option value="youtube">YouTube</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          {/* Other Field - Shows when "Other" is selected */}
+          {formData.howDidYouHear === "other" && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="overflow-hidden"
+            >
+              <label htmlFor="howDidYouHearOther" className="block text-sm font-semibold mb-2 text-gray-900">
+                Please specify *
+              </label>
+              <input
+                type="text"
+                id="howDidYouHearOther"
+                name="howDidYouHearOther"
+                value={formData.howDidYouHearOther}
+                onChange={handleChange}
+                required={formData.howDidYouHear === "other"}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                placeholder="Where did you hear about this?"
+              />
+            </motion.div>
+          )}
 
           {/* Message */}
           <div>
