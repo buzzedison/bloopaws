@@ -1,7 +1,7 @@
 import './globals.css'
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer";
-import TidioChat from './components/TidioChat';
+import ChatBot from './components/ChatBot';
 import GoogleAnalytics from "../app/components/GoogleAnalytics";
 // Metadata is imported via the export const metadata object below
 
@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       ) : null}
         <Navbar/>
         <main>
-        <TidioChat />
+        <ChatBot />
         {children}
         </main>
      

@@ -9,11 +9,11 @@ export default function HeroInnovative() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isMounted, setIsMounted] = useState(false)
-  
+
   // Track mouse position for interactive elements
   useEffect(() => {
     setIsMounted(true)
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect()
@@ -23,11 +23,11 @@ export default function HeroInnovative() {
         })
       }
     }
-    
+
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
-  
+
   // Text animation variants
   const wordVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -41,25 +41,27 @@ export default function HeroInnovative() {
       }
     })
   }
-  
+
   // Headline words with custom styling
   const headlineWords = [
-    { text: "You've", className: "text-black" },
-    { text: "got", className: "text-black" },
-    { text: "this", className: "text-black" },
-    { text: "incredible", className: "text-red-600" },
-    { text: "idea,", className: "text-black" },
-    { text: "right?", className: "text-black" }
+    { text: "Turn", className: "text-black" },
+    { text: "Your", className: "text-black" },
+    { text: "Vision", className: "text-black" },
+    { text: "Into", className: "text-black" },
+    { text: "A", className: "text-black" },
+    { text: "Market-Leading", className: "text-red-600" },
+    { text: "Tech", className: "text-black" },
+    { text: "Company.", className: "text-black" }
   ]
-  
+
   // Calculate dynamic positions for floating elements
   const floatingX = useTransform(() => mousePosition.x * 40 - 20)
   const floatingY = useTransform(() => mousePosition.y * 40 - 20)
-  
+
   // Calculate inverted motion values for alternating elements
   const invertedX = useTransform(() => -1 * (mousePosition.x * 40 - 20))
   const invertedY = useTransform(() => -1 * (mousePosition.y * 40 - 20))
-  
+
   // Animated shapes
   const shapes = [
     { size: 120, x: -5, y: 10, rotation: 15, color: "rgba(239, 68, 68, 0.15)" },
@@ -67,9 +69,9 @@ export default function HeroInnovative() {
     { size: 60, x: -20, y: 60, rotation: 45, color: "rgba(0, 0, 0, 0.05)" },
     { size: 40, x: 60, y: 70, rotation: -15, color: "rgba(0, 0, 0, 0.03)" }
   ]
-  
+
   return (
-    <div 
+    <div
       ref={containerRef}
       className="relative w-full min-h-[90vh] bg-gradient-to-br from-pink-50 via-white to-pink-50 overflow-hidden"
     >
@@ -89,32 +91,32 @@ export default function HeroInnovative() {
             rotate: shape.rotation
           }}
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ 
-            opacity: 1, 
+          animate={{
+            opacity: 1,
             scale: 1,
-            transition: { 
+            transition: {
               delay: i * 0.2,
-              duration: 1.2, 
-              ease: "easeOut" 
+              duration: 1.2,
+              ease: "easeOut"
             }
           }}
         />
       ))}
-      
+
       {/* Diagonal line decorations */}
       <div className="absolute w-[1px] h-[60%] bg-gradient-to-b from-transparent via-red-200 to-transparent top-[20%] left-[15%] transform -rotate-12"></div>
       <div className="absolute w-[1px] h-[40%] bg-gradient-to-b from-transparent via-gray-200 to-transparent top-[30%] left-[85%] transform rotate-12"></div>
-      
+
       {/* Content container */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 flex flex-col items-center justify-center min-h-[90vh]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full">
-          
+
           {/* Left content area */}
           <div className="lg:col-span-7 space-y-12 lg:pr-12">
             {/* Animated headline */}
             <div className="overflow-hidden">
               <h1 className="text-5xl md:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight mb-6">
-                <div className="flex flex-wrap gap-x-6">
+                <div className="flex flex-wrap gap-x-4">
                   {headlineWords.map((word, i) => (
                     <motion.span
                       key={i}
@@ -130,46 +132,46 @@ export default function HeroInnovative() {
                 </div>
               </h1>
             </div>
-            
+
             {/* Animated subtitle */}
-            <motion.p 
+            <motion.p
               className="text-xl md:text-2xl text-black leading-relaxed max-w-2xl mt-6"
               initial={{ opacity: 0, y: 20 }}
-              animate={{ 
-                opacity: 1, 
+              animate={{
+                opacity: 1,
                 y: 0,
-                transition: { 
-                  delay: 0.6, 
+                transition: {
+                  delay: 0.6,
                   duration: 0.8,
                   ease: "easeOut"
                 }
               }}
             >
-              We turn big ideas into businesses that actually work. We've been there, we've built our own stuff, and we're here to help you build yours.
+              We don't just write code. We build award-winning web apps, mobile platforms, and AI systems that drive real revenue. From MVP to IPO, we are your technical co-founder.
             </motion.p>
-            
+
             {/* CTA buttons with staggered animation */}
-            <motion.div 
+            <motion.div
               className="flex flex-col sm:flex-row gap-5 pt-8"
               initial={{ opacity: 0, y: 20 }}
-              animate={{ 
-                opacity: 1, 
+              animate={{
+                opacity: 1,
                 y: 0,
-                transition: { 
-                  delay: 0.8, 
+                transition: {
+                  delay: 0.8,
                   duration: 0.8,
                   ease: "easeOut"
                 }
               }}
             >
               <Link href="/contact">
-                <motion.button 
+                <motion.button
                   className="group relative overflow-hidden bg-red-600 text-white font-medium py-4 px-8 rounded-full shadow-lg"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="relative z-10 flex items-center">
-                    See the Playbook
+                    Start Your Build
                     <motion.span
                       className="inline-block ml-2"
                       initial={{ x: 0 }}
@@ -178,7 +180,7 @@ export default function HeroInnovative() {
                       <ArrowRight className="w-5 h-5" />
                     </motion.span>
                   </span>
-                  <motion.div 
+                  <motion.div
                     className="absolute inset-0 bg-black"
                     initial={{ x: "-100%" }}
                     whileHover={{ x: 0 }}
@@ -186,13 +188,13 @@ export default function HeroInnovative() {
                   />
                 </motion.button>
               </Link>
-              
+
               <Link href="/contact" className="text-black hover:text-red-600 transition-colors duration-300">
                 or, let's chat about your project →
               </Link>
             </motion.div>
           </div>
-          
+
           {/* Right content area - Interactive visual element */}
           <div className="lg:col-span-5 relative">
             <div className="aspect-square w-full max-w-md mx-auto">
@@ -200,15 +202,15 @@ export default function HeroInnovative() {
             </div>
           </div>
         </div>
-        
+
         {/* Scroll indicator */}
-        <motion.div 
+        <motion.div
           className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
           initial={{ opacity: 0, y: -20 }}
-          animate={{ 
-            opacity: [0, 1, 0], 
+          animate={{
+            opacity: [0, 1, 0],
             y: [0, 10, 0],
-            transition: { 
+            transition: {
               delay: 1.5,
               duration: 2,
               repeat: Infinity,
@@ -226,48 +228,48 @@ export default function HeroInnovative() {
 // Interactive visual component that responds to mouse movement
 function InteractiveVisual({ mouseX, mouseY }: { mouseX: number, mouseY: number }) {
   // Calculate dynamic positions based on mouse
-  const moveX = (offset: number) => mouseX * offset - offset/2
-  const moveY = (offset: number) => mouseY * offset - offset/2
-  
+  const moveX = (offset: number) => mouseX * offset - offset / 2
+  const moveY = (offset: number) => mouseY * offset - offset / 2
+
   // Layers of the visual with different parallax effects
   const layers = [
-    { 
-      shape: "circle", 
-      size: 300, 
-      x: moveX(20), 
-      y: moveY(20), 
-      color: "rgba(239, 68, 68, 0.1)", 
-      delay: 0 
+    {
+      shape: "circle",
+      size: 300,
+      x: moveX(20),
+      y: moveY(20),
+      color: "rgba(239, 68, 68, 0.1)",
+      delay: 0
     },
-    { 
-      shape: "square", 
-      size: 280, 
-      x: moveX(-15), 
-      y: moveY(-15), 
-      color: "rgba(0, 0, 0, 0.03)", 
+    {
+      shape: "square",
+      size: 280,
+      x: moveX(-15),
+      y: moveY(-15),
+      color: "rgba(0, 0, 0, 0.03)",
       delay: 0.1,
       rotate: 15
     },
-    { 
-      shape: "circle", 
-      size: 200, 
-      x: moveX(30), 
-      y: moveY(30), 
-      color: "rgba(239, 68, 68, 0.15)", 
-      delay: 0.2 
+    {
+      shape: "circle",
+      size: 200,
+      x: moveX(30),
+      y: moveY(30),
+      color: "rgba(239, 68, 68, 0.15)",
+      delay: 0.2
     },
-    { 
-      shape: "square", 
-      size: 150, 
-      x: moveX(-25), 
-      y: moveY(-25), 
-      color: "white", 
+    {
+      shape: "square",
+      size: 150,
+      x: moveX(-25),
+      y: moveY(-25),
+      color: "white",
       delay: 0.3,
       rotate: -15,
       border: "2px solid rgba(239, 68, 68, 0.3)"
     }
   ]
-  
+
   return (
     <div className="relative w-full h-full">
       {layers.map((layer, i) => (
@@ -286,38 +288,38 @@ function InteractiveVisual({ mouseX, mouseY }: { mouseX: number, mouseY: number 
             translateX: "-50%",
             translateY: "-50%",
           }}
-          initial={{ 
-            opacity: 0, 
+          initial={{
+            opacity: 0,
             scale: 0.8,
           }}
-          animate={{ 
-            opacity: 1, 
+          animate={{
+            opacity: 1,
             scale: 1,
-            transition: { 
+            transition: {
               delay: layer.delay,
-              duration: 1, 
-              ease: "easeOut" 
+              duration: 1,
+              ease: "easeOut"
             }
           }}
         />
       ))}
-      
+
       {/* Central element with text */}
       <motion.div
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 text-center"
         initial={{ opacity: 0 }}
-        animate={{ 
+        animate={{
           opacity: 1,
           transition: { delay: 0.5, duration: 0.8 }
         }}
       >
         <div className="relative">
-          <motion.div 
+          <motion.div
             className="text-6xl font-bold text-red-600"
-            animate={{ 
+            animate={{
               rotate: [0, 5, 0, -5, 0],
-              transition: { 
-                duration: 6, 
+              transition: {
+                duration: 6,
                 repeat: Infinity,
                 repeatType: "mirror",
                 ease: "easeInOut"
@@ -328,14 +330,14 @@ function InteractiveVisual({ mouseX, mouseY }: { mouseX: number, mouseY: number 
           </motion.div>
         </div>
       </motion.div>
-      
+
       {/* Decorative dots */}
       {[...Array(8)].map((_, i) => {
         const angle = (i / 8) * Math.PI * 2
         const radius = 160
         const x = Math.cos(angle) * radius
         const y = Math.sin(angle) * radius
-        
+
         return (
           <motion.div
             key={`dot-${i}`}
@@ -349,13 +351,13 @@ function InteractiveVisual({ mouseX, mouseY }: { mouseX: number, mouseY: number 
               y
             }}
             initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
-              opacity: i % 2 === 0 ? 0.7 : 0.4, 
+            animate={{
+              opacity: i % 2 === 0 ? 0.7 : 0.4,
               scale: 1,
-              transition: { 
+              transition: {
                 delay: 0.6 + (i * 0.05),
-                duration: 0.4, 
-                ease: "easeOut" 
+                duration: 0.4,
+                ease: "easeOut"
               }
             }}
           />
