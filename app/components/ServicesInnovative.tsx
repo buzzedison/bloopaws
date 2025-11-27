@@ -84,8 +84,24 @@ export default function ServicesInnovative() {
       ref={containerRef}
       className="relative py-32 overflow-hidden bg-white text-black"
     >
-      {/* Subtle background grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 pointer-events-none"></div>
+      {/* Architectural Blueprint Background */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none overflow-hidden">
+        <div
+          className="absolute top-0 left-0 w-full h-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, #000 1px, transparent 1px),
+              linear-gradient(to bottom, #000 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px'
+          }}
+        ></div>
+        {/* Large Circles */}
+        <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] border-[1px] border-black rounded-full"></div>
+        <div className="absolute top-[-10%] right-[5%] w-[600px] h-[600px] border-[1px] border-black rounded-full border-dashed"></div>
+        {/* Diagonal Lines */}
+        <div className="absolute bottom-0 left-0 w-full h-[300px] bg-[linear-gradient(45deg,transparent_49%,#000_49%,#000_51%,transparent_51%)] bg-[size:20px_20px] opacity-20"></div>
+      </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Section header */}

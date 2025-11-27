@@ -73,43 +73,20 @@ export default function HeroInnovative() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full min-h-[90vh] bg-gradient-to-br from-pink-50 via-white to-pink-50 overflow-hidden"
+      className="relative w-full min-h-[90vh] bg-white overflow-hidden"
     >
-      {/* Animated background shapes */}
-      {isMounted && shapes.map((shape, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full"
-          style={{
-            width: shape.size,
-            height: shape.size,
-            backgroundColor: shape.color,
-            left: `${shape.x}%`,
-            top: `${shape.y}%`,
-            x: i % 2 === 0 ? floatingX : invertedX,
-            y: i % 2 === 0 ? floatingY : invertedY,
-            rotate: shape.rotation
-          }}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            transition: {
-              delay: i * 0.2,
-              duration: 1.2,
-              ease: "easeOut"
-            }
-          }}
-        />
-      ))}
+      {/* Mesh Gradient Background */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-red-100 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-gray-100 rounded-full blur-[100px]"></div>
+      </div>
 
-      {/* Diagonal line decorations */}
-      <div className="absolute w-[1px] h-[60%] bg-gradient-to-b from-transparent via-red-200 to-transparent top-[20%] left-[15%] transform -rotate-12"></div>
-      <div className="absolute w-[1px] h-[40%] bg-gradient-to-b from-transparent via-gray-200 to-transparent top-[30%] left-[85%] transform rotate-12"></div>
+      {/* Grid Overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
       {/* Content container */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 flex flex-col items-center justify-center min-h-[90vh]">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
 
           {/* Left content area */}
           <div className="lg:col-span-7 space-y-12 lg:pr-12">
@@ -135,7 +112,7 @@ export default function HeroInnovative() {
 
             {/* Animated subtitle */}
             <motion.p
-              className="text-xl md:text-2xl text-black leading-relaxed max-w-2xl mt-6"
+              className="text-xl md:text-2xl text-gray-800 leading-relaxed max-w-2xl mt-6 font-light"
               initial={{ opacity: 0, y: 20 }}
               animate={{
                 opacity: 1,
@@ -166,8 +143,8 @@ export default function HeroInnovative() {
             >
               <Link href="/contact">
                 <motion.button
-                  className="group relative overflow-hidden bg-red-600 text-white font-medium py-4 px-8 rounded-full shadow-lg"
-                  whileHover={{ scale: 1.03 }}
+                  className="group relative overflow-hidden bg-black text-white font-medium py-4 px-8 rounded-full shadow-2xl hover:shadow-red-500/20 transition-all duration-300"
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="relative z-10 flex items-center">
@@ -177,7 +154,7 @@ export default function HeroInnovative() {
                       initial={{ x: 0 }}
                       whileHover={{ x: 5 }}
                     >
-                      <ArrowRight className="w-5 h-5" />
+                      <ArrowRight className="w-5 h-5 text-red-500" />
                     </motion.span>
                   </span>
                   <motion.div
@@ -189,17 +166,15 @@ export default function HeroInnovative() {
                 </motion.button>
               </Link>
 
-              <Link href="/contact" className="text-black hover:text-red-600 transition-colors duration-300">
+              <Link href="/contact" className="text-gray-600 hover:text-black transition-colors duration-300 flex items-center px-6">
                 or, let's chat about your project →
               </Link>
             </motion.div>
           </div>
 
-          {/* Right content area - Interactive visual element */}
-          <div className="lg:col-span-5 relative">
-            <div className="aspect-square w-full max-w-md mx-auto">
-              <InteractiveVisual mouseX={mousePosition.x} mouseY={mousePosition.y} />
-            </div>
+          {/* Right content area - Digital Orb */}
+          <div className="lg:col-span-5 relative h-[500px] flex items-center justify-center perspective-1000">
+            <DigitalOrb mouseX={mousePosition.x} mouseY={mousePosition.y} />
           </div>
         </div>
 
@@ -218,151 +193,118 @@ export default function HeroInnovative() {
             }
           }}
         >
-          <div className="w-[1px] h-16 bg-gradient-to-b from-transparent via-red-400 to-transparent"></div>
+          <div className="w-[1px] h-16 bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
         </motion.div>
       </div>
     </div>
   )
 }
 
-// Interactive visual component that responds to mouse movement
-function InteractiveVisual({ mouseX, mouseY }: { mouseX: number, mouseY: number }) {
-  // Calculate dynamic positions based on mouse
-  const moveX = (offset: number) => mouseX * offset - offset / 2
-  const moveY = (offset: number) => mouseY * offset - offset / 2
-
-  // Layers of the visual with different parallax effects
-  const layers = [
-    {
-      shape: "circle",
-      size: 300,
-      x: moveX(20),
-      y: moveY(20),
-      color: "rgba(239, 68, 68, 0.1)",
-      delay: 0
-    },
-    {
-      shape: "square",
-      size: 280,
-      x: moveX(-15),
-      y: moveY(-15),
-      color: "rgba(0, 0, 0, 0.03)",
-      delay: 0.1,
-      rotate: 15
-    },
-    {
-      shape: "circle",
-      size: 200,
-      x: moveX(30),
-      y: moveY(30),
-      color: "rgba(239, 68, 68, 0.15)",
-      delay: 0.2
-    },
-    {
-      shape: "square",
-      size: 150,
-      x: moveX(-25),
-      y: moveY(-25),
-      color: "white",
-      delay: 0.3,
-      rotate: -15,
-      border: "2px solid rgba(239, 68, 68, 0.3)"
-    }
-  ]
+// Sophisticated 3D Digital Orb
+function DigitalOrb({ mouseX, mouseY }: { mouseX: number, mouseY: number }) {
+  // Smooth rotation based on mouse
+  const rotateX = useTransform(() => mouseY * 20 - 10)
+  const rotateY = useTransform(() => mouseX * 20 - 10)
 
   return (
-    <div className="relative w-full h-full">
-      {layers.map((layer, i) => (
+    <motion.div
+      className="relative w-80 h-80 md:w-96 md:h-96"
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d"
+      }}
+    >
+      {/* Core Glow */}
+      <div className="absolute inset-0 bg-red-500/20 rounded-full blur-[60px] animate-pulse"></div>
+
+      {/* Inner Sphere (Solid) */}
+      <motion.div
+        className="absolute inset-[15%] bg-gradient-to-br from-gray-900 to-black rounded-full shadow-2xl border border-gray-800"
+        style={{ transform: "translateZ(20px)" }}
+        animate={{
+          rotate: 360
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      >
+        {/* Tech markings on sphere */}
+        <div className="absolute inset-0 border-[1px] border-white/10 rounded-full opacity-50"></div>
+        <div className="absolute inset-[20%] border-[1px] border-red-500/30 rounded-full"></div>
+      </motion.div>
+
+      {/* Outer Ring 1 (Horizontal) */}
+      <motion.div
+        className="absolute inset-0 border border-gray-300/30 rounded-full"
+        style={{ transform: "rotateX(70deg) translateZ(0px)" }}
+        animate={{
+          rotateZ: 360
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      >
+        <div className="absolute top-0 left-1/2 w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
+      </motion.div>
+
+      {/* Outer Ring 2 (Vertical) */}
+      <motion.div
+        className="absolute inset-[-10%] border border-gray-400/20 rounded-full"
+        style={{ transform: "rotateY(70deg) translateZ(0px)" }}
+        animate={{
+          rotateZ: -360
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      >
+        <div className="absolute bottom-0 left-1/2 w-2 h-2 bg-black rounded-full"></div>
+      </motion.div>
+
+      {/* Outer Ring 3 (Diagonal) */}
+      <motion.div
+        className="absolute inset-[-20%] border border-red-500/10 rounded-full border-dashed"
+        style={{ transform: "rotateX(45deg) rotateY(45deg)" }}
+        animate={{
+          rotateZ: 360
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+
+      {/* Floating Particles */}
+      {[...Array(5)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute top-1/2 left-1/2"
+          className="absolute w-2 h-2 bg-red-500 rounded-full"
           style={{
-            width: layer.size,
-            height: layer.size,
-            backgroundColor: layer.color,
-            borderRadius: layer.shape === "circle" ? "50%" : "15%",
-            border: layer.border || "none",
-            x: layer.x,
-            y: layer.y,
-            rotate: layer.rotate || 0,
-            translateX: "-50%",
-            translateY: "-50%",
-          }}
-          initial={{
-            opacity: 0,
-            scale: 0.8,
+            top: "50%",
+            left: "50%",
+            transform: `translateZ(${40 + i * 10}px)`
           }}
           animate={{
-            opacity: 1,
-            scale: 1,
-            transition: {
-              delay: layer.delay,
-              duration: 1,
-              ease: "easeOut"
-            }
+            x: [Math.cos(i) * 100, Math.sin(i) * 100, Math.cos(i) * 100],
+            y: [Math.sin(i) * 100, Math.cos(i) * 100, Math.sin(i) * 100],
+            opacity: [0.5, 1, 0.5],
+            scale: [1, 1.5, 1]
+          }}
+          transition={{
+            duration: 5 + i,
+            repeat: Infinity,
+            ease: "easeInOut"
           }}
         />
       ))}
-
-      {/* Central element with text */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 text-center"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: 1,
-          transition: { delay: 0.5, duration: 0.8 }
-        }}
-      >
-        <div className="relative">
-          <motion.div
-            className="text-6xl font-bold text-red-600"
-            animate={{
-              rotate: [0, 5, 0, -5, 0],
-              transition: {
-                duration: 6,
-                repeat: Infinity,
-                repeatType: "mirror",
-                ease: "easeInOut"
-              }
-            }}
-          >
-            B
-          </motion.div>
-        </div>
-      </motion.div>
-
-      {/* Decorative dots */}
-      {[...Array(8)].map((_, i) => {
-        const angle = (i / 8) * Math.PI * 2
-        const radius = 160
-        const x = Math.cos(angle) * radius
-        const y = Math.sin(angle) * radius
-
-        return (
-          <motion.div
-            key={`dot-${i}`}
-            className="absolute w-3 h-3 rounded-full bg-red-500"
-            style={{
-              top: "50%",
-              left: "50%",
-              translateX: "-50%",
-              translateY: "-50%",
-              x,
-              y
-            }}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{
-              opacity: i % 2 === 0 ? 0.7 : 0.4,
-              scale: 1,
-              transition: {
-                delay: 0.6 + (i * 0.05),
-                duration: 0.4,
-                ease: "easeOut"
-              }
-            }}
-          />
-        )
-      })}
-    </div>
+    </motion.div>
   )
 }

@@ -3,7 +3,7 @@
 import React, { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, CheckCircle } from 'lucide-react'
+import { ArrowRight, Target, Shield, Zap } from 'lucide-react'
 
 export default function SocialProofStories() {
   const ref = useRef(null)
@@ -12,37 +12,47 @@ export default function SocialProofStories() {
   const projects = [
     {
       name: "CrowdPen",
-      description: "From idea to 2000+ beta users",
-      lesson: "User feedback shapes everything"
+      stats: "2000+ Beta Users",
+      description: "Content monetization platform built from zero.",
+      icon: <Target className="w-6 h-6 text-red-500" />
     },
     {
       name: "TaskWit",
-      description: "The all-in-one platform for learning, job searching, and professional networking",
-      lesson: "Simple solutions win"
+      stats: "B2B Enterprise",
+      description: "Professional networking & recruitment ecosystem.",
+      icon: <Shield className="w-6 h-6 text-red-500" />
     },
     {
       name: "Loudspeaker",
-      description: "Market intelligence app",
-      lesson: "Speed beats perfection"
+      stats: "Real-time Data",
+      description: "Market intelligence engine for rapid analysis.",
+      icon: <Zap className="w-6 h-6 text-red-500" />
     }
   ]
 
   return (
-    <section 
+    <section
       ref={ref}
-      className="py-24 px-4 bg-gradient-to-br from-white via-pink-50 to-white relative overflow-hidden"
+      className="py-32 px-4 bg-black text-white relative overflow-hidden"
     >
-      {/* Background decorative elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-32 h-32 bg-red-100 rounded-full opacity-20 blur-xl"></div>
-        <div className="absolute bottom-20 right-20 w-24 h-24 bg-pink-100 rounded-full opacity-30 blur-lg"></div>
-        <div className="absolute top-1/2 left-10 w-2 h-48 bg-gradient-to-b from-red-200 to-transparent transform -rotate-12"></div>
-        <div className="absolute top-1/3 right-10 w-2 h-32 bg-gradient-to-b from-pink-200 to-transparent transform rotate-12"></div>
+      {/* Radar / Sonar Background Animation */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-white/10 rounded-full"></div>
+
+        {/* Scanning Line */}
+        <motion.div
+          className="absolute top-1/2 left-1/2 w-[400px] h-[2px] bg-gradient-to-r from-transparent to-red-600/50 origin-left"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          style={{ top: '50%', left: '50%' }}
+        />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
+
           {/* Left content */}
           <div className="space-y-8">
             <motion.div
@@ -50,19 +60,19 @@ export default function SocialProofStories() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold text-black leading-tight mb-6">
-                We've made the mistakes{" "}
-                <span className="text-red-600">so you don't have to.</span>
+              <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold leading-tight mb-6">
+                Battle-Tested. <br />
+                <span className="text-red-600">Market-Proven.</span>
               </h2>
             </motion.div>
 
             <motion.p
-              className="text-xl md:text-2xl text-black leading-relaxed"
+              className="text-xl md:text-2xl text-gray-400 leading-relaxed"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
-              Our own projects—CrowdPen, TaskWit, Loudspeaker—are our proof. They weren't perfect overnight successes. They were our learning labs. We're not just giving you theory; we're giving you lessons learned from the front lines.
+              We don't guess. We deploy strategies forged in the fires of real-world product launches. Our internal ventures are our R&D labs—where we break things so your product is bulletproof.
             </motion.p>
 
             <motion.div
@@ -71,13 +81,13 @@ export default function SocialProofStories() {
               transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             >
               <Link href="/casestudies">
-                <motion.button 
-                  className="group relative overflow-hidden bg-red-600 text-white font-medium py-4 px-8 rounded-full shadow-lg"
+                <motion.button
+                  className="group relative overflow-hidden bg-white text-black font-bold py-4 px-8 rounded-full shadow-lg hover:shadow-white/20 transition-all duration-300"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="relative z-10 flex items-center">
-                    See Our Stories
+                    View Mission Logs
                     <motion.span
                       className="inline-block ml-2"
                       initial={{ x: 0 }}
@@ -86,45 +96,37 @@ export default function SocialProofStories() {
                       <ArrowRight className="w-5 h-5" />
                     </motion.span>
                   </span>
-                  <motion.div 
-                    className="absolute inset-0 bg-black"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  />
                 </motion.button>
               </Link>
             </motion.div>
           </div>
 
-          {/* Right content - Project cards */}
-          <div className="space-y-6">
+          {/* Right content - Project cards (Mission Log Style) */}
+          <div className="space-y-4">
             {projects.map((project, index) => (
               <motion.div
                 key={project.name}
-                className="bg-white border border-pink-200 rounded-2xl p-6 hover:shadow-lg hover:shadow-red-100/50 hover:border-red-200 transition-all duration-300"
+                className="bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-red-600/50 transition-colors duration-300"
                 initial={{ opacity: 0, x: 50 }}
                 animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-                transition={{ 
-                  duration: 0.8, 
+                transition={{
+                  duration: 0.6,
                   delay: 0.3 + (index * 0.1),
-                  ease: "easeOut" 
+                  ease: "easeOut"
                 }}
               >
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center">
-                      <CheckCircle className="w-6 h-6 text-white" />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-black rounded-lg border border-white/10">
+                      {project.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white">{project.name}</h3>
+                      <p className="text-sm text-red-500 font-mono uppercase tracking-wider">{project.stats}</p>
                     </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-black mb-2">{project.name}</h3>
-                    <p className="text-lg text-black mb-3">{project.description}</p>
-                    <div className="bg-pink-50 border border-pink-200 rounded-lg p-3">
-                      <p className="text-red-600 font-medium italic">
-                        "{project.lesson}"
-                      </p>
-                    </div>
+                  <div className="hidden sm:block text-right">
+                    <p className="text-gray-400 text-sm max-w-[200px]">{project.description}</p>
                   </div>
                 </div>
               </motion.div>
