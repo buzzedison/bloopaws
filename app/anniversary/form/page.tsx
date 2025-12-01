@@ -33,17 +33,17 @@ export default function AnniversaryFormPage() {
   const packageInfo = {
     website: {
       title: "Website Package",
-      price: "GHC 999",
+      price: "GHC 1,500",
       description: "Launch-ready. 7-day delivery.",
     },
     "pitch-deck": {
       title: "Pitch Deck Package",
-      price: "GHC 999",
+      price: "GHC 1,500",
       description: "Investor-ready. AI-generated.",
     },
     "business-plan": {
       title: "Business Plan Package",
-      price: "GHC 1,200",
+      price: "GHC 1,500",
       description: "25+ pages. Bank-ready.",
     },
   }
@@ -178,9 +178,9 @@ export default function AnniversaryFormPage() {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white"
               required
             >
-              <option value="website">Website - GHC 999</option>
-              <option value="pitch-deck">Pitch Deck - GHC 999</option>
-              <option value="business-plan">Business Plan - GHC 1,200</option>
+              <option value="website">Website - GHC 1,500</option>
+              <option value="pitch-deck">Pitch Deck - GHC 1,500</option>
+              <option value="business-plan">Business Plan - GHC 1,500</option>
             </select>
           </div>
 

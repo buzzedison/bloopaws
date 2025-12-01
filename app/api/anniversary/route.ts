@@ -34,9 +34,9 @@ export async function POST(request: Request) {
     }
 
     const packagePrices: Record<string, string> = {
-      website: 'GHC 999',
-      'pitch-deck': 'GHC 999',
-      'business-plan': 'GHC 1,200'
+      website: 'GHC 1,500',
+      'pitch-deck': 'GHC 1,500',
+      'business-plan': 'GHC 1,500'
     };
 
     const packagePrice = packagePrices[packageType] || 'Contact for pricing';
@@ -90,6 +90,7 @@ export async function POST(request: Request) {
                 <span class="label">Package:</span>
                 <div class="package-badge">${packageType.charAt(0).toUpperCase() + packageType.slice(1).replace('-', ' ')}</div>
                 <div class="price" style="margin-top: 8px;">${packagePrice}</div>
+                <div class="value" style="font-size: 12px; color: #6b7280;">Offer ends 30 December 2025.</div>
               </div>
               <div class="field">
                 <span class="label">Name:</span>
@@ -147,7 +148,7 @@ export async function POST(request: Request) {
               </div>
               <div class="content">
                 <p>Hi ${name},</p>
-                <p>We've received your request for our <strong>${packageType.charAt(0).toUpperCase() + packageType.slice(1).replace('-', ' ')}</strong> package at the special anniversary price of <strong>${packagePrice}</strong>.</p>
+                <p>We've received your request for our <strong>${packageType.charAt(0).toUpperCase() + packageType.slice(1).replace('-', ' ')}</strong> package at the special anniversary price of <strong>${packagePrice}</strong> (offer ends 30 December 2025).</p>
                 
                 <div class="package-info">
                   <strong>What happens next?</strong>

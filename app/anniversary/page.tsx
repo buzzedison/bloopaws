@@ -75,16 +75,11 @@ export default function AnniversaryPage() {
               </motion.h1>
 
               <motion.p
-
-                variants={fadeInUp}
-
+              variants={fadeInUp}
               className="text-xl md:text-2xl text-gray-700 mb-12 max-w-2xl font-light leading-relaxed"
-
-              >
-
-              Professional websites, pitch decks & business plans. Anniversary pricing—now only.
-
-              </motion.p>
+            >
+              Professional websites, pitch decks & business plans. Anniversary pricing—now only GHC 1,500. Offer ends 30 December 2025.
+            </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 mb-16">
 
@@ -198,7 +193,7 @@ export default function AnniversaryPage() {
 
                 title: "Website",
 
-                price: "GHC 999",
+                price: "GHC 1,500",
 
                 oldPrice: "GHC 10,000",
 
@@ -230,7 +225,7 @@ export default function AnniversaryPage() {
 
                 title: "Pitch Deck",
 
-                price: "GHC 999",
+                price: "GHC 1,500",
 
                 oldPrice: "GHC 2,000",
 
@@ -262,7 +257,7 @@ export default function AnniversaryPage() {
 
                 title: "Business Plan",
 
-                price: "GHC 1,200",
+                price: "GHC 1,500",
 
                 oldPrice: "GHC 2,500",
 
@@ -470,7 +465,7 @@ export default function AnniversaryPage() {
 
                   <span className="text-gray-600">Anniversary Price</span>
 
-                  <span className="text-red-600 font-bold">GHC 999</span>
+                  <span className="text-red-600 font-bold">GHC 1,500</span>
 
                 </div>
 
@@ -481,6 +476,8 @@ export default function AnniversaryPage() {
                   <span className="text-red-600 font-bold text-lg">Up to 67%</span>
 
                 </div>
+
+                <p className="text-sm text-gray-500 text-right">Offer ends 30 December 2025.</p>
 
               </div>
 
