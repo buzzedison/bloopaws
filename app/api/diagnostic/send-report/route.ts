@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     await resend.emails.send({
       from: 'Bloop Global <noreply@updates.bloopglobal.com>',
-      to: email,
+      to: [email, 'ask@bloopglobal.com'],
       subject: `Your Disruptor's Diagnostic Results (${results.profile})`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto;">
