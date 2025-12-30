@@ -15,6 +15,23 @@ export default {
       type: 'string',
     },
     {
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Technology', value: 'technology' },
+          { title: 'Healthcare', value: 'healthcare' },
+          { title: 'Finance', value: 'finance' },
+          { title: 'Education', value: 'education' },
+          { title: 'Real Estate', value: 'real-estate' },
+          { title: 'Construction', value: 'construction' },
+          { title: 'E-commerce', value: 'ecommerce' },
+          { title: 'Other', value: 'other' }
+        ]
+      }
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -32,7 +49,23 @@ export default {
     },
     {
       name: 'description',
-      title: 'Description',
+      title: 'Short Description',
+      type: 'text',
+      description: 'Used for cards and SEO previews'
+    },
+    {
+      name: 'challenge',
+      title: 'The Challenge',
+      type: 'text',
+    },
+    {
+      name: 'solution',
+      title: 'The Solution',
+      type: 'text',
+    },
+    {
+      name: 'impact',
+      title: 'The Impact',
       type: 'text',
     },
     {
@@ -45,6 +78,24 @@ export default {
       title: 'Quote Author',
       type: 'string',
       description: 'Name and title of the person who provided the quote'
+    },
+    {
+      name: 'clientAvatar',
+      title: 'Client Avatar',
+      type: 'image',
+      options: { hotspot: true }
+    },
+    {
+      name: 'technologies',
+      title: 'Technologies Used',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: { layout: 'tags' }
+    },
+    {
+      name: 'projectUrl',
+      title: 'Project URL',
+      type: 'url'
     },
     {
       name: 'metrics',
@@ -112,6 +163,29 @@ export default {
       options: {
         layout: 'tags'
       }
+    },
+    {
+      name: 'gallery',
+      title: 'Project Gallery',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            },
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative text',
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'content',

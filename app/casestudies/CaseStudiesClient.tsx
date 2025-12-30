@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { urlForImage } from "../../sanity/lib/image";
-import { ArrowRight, Target, Database, Lock, Terminal, Sun, Moon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, ArrowUpRight, Plus, Sparkles, Sun, Moon } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
 // Define TypeScript interfaces
 interface SanityImage {
@@ -20,251 +20,271 @@ interface CaseStudy {
     _id?: string;
     title: string;
     subtitle?: string;
-    slug: { current: string };
+    category?: string;
     result?: string;
     description?: string;
     mainImage?: SanityImage;
     fallbackImage?: string;
     tags?: string[];
     excerpt?: string;
+    slug: { current: string };
+    metrics?: Array<{ label: string; value: string; period?: string }>;
 }
 
 interface CaseStudiesClientProps {
     caseStudies: CaseStudy[];
 }
 
+const categories = [
+    { name: 'All Work', value: 'all' },
+    { name: 'Technology', value: 'technology' },
+    { name: 'Healthcare', value: 'healthcare' },
+    { name: 'Finance', value: 'finance' },
+    { name: 'Real Estate', value: 'real-estate' },
+    { name: 'Construction', value: 'construction' },
+];
+
 export default function CaseStudiesClient({ caseStudies }: CaseStudiesClientProps) {
-    const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+    const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+    const [activeCategory, setActiveCategory] = useState('all');
+    const containerRef = useRef<HTMLDivElement>(null);
+    const gridRef = useRef<HTMLDivElement>(null);
 
-    // Toggle theme handler
-    const toggleTheme = () => {
-        setTheme(prev => prev === 'dark' ? 'light' : 'dark');
-    };
-
-    // If no case studies, use fallback data
-    const hasCaseStudies = caseStudies && caseStudies.length > 0;
-
-    // Featured case study (first one or fallback)
-    const featuredCaseStudy = hasCaseStudies ? caseStudies[0] : {
-        title: "Special Homes",
-        subtitle: "Real Estate Website",
-        result: "300% increase in leads",
-        slug: { current: "specialgardens" },
-        fallbackImage: "/images/specialhomes.png",
-        description: "We partnered with this client to transform their digital presence and deliver exceptional results. Through strategic planning and innovative solutions, we helped them achieve significant growth and ROI."
-    };
-
-    // Helper function to get image URL safely
-    const getImageUrl = (caseStudy: CaseStudy): string => {
-        if (caseStudy.mainImage &&
-            caseStudy.mainImage._type === 'image' &&
-            caseStudy.mainImage.asset &&
-            caseStudy.mainImage.asset._ref &&
-            caseStudy.mainImage.asset._ref.startsWith('image-')) {
-            try {
-                return urlForImage(caseStudy.mainImage).width(800).height(600).url();
-            } catch (error) {
-                console.error('Error generating image URL:', error);
-            }
+    // Initialize theme from localStorage
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('case-studies-theme') as 'light' | 'dark' | null;
+        if (savedTheme) {
+            setTheme(savedTheme);
         }
-        return caseStudy.fallbackImage || '/images/placeholder.svg';
+    }, []);
+
+    const toggleTheme = () => {
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+        localStorage.setItem('case-studies-theme', newTheme);
     };
 
     const isDark = theme === 'dark';
 
-    return (
-        <div className={`min-h-screen font-sans transition-colors duration-500 ${isDark ? 'bg-black text-white selection:bg-red-900 selection:text-white' : 'bg-gray-50 text-gray-900 selection:bg-red-200 selection:text-black'}`}>
+    const filteredStudies = caseStudies?.filter(study =>
+        activeCategory === 'all' || study.category === activeCategory
+    ) || [];
 
-            {/* Theme Toggle - Fixed Position */}
-            <div className="fixed top-24 right-6 z-50">
-                <button
-                    onClick={toggleTheme}
-                    className={`p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 ${isDark ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800'}`}
-                    aria-label="Toggle Theme"
-                >
-                    {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                </button>
+    const getImageUrl = (caseStudy: CaseStudy): string => {
+        if (caseStudy.mainImage?.asset?._ref) {
+            try {
+                return urlForImage(caseStudy.mainImage).width(1600).height(2000).url();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        return '/images/placeholder.svg';
+    };
+
+    return (
+        <div ref={containerRef} className={`min-h-screen transition-colors duration-700 ${isDark ? 'bg-[#0c0c0c] text-[#e5e5e5]' : 'bg-[#f8f6f2] text-[#1a1a1a]'} selection:bg-red-600 selection:text-white font-sans relative`}>
+
+            {/* Theme Toggle Button */}
+            <button
+                onClick={toggleTheme}
+                className={`fixed bottom-10 left-10 z-[110] p-4 rounded-full backdrop-blur-md border transition-all duration-500 group ${isDark ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-black/5 border-black/10 text-black hover:bg-black/10'}`}
+            >
+                {isDark ? <Sun className="w-5 h-5 transition-transform group-hover:rotate-45" /> : <Moon className="w-5 h-5 transition-transform group-hover:-rotate-12" />}
+            </button>
+
+            {/* Global Texture Overlay */}
+            <div className={`fixed inset-0 pointer-events-none z-[100] ${isDark ? 'opacity-[0.03]' : 'opacity-[0.05]'} contrast-150 brightness-150`}
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3 Vag%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
             </div>
 
-            {/* Hero Section: Declassified Header */}
-            <section className={`relative pt-40 pb-20 px-6 border-b overflow-hidden transition-colors duration-500 ${isDark ? 'border-gray-800' : 'border-gray-200 bg-white'}`}>
-                {/* Background Grid & Effects */}
-                <div className={`absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] ${isDark ? 'opacity-100' : 'opacity-50'}`}></div>
-                <div className={`absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[100px] pointer-events-none transition-opacity duration-500 ${isDark ? 'bg-red-900/10' : 'bg-red-500/5'}`}></div>
+            {/* Editorial Hero */}
+            <section className="relative min-h-screen flex flex-col justify-center px-6 pt-40 pb-20">
+                <div className="max-w-[1800px] mx-auto w-full grid grid-cols-12 gap-6 items-end">
+                    <div className="col-span-12 lg:col-span-9">
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                            <span className="text-[10px] font-bold tracking-[0.5em] uppercase text-red-600 mb-8 block">Selected Work • 2024</span>
+                            <h1 className="text-[12vw] lg:text-[10vw] font-black leading-[0.85] tracking-tighter uppercase italic">
+                                Creating <br />
+                                <span className="ml-[10vw] opacity-80">Iconic</span> <br />
+                                Impact.
+                            </h1>
+                        </motion.div>
+                    </div>
+                    <div className="col-span-12 lg:col-span-3 pb-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                            className="space-y-8"
+                        >
+                            <p className={`text-xl font-medium leading-tight ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                                We partner with visionary brands to engineer digital products that define their category.
+                            </p>
+                            <div className="flex flex-col gap-4 pt-4">
+                                {categories.map((cat, idx) => (
+                                    <button
+                                        key={cat.value}
+                                        onClick={() => {
+                                            setActiveCategory(cat.value);
+                                            gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                        }}
+                                        className={`text-[10px] font-black uppercase tracking-[0.3em] text-left transition-all flex items-center gap-4 group ${activeCategory === cat.value ? 'text-red-600' : isDark ? 'text-zinc-600 hover:text-white' : 'text-zinc-400 hover:text-black'}`}
+                                    >
+                                        <span className={`w-8 h-px bg-current transition-all ${activeCategory === cat.value ? 'w-12' : 'group-hover:w-12'}`} />
+                                        {cat.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
 
-                <div className="max-w-7xl mx-auto relative z-10">
-                    <div className={`inline-flex items-center space-x-2 mb-6 border px-4 py-1.5 rounded-full transition-colors duration-500 ${isDark ? 'border-red-900/50 bg-red-950/20' : 'border-red-200 bg-red-50'}`}>
-                        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                        <span className="text-red-500 text-xs font-mono tracking-widest uppercase">
-                            {isDark ? 'Clearance Level: Top Secret' : 'Public Records Archive'}
-                        </span>
+                {/* Vertical Scroll Line */}
+                <div className={`absolute right-12 bottom-0 w-px h-40 ${isDark ? 'bg-gradient-to-b from-transparent to-red-600' : 'bg-gradient-to-b from-transparent to-red-600'} hidden lg:block`} />
+            </section>
+
+            {/* The "Story" Grid */}
+            <section ref={gridRef} className="px-6 py-40">
+                <div className="max-w-[1800px] mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-40">
+                        <AnimatePresence mode="popLayout">
+                            {filteredStudies.map((study, idx) => {
+                                // Dynamic Layout Logic
+                                const isWide = idx % 3 === 0;
+                                const isOffset = idx % 2 !== 0;
+
+                                return (
+                                    <motion.div
+                                        key={study._id || idx}
+                                        layout
+                                        initial={{ opacity: 0, y: 100 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, margin: "-100px" }}
+                                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                                        className={`group relative ${isWide ? 'lg:col-span-8' : 'lg:col-span-4'} ${isOffset ? 'lg:mt-40' : ''}`}
+                                    >
+                                        <Link href={`/casestudies/${study.slug.current}`} className="block">
+                                            {/* Visual Container */}
+                                            <div className="relative aspect-[4/5] lg:aspect-auto lg:h-[80vh] overflow-hidden bg-zinc-900 group-hover:scale-[0.98] transition-transform duration-1000 ease-out border border-transparent group-hover:border-zinc-800 transition-colors">
+                                                <Image
+                                                    src={getImageUrl(study)}
+                                                    alt={study.title}
+                                                    fill
+                                                    priority={idx < 2}
+                                                    className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale hover:grayscale-0"
+                                                />
+                                                {/* Meta Overlay */}
+                                                <div className="absolute top-10 left-10 flex flex-col gap-2">
+                                                    <span className="text-[10px] font-black tracking-[0.3em] uppercase mix-blend-difference text-white">0{idx + 1}</span>
+                                                    <span className="h-px w-8 bg-white/50 mix-blend-difference" />
+                                                </div>
+
+                                                {/* Hover Arrow */}
+                                                <div className="absolute bottom-10 right-10 w-20 h-20 rounded-full border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-500 backdrop-blur-sm">
+                                                    <ArrowUpRight className="w-8 h-8 text-white" />
+                                                </div>
+                                            </div>
+
+                                            {/* Editorial Content */}
+                                            <div className="mt-12 grid grid-cols-12 gap-6">
+                                                <div className="col-span-12 lg:col-span-8">
+                                                    <h2 className="text-4xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.85] italic mb-6">
+                                                        {study.title}
+                                                    </h2>
+                                                    <div className={`flex flex-wrap gap-x-8 gap-y-2 text-[10px] font-black uppercase tracking-[0.2em] ${isDark ? 'opacity-40' : 'opacity-60'}`}>
+                                                        <span>{study.category}</span>
+                                                        <span>•</span>
+                                                        <span>{study.result || 'Engineering'}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="col-span-12 lg:col-span-4 pt-2">
+                                                    <p className={`text-lg font-medium leading-tight line-clamp-3 mb-8 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                                                        {study.description}
+                                                    </p>
+                                                    <button className="text-[10px] font-black uppercase tracking-[0.4em] text-red-600 flex items-center gap-4 group/btn">
+                                                        Read The Case <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </motion.div>
+                                );
+                            })}
+                        </AnimatePresence>
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-8 uppercase">
-                        Mission <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800">Logs</span>
-                    </h1>
-
-                    <p className={`text-xl md:text-2xl max-w-3xl leading-relaxed border-l-2 border-red-600 pl-6 transition-colors duration-500 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                        We don't claim success. We prove it. Access the declassified files of our most critical operations and see exactly how we engineer dominance.
-                    </p>
+                    {filteredStudies.length === 0 && (
+                        <div className="py-60 text-center">
+                            <p className={`text-[10vw] font-black uppercase italic tracking-tighter ${isDark ? 'opacity-10' : 'opacity-5'}`}>No Artifacts.</p>
+                        </div>
+                    )}
                 </div>
             </section>
 
-            {/* Featured Operation */}
-            <section className={`py-24 px-6 border-b transition-colors duration-500 ${isDark ? 'border-gray-800 bg-gray-900/30' : 'border-gray-200 bg-gray-100/50'}`}>
-                <div className="max-w-7xl mx-auto">
-                    <div className="flex items-center justify-between mb-12">
-                        <h2 className={`text-2xl font-mono uppercase tracking-widest flex items-center transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
-                            <Target className="w-5 h-5 mr-3 text-red-500" />
-                            Priority Target
+            {/* Next Chapter CTA */}
+            <section className={`py-60 px-6 border-t ${isDark ? 'border-zinc-900 bg-[#080808]' : 'border-zinc-200 bg-[#fefefe]'}`}>
+                <div className="max-w-[1800px] mx-auto text-center">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <span className="text-[10px] font-black tracking-[0.5em] uppercase text-red-600 mb-12 block">Collaborate</span>
+                        <h2 className="text-[8vw] font-black leading-[0.8] tracking-tighter uppercase italic mb-20">
+                            Build Your <br />
+                            Legacy <br />
+                            <span className={isDark ? 'text-zinc-800' : 'text-zinc-200'}>Together.</span>
                         </h2>
-                        <div className={`hidden md:block font-mono text-xs transition-colors duration-500 ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>
-                            ID: {featuredCaseStudy._id || 'OP-ALPHA-01'}
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                        {/* Visual Intel */}
-                        <div className="lg:col-span-7 relative group">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-gray-900 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                            <div className={`relative rounded-xl overflow-hidden border aspect-video transition-colors duration-500 ${isDark ? 'border-gray-800 bg-black' : 'border-gray-200 bg-white'}`}>
-                                <Image
-                                    src={getImageUrl(featuredCaseStudy)}
-                                    alt={featuredCaseStudy.title}
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                                />
-
-                                {/* Overlay UI */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-                                <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
-                                    <div>
-                                        <div className="text-red-500 text-xs font-mono mb-1">STATUS: MISSION ACCOMPLISHED</div>
-                                        <div className="text-white font-bold text-lg">{featuredCaseStudy.title}</div>
-                                    </div>
-                                    <Lock className="w-5 h-5 text-gray-500" />
-                                </div>
+                        <Link
+                            href="/contact"
+                            className="group inline-flex flex-col items-center gap-6"
+                        >
+                            <div className="w-40 h-40 rounded-full border border-red-600 flex items-center justify-center group-hover:bg-red-600 transition-all duration-700">
+                                <Plus className="w-12 h-12 text-red-600 group-hover:text-white group-hover:rotate-90 transition-all duration-700" />
                             </div>
-                        </div>
-
-                        {/* Mission Brief */}
-                        <div className="lg:col-span-5 space-y-8">
-                            <div>
-                                <h3 className={`text-4xl font-bold mb-2 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>{featuredCaseStudy.title}</h3>
-                                <p className="text-red-500 font-mono text-sm uppercase tracking-wider mb-6">{featuredCaseStudy.subtitle}</p>
-                                <p className={`leading-relaxed transition-colors duration-500 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                                    {featuredCaseStudy.description || "Strategic intervention required to overhaul digital infrastructure. Objective: Maximize conversion and brand authority."}
-                                </p>
-                            </div>
-
-                            <div className={`grid grid-cols-2 gap-4 border-t pt-8 transition-colors duration-500 ${isDark ? 'border-gray-800' : 'border-gray-200'}`}>
-                                <div>
-                                    <div className={`text-xs font-mono uppercase mb-1 transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Outcome</div>
-                                    <div className={`text-2xl font-bold transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>{featuredCaseStudy.result || "Classified"}</div>
-                                </div>
-                                <div>
-                                    <div className={`text-xs font-mono uppercase mb-1 transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Sector</div>
-                                    <div className={`text-xl font-bold transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>Real Estate</div>
-                                </div>
-                            </div>
-
-                            <Link
-                                href={`/casestudies/${featuredCaseStudy.slug.current}`}
-                                className={`inline-flex items-center group font-bold tracking-wide uppercase text-sm hover:text-red-500 transition-colors duration-300 ${isDark ? 'text-white' : 'text-gray-900'}`}
-                            >
-                                <span className="border-b border-red-600 pb-1">Access Full Report</span>
-                                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                            </Link>
-                        </div>
-                    </div>
+                            <span className="text-[10px] font-black uppercase tracking-[0.5em]">Start A Build</span>
+                        </Link>
+                    </motion.div>
                 </div>
             </section>
 
-            {/* Field Reports Grid */}
-            <section className="py-24 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <div className="flex items-center justify-between mb-16">
-                        <h2 className={`text-4xl font-bold transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>Field Reports</h2>
-                        <div className="flex space-x-2">
-                            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                            <div className={`w-3 h-3 rounded-full transition-colors duration-500 ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
-                            <div className={`w-3 h-3 rounded-full transition-colors duration-500 ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
-                        </div>
+            {/* Custom Footer */}
+            <footer className={`px-6 py-20 border-t ${isDark ? 'border-zinc-900' : 'border-zinc-200'}`}>
+                <div className="max-w-[1800px] mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12">
+                    <div className="flex flex-col gap-2">
+                        <span className="text-2xl font-black italic">BLOOP<span className="text-red-600">.</span></span>
+                        <span className={`text-[10px] font-bold tracking-[0.2em] ${isDark ? 'opacity-40' : 'opacity-60'}`}>© 2024 BLOOP ARTIFACTS LTD.</span>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {hasCaseStudies && caseStudies.length > 1 ? (
-                            caseStudies.slice(1).map((caseStudy: CaseStudy, index: number) => (
-                                <Link
-                                    key={caseStudy._id || index}
-                                    href={`/casestudies/${caseStudy.slug.current}`}
-                                    className={`group relative block border transition-all duration-300 overflow-hidden ${isDark ? 'bg-gray-900/50 border-gray-800 hover:border-red-900/50' : 'bg-white border-gray-200 hover:border-red-200 hover:shadow-xl'}`}
-                                >
-                                    {/* Hover Effect Background */}
-                                    <div className="absolute inset-0 bg-red-900/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                                    <div className={`relative h-64 border-b transition-colors duration-500 ${isDark ? 'border-gray-800' : 'border-gray-100'}`}>
-                                        <Image
-                                            src={getImageUrl(caseStudy)}
-                                            alt={caseStudy.title}
-                                            fill
-                                            className={`object-cover transition-transform duration-500 group-hover:scale-105 ${isDark ? 'opacity-70 group-hover:opacity-100 grayscale group-hover:grayscale-0' : 'opacity-100'}`}
-                                        />
-                                        <div className="absolute top-4 right-4 bg-black/80 backdrop-blur border border-gray-700 px-2 py-1 text-xs font-mono text-white">
-                                            CONFIDENTIAL
-                                        </div>
-                                    </div>
-
-                                    <div className="p-8">
-                                        <div className="flex items-center justify-between mb-4">
-                                            <span className="text-red-500 font-mono text-xs uppercase tracking-wider">{caseStudy.subtitle}</span>
-                                            <Database className={`w-4 h-4 transition-colors duration-500 ${isDark ? 'text-gray-600' : 'text-gray-400'}`} />
-                                        </div>
-
-                                        <h3 className={`text-xl font-bold mb-3 group-hover:text-red-500 transition-colors duration-300 ${isDark ? 'text-white' : 'text-gray-900'}`}>{caseStudy.title}</h3>
-
-                                        <p className={`text-sm mb-6 line-clamp-2 transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>
-                                            {caseStudy.excerpt || "Operational details classified. Authorized personnel only."}
-                                        </p>
-
-                                        <div className={`flex items-center text-sm font-bold group-hover:translate-x-2 transition-transform duration-300 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                                            View Debrief <ArrowRight className="ml-2 w-4 h-4 text-red-500" />
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))
-                        ) : (
-                            // Fallback cards
-                            Array.from({ length: 3 }).map((_, index) => (
-                                <div key={index} className={`border p-8 flex flex-col items-center justify-center text-center min-h-[400px] transition-colors duration-500 ${isDark ? 'bg-gray-900/50 border-gray-800' : 'bg-gray-50 border-gray-200'}`}>
-                                    <Terminal className={`w-12 h-12 mb-4 transition-colors duration-500 ${isDark ? 'text-gray-700' : 'text-gray-300'}`} />
-                                    <h3 className={`font-mono text-sm uppercase tracking-widest transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Data Encrypted</h3>
-                                    <p className={`text-xs mt-2 transition-colors duration-500 ${isDark ? 'text-gray-600' : 'text-gray-500'}`}>Upload more case studies to Sanity to decrypt.</p>
-                                </div>
-                            ))
-                        )}
+                    <div className="flex flex-wrap gap-8 text-[10px] font-black uppercase tracking-[0.3em]">
+                        <a href="#" className="hover:text-red-600 transition-colors">Instagram</a>
+                        <a href="#" className="hover:text-red-600 transition-colors">LinkedIn</a>
+                        <a href="#" className="hover:text-red-600 transition-colors">Twitter</a>
                     </div>
                 </div>
-            </section>
+            </footer>
 
-            {/* Final CTA */}
-            <section className={`py-32 border-t relative overflow-hidden transition-colors duration-500 ${isDark ? 'border-gray-800' : 'border-gray-200 bg-gray-50'}`}>
-                <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] ${isDark ? 'from-red-900/20 via-black to-black' : 'from-red-100/50 via-white to-white'}`}></div>
-                <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-                    <h2 className={`text-5xl md:text-6xl font-black mb-8 tracking-tight transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                        Ready to Start Your <br />
-                        <span className="text-red-600">Operation?</span>
-                    </h2>
-                    <p className={`text-xl mb-12 max-w-2xl mx-auto transition-colors duration-500 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                        We have the intel, the tools, and the team. All we need is the green light.
-                    </p>
-                    <Link href="/contact">
-                        <button className={`px-10 py-5 rounded-full font-bold text-xl transition-colors transform hover:scale-105 duration-200 shadow-[0_0_20px_rgba(255,255,255,0.3)] ${isDark ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800 shadow-none'}`}>
-                            Initiate Launch
-                        </button>
-                    </Link>
-                </div>
-            </section>
+            <style jsx global>{`
+                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+                
+                body {
+                    background-color: ${isDark ? '#0c0c0c' : '#f8f6f2'};
+                    font-family: 'Plus Jakarta Sans', sans-serif;
+                    transition: background-color 0.7s ease;
+                }
+
+                h1, h2, h3 {
+                    font-family: 'Plus Jakarta Sans', sans-serif;
+                }
+
+                ::selection {
+                    background: #dc2626;
+                    color: white;
+                }
+            `}</style>
 
         </div>
     );

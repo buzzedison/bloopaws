@@ -1,10 +1,14 @@
+'use client';
+
 import { cachedClient } from "../../../sanity/lib/client";
 import { caseStudyQuery } from "../../../sanity/lib/caseStudyQueries";
 import { urlForImage } from "../../../sanity/lib/image";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CheckCircle2, Clock, ExternalLink, Share2, Tag } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CheckCircle2, Globe, Layout, Cpu, Image as ImageIcon, Briefcase, Zap, Plus, Sun, Moon } from "lucide-react";
+import { PortableText } from '@portabletext/react';
+import React, { useState, useEffect } from 'react';
 
 // Define TypeScript interfaces
 interface CaseStudyParams {
@@ -24,10 +28,17 @@ interface SanityImage {
 interface CaseStudy {
   title: string;
   subtitle?: string;
+  category?: string;
   result?: string;
   description?: string;
+  challenge?: string;
+  solution?: string;
+  impact?: string;
   quote?: string;
   author?: string;
+  clientAvatar?: SanityImage;
+  technologies?: string[];
+  projectUrl?: string;
   metrics?: Array<{
     label: string;
     value: string;
@@ -35,299 +46,264 @@ interface CaseStudy {
   }>;
   mainImage?: SanityImage;
   logo?: SanityImage;
+  gallery?: Array<SanityImage & { caption?: string }>;
   tags?: string[];
   content?: any[];
   publishedAt?: string;
 }
 
-export default async function CaseStudyPage({ params }: CaseStudyParams) {
+const getComponents = (isDark: boolean) => ({
+  block: {
+    h2: ({ children }: any) => <h2 className="text-4xl font-black uppercase tracking-tighter italic mt-20 mb-10">{children}</h2>,
+    h3: ({ children }: any) => <h3 className="text-2xl font-bold mt-12 mb-6">{children}</h3>,
+    normal: ({ children }: any) => <p className={`text-xl font-medium leading-tight mb-8 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>{children}</p>,
+    blockquote: ({ children }: any) => (
+      <blockquote className="border-l border-red-600 pl-10 italic text-3xl font-light my-20">
+        {children}
+      </blockquote>
+    ),
+  },
+});
+
+export default function CaseStudyPage({ params }: CaseStudyParams) {
   const { slug } = params;
-  
-  // Fetch the case study data from Sanity
-  const caseStudy: CaseStudy = await cachedClient(caseStudyQuery, { slug });
-  
-  // If no case study is found, show 404
-  if (!caseStudy) {
-    notFound();
-  }
-  
-  // Helper function to get image URL
-  const getImageUrl = (image?: SanityImage): string => {
-    if (image && image._type === 'image' && image.asset && image.asset._ref) {
+  const [caseStudy, setCaseStudy] = useState<CaseStudy | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+
+  useEffect(() => {
+    // Initialize theme
+    const savedTheme = localStorage.getItem('case-studies-theme') as 'light' | 'dark' | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+
+    async function fetchData() {
       try {
-        return urlForImage(image).width(1200).height(800).url();
+        const data: CaseStudy = await cachedClient(caseStudyQuery, { slug });
+        setCaseStudy(data);
       } catch (error) {
-        console.error('Error generating image URL:', error);
+        console.error("Error fetching case study:", error);
+      } finally {
+        setLoading(false);
       }
+    }
+    fetchData();
+  }, [slug]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('case-studies-theme', newTheme);
+  };
+
+  const isDark = theme === 'dark';
+  const components = getComponents(isDark);
+
+  if (loading) return (
+    <div className={`min-h-screen flex items-center justify-center transition-colors duration-700 ${isDark ? 'bg-[#0c0c0c]' : 'bg-[#f8f6f2]'}`}>
+      <div className="text-[10px] font-black uppercase tracking-[0.5em] text-red-600 animate-pulse">Loading Artifact...</div>
+    </div>
+  );
+
+  if (!caseStudy) notFound();
+
+  const getImageUrl = (image?: any, width = 2000, height = 1200) => {
+    if (image?.asset?._ref) {
+      return urlForImage(image).width(width).height(height).url();
     }
     return '/images/placeholder.svg';
   };
-  
-  // Format metrics for display
-  const formattedResults = caseStudy.metrics 
-    ? caseStudy.metrics.map(metric => ({
-        label: metric.label,
-        value: metric.value,
-        period: metric.period
-      }))
-    : [{ 
-        label: "Result", 
-        value: caseStudy.result || "Successful completion",
-        period: ""
-      }];
-
-  // Format date if available
-  const formattedDate = caseStudy.publishedAt 
-    ? new Date(caseStudy.publishedAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-      })
-    : null;
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* Sticky Navigation Bar */}
-      <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/casestudies" className="flex items-center text-gray-700 hover:text-red-600 transition-colors">
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            <span className="font-medium">Back to Case Studies</span>
-          </Link>
-          
-          <div className="flex items-center space-x-4">
-            <button className="flex items-center text-gray-700 hover:text-red-600 transition-colors">
-              <Share2 className="w-5 h-5 mr-1" />
-              <span className="hidden md:inline">Share</span>
-            </button>
-            
-            <Link 
-              href="https://www.bloopglobal.com/contact" 
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center"
-            >
-              <span>Contact Us</span>
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
-          </div>
-        </div>
+    <div className={`min-h-screen font-sans selection:bg-red-600 selection:text-white transition-colors duration-700 ${isDark ? 'bg-[#0c0c0c] text-[#e5e5e5]' : 'bg-[#f8f6f2] text-[#1a1a1a]'}`}>
+
+      {/* Theme Toggle Button */}
+      <button
+        onClick={toggleTheme}
+        className={`fixed bottom-10 left-10 z-[110] p-4 rounded-full backdrop-blur-md border transition-all duration-500 group ${isDark ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-black/5 border-black/10 text-black hover:bg-black/10'}`}
+      >
+        {isDark ? <Sun className="w-5 h-5 transition-transform group-hover:rotate-45" /> : <Moon className="w-5 h-5 transition-transform group-hover:-rotate-12" />}
+      </button>
+
+      {/* Global Texture Overlay */}
+      <div className={`fixed inset-0 pointer-events-none z-[100] ${isDark ? 'opacity-[0.03]' : 'opacity-[0.05]'} contrast-150 brightness-150`}
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3 Vag%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
       </div>
-      
-      {/* Hero Section */}
-      <section className="relative h-[70vh] overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image 
-            src={getImageUrl(caseStudy.mainImage)}
-            alt={caseStudy.title}
-            fill
-            priority
-            className="object-cover"
-            style={{ objectPosition: 'center center' }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
-        </div>
-        
-        {/* Hero Content */}
-        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-end pb-16">
-          <div className="max-w-3xl text-white">
-            {caseStudy.subtitle && (
-              <p className="text-red-400 font-medium text-lg mb-2">{caseStudy.subtitle}</p>
-            )}
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">{caseStudy.title}</h1>
-            
-            {caseStudy.result && (
-              <div className="inline-block bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-lg mb-6">
-                {caseStudy.result}
-              </div>
-            )}
-            
-            {caseStudy.description && (
-              <p className="text-xl text-gray-200 mb-8 max-w-2xl">{caseStudy.description}</p>
-            )}
-            
-            {caseStudy.tags && caseStudy.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-6">
-                {caseStudy.tags.map((tag, index) => (
-                  <span key={index} className="bg-white/10 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm flex items-center">
-                    <Tag className="w-3 h-3 mr-1" />
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-            
-            {formattedDate && (
-              <div className="flex items-center text-gray-300 text-sm">
-                <Clock className="w-4 h-4 mr-1" />
-                {formattedDate}
-              </div>
-            )}
+
+
+      {/* Editorial Hero */}
+      <section className="relative pt-40 pb-20 px-6">
+        <div className="max-w-[1800px] mx-auto">
+          <div className="grid grid-cols-12 gap-6 items-end mb-20">
+            <div className="col-span-12 lg:col-span-9">
+              <span className="text-[10px] font-black tracking-[0.5em] uppercase text-red-600 mb-8 block">Artifact Case Study</span>
+              <h1 className="text-[8vw] lg:text-[7vw] font-black leading-[0.85] tracking-tighter uppercase italic">
+                {caseStudy.title}
+              </h1>
+            </div>
+            <div className="col-span-12 lg:col-span-3 pb-4">
+              <p className={`text-xl font-medium leading-tight ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                {caseStudy.description}
+              </p>
+            </div>
+          </div>
+
+          <div className="relative w-full aspect-[16/7] overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out group border border-transparent group-hover:border-zinc-800 transition-colors">
+            <Image
+              src={getImageUrl(caseStudy.mainImage, 2400, 1050)}
+              alt={caseStudy.title}
+              fill
+              className="object-cover scale-105 group-hover:scale-100 transition-transform duration-[2000ms]"
+              priority
+            />
+            {/* Overlay Gradient */}
+            <div className={`absolute inset-0 bg-gradient-to-t ${isDark ? 'from-[#0c0c0c]' : 'from-[#f8f6f2]'} via-transparent to-transparent opacity-60`} />
           </div>
         </div>
       </section>
-      
+
       {/* Content Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-12">
-            {/* Main Content */}
-            <div className="lg:w-2/3">
-              {/* Key Metrics */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-                {formattedResults.map((result, index) => (
-                  <div key={index} className="bg-gray-50 rounded-xl p-6 shadow-sm border border-gray-100">
-                    <p className="text-3xl font-bold text-red-600 mb-1">{result.value}</p>
-                    <p className="text-gray-600">{result.label}{result.period ? ` ${result.period}` : ''}</p>
+      <section className="px-6 py-40">
+        <div className="max-w-[1800px] mx-auto grid grid-cols-12 gap-12">
+
+          {/* Left: Narrative */}
+          <div className="col-span-12 lg:col-span-8 space-y-40">
+
+            {/* The Challenge */}
+            {caseStudy.challenge && (
+              <div className="grid grid-cols-12 gap-6 group">
+                <div className="col-span-12 lg:col-span-3">
+                  <span className={`text-[10px] font-black tracking-[0.5em] uppercase transition-colors ${isDark ? 'text-zinc-600 group-hover:text-red-600' : 'text-zinc-400 group-hover:text-red-600'}`}>01 • The Problem</span>
+                </div>
+                <div className="col-span-12 lg:col-span-9">
+                  <div className="text-3xl lg:text-5xl font-black leading-tight mb-8 italic uppercase tracking-tighter">
+                    {caseStudy.challenge}
                   </div>
-                ))}
-              </div>
-              
-              {/* Challenge Section */}
-              <div className="mb-16">
-                <h2 className="text-2xl font-bold mb-6 text-gray-900 flex items-center">
-                  <div className="bg-red-600 h-8 w-2 mr-4 rounded-full"></div>
-                  The Challenge
-                </h2>
-                
-                <div className="prose prose-lg max-w-none">
-                  <p className="text-gray-700">
-                    {caseStudy.quote || "Our client faced significant challenges in their industry that required innovative solutions and strategic thinking."}
-                  </p>
                 </div>
               </div>
-              
-              {/* Solution Section */}
-              <div className="mb-16">
-                <h2 className="text-2xl font-bold mb-6 text-gray-900 flex items-center">
-                  <div className="bg-red-600 h-8 w-2 mr-4 rounded-full"></div>
-                  Our Solution
-                </h2>
-                
-                <div className="prose prose-lg max-w-none">
-                  <p className="text-gray-700">
-                    {caseStudy.author || "We developed a comprehensive strategy and implemented cutting-edge technology to address the client's needs and exceed their expectations."}
-                  </p>
+            )}
+
+            {/* The Solution */}
+            {caseStudy.solution && (
+              <div className="grid grid-cols-12 gap-6 group">
+                <div className="col-span-12 lg:col-span-3">
+                  <span className={`text-[10px] font-black tracking-[0.5em] uppercase transition-colors ${isDark ? 'text-zinc-600 group-hover:text-red-600' : 'text-zinc-400 group-hover:text-red-600'}`}>02 • The Vision</span>
                 </div>
-                
-                {/* Solution Image */}
-                <div className="mt-8 rounded-xl overflow-hidden shadow-lg">
-                  <Image 
-                    src={getImageUrl(caseStudy.logo || caseStudy.mainImage)}
-                    alt="Solution visualization"
-                    width={1000}
-                    height={600}
-                    className="w-full h-auto"
-                  />
+                <div className="col-span-12 lg:col-span-9">
+                  <div className="text-3xl lg:text-5xl font-black leading-tight mb-8 italic uppercase tracking-tighter">
+                    {caseStudy.solution}
+                  </div>
                 </div>
               </div>
-              
-              {/* Results Section */}
-              <div className="mb-16">
-                <h2 className="text-2xl font-bold mb-6 text-gray-900 flex items-center">
-                  <div className="bg-red-600 h-8 w-2 mr-4 rounded-full"></div>
-                  The Results
-                </h2>
-                
-                <div className="space-y-4">
-                  {formattedResults.map((result, index) => (
-                    <div key={index} className="flex items-start">
-                      <div className="text-green-500 mt-1 mr-3">
-                        <CheckCircle2 className="w-5 h-5" />
-                      </div>
-                      <p className="text-gray-700">
-                        <span className="font-bold">{result.value}</span> {result.label}{result.period ? ` ${result.period}` : ''}
-                      </p>
+            )}
+
+            {/* Structured Content */}
+            {caseStudy.content && (
+              <div className="grid grid-cols-12 gap-6">
+                <div className="col-span-12 lg:col-span-3" />
+                <div className="col-span-12 lg:col-span-9">
+                  <PortableText value={caseStudy.content} components={components} />
+                </div>
+              </div>
+            )}
+
+            {/* High-End Gallery */}
+            {caseStudy.gallery && caseStudy.gallery.length > 0 && (
+              <div className="grid grid-cols-12 gap-12">
+                <div className="col-span-12 lg:col-span-3">
+                  <span className={`text-[10px] font-black tracking-[0.5em] uppercase ${isDark ? 'text-zinc-600' : 'text-zinc-400'}`}>03 • Visuals</span>
+                </div>
+                <div className="col-span-12 lg:col-span-9 space-y-12">
+                  {caseStudy.gallery.map((img, i) => (
+                    <div key={i} className={`relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 ${i % 3 === 0 ? 'aspect-video' : 'aspect-[4/5] w-2/3 ml-auto'}`}>
+                      <Image
+                        src={getImageUrl(img, 1600, 900)}
+                        alt={img.alt || 'Gallery'}
+                        fill
+                        className="object-cover"
+                      />
                     </div>
                   ))}
                 </div>
               </div>
-              
-              {/* Content Blocks - If you have structured content */}
-              {caseStudy.content && caseStudy.content.length > 0 && (
-                <div className="prose prose-lg max-w-none mb-16">
-                  {/* This would need a proper Portable Text renderer */}
-                  <p className="text-gray-700">Additional content would be rendered here using a Portable Text component.</p>
-                </div>
-              )}
-            </div>
-            
-            {/* Sidebar */}
-            <div className="lg:w-1/3">
-              <div className="bg-gray-50 rounded-xl p-8 shadow-sm border border-gray-100 sticky top-24">
-                <h3 className="text-xl font-bold mb-6 text-gray-900">Project Details</h3>
-                
-                {/* Client Info */}
-                <div className="mb-6">
-                  <p className="text-sm text-gray-500 mb-1">Client</p>
-                  <p className="font-medium text-gray-900">{caseStudy.title.split(' ')[0]}</p>
-                </div>
-                
-                {/* Industry */}
-                {caseStudy.tags && caseStudy.tags.length > 0 && (
-                  <div className="mb-6">
-                    <p className="text-sm text-gray-500 mb-1">Industry</p>
-                    <p className="font-medium text-gray-900">{caseStudy.tags[0]}</p>
+            )}
+          </div>
+
+          {/* Right: Meta Sidebar */}
+          <div className="col-span-12 lg:col-span-4">
+            <div className="sticky top-40 space-y-20">
+
+              {/* Metrics */}
+              <div className="grid grid-cols-1 gap-12">
+                {caseStudy.metrics?.map((m, i) => (
+                  <div key={i} className={`border-t pt-8 ${isDark ? 'border-zinc-900' : 'border-zinc-200'}`}>
+                    <div className="text-[8vw] lg:text-[5vw] font-black italic tracking-tighter leading-none text-red-600">{m.value}</div>
+                    <div className={`text-[10px] font-black uppercase tracking-[0.3em] mt-2 ${isDark ? 'text-zinc-600' : 'text-zinc-400'}`}>{m.label}</div>
                   </div>
-                )}
-                
-                {/* Services Provided */}
-                {caseStudy.tags && caseStudy.tags.length > 1 && (
-                  <div className="mb-6">
-                    <p className="text-sm text-gray-500 mb-1">Services Provided</p>
-                    <div className="space-y-1">
-                      {caseStudy.tags.slice(1).map((tag, index) => (
-                        <p key={index} className="font-medium text-gray-900">{tag}</p>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* CTA */}
-                <div className="mt-8">
-                  <Link 
-                    href="https://www.bloopglobal.com/contact" 
-                    className="block w-full bg-red-600 hover:bg-red-700 text-white text-center py-3 px-4 rounded-lg transition-colors font-medium"
-                  >
-                    Start Your Project
-                  </Link>
-                  
-                  <Link 
-                    href="#" 
-                    className="block w-full mt-4 border border-gray-300 hover:border-red-600 hover:text-red-600 text-gray-700 text-center py-3 px-4 rounded-lg transition-colors font-medium flex items-center justify-center"
-                  >
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Visit Website
-                  </Link>
+                ))}
+              </div>
+
+              {/* Tech Stack */}
+              <div className="space-y-6">
+                <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDark ? 'text-zinc-600' : 'text-zinc-400'}`}>Tech Artifacts</span>
+                <div className="flex flex-wrap gap-x-8 gap-y-4">
+                  {caseStudy.technologies?.map((tech, i) => (
+                    <span key={i} className={`text-sm font-bold tracking-tight border-b pb-1 ${isDark ? 'border-zinc-900' : 'border-zinc-200'}`}>{tech}</span>
+                  ))}
                 </div>
               </div>
+
+              {/* Quote Card */}
+              {caseStudy.quote && (
+                <div className={`p-12 space-y-8 relative overflow-hidden group ${isDark ? 'bg-[#0f0f0f]' : 'bg-[#ffffff] border border-zinc-100 shadow-sm'}`}>
+                  <Plus className={`absolute top-0 right-0 w-8 h-8 group-hover:rotate-90 transition-transform duration-700 ${isDark ? 'text-zinc-800' : 'text-zinc-200'}`} />
+                  <p className="text-2xl font-medium leading-tight italic">
+                    "{caseStudy.quote}"
+                  </p>
+                  <div className="flex items-center gap-4">
+                    {caseStudy.clientAvatar && (
+                      <div className="relative w-10 h-10 rounded-full overflow-hidden grayscale">
+                        <Image src={getImageUrl(caseStudy.clientAvatar, 200, 200)} alt="Client" fill className="object-cover" />
+                      </div>
+                    )}
+                    <div>
+                      <div className="text-[10px] font-black uppercase tracking-[0.2em]">{caseStudy.author || 'Confidential'}</div>
+                      <div className={`text-[8px] font-bold tracking-[0.2em] uppercase ${isDark ? 'text-zinc-600' : 'text-zinc-400'}`}>Partner Stakeholder</div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </section>
-      
-      {/* Related Case Studies - Could be implemented if you have related case studies */}
-      
-      {/* CTA Section */}
-      <section className="py-24 bg-gray-900 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">Let's discuss how we can help you achieve exceptional results with innovative digital solutions.</p>
-          <Link 
-            href="/contact" 
-            className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-10 rounded-lg transition duration-300 transform hover:scale-105"
-          >
-            Start Your Project
+
+      {/* Editorial Footer */}
+      <section className={`py-60 px-6 transition-colors duration-700 ${isDark ? 'bg-[#080808]' : 'bg-[#fefefe]'}`}>
+        <div className="max-w-[1800px] mx-auto text-center">
+          <h2 className="text-[8vw] font-black leading-[0.8] tracking-tighter uppercase italic mb-20">
+            Next <br />
+            Perspective.
+          </h2>
+          <Link href="/casestudies" className="group inline-flex flex-col items-center gap-6">
+            <div className={`w-20 h-20 rounded-full border flex items-center justify-center group-hover:border-red-600 transition-colors duration-700 ${isDark ? 'border-zinc-800 text-zinc-800' : 'border-zinc-200 text-zinc-300'}`}>
+              <ArrowUpRight className="w-8 h-8 group-hover:text-red-600 transition-colors duration-700" />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em]">Explore More Artifacts</span>
           </Link>
         </div>
       </section>
+
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+        body { 
+            background-color: ${isDark ? '#0c0c0c' : '#f8f6f2'}; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            transition: background-color 0.7s ease;
+        }
+      `}</style>
+
     </div>
   );
-}
-
-// Generate static paths for all case studies
-export async function generateStaticParams() {
-  const paths = await cachedClient(`*[_type == "caseStudy" && defined(slug.current)][].slug.current`);
-  
-  return paths.map((slug: string) => ({
-    slug,
-  }));
 }
