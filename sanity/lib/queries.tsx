@@ -17,6 +17,7 @@ export const categoriesQuery = groq`*[_type == "category"]{
 // Get a single post by its slug
 export const postQuery = groq`*[_type == "post" && slug.current == $slug][0]{ 
     title, 
+    excerpt,
     mainImage, 
     body,
     publishedAt,
