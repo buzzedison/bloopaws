@@ -72,7 +72,7 @@ export default function PlaybookTeaser() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           >
-            <Link href="/freebies">
+            <Link href="/playbook">
               <motion.button
                 className="group relative overflow-hidden bg-black text-white font-medium py-4 px-10 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
                 whileHover={{ scale: 1.03 }}

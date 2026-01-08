@@ -16,7 +16,7 @@ export async function submitApplication(data: ApplicationData) {
   try {
     // Send notification email to admin
     await resend.emails.send({
-      from: 'Freebies Application <no-reply@updates.bloopglobal.com>',
+      from: 'Playbook Application <no-reply@updates.bloopglobal.com>',
       to: ['ask@bloopglobal.com'],
       subject: `New Website Application: ${data.businessName}`,
       html: `
@@ -47,7 +47,7 @@ export async function submitApplication(data: ApplicationData) {
           <div style="background-color: #FEF9C3; padding: 20px; border-radius: 8px; margin: 30px 0;">
             <h2 style="color: #854D0E; margin-top: 0;">Don't Want to Wait?</h2>
             <p>Get your professional website built this week at 50% off our regular price.</p>
-            <a href="${process.env.NEXT_PUBLIC_BASE_URL}/freebies/thank-you" style="display: inline-block; background-color: #DC2626; color: white; font-weight: bold; padding: 12px 24px; text-decoration: none; border-radius: 6px;">Claim This Offer</a>
+            <a href="${process.env.NEXT_PUBLIC_BASE_URL}/playbook/thank-you" style="display: inline-block; background-color: #DC2626; color: white; font-weight: bold; padding: 12px 24px; text-decoration: none; border-radius: 6px;">Claim This Offer</a>
           </div>
           
           <p>If you have any questions, please don't hesitate to contact us.</p>

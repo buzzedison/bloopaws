@@ -153,7 +153,7 @@ export default function Post({ post }: PostPageProps) {
       <div className="sticky top-24 z-40 bg-white/80 backdrop-blur-md border-b border-zinc-100 lg:border-none">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <Link
-            href="/freebies"
+            href="/playbook"
             className="inline-flex items-center gap-2 text-xs font-jakarta font-extrabold uppercase tracking-widest text-zinc-500 hover:text-red-600 transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />

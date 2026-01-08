@@ -39,7 +39,7 @@ export default function BloopNavbar() {
     };
 
     checkAuth();
-    
+
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mousedown', handleClickOutside);
 
@@ -54,7 +54,7 @@ export default function BloopNavbar() {
   const navItems = [
     { name: 'How We Help', href: '/services' },
     { name: 'Our Stories', href: '/casestudies' },
-    { name: 'The Playbook', href: '/freebies' },
+    { name: 'The Playbook', href: '/playbook' },
     { name: 'About Us', href: '/about' },
     { name: 'Join the Crew', href: '/careers' },
     { name: 'The Vanguard Program', href: '/vanguard' },
@@ -92,7 +92,7 @@ export default function BloopNavbar() {
                 <div className="ml-1 w-2 h-2 rounded-full bg-red-600 animate-pulse hidden md:block"></div>
               </Link>
             </div>
-            
+
             {/* Desktop Menu */}
             <div className="hidden lg:block">
               <div className="ml-10 flex items-baseline space-x-6">
@@ -124,7 +124,7 @@ export default function BloopNavbar() {
                       </div>
                       <div
                         className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600 transform origin-left transition-transform duration-300"
-                        style={{ 
+                        style={{
                           transform: activeItem === item.name ? 'scaleX(1)' : 'scaleX(0)'
                         }}
                       />
@@ -144,7 +144,7 @@ export default function BloopNavbar() {
                       </Link>
                       <div
                         className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600 transform origin-left transition-transform duration-300"
-                        style={{ 
+                        style={{
                           transform: activeItem === item.name ? 'scaleX(1)' : 'scaleX(0)'
                         }}
                       />
@@ -189,7 +189,7 @@ export default function BloopNavbar() {
                 )}
               </div>
             </div>
-            
+
             {/* CTA Button */}
             <div className="hidden lg:block">
               <Link
@@ -199,10 +199,10 @@ export default function BloopNavbar() {
                 Let's Chat
               </Link>
             </div>
-            
+
             {/* Mobile Menu Button */}
             <div className="lg:hidden">
-              <button 
+              <button
                 onClick={() => setIsNavOpen(!isNavOpen)}
                 className="text-gray-800 hover:text-red-600 inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-transform duration-300 hover:scale-105"
                 aria-label="Toggle menu"
@@ -221,7 +221,7 @@ export default function BloopNavbar() {
           </div>
         </div>
       </nav>
-      
+
       {/* Mobile Menu Dropdown */}
       {isNavOpen && (
         <div className="fixed inset-0 z-40 lg:hidden pt-20 bg-black/90 backdrop-blur-md">
@@ -246,7 +246,7 @@ export default function BloopNavbar() {
                   key={item.name}
                   className="block w-full"
                 >
-                  <Link 
+                  <Link
                     href={item.href}
                     className="block text-white text-lg font-medium py-3 px-4 rounded-lg hover:bg-white/10 transition-colors duration-200"
                     onClick={() => setIsNavOpen(false)}
@@ -275,7 +275,7 @@ export default function BloopNavbar() {
             )}
 
             <div className="pt-4 mt-4 border-t border-white/20">
-              <Link 
+              <Link
                 href="/contact"
                 className="block w-full text-center bg-red-600 text-white py-3 px-4 rounded-full font-medium hover:bg-red-700 transition-colors duration-200"
                 onClick={() => setIsNavOpen(false)}

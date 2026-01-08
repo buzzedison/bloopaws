@@ -6,12 +6,12 @@ export const metadata = {
   title: "Bloop Playbook: Insights, Strategies, and Templates | Bloop Global",
   description:
     "World-class insights for builders and teams. Explore strategies, mistakes, and templates for product, funding, and growth.",
-  alternates: { canonical: "/freebies" },
+  alternates: { canonical: "/playbook" },
   openGraph: {
     title: "Bloop Playbook: Insights, Strategies, and Templates | Bloop Global",
     description:
       "World-class insights for builders and teams. Explore strategies, mistakes, and templates for product, funding, and growth.",
-    url: "https://bloopglobal.com/freebies",
+    url: "https://bloopglobal.com/playbook",
     siteName: "Bloop Global",
     type: "website",
     images: [
@@ -33,12 +33,12 @@ export default async function PlaybookPage() {
     client.fetch(postsQuery),
     client.fetch(categoriesQuery)
   ]);
-  
+
   const cornerstoneArticles = posts.slice(0, 3); // First 3 as cornerstone
   const latestPosts = posts.slice(3, 9); // Next 6 as latest posts
-  
+
   return (
-    <PlaybookClient 
+    <PlaybookClient
       cornerstoneArticles={cornerstoneArticles}
       latestPosts={latestPosts}
       allPosts={posts}
