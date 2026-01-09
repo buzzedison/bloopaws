@@ -2,7 +2,7 @@ import { groq } from "next-sanity";
 
 // Get all posts
 export const postsQuery = groq`*[_type == "post" && defined(slug.current)] | order(publishedAt desc){
-    _id, title, slug, mainImage, excerpt, publishedAt, _createdAt,
+    _id, title, slug, mainImage, excerpt, publishedAt, _createdAt, isCoverStory, isFeatured, newsletterSent,
     categories[]->{
       _id,
       title

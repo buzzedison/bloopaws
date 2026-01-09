@@ -55,6 +55,27 @@ const post = {
       type: 'blockContent',
     },
     {
+      name: 'isCoverStory',
+      title: 'Is Cover Story?',
+      type: 'boolean',
+      description: 'Check this to make this post the main cover story on the Playbook page.',
+      initialValue: false,
+    },
+    {
+      name: 'isFeatured',
+      title: 'Is Featured?',
+      type: 'boolean',
+      description: 'Check this to feature this post in the "Critical Reading" sidebar.',
+      initialValue: false,
+    },
+    {
+      name: 'newsletterSent',
+      title: 'Newsletter Sent?',
+      type: 'boolean',
+      description: 'Has this post been sent as a newsletter?',
+      initialValue: false,
+    },
+    {
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
@@ -66,7 +87,7 @@ const post = {
     select: {
       title: 'title',
       author: 'author.name',
-      media: 'mainImage.imageurl', 
+      media: 'mainImage.imageurl',
     },
     prepare(selection) {
       const { author } = selection;

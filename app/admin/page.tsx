@@ -116,6 +116,14 @@ export default function AdminDashboard() {
       icon: '🤝',
       stats: `${stats.totalReferrals} total`,
       color: 'bg-purple-500'
+    },
+    {
+      title: 'Newsletter',
+      description: 'Manage ConvertKit subscribers and analytics',
+      href: '/admin/newsletter',
+      icon: '📬',
+      stats: 'Subscriber Stats',
+      color: 'bg-orange-500'
     }
   ];
 
@@ -247,21 +255,19 @@ export default function AdminDashboard() {
                 stats.recentApplications.map((app) => (
                   <div key={app.id} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0">
                     <div className="flex items-center space-x-3">
-                      <div className={`w-2 h-2 rounded-full ${
-                        app.status === 'pending' ? 'bg-yellow-500' :
-                        app.status === 'approved' ? 'bg-green-500' :
-                        app.status === 'rejected' ? 'bg-red-500' : 'bg-gray-500'
-                      }`}></div>
+                      <div className={`w-2 h-2 rounded-full ${app.status === 'pending' ? 'bg-yellow-500' :
+                          app.status === 'approved' ? 'bg-green-500' :
+                            app.status === 'rejected' ? 'bg-red-500' : 'bg-gray-500'
+                        }`}></div>
                       <div>
                         <p className="text-sm font-medium text-gray-900">{app.full_name}</p>
                         <p className="text-xs text-gray-500">{app.role} • {new Date(app.created_at).toLocaleDateString()}</p>
                       </div>
                     </div>
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      app.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                      app.status === 'approved' ? 'bg-green-100 text-green-800' :
-                      app.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
-                    }`}>
+                    <span className={`px-2 py-1 text-xs rounded-full ${app.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                        app.status === 'approved' ? 'bg-green-100 text-green-800' :
+                          app.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
+                      }`}>
                       {app.status}
                     </span>
                   </div>
@@ -289,11 +295,10 @@ export default function AdminDashboard() {
                 stats.recentReferrals.map((ref) => (
                   <div key={ref.id} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0">
                     <div className="flex items-center space-x-3">
-                      <div className={`w-2 h-2 rounded-full ${
-                        ref.status === 'pending' ? 'bg-yellow-500' :
-                        ref.status === 'closed' ? 'bg-green-500' :
-                        ref.status === 'rejected' ? 'bg-red-500' : 'bg-gray-500'
-                      }`}></div>
+                      <div className={`w-2 h-2 rounded-full ${ref.status === 'pending' ? 'bg-yellow-500' :
+                          ref.status === 'closed' ? 'bg-green-500' :
+                            ref.status === 'rejected' ? 'bg-red-500' : 'bg-gray-500'
+                        }`}></div>
                       <div>
                         <p className="text-sm font-medium text-gray-900">{ref.client_name}</p>
                         <p className="text-xs text-gray-500">From {ref.referrer_name} • {new Date(ref.created_at).toLocaleDateString()}</p>
@@ -301,11 +306,10 @@ export default function AdminDashboard() {
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-medium text-gray-900">${ref.potential_value}</p>
-                      <span className={`px-2 py-1 text-xs rounded-full ${
-                        ref.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                        ref.status === 'closed' ? 'bg-green-100 text-green-800' :
-                        ref.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
-                      }`}>
+                      <span className={`px-2 py-1 text-xs rounded-full ${ref.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                          ref.status === 'closed' ? 'bg-green-100 text-green-800' :
+                            ref.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
+                        }`}>
                         {ref.status}
                       </span>
                     </div>

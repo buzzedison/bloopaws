@@ -3,13 +3,39 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, ChangeEvent, FormEvent } from "react";
-import { motion } from "framer-motion";
-import { Search, Target, DollarSign, TrendingUp, ArrowRight, Mail } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, Target, DollarSign, TrendingUp, ArrowRight, Mail, X, Send, Check, AlertCircle } from "lucide-react";
 import imageUrlBuilder from "@sanity/image-url";
 import { client } from "../../sanity/lib/client";
 import * as tracking from "../lib/tracking";
 
 const builder = imageUrlBuilder(client);
+
+// Custom Notification Component
+function Notification({ message, type, onClose }: { message: string, type: 'success' | 'error', onClose: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      className="fixed bottom-8 right-8 z-[200] flex items-center gap-4 bg-white p-6 rounded-2xl shadow-2xl border border-gray-100 max-w-md"
+    >
+      <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${type === 'success' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'
+        }`}>
+        {type === 'success' ? <Check className="w-6 h-6" /> : <AlertCircle className="w-6 h-6" />}
+      </div>
+      <div className="flex-1">
+        <h4 className="font-jakarta font-bold text-black uppercase tracking-widest text-[10px] mb-1">
+          {type === 'success' ? 'Subscription Active' : 'System Error'}
+        </h4>
+        <p className="text-gray-600 text-sm font-jakarta">{message}</p>
+      </div>
+      <button onClick={onClose} className="text-gray-400 hover:text-black transition-colors">
+        <X className="w-5 h-5" />
+      </button>
+    </motion.div>
+  );
+}
 
 interface Article {
   _id: string;
@@ -17,6 +43,8 @@ interface Article {
   excerpt?: string;
   slug: { current: string };
   publishedAt?: string;
+  isCoverStory?: boolean;
+  isFeatured?: boolean;
   categories?: Category[];
   mainImage?: {
     asset: { _id: string };
@@ -37,30 +65,16 @@ interface PlaybookClientProps {
 }
 
 // Email Signup Section Component - Redesigned for Editorial Feel
-function EmailSignupSection() {
+function EmailSignupSection({ onNotify }: { onNotify: (email: string, source: string) => Promise<boolean> }) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleEmailSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      console.log("Newsletter signup:", email);
-
-      // Track Conversion
-      tracking.event('Lead', {
-        content_name: 'Playbook Newsletter',
-        content_category: 'Newsletter Signup'
-      });
-      tracking.ga_event('newsletter_signup', 'engagement', 'Playbook Newsletter');
-
-      setEmail("");
-      alert("Thanks for subscribing!");
-    } catch (error) {
-      console.error("Error subscribing:", error);
-    } finally {
-      setLoading(false);
-    }
+    const success = await onNotify(email, 'Playbook Newsletter');
+    if (success) setEmail("");
+    setLoading(false);
   };
 
   return (
@@ -111,6 +125,54 @@ export default function PlaybookClient({
 }: PlaybookClientProps) {
   const [activeFilter, setActiveFilter] = useState("All Posts");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalEmail, setModalEmail] = useState("");
+  const [modalLoading, setModalLoading] = useState(false);
+  const [notification, setNotification] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
+
+  const showNotification = (message: string, type: 'success' | 'error') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 6000);
+  };
+
+  const handleSubscription = async (emailToSubscribe: string, contentName: string) => {
+    try {
+      const response = await fetch('/api/build-sheet/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: emailToSubscribe }),
+      });
+
+      if (!response.ok) throw new Error('Subscription failed');
+
+      tracking.event('Lead', {
+        content_name: contentName,
+        content_category: 'Newsletter Signup'
+      });
+
+      tracking.ga_event('newsletter_signup', 'engagement', contentName);
+
+      showNotification("Welcome to The Build Sheet! Check your inbox for a confirmation email.", "success");
+      return true;
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      showNotification("Something went wrong. Please try again later.", "error");
+      return false;
+    }
+  };
+
+  const handleModalSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setModalLoading(true);
+    const success = await handleSubscription(modalEmail, 'Playbook Modal');
+    if (success) {
+      setModalEmail("");
+      setIsModalOpen(false);
+    }
+    setModalLoading(false);
+  };
 
   // Create filter options from actual categories
   const filters = ["All Posts", ...categories.map(cat => cat.title)];
@@ -125,6 +187,13 @@ export default function PlaybookClient({
       (post.categories && post.categories.some(cat => cat.title === activeFilter));
 
     return matchesSearch && matchesCategory;
+  }).sort((a, b) => {
+    // If we're not searching or filtering by category, we can prioritize featured items in the grid too
+    if (activeFilter === "All Posts" && searchQuery === "") {
+      if (a.isFeatured && !b.isFeatured) return -1;
+      if (!a.isFeatured && b.isFeatured) return 1;
+    }
+    return 0; // Maintain default order (publishedAt desc from query)
   });
 
   // Get the latest posts for the "Fresh From the Trenches" section (separate from filtering)
@@ -146,8 +215,14 @@ export default function PlaybookClient({
     return categories[index % categories.length];
   };
 
-  // Select featured post (first of allPosts)
-  const featured = allPosts[0];
+  // Select featured post: prioritize isCoverStory, fallback to most recent
+  const featured = allPosts.find(p => p.isCoverStory) || allPosts[0];
+
+  // Get sidebar posts: prioritize isFeatured, fallback to most recent (excluding the featured one)
+  const sidebarPosts = [
+    ...allPosts.filter(p => p.isFeatured && p._id !== featured?._id),
+    ...allPosts.filter(p => !p.isFeatured && p._id !== featured?._id)
+  ].slice(0, 5);
 
   return (
     <main className="flex flex-col min-h-screen bg-white">
@@ -381,7 +456,7 @@ export default function PlaybookClient({
                   </div>
 
                   <div className="space-y-12 font-jakarta">
-                    {allPosts.slice(1, 6).map((p, index) => (
+                    {sidebarPosts.map((p, index) => (
                       <article key={p._id} className="group flex gap-8 py-2 items-start border-b border-gray-50 pb-8 last:border-0">
                         <span className="text-4xl font-jakarta italic font-extrabold text-gray-100 group-hover:text-red-100 transition-colors leading-none">
                           0{index + 1}
@@ -404,11 +479,14 @@ export default function PlaybookClient({
 
                   {/* High quality mini CTA */}
                   <div className="mt-20 p-8 border-t-4 border-black bg-gray-50 rounded-b-xl font-jakarta">
-                    <h4 className="text-xl font-jakarta italic font-bold mb-4 text-gray-900">The Founder's Brief</h4>
+                    <h4 className="text-xl font-jakarta italic font-bold mb-4 text-gray-900">The Build Sheet</h4>
                     <p className="text-sm text-zinc-600 mb-6 font-light">Join 12,000+ executives getting our weekly strategic synthesis.</p>
-                    <Link href="#newsletter" className="inline-block w-full text-center py-4 bg-black text-white text-[10px] font-extrabold uppercase tracking-widest hover:bg-red-600 transition-colors">
+                    <button
+                      onClick={() => setIsModalOpen(true)}
+                      className="inline-block w-full text-center py-4 bg-black text-white text-[10px] font-extrabold uppercase tracking-widest hover:bg-red-600 transition-colors"
+                    >
                       Join the Network
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </aside>
@@ -493,7 +571,85 @@ export default function PlaybookClient({
       )}
 
       {/* Email CTA Section - Only one at the bottom */}
-      <EmailSignupSection />
+      <EmailSignupSection onNotify={handleSubscription} />
+
+      {/* Newsletter Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-lg bg-white overflow-hidden shadow-2xl rounded-2xl"
+            >
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-black transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="p-12 text-center">
+                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                  <Mail className="w-8 h-8 text-red-600" />
+                </div>
+                <h2 className="text-3xl font-jakarta font-extrabold text-black mb-4">
+                  The Build Sheet.
+                </h2>
+                <p className="text-gray-500 mb-10 leading-relaxed font-jakarta">
+                  Join 12,000+ founders receiving our weekly strategic intelligence. No fluff. Just execution.
+                </p>
+
+                <form onSubmit={handleModalSubmit} className="space-y-4">
+                  <div className="relative">
+                    <input
+                      type="email"
+                      placeholder="Professional Email"
+                      value={modalEmail}
+                      onChange={(e) => setModalEmail(e.target.value)}
+                      required
+                      className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent focus:border-red-600 focus:bg-white focus:outline-none rounded-xl transition-all font-jakarta text-lg"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={modalLoading}
+                    className="w-full py-4 bg-black text-white font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-red-600 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                  >
+                    {modalLoading ? 'Subscribing...' : (
+                      <>
+                        Subscribe Now
+                        <Send className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+                </form>
+                <p className="mt-6 text-[10px] uppercase tracking-widest text-gray-400 font-jakarta">
+                  Encrypted & Private. One email every Friday.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={() => setNotification(null)}
+          />
+        )}
+      </AnimatePresence>
     </main>
   );
 }
