@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Search, Target, DollarSign, TrendingUp, ArrowRight, Mail } from "lucide-react";
 import imageUrlBuilder from "@sanity/image-url";
 import { client } from "../../sanity/lib/client";
+import * as tracking from "../lib/tracking";
 
 const builder = imageUrlBuilder(client);
 
@@ -45,6 +46,14 @@ function EmailSignupSection() {
     setLoading(true);
     try {
       console.log("Newsletter signup:", email);
+
+      // Track Conversion
+      tracking.event('Lead', {
+        content_name: 'Playbook Newsletter',
+        content_category: 'Newsletter Signup'
+      });
+      tracking.ga_event('newsletter_signup', 'engagement', 'Playbook Newsletter');
+
       setEmail("");
       alert("Thanks for subscribing!");
     } catch (error) {

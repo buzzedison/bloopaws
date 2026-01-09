@@ -2,12 +2,17 @@ import { groq } from "next-sanity";
 
 // Get all posts
 export const postsQuery = groq`*[_type == "post" && defined(slug.current)] | order(publishedAt desc){
-    _id, title, slug, mainImage, excerpt, publishedAt,
+    _id, title, slug, mainImage, excerpt, publishedAt, _createdAt,
     categories[]->{
       _id,
       title
     }
   }`;
+
+// Get all active careers
+export const careersQuery = groq`*[_type == "career" && isActive == true]{
+  _id, title, slug, department, location, type, _createdAt
+}`;
 
 // Get all categories
 export const categoriesQuery = groq`*[_type == "category"]{

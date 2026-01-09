@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import * as tracking from '../lib/tracking';
 
 interface FormData {
   name: string;
@@ -46,6 +47,13 @@ export default function ContactForm() {
         throw new Error('Failed to send email');
       }
 
+      // Track Conversion
+      tracking.event('Contact', {
+        content_name: 'Contact Form',
+        content_category: formData.service
+      });
+      tracking.ga_event('contact_form_submit', 'engagement', formData.service);
+
       setSubmitStatus('Message sent successfully! We will get back to you soon.');
       setFormData({
         name: '',
@@ -69,7 +77,7 @@ export default function ContactForm() {
             <h2 className="text-3xl font-bold text-white">Get in Touch</h2>
             <p className="mt-2 text-red-100">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
           </div>
-          
+
           <form onSubmit={handleSubmit} className="p-8 space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
@@ -83,7 +91,7 @@ export default function ContactForm() {
                 placeholder="Your full name"
               />
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
@@ -97,7 +105,7 @@ export default function ContactForm() {
                   placeholder="you@example.com"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
                 <input
@@ -142,8 +150,8 @@ export default function ContactForm() {
               ></textarea>
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="w-full bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-red-800 transform hover:scale-[1.02] transition-all duration-200 font-medium"
             >
               Send Message
@@ -151,13 +159,12 @@ export default function ContactForm() {
           </form>
 
           {submitStatus && (
-            <div className={`mx-8 mb-8 p-4 rounded-lg ${
-              submitStatus.includes('success') 
-                ? 'bg-green-50 text-green-700 border border-green-200' 
-                : submitStatus.includes('Failed') 
-                  ? 'bg-red-50 text-red-700 border border-red-200' 
-                  : 'bg-blue-50 text-blue-700 border border-blue-200'
-            }`}>
+            <div className={`mx-8 mb-8 p-4 rounded-lg ${submitStatus.includes('success')
+              ? 'bg-green-50 text-green-700 border border-green-200'
+              : submitStatus.includes('Failed')
+                ? 'bg-red-50 text-red-700 border border-red-200'
+                : 'bg-blue-50 text-blue-700 border border-blue-200'
+              }`}>
               {submitStatus}
             </div>
           )}

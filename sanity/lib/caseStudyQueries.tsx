@@ -13,7 +13,9 @@ export const caseStudiesQuery = groq`*[_type == "caseStudy" && defined(slug.curr
     metrics,
     mainImage,
     logo,
-    tags
+    tags,
+    publishedAt,
+    _createdAt
   }`;
 
 // Get a single case study by its slug

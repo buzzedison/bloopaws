@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, Smartphone, Users, TrendingUp, CheckCircle } from 'lucide-react'
+import * as tracking from '../../lib/tracking'
 
 interface ApplicationFormProps {
   isOpen: boolean
@@ -85,6 +86,14 @@ export default function ApplicationForm({ isOpen, onClose, selectedRole }: Appli
 
       if (response.ok) {
         setSubmitStatus('success')
+
+        // Track Conversion
+        tracking.event('CompleteRegistration', {
+          content_name: 'Vanguard Application',
+          role: formData.role
+        });
+        tracking.ga_event('vanguard_application_submit', 'engagement', formData.role);
+
         // Reset form after successful submission
         setFormData({
           role: selectedRole || 'mobile',
@@ -188,8 +197,8 @@ export default function ApplicationForm({ isOpen, onClose, selectedRole }: Appli
                         <span>Quiz Duration:</span>
                         <span className="font-medium">
                           {formData.role === 'mobile' ? '45' :
-                           formData.role === 'bd-sales' ? '40' :
-                           formData.role === 'investment' ? '45' : '45'} minutes
+                            formData.role === 'bd-sales' ? '40' :
+                              formData.role === 'investment' ? '45' : '45'} minutes
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -233,15 +242,13 @@ export default function ApplicationForm({ isOpen, onClose, selectedRole }: Appli
                           key={role.id}
                           type="button"
                           onClick={() => handleInputChange('role', role.id)}
-                          className={`p-4 rounded-xl border-2 transition-all ${
-                            formData.role === role.id
-                              ? 'border-pink-500 bg-pink-50'
-                              : 'border-gray-200 hover:border-gray-300'
-                          }`}
+                          className={`p-4 rounded-xl border-2 transition-all ${formData.role === role.id
+                            ? 'border-pink-500 bg-pink-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                            }`}
                         >
-                          <IconComponent className={`w-6 h-6 mx-auto mb-2 ${
-                            formData.role === role.id ? 'text-pink-600' : 'text-gray-400'
-                          }`} />
+                          <IconComponent className={`w-6 h-6 mx-auto mb-2 ${formData.role === role.id ? 'text-pink-600' : 'text-gray-400'
+                            }`} />
                           <div className="text-sm font-medium text-black">{role.title}</div>
                         </button>
                       )
