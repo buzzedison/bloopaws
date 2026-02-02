@@ -16,6 +16,7 @@ import {
   Target,
   Zap
 } from "lucide-react";
+import * as tracking from "../lib/tracking";
 
 const structureItems = [
   {
@@ -89,6 +90,9 @@ export default function BuildSheetPage() {
         throw new Error(data.error || 'Subscription failed');
       }
 
+      // Track Newsletter Signup
+      tracking.trackNewsletterSignup('Build Sheet');
+
       setIsSubmitted(true);
       setEmail("");
     } catch (err) {
@@ -140,7 +144,7 @@ export default function BuildSheetPage() {
               </div>
             </div>
 
-                <div className="lg:flex-shrink-0">
+            <div className="lg:flex-shrink-0">
               <div className="rounded-3xl border border-light-white-200 bg-white p-8 shadow-lg">
                 <h3 className="text-xl font-semibold text-black-100 mb-6">Subscribe to The Build Sheet</h3>
 

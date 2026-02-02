@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import sendToAirtable from "../api/utils/sendToAirtable";
 import { useRouter } from "next/navigation";
+import * as tracking from "../lib/tracking";
 
 export default function NewsletterCTA() {
   const router = useRouter()
@@ -11,6 +12,10 @@ export default function NewsletterCTA() {
     onSubmit: async (data) => {
       try {
         await sendToAirtable(data.email);
+
+        // Track Newsletter Signup
+        tracking.trackNewsletterSignup('Homepage CTA');
+
         router.push("/");
         console.log("Email sent to Airtable successfully");
       } catch (error) {
@@ -45,7 +50,7 @@ export default function NewsletterCTA() {
                 }}
                 render={({ onChange, onBlur, value }) => (
                   <input
-                 
+
                     id="email-address"
                     name="email"
                     type="email"

@@ -143,7 +143,7 @@ const Footer = () => (
               &copy; {new Date().getFullYear()} Bloop Global LLC. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-6">
-              <Link href="/privacy" className="text-sm text-gray-600 hover:text-red-600 transition-colors duration-200">
+              <Link href="/privacy-policy" className="text-sm text-gray-600 hover:text-red-600 transition-colors duration-200">
                 Privacy Policy
               </Link>
               <Link href="/terms" className="text-sm text-gray-600 hover:text-red-600 transition-colors duration-200">
