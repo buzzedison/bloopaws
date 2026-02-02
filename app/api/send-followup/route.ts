@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     // Send follow-up email after chat ends
     await resend.emails.send({
-      from: 'Bloop Global <noreply@bloopglobal.com>', // Update with your verified domain
+      from: 'Bloop Global <noreply@updates.bloopglobal.com>',
       to: [email],
       subject: "Great chatting with you! Let's keep the conversation going 💬",
       html: `
@@ -98,8 +98,8 @@ export async function POST(req: NextRequest) {
 
     // Also send internal notification to the team
     await resend.emails.send({
-      from: 'Bloop Chatbot <noreply@bloopglobal.com>',
-      to: ['ask@bloopglobal.com'], // Your team email
+      from: 'Bloop Chatbot <noreply@updates.bloopglobal.com>',
+      to: ['ask@bloopglobal.com'],
       subject: `💬 New Chat Lead: ${name}`,
       html: `
         <!DOCTYPE html>

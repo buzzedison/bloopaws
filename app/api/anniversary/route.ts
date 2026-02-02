@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       'other': 'Other'
     };
 
-    const howDidYouHearLabel = howDidYouHear === 'other' 
+    const howDidYouHearLabel = howDidYouHear === 'other'
       ? `Other: ${howDidYouHearOther || 'Not specified'}`
       : (howDidYouHearLabels[howDidYouHear] || howDidYouHear);
 

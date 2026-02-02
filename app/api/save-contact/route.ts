@@ -37,8 +37,8 @@ export async function POST(req: NextRequest) {
 
     // Send admin notification about new chat lead
     await resend.emails.send({
-      from: 'Bloop Chatbot <noreply@bloopglobal.com>',
-      to: ['ask@bloopglobal.com'], // Your team email
+      from: 'Bloop Chatbot <noreply@updates.bloopglobal.com>',
+      to: ['ask@bloopglobal.com'],
       subject: `🚀 New Chat Started: ${name}`,
       html: `
         <!DOCTYPE html>
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
 
     // Send a welcome email to the visitor
     await resend.emails.send({
-      from: 'Bloop Global <noreply@bloopglobal.com>', // Update with your verified domain
+      from: 'Bloop Global <noreply@updates.bloopglobal.com>',
       to: [email],
       subject: "Thanks for chatting with us! 👋",
       html: `

@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
     // Send admin notification email
     try {
       await resend.emails.send({
-        from: 'Referrals <no-reply@bloopglobal.com>',
+        from: 'Referrals <noreply@updates.bloopglobal.com>',
         to: ['ask@bloopglobal.com'],
         subject: `New Referral Submitted: ${referralRow.client_name}`,
         html: `

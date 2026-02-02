@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     `;
 
     const data = await resend.emails.send({
-      from: 'Bloop Global <onboarding@resend.dev>',
+      from: 'Bloop Global <noreply@updates.bloopglobal.com>',
       to: ['ask@updates.bloopglobal.com'],
       subject: `Funding application: ${name} (${stage})`,
       html,
