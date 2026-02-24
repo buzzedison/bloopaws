@@ -293,7 +293,7 @@ export default function FlagshipOfferInnovative() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7, duration: 0.5 }}
                   >
-                    <Link href="/files/bloop-offers.pdf">
+                    <Link prefetch={false} href="/files/bloop-offers.pdf">
                       <motion.button 
                         className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold py-3 px-6 rounded-full transition-all flex items-center justify-center border border-white/30"
                         whileHover={{ scale: 1.03 }}
@@ -303,7 +303,7 @@ export default function FlagshipOfferInnovative() {
                         Download Details
                       </motion.button>
                     </Link>
-                    <Link href="/contact">
+                    <Link prefetch={false} href="/contact">
                       <motion.button 
                         className="bg-white text-red-600 font-semibold py-3 px-6 rounded-full shadow-md transition-all flex items-center justify-center"
                         whileHover={{ scale: 1.03, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}

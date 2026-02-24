@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "../../lib/supabase/client";
@@ -11,6 +11,7 @@ const supabase = createClient();
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -28,11 +29,39 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       // Get user profile
       const { data: userData } = await supabase.auth.getUser();
       setUser(userData.user);
+
+      // Referral pages require admin-approved Kazi partner access.
+      if (pathname.startsWith("/referral/")) {
+        const userEmail = userData.user?.email?.toLowerCase();
+
+        if (!userEmail) {
+          router.push("/referral");
+          return;
+        }
+
+        const { data: partnerApplication, error: partnerError } = await supabase
+          .from("referral_partner_applications")
+          .select("status")
+          .eq("email", userEmail)
+          .maybeSingle();
+
+        if (partnerError) {
+          console.error("Error checking referral partner status:", partnerError);
+          router.push("/referral?approval=pending");
+          return;
+        }
+
+        if (!partnerApplication || partnerApplication.status !== "approved") {
+          router.push("/referral?approval=pending");
+          return;
+        }
+      }
+
       setLoading(false);
     };
     
     checkAuth();
-  }, [router]);
+  }, [pathname, router]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -54,7 +83,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Link href="/" className="flex items-center">
+              <Link prefetch={false} href="/" className="flex items-center">
                 <Image
                   width={120}
                   height={30}
@@ -67,7 +96,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             
             <div className="flex items-center space-x-6">
               <nav className="hidden md:flex space-x-6">
-                <Link 
+                <Link prefetch={false} 
                   href="/dashboard" 
                   className={`text-sm font-medium ${
                     activeSection === "dashboard" ? "text-red-600" : "text-gray-500 hover:text-gray-900"
@@ -76,7 +105,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 >
                   Dashboard
                 </Link>
-                <Link 
+                <Link prefetch={false} 
                   href="/referral/dashboard" 
                   className={`text-sm font-medium ${
                     activeSection === "referrals" ? "text-red-600" : "text-gray-500 hover:text-gray-900"
@@ -85,7 +114,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 >
                   Referrals
                 </Link>
-                <Link 
+                <Link prefetch={false} 
                   href="/referral" 
                   className="text-sm font-medium text-gray-500 hover:text-gray-900"
                 >

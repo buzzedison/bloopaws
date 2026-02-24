@@ -56,14 +56,14 @@ export default function ReferralWidget() {
             </div>
             
             <div className="space-y-4">
-              <Link 
+              <Link prefetch={false} 
                 href="/referral"
                 className="block w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white text-center font-medium rounded-lg transition-colors"
               >
                 Refer a Client
               </Link>
               
-              <Link 
+              <Link prefetch={false} 
                 href="/referral/dashboard"
                 className="block w-full py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 text-center font-medium rounded-lg transition-colors"
               >

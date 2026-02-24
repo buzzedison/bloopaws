@@ -180,7 +180,7 @@ const Games = () => {
             {games.map((game) => {
               const IconComponent = game.icon;
               return (
-                <Link key={game.id} href={`/games/${game.id}`}>
+                <Link prefetch={false} key={game.id} href={`/games/${game.id}`}>
                   <motion.div
                     variants={cardVariants}
                     className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 cursor-pointer"
@@ -235,7 +235,7 @@ const Games = () => {
             Take our assessments and gain valuable insights into your entrepreneurial journey.
           </p>
           <div className="mt-8">
-            <Link href="#games">
+            <Link prefetch={false} href="#games">
               <button className="inline-flex items-center gap-3 rounded-xl bg-red-600 px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-red-700 hover:shadow-lg">
                 Get Started
                 <ArrowRight className="h-5 w-5" />

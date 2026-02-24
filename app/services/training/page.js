@@ -179,7 +179,7 @@ export default function TrainingServices() {
                   <ExternalLink size={18} className="ml-2" />
                 </button>
               </a>
-              <Link href="/contact" className="w-full sm:w-auto">
+              <Link prefetch={false} href="/contact" className="w-full sm:w-auto">
                 <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-white/10 transition-colors w-full">
                   Contact Us
                 </button>
@@ -303,7 +303,7 @@ export default function TrainingServices() {
                   <ExternalLink size={18} className="ml-2" />
                 </button>
               </a>
-              <Link href="/contact" className="w-full sm:w-auto">
+              <Link prefetch={false} href="/contact" className="w-full sm:w-auto">
                 <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-white/10 transition-colors w-full">
                   Contact Us
                 </button>

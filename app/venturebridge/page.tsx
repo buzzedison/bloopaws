@@ -23,13 +23,13 @@ export default function VentureBridgePage() {
                 Affordable services, expert advice, and even free support—because growing your business should not feel impossible.
               </p>
               <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-4 justify-center px-4">
-                <Link 
+                <Link prefetch={false} 
                   href="https://airtable.com/app7rzeBLQmXIiBQ5/pagCtEZVrDuB4bFg4/form"
                   className="w-full sm:w-auto rounded-lg px-6 py-3 bg-red-600 text-white font-medium hover:bg-red-700 transition-colors text-center"
                 >
                   Join as Startup
                 </Link>
-                <Link 
+                <Link prefetch={false} 
                   href="https://airtable.com/app7rzeBLQmXIiBQ5/pagW0s7zW1oyKlNqS/form"
                   className="w-full sm:w-auto rounded-lg px-6 py-3 bg-gray-100 text-white font-medium hover:bg-gray-200 transition-colors text-center"
                 >
@@ -104,7 +104,7 @@ export default function VentureBridgePage() {
                   <span className="text-sm sm:text-base text-gray-600">A trusted network of experts to help you grow with confidence</span>
                 </li>
               </ul>
-              <Link 
+              <Link prefetch={false} 
                 href="#startup-signup"
                 className="inline-flex items-center text-red-600 font-medium hover:text-red-700 text-sm sm:text-base"
               >
@@ -132,7 +132,7 @@ export default function VentureBridgePage() {
                   <span className="text-sm sm:text-base text-gray-600">Gain exposure through our platform as a trusted professional</span>
                 </li>
               </ul>
-              <Link 
+              <Link prefetch={false} 
                 href="#professional-signup"
                 className="inline-flex items-center text-red-600 font-medium hover:text-red-700 text-sm sm:text-base"
               >
@@ -186,13 +186,13 @@ export default function VentureBridgePage() {
             Join our network of innovators, creators, and problem-solvers. Whether you're building the next big thing or ready to share your expertise, your journey starts here.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
-            <Link 
+            <Link prefetch={false} 
               href="https://airtable.com/app7rzeBLQmXIiBQ5/pagCtEZVrDuB4bFg4/form"
               className="w-full sm:w-auto rounded-lg px-6 py-4 bg-red-600 text-white font-medium hover:bg-red-700 transition-colors text-center"
             >
               Join as a Startup
             </Link>
-            <Link 
+            <Link prefetch={false} 
               href="https://airtable.com/app7rzeBLQmXIiBQ5/pagW0s7zW1oyKlNqS/form"
               className="w-full sm:w-auto rounded-lg px-6 py-4 bg-gray-100 text-white font-medium hover:bg-gray-200 transition-colors text-center"
             >

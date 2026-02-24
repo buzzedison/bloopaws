@@ -51,7 +51,7 @@ const RelatedPosts = async ({ post }) => {
                 )}
               </div>
               <div className="p-5">
-                <Link href={`/insight/${relatedPost.slug.current}`}>
+                <Link prefetch={false} href={`/insight/${relatedPost.slug.current}`}>
                   <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-red-700 transition-colors duration-300">
                     {relatedPost.title}
                   </h3>
@@ -60,7 +60,7 @@ const RelatedPosts = async ({ post }) => {
                   {relatedPost.excerpt}
                 </p>
                 <div className="flex justify-between items-center">
-                  <Link 
+                  <Link prefetch={false} 
                     href={`/insight/${relatedPost.slug.current}`}
                     className="text-red-700 hover:text-red-900 font-semibold text-sm inline-flex items-center transition-colors duration-300"
                   >

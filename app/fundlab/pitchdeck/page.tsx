@@ -16,7 +16,7 @@ const Home: React.FC = () => {
         <h1 className="text-6xl font-extrabold mb-6">Perfect Pitch Decks</h1>
         <p className="text-2xl mb-8">One-on-One Coaching to Create Winning Presentations</p>
         <p className="max-w-2xl mx-auto mb-12">Craft a compelling pitch deck that hooks investors and gets funded. Work 1:1 with our expert coaches to build visually stunning decks that tell your startup's story.</p>
-        <Link href="/consultation"className="bg-red-800 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition duration-300">Schedule a Consultation
+        <Link prefetch={false} href="/consultation"className="bg-red-800 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition duration-300">Schedule a Consultation
         </Link>
       </section>
       </div>
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
     <section className="text-center py-24 bg-red-800 text-white">
         <h2 className="text-3xl font-bold mb-6">Ready to Start?</h2>
         <p className="mb-8">Schedule a free 30-minute consultation to get started on your winning pitch deck today.</p>
-        <Link href="/consultation"className="bg-white text-red-700 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-200 transition duration-300">Schedule a Consultation
+        <Link prefetch={false} href="/consultation"className="bg-white text-red-700 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-200 transition duration-300">Schedule a Consultation
         </Link>
       </section>
     </div>

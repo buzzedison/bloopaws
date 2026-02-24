@@ -38,7 +38,7 @@ const HeroSection = () => {
             Build a smarter, more agile business. Start your journey with our free template today.
           </motion.p>
           <motion.div variants={fadeInUp} className="text-center lg:text-left">
-           <Link href="https://airtable.com/appN08604EcWr0e4L/pagyheDh7PwWuFRkp/form">
+           <Link prefetch={false} href="https://airtable.com/appN08604EcWr0e4L/pagyheDh7PwWuFRkp/form">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

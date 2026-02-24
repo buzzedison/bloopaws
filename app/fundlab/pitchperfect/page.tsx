@@ -15,7 +15,7 @@ export default function HomePage() {
           <h1 className="text-5xl font-bold mb-6 pt-24 mt-12">Bring Your Ideas to Life</h1>
           <p className="text-2xl mb-4">Pitch Your Startup to the World - The Online Pitch Event</p>
           <p className="text-2xl font-bold text-red-200 mb-8"> Wednesday February 28, 2024</p>
-         <Link href="https://crowdpen.co/challenges/Pitch%20Perfect%20February/c7f4b148-9883-433d-9ff3-c1a79e3eac13/Pitch-Perfect">
+         <Link prefetch={false} href="https://crowdpen.co/challenges/Pitch%20Perfect%20February/c7f4b148-9883-433d-9ff3-c1a79e3eac13/Pitch-Perfect">
           <button className="bg-white text-red-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition duration-300">
          Apply Now
           </button>
@@ -69,7 +69,7 @@ export default function HomePage() {
           <p className="text-lg mb-2">Sharpen your pitch, set up your backdrop, and get ready to charm screens across the globe.
           </p>
           <p className="mb-8 px-2 md:px-24 text-3xl font-extrabold"> Doesn’t matter if you're chasing capital or not, here's your spotlight to shine and capture the attention your venture deserves.</p>
-           <Link href="https://crowdpen.co/challenges/Pitch%20Perfect%20February/c7f4b148-9883-433d-9ff3-c1a79e3eac13/Pitch-Perfect">
+           <Link prefetch={false} href="https://crowdpen.co/challenges/Pitch%20Perfect%20February/c7f4b148-9883-433d-9ff3-c1a79e3eac13/Pitch-Perfect">
           <button className="bg-white text-red-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition duration-300">
 Apply Now
           </button>

@@ -37,7 +37,7 @@ export default function HeroOffer() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
           >
-            <Link href="https://airtable.com/appN08604EcWr0e4L/pagPlniVKUdd9LlZZ/form">
+            <Link prefetch={false} href="https://airtable.com/appN08604EcWr0e4L/pagPlniVKUdd9LlZZ/form">
               <motion.button
                 className="bg-white text-red-600 hover:bg-red-100 font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out heartbeat"
                 whileHover={{ scale: 1.1 }}

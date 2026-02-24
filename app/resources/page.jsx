@@ -28,7 +28,7 @@ export default function Home() {
           <div key={index} className="bg-white rounded-lg p-8 shadow-md hover:shadow-xl transition-transform duration-300 hover:-translate-y-1">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">{item.title}</h2>
             <p className="text-gray-600 mb-6">{item.description}</p>
-            <Link href={item.link} className="py-2 px-6 bg-red-900 text-white rounded-full hover:bg-gray-800 transition-colors duration-300">
+            <Link prefetch={false} href={item.link} className="py-2 px-6 bg-red-900 text-white rounded-full hover:bg-gray-800 transition-colors duration-300">
                 Learn More
             
             </Link>

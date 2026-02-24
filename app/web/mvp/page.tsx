@@ -69,7 +69,7 @@ export default function Component() {
             <h3 className="text-3xl font-bold mb-4 text-red-600">Get it ALL for ONLY</h3>
             <div className="text-6xl font-extrabold mb-4">2,500 GHC</div>
             <p className="mb-6 text-gray-600">Limited-time offer. When it's gone, it's gone.</p>
-            <Link href="/contact">
+            <Link prefetch={false} href="/contact">
               <Button className="w-full py-4 text-lg bg-red-500 hover:bg-red-600 text-white transition-colors duration-300">
                 Get Started Now
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -84,11 +84,11 @@ export default function Component() {
             This is for the starters. For professionals who have a killer idea but haven't tested it. If you're in the idea stage, this is your chance to launch without breaking the bank.
           </p>
           <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6">
-            <Link href="tel:0500002994" className="flex items-center bg-red-600 text-white px-8 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 w-full md:w-auto justify-center">
+            <Link prefetch={false} href="tel:0500002994" className="flex items-center bg-red-600 text-white px-8 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 w-full md:w-auto justify-center">
               <Phone className="mr-3 h-6 w-6" />
               Call: 0500002994
             </Link>
-            <Link href="https://wa.me/0277667561" className="flex items-center bg-green-500 text-white px-8 py-4 rounded-full hover:bg-green-600 transition-colors duration-300 w-full md:w-auto justify-center">
+            <Link prefetch={false} href="https://wa.me/0277667561" className="flex items-center bg-green-500 text-white px-8 py-4 rounded-full hover:bg-green-600 transition-colors duration-300 w-full md:w-auto justify-center">
               <MessageCircle className="mr-3 h-6 w-6" />
               WhatsApp: 0277667561
             </Link>
@@ -96,7 +96,7 @@ export default function Component() {
         </section>
 
         <footer className="mt-16 text-center">
-          <Link href="/contact" passHref>
+          <Link prefetch={false} href="/contact" passHref>
             <Button className="bg-white text-red-600 hover:bg-red-100 transition-colors duration-300 px-8 py-3 rounded-full text-lg font-semibold">
               Contact Us
             </Button>

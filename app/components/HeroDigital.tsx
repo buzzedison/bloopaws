@@ -17,12 +17,12 @@ export default function HeroSection() {
             Go Digital with Bloop Global. Unlock the power of digital transformation. We're your partners in building a smarter, more efficient business for the future.
           </p>
           <div className="flex flex-col md:flex-row gap-4">
-            <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/s/6SCzru9ZGUeB8XFL-qW1Uw2">
+            <Link prefetch={false} href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/s/6SCzru9ZGUeB8XFL-qW1Uw2">
             <button className="bg-white text-red-600 hover:bg-red-100 font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out animate-fade-in animate-delay-600">
               Schedule a Free Consultation
             </button>
             </Link>
-            <Link href="/transformation">
+            <Link prefetch={false} href="/transformation">
             <button className="bg-transparent text-white hover:bg-red-700 font-bold py-3 px-6 rounded-full border border-white transition duration-300 ease-in-out animate-fade-in animate-delay-800">
               Learn More
             </button>

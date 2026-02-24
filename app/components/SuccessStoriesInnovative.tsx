@@ -371,7 +371,7 @@ export default function SuccessStoriesInnovative({ caseStudies = [] }: SuccessSt
                     </div>
                   </div>
                   
-                  <Link href={getCaseStudyUrl(currentCaseStudy)}>
+                  <Link prefetch={false} href={getCaseStudyUrl(currentCaseStudy)}>
                     <motion.button 
                       className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition-all flex items-center justify-center"
                       whileHover={{ scale: 1.02, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
@@ -429,7 +429,7 @@ export default function SuccessStoriesInnovative({ caseStudies = [] }: SuccessSt
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ delay: 0.7, duration: 0.6 }}
         >
-          <Link href="/casestudies">
+          <Link prefetch={false} href="/casestudies">
             <motion.button 
               className="bg-black border border-black text-white hover:bg-black/90 font-semibold py-3 px-8 rounded-full shadow-sm transition-all inline-flex items-center group"
               whileHover={{ y: -5, boxShadow: "0 12px 20px -5px rgba(0, 0, 0, 0.2)" }}

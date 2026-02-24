@@ -32,7 +32,7 @@ export default function MajorPostsGrid({ posts }: MajorPostsGridProps) {
             )}
           </div>
           <div className="p-6">
-            <Link href={`/${post.slug.current}`} className="block">
+            <Link prefetch={false} href={`/${post.slug.current}`} className="block">
               <h2 className="text-2xl font-bold text-gray-800 hover:text-red-600 transition duration-300 mb-3">
                 {post.title}
               </h2>

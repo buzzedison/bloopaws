@@ -34,7 +34,7 @@ export default function AICourseDescription() {
                             Don't miss this opportunity. Join the AI revolution today and unlock your full business potential.
                         </motion.p>
                         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 }}>
-                            <Link href="https://bloopglobal.ck.page/f1460a0d63" className="inline-block px-6 py-3 text-lg font-semibold text-white bg-red-700 rounded-md shadow-lg hover:bg-red-800 transition-all">Sign Up</Link>
+                            <Link prefetch={false} href="https://bloopglobal.ck.page/f1460a0d63" className="inline-block px-6 py-3 text-lg font-semibold text-white bg-red-700 rounded-md shadow-lg hover:bg-red-800 transition-all">Sign Up</Link>
                         </motion.div>
                     </div>
                     <div className="w-full md:w-1/2">

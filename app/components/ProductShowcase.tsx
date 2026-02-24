@@ -74,7 +74,7 @@ function ProductCard({ title, description, icon, delay, link }: ProductCardProps
         <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
       </div>
       <p className="text-sm text-gray-600 mb-6">{description}</p>
-      <Link href={link} passHref>
+      <Link prefetch={false} href={link} passHref>
         <button className="group w-full bg-red-500 text-white px-4 py-3 rounded-md text-sm font-medium flex items-center justify-center transition-all duration-300 hover:bg-red-600">
           Learn More
           <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />

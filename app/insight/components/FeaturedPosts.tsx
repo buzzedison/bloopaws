@@ -36,7 +36,7 @@ export default function FeaturedPosts({ posts }: { posts: Post[] }) {
             )}
           </div>
           <div className="p-6">
-            <Link 
+            <Link prefetch={false} 
               href={`/insight/${post.slug.current}`}
               className="block text-xl font-serif font-bold text-gray-900 hover:text-red-700 transition-colors duration-300"
             >
@@ -44,7 +44,7 @@ export default function FeaturedPosts({ posts }: { posts: Post[] }) {
             </Link>
             <p className="mt-3 text-gray-700 line-clamp-3 text-sm">{post.excerpt}</p>
             <div className="mt-4 flex justify-between items-center">
-              <Link 
+              <Link prefetch={false} 
                 href={`/insight/${post.slug.current}`}
                 className="text-red-700 hover:text-red-900 font-semibold text-sm transition-colors duration-300"
               >

@@ -109,7 +109,7 @@ export default function TrainingSimple() {
                 <div className="border-t border-gray-100 pt-4 mt-auto">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-500">Next: {training.details.nextCohort}</span>
-                    <Link href="/training" className="text-red-600 font-medium flex items-center hover:text-red-700 transition-colors">
+                    <Link prefetch={false} href="/training" className="text-red-600 font-medium flex items-center hover:text-red-700 transition-colors">
                       Details
                       <ArrowRight className="ml-1 w-4 h-4" />
                     </Link>
@@ -131,7 +131,7 @@ export default function TrainingSimple() {
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
             We offer tailored training programs designed specifically for your organization's needs.
           </p>
-          <Link href="/contact">
+          <Link prefetch={false} href="/contact">
             <button className="bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-6 rounded-lg transition-colors inline-flex items-center">
               Contact Us
               <ArrowRight className="ml-2 w-4 h-4" />

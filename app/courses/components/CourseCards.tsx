@@ -18,7 +18,7 @@ export default function CourseCard({ title, subtitle, description, imageSrc, lin
                 <h4 className="text-gray-500 mt-2 font-bold ">{subtitle}</h4>
                 <p className="text-gray-700 mt-2 flex-grow">{description}</p>
             </div>
-            <Link href={link} className="text-red-800 mt-4 self-start">
+            <Link prefetch={false} href={link} className="text-red-800 mt-4 self-start">
             Learn More →</Link>
         </div>
     );

@@ -231,6 +231,59 @@ export interface Database {
           notes?: string | null
         }
       }
+      referral_partner_applications: {
+        Row: {
+          id: string
+          created_at: string
+          updated_at: string
+          user_id: string | null
+          full_name: string
+          email: string
+          phone_number: string
+          city_country: string
+          industry: string
+          network: string
+          motivation: string | null
+          status: 'pending' | 'approved' | 'rejected'
+          approved_at: string | null
+          approved_by: string | null
+          admin_notes: string | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          user_id?: string | null
+          full_name: string
+          email: string
+          phone_number: string
+          city_country: string
+          industry: string
+          network: string
+          motivation?: string | null
+          status?: 'pending' | 'approved' | 'rejected'
+          approved_at?: string | null
+          approved_by?: string | null
+          admin_notes?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          user_id?: string | null
+          full_name?: string
+          email?: string
+          phone_number?: string
+          city_country?: string
+          industry?: string
+          network?: string
+          motivation?: string | null
+          status?: 'pending' | 'approved' | 'rejected'
+          approved_at?: string | null
+          approved_by?: string | null
+          admin_notes?: string | null
+        }
+      }
       referrals: {
         Row: {
           id: string

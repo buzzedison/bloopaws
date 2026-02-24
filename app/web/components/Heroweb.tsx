@@ -47,7 +47,7 @@ export default function HeroWeb() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.5 }}
       >
-        <Link href="/contact" className="inline-flex items-center justify-center bg-white text-black px-8 py-4 rounded-full shadow-lg hover:bg-gray-200 transition duration-300 ease-in-out transform hover:scale-105">
+        <Link prefetch={false} href="/contact" className="inline-flex items-center justify-center bg-white text-black px-8 py-4 rounded-full shadow-lg hover:bg-gray-200 transition duration-300 ease-in-out transform hover:scale-105">
           <PhoneCall className="w-5 h-5 mr-2" />
           <span className="font-bold text-lg">Book a Free Call</span>
         </Link>

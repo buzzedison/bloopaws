@@ -254,7 +254,7 @@ export default function ServicesOrbitalRefined() {
                           transition={{ duration: 0.3 }}
                           className="mt-4"
                         >
-                          <Link href={`/services/${service.title.toLowerCase().replace(/\s+/g, '-')}`}>
+                          <Link prefetch={false} href={`/services/${service.title.toLowerCase().replace(/\s+/g, '-')}`}>
                             <button className="group flex items-center text-red-600 font-medium overflow-hidden relative py-2 px-4 rounded-full">
                               <span className="relative z-10">Learn more</span>
                               <motion.span
@@ -290,7 +290,7 @@ export default function ServicesOrbitalRefined() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 1.2 }}
         >
-          <Link href="/services">
+          <Link prefetch={false} href="/services">
             <motion.button 
               className="group relative overflow-hidden bg-white border-2 border-red-600 text-red-600 font-medium py-4 px-10 rounded-full shadow-sm hover:shadow-md transition-shadow duration-300"
               whileHover={{ scale: 1.05 }}

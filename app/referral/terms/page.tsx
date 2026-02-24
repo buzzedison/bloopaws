@@ -124,7 +124,7 @@ export default function ReferralTermsPage() {
           </div>
           
           <div className="mt-10 pt-8 border-t border-gray-200 text-center">
-            <Link href="/referral" className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-colors shadow-lg">
+            <Link prefetch={false} href="/referral" className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-colors shadow-lg">
               Return to Referral Program
             </Link>
           </div>

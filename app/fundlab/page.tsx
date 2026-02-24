@@ -24,7 +24,7 @@ const FundLab: NextPage = () => {
           <p className="text-xl mb-8">
             FundLab is the investment arm of Bloop Global.<br/>  Elevating African startups
 through investment, guidance, and resources.</p>
-          <Link href="#contact"className="bg-red-300 hover:bg-red-400 text-black font-bold py-3 px-6 rounded">
+          <Link prefetch={false} href="#contact"className="bg-red-300 hover:bg-red-400 text-black font-bold py-3 px-6 rounded">
               Connect With Us
             
           </Link>
@@ -108,7 +108,7 @@ through investment, guidance, and resources.</p>
           <p className="text-gray-700 mb-4">
             Connect with investors and startups to get the latest info and network.
           </p>
-          <Link href="https://discord.gg/5Ckd5M3Az5" className="text-red-700 font-bold">
+          <Link prefetch={false} href="https://discord.gg/5Ckd5M3Az5" className="text-red-700 font-bold">
           Join Discord Channel
           </Link>
         </div>
@@ -118,7 +118,7 @@ through investment, guidance, and resources.</p>
           <p className="text-gray-700 mb-4">
             Get professional coaching to create a winning pitch deck.
           </p>
-          <Link href="/fundlab/pitchdeck" className="text-red-700 font-bold">
+          <Link prefetch={false} href="/fundlab/pitchdeck" className="text-red-700 font-bold">
             Learn More
           </Link>
         </div>
@@ -128,7 +128,7 @@ through investment, guidance, and resources.</p>
           <p className="text-gray-700 mb-4">
             Test your startup ideas and win $200 at our Pitch Perfect event.
           </p>
-          <Link href="/fundlab/pitchperfect" className="text-red-700 font-bold">
+          <Link prefetch={false} href="/fundlab/pitchperfect" className="text-red-700 font-bold">
             Learn More
           </Link>
         </div>

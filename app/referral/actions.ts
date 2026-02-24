@@ -43,6 +43,30 @@ interface Referral {
   commission: number;
 }
 
+async function assertReferralPartnerApproved(
+  supabase: ReturnType<typeof createClient>,
+  email?: string | null
+) {
+  if (!email) {
+    throw new Error("Missing user email for approval check");
+  }
+
+  const { data, error } = await supabase
+    .from("referral_partner_applications")
+    .select("status")
+    .eq("email", email.toLowerCase())
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error checking referral partner approval:", error);
+    throw new Error("Failed to verify referral partner approval");
+  }
+
+  if (!data || data.status !== "approved") {
+    throw new Error("Your Kazi account is pending admin approval.");
+  }
+}
+
 export async function createReferral(formData: ReferralFormData) {
   // No need to get cookieStore, the server client handles it internally
   const supabase = createClient();
@@ -54,6 +78,7 @@ export async function createReferral(formData: ReferralFormData) {
       console.error("Authentication Error:", userError);
       throw new Error("User not authenticated");
     }
+    await assertReferralPartnerApproved(supabase, user.email);
     const referrerId = user.id;
 
     // Validate form data (add more specific validation as needed)
@@ -259,6 +284,7 @@ export async function updateReferralStatus(referralId: string, status: string) {
       console.error("Authentication Error:", userError);
       throw new Error("User not authenticated");
     }
+    await assertReferralPartnerApproved(supabase, user.email);
 
     // First check if the referral belongs to the current user
     const { data: referral, error: fetchError } = await supabase
@@ -301,13 +327,20 @@ export async function saveReferralCode(referralCode: string) {
       path: "/"
     });
 
-    // Also increment the uses count in the database
-    const { error } = await supabase
+    // Increment the uses count in the database (read-then-write avoids needing a custom RPC)
+    const { data: existing } = await supabase
       .from("referral_codes")
-      .update({ uses: supabase.rpc("increment", { x: 1 }) })
-      .eq("code", referralCode);
+      .select("uses")
+      .eq("code", referralCode)
+      .single();
 
-    if (error) console.error("Error incrementing referral code uses:", error);
+    if (existing) {
+      const { error } = await supabase
+        .from("referral_codes")
+        .update({ uses: (existing.uses ?? 0) + 1 })
+        .eq("code", referralCode);
+      if (error) console.error("Error incrementing referral code uses:", error);
+    }
 
     return { success: true };
   } catch (error) {
@@ -345,7 +378,7 @@ export async function generateReferralCode(): Promise<{ code: string }> {
       .from("referral_codes")
       .select("code")
       .eq("user_id", userId)
-      .single();
+      .maybeSingle();
 
     if (fetchError) {
       console.error("Supabase fetchError in generateReferralCode:", fetchError);
@@ -391,11 +424,16 @@ export async function getReferrerUsers() {
     throw new Error("User not authenticated");
   }
 
-  // TODO: Uncomment and fix path for isAdmin check
-  // const adminCheck = await isAdmin(user.id);
-  // if (!adminCheck) {
-  //   throw new Error('Unauthorized: Admin access required');
-  // }
+  // Verify the caller is an admin
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile?.is_admin) {
+    throw new Error("Unauthorized: Admin access required");
+  }
 
   // First, try to join with profiles table to get names
   try {
@@ -414,10 +452,10 @@ export async function getReferrerUsers() {
       // Format the data to include profile information
       return referrersWithProfiles.map(referrer => {
         // Safely access profile data - it could be null or an array with one element
-        const profile = Array.isArray(referrer.profiles) 
-          ? referrer.profiles[0] 
+        const profile = Array.isArray(referrer.profiles)
+          ? referrer.profiles[0]
           : (referrer.profiles || {});
-          
+
         return {
           user_id: referrer.user_id,
           code: referrer.code,
@@ -457,4 +495,99 @@ export async function getReferrerUsers() {
     name: 'Unknown',
     email: ''
   }));
+}
+
+// ─────────────────────────────────────────────────────────────
+// Link Analytics — per-partner tracking stats
+// ─────────────────────────────────────────────────────────────
+export interface LinkAnalytics {
+  totalVisits:    number;
+  totalPageViews: number;
+  conversions:    number;
+  topPages:       { path: string; count: number }[];
+  recentVisits:   { id: string; created_at: string; landing_page: string; converted: boolean }[];
+}
+
+export async function getLinkAnalytics(code: string): Promise<LinkAnalytics> {
+  const supabase = createClient();
+
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) throw new Error('User not authenticated');
+
+  // Confirm the code belongs to this user (or they are an admin)
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+
+  if (!profile?.is_admin) {
+    const { data: codeRow } = await supabase
+      .from('referral_codes')
+      .select('code')
+      .eq('code', code)
+      .eq('user_id', user.id)
+      .single();
+
+    if (!codeRow) throw new Error('Referral code not found or not owned by you');
+  }
+
+  // Total visits
+  const { count: totalVisits } = await supabase
+    .from('referral_visits')
+    .select('*', { count: 'exact', head: true })
+    .eq('referral_code', code);
+
+  // Conversions
+  const { count: conversions } = await supabase
+    .from('referral_visits')
+    .select('*', { count: 'exact', head: true })
+    .eq('referral_code', code)
+    .not('converted_at', 'is', null);
+
+  // Total page views
+  const { count: totalPageViews } = await supabase
+    .from('referral_events')
+    .select('*', { count: 'exact', head: true })
+    .eq('referral_code', code)
+    .eq('event_type', 'page_view');
+
+  // Top pages
+  const { data: eventsData } = await supabase
+    .from('referral_events')
+    .select('page_path')
+    .eq('referral_code', code)
+    .eq('event_type', 'page_view');
+
+  const pageCounts: Record<string, number> = {};
+  for (const e of eventsData ?? []) {
+    pageCounts[e.page_path] = (pageCounts[e.page_path] ?? 0) + 1;
+  }
+  const topPages = Object.entries(pageCounts)
+    .map(([path, count]) => ({ path, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5);
+
+  // Recent visits
+  const { data: recentData } = await supabase
+    .from('referral_visits')
+    .select('id, created_at, landing_page, converted_at')
+    .eq('referral_code', code)
+    .order('created_at', { ascending: false })
+    .limit(10);
+
+  const recentVisits = (recentData ?? []).map(v => ({
+    id:           v.id,
+    created_at:   v.created_at,
+    landing_page: v.landing_page,
+    converted:    !!v.converted_at,
+  }));
+
+  return {
+    totalVisits:    totalVisits    ?? 0,
+    totalPageViews: totalPageViews ?? 0,
+    conversions:    conversions    ?? 0,
+    topPages,
+    recentVisits,
+  };
 }

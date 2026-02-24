@@ -18,7 +18,7 @@ export default function Component() {
           Build and Grow Your Business With Custom Websites & Apps, Market Insights, High Performance Training 
           </p>
           <div className="flex justify-center">
-            <Link href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/s/6SCzru9ZGUeB8XFL-qW1Uw2">
+            <Link prefetch={false} href="https://outlook.office365.com/owa/calendar/BloopGlobalMeetings@bloopglobal.com/bookings/s/6SCzru9ZGUeB8XFL-qW1Uw2">
               <button className="bg-red-600 text-white hover:bg-red-700 font-bold py-3 px-8 rounded-md transition duration-300 ease-in-out">
               Make It Happen!
               </button>

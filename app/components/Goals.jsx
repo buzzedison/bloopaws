@@ -58,7 +58,7 @@ export default function GoalsSection() {
                     <h2 className="text-lg font-extrabold mb-2">{section.title}</h2>
                     <p className="text-md text-gray-600 mb-4">{section.description}</p>
                   </div>
-                  <Link href={section.button.link} passHref>
+                  <Link prefetch={false} href={section.button.link} passHref>
                     <button className="inline-block bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 self-start">
                       {section.button.text}
                     </button>

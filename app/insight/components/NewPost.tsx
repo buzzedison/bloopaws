@@ -301,7 +301,7 @@ export default function Post({ post }: PostPageProps) {
               <div className="p-8 border-t-4 border-red-600 bg-black text-white rounded-b-3xl">
                 <h4 className="text-2xl font-jakarta italic font-bold mb-4">Master the Systems.</h4>
                 <p className="text-sm text-zinc-400 mb-8 leading-relaxed">Join 12,000+ founders getting field-tested business frameworks every week.</p>
-                <Link href="#newsletter" className="inline-block w-full text-center py-4 bg-white text-black text-[10px] font-jakarta font-extrabold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">
+                <Link prefetch={false} href="#newsletter" className="inline-block w-full text-center py-4 bg-white text-black text-[10px] font-jakarta font-extrabold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">
                   Get the Build Sheet
                 </Link>
               </div>

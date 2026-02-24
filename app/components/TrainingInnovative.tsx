@@ -233,7 +233,7 @@ export default function TrainingInnovative() {
                 </div>
                 
                 <div className="mt-auto">
-                  <Link href="/training">
+                  <Link prefetch={false} href="/training">
                     <motion.button 
                       className={`bg-gradient-to-r ${trainings[0].color} text-white font-semibold py-3 px-6 rounded-xl shadow-md transition-all flex items-center justify-center w-full`}
                       whileHover={{ scale: 1.02, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
@@ -309,7 +309,7 @@ export default function TrainingInnovative() {
                   </div>
                   
                   <div className="mt-auto">
-                    <Link href="/training">
+                    <Link prefetch={false} href="/training">
                       <motion.button 
                         className={`bg-gradient-to-r ${training.color} text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center w-full`}
                         whileHover={{ scale: 1.02, boxShadow: "0 5px 10px -3px rgba(0, 0, 0, 0.1)" }}
@@ -349,7 +349,7 @@ export default function TrainingInnovative() {
                 </div>
               </div>
             </div>
-            <Link href="/contact">
+            <Link prefetch={false} href="/contact">
               <motion.button 
                 className="bg-white text-red-600 font-semibold py-3 px-8 rounded-xl shadow-md transition-all flex items-center justify-center whitespace-nowrap"
                 whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}

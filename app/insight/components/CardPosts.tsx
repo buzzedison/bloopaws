@@ -37,7 +37,7 @@ export default function CardPosts({ posts }: CardPostsProps) {
               )}
             </div>
             <h3 className="mt-4 text-xl font-bold">
-              <Link href={post.slug.current}>
+              <Link prefetch={false} href={post.slug.current}>
                 {post.title}
               </Link>
             </h3>
@@ -46,7 +46,7 @@ export default function CardPosts({ posts }: CardPostsProps) {
             </p>
             <div className="mt-1ls
             ">
-              <Link href={post.slug.current}className="flex items-center text-blue-500 hover:text-blue-700 transition ease-in-out duration-300">
+              <Link prefetch={false} href={post.slug.current}className="flex items-center text-blue-500 hover:text-blue-700 transition ease-in-out duration-300">
                   Learn More 
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

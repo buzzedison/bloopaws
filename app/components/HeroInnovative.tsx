@@ -141,7 +141,7 @@ export default function HeroInnovative() {
                 }
               }}
             >
-              <Link href="/contact">
+              <Link prefetch={false} href="/contact">
                 <motion.button
                   className="group relative overflow-hidden bg-black text-white font-medium py-4 px-8 rounded-full shadow-2xl hover:shadow-red-500/20 transition-all duration-300"
                   whileHover={{ scale: 1.02 }}
@@ -166,7 +166,7 @@ export default function HeroInnovative() {
                 </motion.button>
               </Link>
 
-              <Link href="/contact" className="text-gray-600 hover:text-black transition-colors duration-300 flex items-center px-6">
+              <Link prefetch={false} href="/contact" className="text-gray-600 hover:text-black transition-colors duration-300 flex items-center px-6">
                 or, let's chat about your project →
               </Link>
             </motion.div>

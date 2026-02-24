@@ -11,19 +11,19 @@ const CaseStudies = () => {
           unique sustainable living features like backyard gardens
         </p>
         <div className="flex justify-center">
-          <Link href="/casestudies/specialgardens">
+          <Link prefetch={false} href="/casestudies/specialgardens">
           <button className="bg-red-700 text-white px-4 sm:px-6 py-2 sm:py-4 rounded-lg">Learn More</button>
           </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mt-8 sm:mt-12">
-          <Link href="/casestudies/myco">
+          <Link prefetch={false} href="/casestudies/myco">
           <div className="bg-white p-4 sm:p-6 rounded shadow hover:bg-red-100">
             <h3 className="text-xl sm:text-2xl font-semibold mb-4">Revamping My Centre Office's Brand and Online Presences</h3>
             
           </div>
           </Link>
-          <Link href="https://www.crowdpen.co">
+          <Link prefetch={false} href="https://www.crowdpen.co">
           <div className="bg-white p-4 sm:p-6 rounded shadow  hover:bg-red-100">
             <h3 className="text-xl sm:text-2xl font-semibold mb-4">
           Redefining Africa's Digital Media with Crowdpen</h3>

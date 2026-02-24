@@ -20,7 +20,15 @@ module.exports = {
   			'gray-100': '#3d3d4e',
   			'black-100': '#252525',
   			'primary-purple': '#9747FF',
-  			'gray-50': '#F4F4F5',
+  			'gray-50':  '#F9FAFB',
+  			'gray-200': '#e5e7eb',
+  			'gray-300': '#d1d5db',
+  			'gray-400': '#9ca3af',
+  			'gray-500': '#6b7280',
+  			'gray-600': '#4b5563',
+  			'gray-700': '#374151',
+  			'gray-800': '#1f2937',
+  			'gray-900': '#111827',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -77,7 +85,7 @@ module.exports = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
       backgroundColor: {
-        'main': '#FFFFFF'  // Adding white as the main background color
+        'main': '#FFFFFF'
       }
   	}
   },

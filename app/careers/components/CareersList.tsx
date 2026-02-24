@@ -28,7 +28,7 @@ export default function CareersList({ careers }: CareersListProps) {
   return (
     <div className="grid gap-6">
       {careers.map((career) => (
-        <Link 
+        <Link prefetch={false} 
           key={career._id}
           href={`/careers/${career.slug.current}`}
           className="group relative bg-white rounded-xl border border-gray-200 p-6 hover:border-red-200 hover:shadow-xl transition-all duration-300 overflow-hidden"

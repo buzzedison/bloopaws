@@ -31,7 +31,7 @@ export default function CategoryPosts({ category, posts }: CategoryPostsProps) {
         <h2 className="text-3xl font-bold text-gray-900">
           {category}
         </h2>
-        <Link 
+        <Link prefetch={false} 
           href={`/insight/category/${category.toLowerCase().trim().replace(/\s+/g, '-')}`}
           className="text-red-700 hover:text-red-900 font-semibold text-sm transition-colors duration-300"
         >
@@ -60,14 +60,14 @@ export default function CategoryPosts({ category, posts }: CategoryPostsProps) {
               )}
             </div>
             <div className="p-5">
-              <Link 
+              <Link prefetch={false} 
                 href={`/insight/${post.slug.current}`}
                 className="block text-lg font-serif font-bold text-gray-900 hover:text-red-700 transition-colors duration-300 line-clamp-2 mb-2"
               >
                 {post.title}
               </Link>
               <p className="text-gray-600 line-clamp-2 text-sm mb-4">{post.excerpt}</p>
-              <Link 
+              <Link prefetch={false} 
                 href={`/insight/${post.slug.current}`}
                 className="inline-flex items-center text-red-700 hover:text-red-900 font-semibold text-sm transition-colors duration-300"
               >

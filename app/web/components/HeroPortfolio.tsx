@@ -124,7 +124,7 @@ export default function Component() {
                             <h2 className="text-xl md:text-2xl text-white font-semibold mb-2 md:mb-3">{item.title}</h2>
                             <p className="text-sm md:text-base text-red-200 mb-3 md:mb-5">{item.description}</p>
                             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3">
-                              <Link href={item.link} className="text-sm md:text-base bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-full transition-colors duration-300 text-center">
+                              <Link prefetch={false} href={item.link} className="text-sm md:text-base bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-full transition-colors duration-300 text-center">
                                 View Project
                               </Link>
                               <a href={item.website} target="_blank" rel="noopener noreferrer" className="text-sm md:text-base bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-full transition-colors duration-300 flex items-center justify-center">

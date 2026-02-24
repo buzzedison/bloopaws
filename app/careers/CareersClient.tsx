@@ -86,13 +86,13 @@ export default function CareersClient({ careers, careersByDepartment }: CareersC
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: 'easeOut', delay: 0.5 }}
             >
-              <Link 
+              <Link prefetch={false} 
                 href="#positions"
                 className="bg-red-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-red-700 transition-all duration-300 hover:shadow-xl hover:shadow-red-200/50 hover:-translate-y-1"
               >
                 View Open Positions
               </Link>
-              <Link 
+              <Link prefetch={false} 
                 href="/contact"
                 className="bg-white text-red-600 px-8 py-4 rounded-full font-bold text-lg border-2 border-red-600 hover:bg-red-50 transition-all duration-300"
               >
@@ -284,7 +284,7 @@ export default function CareersClient({ careers, careersByDepartment }: CareersC
                 </div>
                 <h3 className="text-xl font-semibold text-gray-700 mb-2">No open positions</h3>
                 <p className="text-gray-500 mb-6">We're not hiring right now, but we're always interested in talking to exceptional people.</p>
-                <Link 
+                <Link prefetch={false} 
                   href="/contact"
                   className="bg-red-600 text-white px-6 py-3 rounded-full font-medium hover:bg-red-700 transition-colors duration-300"
                 >
@@ -342,7 +342,7 @@ export default function CareersClient({ careers, careersByDepartment }: CareersC
             <p className="text-xl mb-8 opacity-90 max-w-3xl mx-auto leading-relaxed">
               We're always looking for exceptional people. If you think you'd be a great fit for our team, we'd love to hear from you.
             </p>
-            <Link 
+            <Link prefetch={false} 
               href="/contact"
               className="bg-white text-red-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 inline-flex items-center"
             >

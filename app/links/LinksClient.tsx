@@ -181,11 +181,11 @@ export default function LinksClient({
 
                 {/* Featured Actions */}
                 <div className="grid grid-cols-1 gap-3 mb-12">
-                    <Link href="/vanguard" className="flex items-center justify-between p-4 rounded-xl bg-white text-black font-bold group hover:bg-red-600 hover:text-white transition-all shadow-xl">
+                    <Link prefetch={false} href="/vanguard" className="flex items-center justify-between p-4 rounded-xl bg-white text-black font-bold group hover:bg-red-600 hover:text-white transition-all shadow-xl">
                         <span className="flex items-center gap-3"><Sparkles size={18} /> The Vanguard Program</span>
                         <ArrowUpRight size={18} className="opacity-40 group-hover:opacity-100" />
                     </Link>
-                    <Link href="/playbook" className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-red-600 transition-all font-bold">
+                    <Link prefetch={false} href="/playbook" className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-red-600 transition-all font-bold">
                         <span className="flex items-center gap-3"><BookOpen size={18} className="text-red-600" /> The Playbook</span>
                         <ArrowRight size={18} className="opacity-40" />
                     </Link>
@@ -224,7 +224,7 @@ export default function LinksClient({
                                 transition={{ duration: 0.2, delay: idx * 0.05 }}
                                 className="relative aspect-square bg-zinc-900 group"
                             >
-                                <Link href={item.slug} className="block w-full h-full">
+                                <Link prefetch={false} href={item.slug} className="block w-full h-full">
                                     {item.image ? (
                                         <Image
                                             src={builder.image(item.image).width(600).height(600).url()}
@@ -273,8 +273,8 @@ export default function LinksClient({
             <footer className="w-full max-w-4xl mx-auto mt-20 pb-20 text-center px-4">
                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-4">© Bloop Global LLC</p>
                 <div className="flex justify-center gap-6">
-                    <Link href="/" className="text-xs text-zinc-500">Main Site</Link>
-                    <Link href="/contact" className="text-xs text-zinc-500">Contact</Link>
+                    <Link prefetch={false} href="/" className="text-xs text-zinc-500">Main Site</Link>
+                    <Link prefetch={false} href="/contact" className="text-xs text-zinc-500">Contact</Link>
                 </div>
             </footer>
         </main>

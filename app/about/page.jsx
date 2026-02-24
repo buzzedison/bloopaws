@@ -209,7 +209,7 @@ export default function AboutPage() {
           <p className={`text-xl mb-12 max-w-2xl mx-auto transition-colors duration-500 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
             We are looking for the next generation of industry titans. Are you one of them?
           </p>
-          <Link href="/contact">
+          <Link prefetch={false} href="/contact">
             <button className={`px-10 py-5 rounded-full font-bold text-xl transition-colors transform hover:scale-105 duration-200 shadow-[0_0_20px_rgba(255,255,255,0.3)] ${isDark ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800 shadow-none'}`}>
               Request Briefing
             </button>

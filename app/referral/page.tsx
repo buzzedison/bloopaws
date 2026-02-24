@@ -1,711 +1,1014 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { motion } from "framer-motion";
+import {
+  ShieldCheck,
+  Target,
+  Users,
+  Search,
+  MessageSquare,
+  Banknote,
+  Globe,
+  Smartphone,
+  Cpu,
+  Briefcase,
+  TrendingUp,
+  GraduationCap,
+  Layers,
+  Layout,
+  PieChart,
+  Quote as QuoteIcon,
+  CheckCircle2,
+} from "lucide-react";
 
-// Define types for the referral data
-interface ReferralStats {
-  totalReferrals: number;
-  pendingReferrals: number;
-  closedReferrals: number;
-  totalEarnings: number;
-}
+type TierId = "SCOUT" | "OPERATIVE" | "FIELD_AGENT" | "ELITE_OPERATIVE";
+type TierMode = "auto" | TierId;
+type CalculatorServiceId = "WEBSITE" | "WEB_APP" | "MOBILE_APP" | "AI_AUTOMATION" | "FRACTIONAL_CTO";
 
-interface ReferralFormData {
+type Tier = {
+  id: TierId;
   name: string;
-  email: string;
-  phone: string;
-  referralName: string;
-  referralEmail: string;
-  referralPhone: string;
-  companyName: string;
-  message: string;
-}
-
-// Function to submit a referral to the API
-const createReferral = async (data: any) => {
-  const response = await fetch('/api/referral', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      clientName: data.referralName,
-      clientEmail: data.referralEmail,
-      clientPhone: data.referralPhone,
-      companyName: data.companyName,
-      message: data.message,
-      commissionType: 'refer', // Default to 'refer' (5% commission)
-      potentialValue: 0 // Will be determined by admin
-    }),
-  });
-  
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || 'Failed to submit referral');
-  }
-  
-  return await response.json();
+  title: string;
+  bracket: string;
+  rate: number;
+  perks: string;
 };
 
+const tiers: Tier[] = [
+  {
+    id: "SCOUT",
+    name: "SCOUT",
+    title: "[ TIER 1 ]",
+    bracket: "1–2 successful client referrals",
+    rate: 0.08,
+    perks: "30-day payout cycle | Referral kit included | WhatsApp partner support",
+  },
+  {
+    id: "OPERATIVE",
+    name: "OPERATIVE",
+    title: "[ TIER 2 ]",
+    bracket: "3–5 successful client referrals",
+    rate: 0.1,
+    perks: "21-day payout cycle | Co-branded referral page | Monthly strategy call with Edison",
+  },
+  {
+    id: "FIELD_AGENT",
+    name: "FIELD AGENT",
+    title: "[ TIER 3 ]",
+    bracket: "6–10 successful client referrals",
+    rate: 0.12,
+    perks: "14-day payout cycle | Partner directory listing | Quarterly bonus pool entry",
+  },
+  {
+    id: "ELITE_OPERATIVE",
+    name: "ELITE OPERATIVE",
+    title: "[ TIER 4 ]",
+    bracket: "11+ successful client referrals",
+    rate: 0.15,
+    perks: "7-day payout cycle | Named on bloopglobal.com | Equity conversation eligible",
+  },
+];
+
+const serviceRates: Record<CalculatorServiceId, { label: string; dealSizeGhs: number }> = {
+  WEBSITE: { label: "Website", dealSizeGhs: 3000 },
+  WEB_APP: { label: "Web App", dealSizeGhs: 20000 },
+  MOBILE_APP: { label: "Mobile App", dealSizeGhs: 25000 },
+  AI_AUTOMATION: { label: "AI Automation", dealSizeGhs: 10000 },
+  FRACTIONAL_CTO: { label: "Fractional CTO", dealSizeGhs: 8000 },
+};
+
+const resolveTierByReferrals = (totalReferrals: number): Tier => {
+  if (totalReferrals >= 11) return tiers[3];
+  if (totalReferrals >= 6) return tiers[2];
+  if (totalReferrals >= 3) return tiers[1];
+  return tiers[0];
+};
+
+const getTier = (mode: TierMode, cumulativeReferrals: number): Tier => {
+  if (mode === "auto") {
+    return resolveTierByReferrals(cumulativeReferrals);
+  }
+
+  return tiers.find((tier) => tier.id === mode) ?? tiers[0];
+};
+
+type ApplicationFormData = {
+  fullName: string;
+  emailAddress: string;
+  accountPassword: string;
+  phoneNumber: string;
+  cityCountry: string;
+  industry: string;
+  network: string;
+  motivation: string;
+};
+
+const initialFormData: ApplicationFormData = {
+  fullName: "",
+  emailAddress: "",
+  accountPassword: "",
+  phoneNumber: "",
+  cityCountry: "",
+  industry: "",
+  network: "",
+  motivation: "",
+};
+
+const pillars = [
+  {
+    title: "01. PRECISION OVER VOLUME",
+    body: "We don't want you spamming your contact list. We want one well-targeted introduction per month that closes. Quality referrals move through our pipeline faster, meaning you get paid faster.",
+    icon: Target,
+  },
+  {
+    title: "02. SKIN IN THE GAME",
+    body: "The more clients you close, the higher your tier climbs — and the higher your cut grows. You start at 8%. You can reach 15% plus a 3% sub-referral bonus. Your earning rate is in your hands.",
+    icon: TrendingUp,
+  },
+  {
+    title: "03. INTELLIGENCE SUPPORT",
+    body: "You get a co-branded referral landing page, a pitch deck you can share, email and WhatsApp templates, and direct access to a Bloop team member who will support every introduction you make.",
+    icon: ShieldCheck,
+  },
+];
+
+const operationSteps = [
+  {
+    title: "STEP 1 — ENLIST",
+    body: "Fill out the Kazi application. You'll receive your unique referral code, your co-branded partner kit, and access to your personal dashboard within 48 hours.",
+    icon: Users,
+  },
+  {
+    title: "STEP 2 — IDENTIFY",
+    body: "Think about your network. Who is building something? Who is frustrated with their current tech agency? Who just raised funding and needs to build fast? That person is your target. One name. One introduction. That is all it takes.",
+    icon: Search,
+  },
+  {
+    title: "STEP 3 — INTRODUCE",
+    body: "Submit the referral through your dashboard, forward our co-branded deck, or simply connect us on WhatsApp. We take it from there. Our team will follow up, present, and close — so you never have to play salesperson.",
+    icon: MessageSquare,
+  },
+  {
+    title: "STEP 4 — EARN",
+    body: "When the client signs and makes their first payment, your commission is triggered. Paid to your bank account within your tier's payout window. No chasing. No paperwork. Clean transfer.",
+    icon: Banknote,
+  },
+];
+
+const services = [
+  {
+    name: "Website Design & Development",
+    audience: "For: Startups, SMEs, corporates who need a strong digital presence",
+    price: "Starting from GHS 3,000 / £300",
+    cut: "Your cut: GHS 240–450 / £24–45 per deal",
+    icon: Globe,
+  },
+  {
+    name: "Web Application Development",
+    audience: "For: Founders building their first SaaS, companies digitising operations",
+    price: "Starting from GHS 20,000 / £2,000",
+    cut: "Your cut: GHS 1,600–3,000 / £160–300 per deal",
+    icon: Layout,
+  },
+  {
+    name: "Mobile App Development",
+    audience: "For: Businesses going mobile-first, field ops, consumer apps",
+    price: "Starting from GHS 25,000 / £2,500",
+    cut: "Your cut: GHS 2,000–3,750 / £200–375 per deal",
+    icon: Smartphone,
+  },
+  {
+    name: "AI & Workflow Automation",
+    audience: "For: Companies drowning in manual processes, operations teams",
+    price: "Starting from GHS 10,000 / £1,200",
+    cut: "Your cut: GHS 800–1,500 / £96–180 per deal",
+    icon: Cpu,
+  },
+  {
+    name: "Fractional CTO Services",
+    audience: "For: Non-technical founders, CEOs who need a technical voice",
+    price: "From GHS 8,000/mo / £800/mo",
+    cut: "Your cut: up to GHS 1,200/mo / £120/mo RECURRING",
+    icon: Layers,
+  },
+  {
+    name: "Pitch Deck & Financial Modeling",
+    audience: "For: Founders going into fundraising rounds",
+    price: "From GHS 5,000 / £500",
+    cut: "Your cut: GHS 400–750 / £40–75 per deal",
+    icon: PieChart,
+  },
+  {
+    name: "Market Research & Strategy",
+    audience: "For: Founders pre-launch, companies entering new markets",
+    price: "From GHS 8,000 / £800",
+    cut: "Your cut: GHS 640–1,200 / £64–120 per deal",
+    icon: Briefcase,
+  },
+  {
+    name: "TaskWit Training Programs",
+    audience: "For: Corporate teams, accelerators, executive programmes",
+    price: "From GHS 10,000 / £1,000",
+    cut: "Your cut: GHS 800–1,500 / £80–150 per deal",
+    icon: GraduationCap,
+  },
+];
+
+const faqs = [
+  {
+    q: "Do I need to be a salesperson to participate?",
+    a: "No. Your only job is to make the introduction. Once you connect a potential client to Bloop — through your dashboard, a WhatsApp forward, or a direct email intro — our team takes the conversation forward. We qualify, present, and close. You earn when the deal lands.",
+  },
+  {
+    q: "What counts as a 'closed' referral?",
+    a: "A referral is closed when the client signs their service agreement and makes their first payment (the deposit). That is the trigger for your commission. Submitted leads that do not close do not generate commissions.",
+  },
+  {
+    q: "How exactly does the tier system work?",
+    a: "Your tier is based on your total cumulative successful referrals since joining. You start as a Scout. Close 3 deals and you're an Operative. Close 6 and you're a Field Agent. Hit 11 and you're Elite. Your rate is locked in at each tier and never goes backwards.",
+  },
+  {
+    q: "Can I refer internationally?",
+    a: "Yes. Bloop serves clients in Ghana, Nigeria, the UK, and globally. If you know a founder or business owner anywhere in the world who needs what we build, you can refer them. Commissions are paid in GHS, GBP, or USD depending on your preference and the client's contract currency.",
+  },
+  {
+    q: "What if I refer someone and they come back 6 months later?",
+    a: "If your referred client returns and signs a second project within 12 months of their first deal, you earn 50% of your standard commission on that second deal — automatically. Your relationship with your clients works in your favour.",
+  },
+  {
+    q: "Is there a minimum before I get paid?",
+    a: "No minimum. One successful referral, one commission payment. Payouts begin on the deal's first collected payment.",
+  },
+  {
+    q: "How do I track my referrals?",
+    a: "Every Kazi partner receives access to a personal dashboard showing submitted leads, lead status, closed deals, pending commissions, and total lifetime earnings. The dashboard also shows your current tier and how many closed deals you need to reach the next level.",
+  },
+];
+
 export default function ReferralPage() {
-  const [isLoading, setIsLoading] = useState(false);
-  // Removed copied and stats state as stats and referral link section are no longer needed.
-  const [formData, setFormData] = useState<ReferralFormData>({
-    name: "",
-    email: "",
-    phone: "",
-    referralName: "",
-    referralEmail: "",
-    referralPhone: "",
-    companyName: "",
-    message: ""
-  });
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  // Removed referralId state as referral link section is no longer needed.
-  
   const searchParams = useSearchParams();
-  const referrerCode = searchParams.get("ref");
-  
-  // Removed useEffect for referralId and stats as these sections are no longer needed.
-  
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-  
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    // Basic validation
-    if (!formData.name || !formData.email || !formData.referralName || !formData.referralEmail) {
-      alert("Please fill in all required fields.");
-      setIsLoading(false);
-      return;
+  const supabase = useMemo(() => createClient(), []);
+  const [isDark, setIsDark] = useState(false);
+  const [referralsPerMonth, setReferralsPerMonth] = useState(1);
+  const [serviceType, setServiceType] = useState<CalculatorServiceId>("WEBSITE");
+  const [tierMode, setTierMode] = useState<TierMode>("auto");
+  const [cumulativeReferrals, setCumulativeReferrals] = useState(0);
+  const [applicationForm, setApplicationForm] = useState<ApplicationFormData>(initialFormData);
+  const [isSubmittingApplication, setIsSubmittingApplication] = useState(false);
+  const [isApplicationSubmitted, setIsApplicationSubmitted] = useState(false);
+  const [applicationSubmitMessage, setApplicationSubmitMessage] = useState("");
+  const [applicationSubmitError, setApplicationSubmitError] = useState("");
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("referral-theme");
+    if (savedTheme === "dark") {
+      setIsDark(true);
     }
-    
+  }, []);
+
+  useEffect(() => {
+    const loadCurrentUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data.user) return;
+
+      setCurrentUser(data.user);
+
+      setApplicationForm((prev) => ({
+        ...prev,
+        fullName: prev.fullName || data.user.user_metadata?.name || "",
+        emailAddress: prev.emailAddress || data.user.email || "",
+        phoneNumber: prev.phoneNumber || data.user.user_metadata?.phone || "",
+      }));
+    };
+
+    loadCurrentUser();
+  }, [supabase]);
+
+  const toggleTheme = () => {
+    setIsDark((previous) => {
+      const next = !previous;
+      window.localStorage.setItem("referral-theme", next ? "dark" : "light");
+      return next;
+    });
+  };
+
+  const effectiveTier = useMemo(() => getTier(tierMode, cumulativeReferrals), [tierMode, cumulativeReferrals]);
+
+  const calculatorResults = useMemo(() => {
+    const monthlyCommission = referralsPerMonth * serviceRates[serviceType].dealSizeGhs * effectiveTier.rate;
+    const annualCommission = monthlyCommission * 12;
+    const tierInSixMonths = resolveTierByReferrals(cumulativeReferrals + referralsPerMonth * 6);
+
+    return {
+      monthlyCommission,
+      annualCommission,
+      tierInSixMonths,
+    };
+  }, [referralsPerMonth, serviceType, effectiveTier, cumulativeReferrals]);
+
+  const handleApplicationInput = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setApplicationForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleApplicationSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setApplicationSubmitError("");
+    setApplicationSubmitMessage("");
+    setIsSubmittingApplication(true);
+
     try {
-      // Submit to the API
-      await createReferral({
-        ...formData,
-        referrerCode: referrerCode || null
-      });
-      
-      // Clear form and show success message
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        referralName: "",
-        referralEmail: "",
-        referralPhone: "",
-        companyName: "",
-        message: ""
-      });
-      setFormSubmitted(true);
-    } catch (error) {
-      console.error("Error submitting referral:", error);
-      alert(error instanceof Error ? error.message : "There was an error submitting your referral. Please try again.");
+      const normalizedEmail = (currentUser?.email || applicationForm.emailAddress).trim().toLowerCase();
+      let userId: string | null = currentUser?.id || null;
+      let requiresEmailVerification = false;
+
+      if (!currentUser) {
+        if (!applicationForm.accountPassword || applicationForm.accountPassword.length < 6) {
+          throw new Error("Set a password with at least 6 characters.");
+        }
+
+        const signUpResult = await supabase.auth.signUp({
+          email: normalizedEmail,
+          password: applicationForm.accountPassword,
+          options: {
+            data: {
+              name: applicationForm.fullName,
+              phone: applicationForm.phoneNumber,
+              city_country: applicationForm.cityCountry,
+            },
+          },
+        });
+
+        if (signUpResult.error) {
+          const maybeExistingUser = signUpResult.error.message.toLowerCase().includes("already");
+          if (!maybeExistingUser) {
+            throw signUpResult.error;
+          }
+
+          const signInResult = await supabase.auth.signInWithPassword({
+            email: normalizedEmail,
+            password: applicationForm.accountPassword,
+          });
+
+          if (signInResult.error) {
+            throw new Error("Account exists. Use the correct password to continue your Kazi application.");
+          }
+
+          userId = signInResult.data.user?.id || null;
+          setCurrentUser(signInResult.data.user || null);
+        } else {
+          userId = signUpResult.data.user?.id || null;
+          requiresEmailVerification = !signUpResult.data.session;
+          if (signUpResult.data.user) {
+            setCurrentUser(signUpResult.data.user);
+          }
+        }
+      }
+
+      const { data: existingApplication, error: existingError } = await supabase
+        .from("referral_partner_applications")
+        .select("id, status")
+        .eq("email", normalizedEmail)
+        .maybeSingle();
+
+      if (existingError) {
+        throw existingError;
+      }
+
+      if (existingApplication?.status === "approved") {
+        setApplicationSubmitMessage("Your Kazi account is already approved. Access your dashboard now.");
+        setIsApplicationSubmitted(true);
+        return;
+      }
+
+      if (existingApplication?.status === "pending") {
+        setApplicationSubmitMessage("Your Kazi application is already pending admin approval.");
+        setIsApplicationSubmitted(true);
+        return;
+      }
+
+      if (existingApplication?.status === "rejected") {
+        setApplicationSubmitMessage("Your previous application was rejected. Contact support before reapplying.");
+        setIsApplicationSubmitted(true);
+        return;
+      }
+
+      const payload = {
+        user_id: userId,
+        full_name: applicationForm.fullName.trim(),
+        email: normalizedEmail,
+        phone_number: applicationForm.phoneNumber.trim(),
+        city_country: applicationForm.cityCountry.trim(),
+        industry: applicationForm.industry,
+        network: applicationForm.network,
+        motivation: applicationForm.motivation.trim() || null,
+        status: "pending" as const,
+      };
+
+      const { error: insertError } = await supabase
+        .from("referral_partner_applications")
+        .insert(payload);
+
+      if (insertError) throw insertError;
+
+      setApplicationSubmitMessage(
+        requiresEmailVerification
+          ? "Account created. Verify your email, then wait for admin approval."
+          : "Account created and application submitted. We will review and approve from the admin dashboard."
+      );
+      setIsApplicationSubmitted(true);
+      setApplicationForm((prev) => ({
+        ...initialFormData,
+        emailAddress: prev.emailAddress,
+        fullName: prev.fullName,
+      }));
+    } catch (error: any) {
+      console.error("Error submitting Kazi application:", error);
+      setApplicationSubmitError(error?.message || "Failed to submit application. Please try again.");
     } finally {
-      setIsLoading(false);
+      setIsSubmittingApplication(false);
     }
   };
-  
-  // Removed copyToClipboard as referral link section is no longer needed.
-  
+
+  const ghsCurrency = (value: number) =>
+    new Intl.NumberFormat("en-GH", {
+      style: "currency",
+      currency: "GHS",
+      maximumFractionDigits: 0,
+    }).format(value);
+
+  const mainClass = isDark ? "bg-neutral-950 text-neutral-100" : "bg-neutral-50 text-neutral-900";
+  const heroSectionClass = isDark ? "border-b border-neutral-800" : "border-b border-neutral-200";
+  const sectionClass = isDark ? "border-b border-neutral-900 px-4 py-16" : "border-b border-neutral-200 px-4 py-16";
+  const heroGlow = isDark
+    ? "bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.2),transparent_40%)]"
+    : "bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.12),transparent_45%)]";
+
+  const headingText = isDark ? "text-white" : "text-neutral-900";
+  const bodyText = isDark ? "text-neutral-300" : "text-neutral-700";
+  const mutedText = isDark ? "text-neutral-400" : "text-neutral-500";
+  const sectionLabelClass = isDark
+    ? "inline-flex items-center rounded-full border border-red-500/40 bg-red-500/10 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-red-300"
+    : "inline-flex items-center rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-red-700";
+
+  const surfaceCard = isDark
+    ? "rounded-xl border border-neutral-800 bg-neutral-900"
+    : "rounded-xl border border-neutral-200 bg-white shadow-sm";
+  const subtleCard = isDark
+    ? "rounded-xl border border-neutral-800 bg-neutral-900/60"
+    : "rounded-xl border border-neutral-200 bg-white";
+
+  const primaryButton =
+    "inline-flex items-center justify-center rounded-md border border-red-500 bg-black px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-red-600";
+  const ghostButton = isDark
+    ? "inline-flex items-center justify-center rounded-md border border-neutral-600 bg-transparent px-6 py-3 text-sm font-bold uppercase tracking-wide text-neutral-100 transition hover:border-red-500 hover:text-red-200"
+    : "inline-flex items-center justify-center rounded-md border border-neutral-300 bg-transparent px-6 py-3 text-sm font-bold uppercase tracking-wide text-neutral-800 transition hover:border-red-600 hover:text-red-700";
+
+  const inputClass = isDark
+    ? "w-full rounded-lg border border-neutral-800 bg-neutral-900/50 px-4 py-3 text-sm text-white placeholder:text-neutral-600 focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none transition-colors"
+    : "w-full rounded-lg border border-neutral-200 bg-neutral-50/50 px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus:bg-white focus:outline-none transition-colors";
+
+  const pendingApprovalFromRedirect = searchParams.get("approval") === "pending";
+
+  const notionSpring = { type: "spring", stiffness: 400, damping: 30 };
+  const cardHover = { scale: 1.01, y: -2 };
+
   return (
-    <main className="flex flex-col min-h-screen">
+    <main className={`min-h-screen ${isDark ? 'bg-[#0a0a0a]' : 'bg-[#fcfcfc]'} overflow-x-hidden selection:bg-neutral-900 selection:text-white dark:selection:bg-white dark:selection:text-black`}>
+      {pendingApprovalFromRedirect && (
+        <div className="bg-yellow-50 border-b border-yellow-100 px-4 py-3 text-center text-sm font-medium text-yellow-800 z-50 relative">
+          Your Kazi account is pending admin approval. Submit or update your application below.
+        </div>
+      )}
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-32 px-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-black to-red-900 opacity-90 z-0"></div>
-        <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-20 z-0"></div>
-        
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-            <div className="flex-1 text-white">
-              <div className="inline-block px-4 py-1 bg-red-600/30 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
-                Partner with Bloop
+      <section className={`relative min-h-[90vh] flex items-center pt-24 pb-20 px-6 lg:px-20 overflow-hidden`}>
+        {/* Abstract minimalistic background grid */}
+        <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: isDark ? 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)' : 'linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+
+        <div className="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="flex flex-col gap-8"
+          >
+            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md border text-xs font-semibold ${isDark ? 'bg-neutral-900 border-neutral-800 text-neutral-300' : 'bg-white border-neutral-200 shadow-sm text-neutral-700'} self-start`}>
+              <span className="flex h-2 w-2 rounded-full bg-neutral-900 dark:bg-white animate-pulse"></span>
+              The Kazi Program
+            </div>
+
+            <h1 className={`text-5xl md:text-7xl font-bold tracking-tight leading-[1.05] ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+              Turn connections <br className="hidden md:block" />
+              into <span className="text-neutral-400">capital.</span>
+            </h1>
+
+            <p className={`text-lg leading-relaxed ${isDark ? 'text-neutral-400' : 'text-neutral-500'} max-w-lg`}>
+              A streamlined partnership alliance for founders and professionals. Refer deals, track them in your dashboard, and earn up to 15% commission with automated payouts.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 mt-4">
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={notionSpring}
+                href="#application"
+                className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium transition-all shadow-sm ${isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-neutral-900 text-white hover:bg-neutral-800'}`}
+              >
+                Apply Now
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={notionSpring}
+                href="#calculator"
+                className={`inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium border transition-all ${isDark ? 'border-neutral-800 hover:bg-neutral-800 text-white' : 'border-neutral-200 hover:bg-neutral-50 text-neutral-900 shadow-sm'}`}
+              >
+                Calculate Earnings
+              </motion.a>
+            </div>
+
+            <div className={`mt-6 flex gap-10 pt-8 border-t ${isDark ? 'border-neutral-800' : 'border-neutral-200'}`}>
+              <div>
+                <h4 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-neutral-900'}`}>15%</h4>
+                <p className={`text-sm mt-1 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>Max Commission</p>
               </div>
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-red-200">
-                Earn Up to 15% Commission
-              </h1>
-              <p className="text-xl md:text-2xl text-red-100 mb-8 max-w-xl">
-                Leverage your network and earn substantial rewards by referring clients to our premium services.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <a href="#refer-form" className="px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-xl hover:translate-y-[-2px] flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
-                  </svg>
-                  Refer a Client
-                </a>
-                <a href="#services" className="px-8 py-4 bg-transparent hover:bg-white/10 text-white border border-white/30 font-bold rounded-lg transition-all flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                  </svg>
-                  Our Services
-                </a>
+              <div>
+                <h4 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-neutral-900'}`}>7 Days</h4>
+                <p className={`text-sm mt-1 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>Payout Cycle</p>
               </div>
             </div>
-            
-            <div className="flex-1 flex justify-center">
-              <div className="relative w-full max-w-md">
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-500 to-red-700 rounded-2xl transform rotate-3 opacity-70"></div>
-                <div className="relative bg-white rounded-2xl p-8 shadow-2xl">
-                  <div className="flex justify-between items-start mb-8">
-                    <div>
-                      <h3 className="text-2xl font-bold text-gray-900">Commission Tiers</h3>
-                      <p className="text-gray-600">Earn more as you contribute more</p>
-                    </div>
-                    <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-6">
-                    <div className="flex items-center p-4 bg-gray-50 rounded-lg">
-                      <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mr-4 shrink-0">
-                        <span className="text-xl font-bold text-white">5%</span>
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-gray-900">Recommend & Earn</h4>
-                        <p className="text-sm text-gray-600">Simply refer clients to us</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center p-4 bg-gray-50 rounded-lg">
-                      <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mr-4 shrink-0">
-                        <span className="text-xl font-bold text-white">15%</span>
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-gray-900">Refer & Close</h4>
-                        <p className="text-sm text-gray-600">Help close the deal with clients</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center p-4 bg-gray-50 rounded-lg">
-                      <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mr-4 shrink-0">
-                        <span className="text-xl font-bold text-white">∞</span>
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-gray-900">Unlimited Potential</h4>
-                        <p className="text-sm text-gray-600">No cap on your earnings</p>
-                      </div>
-                    </div>
-                  </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ...notionSpring }}
+            className="relative"
+          >
+            <motion.div
+              animate={{ y: [-10, 10, -10] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className={`relative aspect-[4/3] lg:aspect-[5/4] rounded-3xl overflow-hidden shadow-2xl ${isDark ? 'shadow-white/5 border border-neutral-800' : 'shadow-zinc-900/10 border border-neutral-200/50'}`}
+            >
+              <Image src="/images/appealing_referral_hero.png" alt="People connecting" fill className="object-cover" />
+
+              {/* Subtle overlay to make UI elements pop */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-transparent z-0 pointer-events-none"></div>
+
+              {/* Minimal Dashboard Floating Element */}
+              <motion.div
+                animate={{ y: [-5, 5, -5] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className={`absolute bottom-6 left-6 flex items-center gap-4 p-4 rounded-xl border shadow-lg backdrop-blur-md z-10 ${isDark ? 'bg-neutral-900/80 border-neutral-700/50 text-white' : 'bg-white/90 border-neutral-200/50 text-neutral-900'}`}
+              >
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 shadow-inner ${isDark ? 'bg-neutral-800/80 border border-neutral-700' : 'bg-neutral-100/80 border border-neutral-200/50'}`}>
+                  <CheckCircle2 size={20} className={isDark ? "text-green-400" : "text-green-600"} />
                 </div>
+                <div>
+                  <p className="text-sm font-semibold">Deal Closed</p>
+                  <p className={`text-xs ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>Commission transfer initiated</p>
+                </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* Mission Brief Section */}
+      <section className={`py-32 px-6 lg:px-20 ${isDark ? 'bg-[#0f0f0f] border-y border-neutral-900' : 'bg-neutral-50/50 border-y border-neutral-200/50'}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-20 items-stretch">
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                hidden: { opacity: 0, y: 10 },
+                visible: { opacity: 1, y: 0, transition: { ...notionSpring } }
+              }}
+              className="flex flex-col justify-center"
+            >
+              <div className={`mb-4 inline-flex items-center px-2 py-1 rounded bg-neutral-200/50 dark:bg-neutral-800 text-[11px] font-medium ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                Program Architecture
               </div>
-            </div>
+              <h2 className={`text-3xl lg:text-4xl font-bold tracking-tight mb-6 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+                More than an affiliate link. <br />
+                <span className="text-neutral-400">An operational alliance.</span>
+              </h2>
+              <div className={`space-y-4 text-[15px] leading-relaxed ${isDark ? 'text-neutral-400' : 'text-neutral-600'} max-w-md`}>
+                <p>
+                  We treat our partners like extended team members. Instead of a generic 5% cut and a delayed monthly payout, we've built a structured dashboard and clear career progression.
+                </p>
+                <p>
+                  Your goal is simple: identify teams needing tech talent. Provide the introduction. We handle the discovery, the presentations, and the execution.
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+              }}
+              className="flex flex-col gap-4"
+            >
+              {pillars.map((pillar) => (
+                <motion.div
+                  key={pillar.title}
+                  variants={{
+                    hidden: { opacity: 0, y: 10 },
+                    visible: { opacity: 1, y: 0, transition: notionSpring }
+                  }}
+                  whileHover={cardHover}
+                  transition={notionSpring}
+                  className={`p-6 rounded-xl border flex gap-6 ${isDark ? 'bg-neutral-900/50 border-neutral-800 hover:border-neutral-700' : 'bg-white border-neutral-200 hover:border-neutral-300 shadow-sm'} transition-colors`}
+                >
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
+                    <pillar.icon className={`w-5 h-5 ${isDark ? "text-neutral-300" : "text-neutral-700"}`} />
+                  </div>
+                  <div>
+                    <h3 className={`text-base font-semibold mb-2 ${isDark ? 'text-white' : 'text-neutral-900'}`}>{pillar.title}</h3>
+                    <p className={`text-sm leading-relaxed ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>{pillar.body}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
           </div>
         </div>
       </section>
-      
-      {/* Services Section */}
-      <section id="services" className="py-24 px-4 bg-gray-50">
-        <div className="container mx-auto max-w-6xl">
+
+      {/* Operations Flow with Image Background */}
+      <section className={`relative py-32 px-6 lg:px-20 ${isDark ? 'bg-neutral-900' : 'bg-white'}`}>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className={`text-3xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+              The standard operating procedure
+            </h2>
+            <p className={`text-[15px] ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
+              Four steps from joining to receiving your first commission. Clean, predictable execution.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {operationSteps.map((step, idx) => (
+              <motion.div
+                key={step.title}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                whileHover={cardHover}
+                transition={notionSpring}
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: { opacity: 1, y: 0, transition: { ...notionSpring, delay: idx * 0.1 } }
+                }}
+                className={`p-6 rounded-xl border flex flex-col ${isDark ? 'bg-neutral-950 border-neutral-800' : 'bg-neutral-50/50 border-neutral-200 shadow-sm'} transition-colors`}
+              >
+                <div className={`w-8 h-8 rounded-md mb-6 flex items-center justify-center font-bold text-xs ${isDark ? 'bg-white text-black' : 'bg-neutral-900 text-white'}`}>
+                  {idx + 1}
+                </div>
+                <h3 className={`text-sm font-semibold mb-3 ${isDark ? 'text-white' : 'text-neutral-900'}`}>{step.title}</h3>
+                <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>{step.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tiers Section */}
+      <section className={`py-32 px-6 lg:px-20 ${isDark ? 'bg-[#0f0f0f] border-t border-neutral-900' : 'bg-[#fafafa] border-t border-neutral-200/50'}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16">
+            <h2 className={`text-3xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+              Earning Tiers
+            </h2>
+            <p className={`text-[15px] ${isDark ? 'text-neutral-400' : 'text-neutral-600'} max-w-xl`}>
+              Every successful referral moves you closer to Elite status. Your rate is locked in at each tier.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {tiers.map((tier, idx) => (
+              <motion.div
+                key={tier.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                whileHover={cardHover}
+                transition={{ ...notionSpring, delay: idx * 0.1 }}
+                className={`p-6 rounded-xl border relative overflow-hidden flex flex-col ${idx === 3 ? 'border-neutral-900 shadow-md ring-1 ring-neutral-900 dark:ring-white dark:border-white' : isDark ? 'bg-neutral-950 border-neutral-800' : 'bg-white border-neutral-200'}`}
+              >
+                {idx === 3 && <div className={`absolute inset-0 opacity-[0.03] ${isDark ? 'bg-white' : 'bg-black'} pointer-events-none`}></div>}
+
+                <p className="text-[10px] font-semibold tracking-wider text-neutral-500 mb-2 uppercase">{tier.title}</p>
+                <h3 className={`text-lg font-bold tracking-tight mb-1 ${idx === 3 ? (isDark ? 'text-white' : 'text-black') : (isDark ? 'text-white' : 'text-neutral-900')}`}>{tier.name}</h3>
+                <p className={`text-xs font-medium mb-6 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>{tier.bracket}</p>
+
+                <div className="py-4 border-y border-neutral-200 dark:border-neutral-800 mb-6">
+                  <p className={`text-3xl font-bold tracking-tighter ${headingText}`}>{Math.round(tier.rate * 100)}%</p>
+                  <p className={`text-[11px] font-medium uppercase tracking-wider mt-1 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>Commission Rate</p>
+                </div>
+
+                <ul className="space-y-3 mt-auto">
+                  {tier.perks.split(" | ").map((perk, i) => (
+                    <li key={i} className={`text-xs flex items-start gap-2 ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                      <CheckCircle2 className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${idx === 3 ? (isDark ? 'text-white' : 'text-black') : 'text-neutral-400'}`} />
+                      <span>{perk}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Calculator Section with SaaS Feel */}
+      <section id="calculator" className={`py-32 px-6 lg:px-20 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Services You Can Refer</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">Earn commissions by referring clients to any of our premium services</p>
+            <h2 className={`text-3xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+              Earnings Simulator
+            </h2>
+            <p className={`text-[15px] ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
+              Calculate your potential monthly and annual revenue based on referral volume.
+            </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div className="h-48 bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center p-8">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-gray-900">Website Development</h3>
-                <p className="text-gray-600 mb-4">Custom-designed, responsive websites tailored to business needs with SEO optimization.</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">Starting at $700</span>
-                  <span className="text-sm font-medium text-red-600">Earn up to $105</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div className="h-48 bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center p-8">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-gray-900">Web Application Development</h3>
-                <p className="text-gray-600 mb-4">Scalable, feature-rich web applications with intuitive user interfaces.</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">Starting at $4,000</span>
-                  <span className="text-sm font-medium text-red-600">Earn up to $600</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div className="h-48 bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center p-8">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-gray-900">Business Plan Development</h3>
-                <p className="text-gray-600 mb-4">Comprehensive business plans with market analysis and financial projections.</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">Starting at $1,000</span>
-                  <span className="text-sm font-medium text-red-600">Earn up to $150</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div className="h-48 bg-gradient-to-r from-purple-500 to-violet-600 flex items-center justify-center p-8">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                </svg>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-gray-900">Pitch Deck Creation</h3>
-                <p className="text-gray-600 mb-4">Compelling investor pitch decks that communicate your vision and business model.</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">Starting at $350</span>
-                  <span className="text-sm font-medium text-red-600">Earn up to $52.50</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div className="h-48 bg-gradient-to-r from-amber-500 to-orange-600 flex items-center justify-center p-8">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-gray-900">Marketing Research</h3>
-                <p className="text-gray-600 mb-4">In-depth market analysis, competitor research, and strategic recommendations.</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">Starting at $1,500</span>
-                  <span className="text-sm font-medium text-red-600">Earn up to $225</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div className="h-48 bg-gradient-to-r from-cyan-500 to-teal-600 flex items-center justify-center p-8">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-gray-900">Business Training</h3>
-                <p className="text-gray-600 mb-4">Customized training programs for teams on various business and technical skills.</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">Starting at $2,000 (team of 10)</span>
-                  <span className="text-sm font-medium text-red-600">Earn up to $300</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mt-12 text-center">
-            <a href="/auth/signup" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-xl">
-              Start Referring Now
-            </a>
-          </div>
-        </div>
-      </section>
-      
-      {/* How It Works Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center mb-16">How Our Referral Program Works</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-red-600 text-2xl font-bold">1</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Sign Up</h3>
-              <p className="text-gray-600">Register for our referral program and get your unique referral link.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-red-600 text-2xl font-bold">2</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Share</h3>
-              <p className="text-gray-600">Share your referral link with potential clients or submit their details directly.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-red-600 text-2xl font-bold">3</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Track</h3>
-              <p className="text-gray-600">Monitor your referrals and earnings through your personalized dashboard.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-red-600 text-2xl font-bold">4</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Get Paid</h3>
-              <p className="text-gray-600">Receive your commission payments monthly for all successful referrals.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      
 
-      
+          <div className={`grid md:grid-cols-5 rounded-2xl overflow-hidden border shadow-sm ${isDark ? 'border-neutral-800 bg-neutral-950' : 'border-neutral-200 bg-white'}`}>
+            {/* Controls */}
+            <div className="p-8 md:col-span-3 flex flex-col justify-center border-r border-neutral-200 dark:border-neutral-800">
+              <div className="space-y-8">
+                <div>
+                  <div className="flex justify-between items-end mb-3">
+                    <label htmlFor="referralsPerMonth" className={`text-[11px] font-semibold tracking-wider uppercase ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
+                      Referrals per month
+                    </label>
+                    <span className={`text-2xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-neutral-900'}`}>{referralsPerMonth}</span>
+                  </div>
+                  <input
+                    id="referralsPerMonth"
+                    type="range"
+                    min={1}
+                    max={10}
+                    value={referralsPerMonth}
+                    onChange={(event) => setReferralsPerMonth(Number(event.target.value))}
+                    className="w-full h-1.5 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-neutral-900 dark:accent-white"
+                  />
+                </div>
 
-      
-      {/* Refer a Client Form Section */}
-      <section id="refer-form" className="py-24 px-4 bg-gray-50">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col lg:flex-row gap-12">
-            <div className="lg:w-1/3">
-              <div className="sticky top-24">
-                <div className="mb-8">
-                  <h2 className="text-4xl font-bold mb-6 text-gray-900">Refer a Client</h2>
-                  <p className="text-lg text-gray-600">
-                    Help businesses succeed while earning generous commissions. Fill out the form to refer a potential client to our team.
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="serviceType" className={`block mb-2 text-[11px] font-semibold tracking-wider uppercase ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
+                      Avg Service Type
+                    </label>
+                    <select
+                      id="serviceType"
+                      value={serviceType}
+                      onChange={(event) => setServiceType(event.target.value as CalculatorServiceId)}
+                      className={`w-full p-2.5 rounded-lg border text-sm font-medium focus:border-neutral-500 outline-none transition-colors ${isDark ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-neutral-50/50 border-neutral-200 text-neutral-900'}`}
+                    >
+                      {Object.entries(serviceRates).map(([key, service]) => (
+                        <option key={key} value={key}>{service.label}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="cumulativeReferrals" className={`block mb-2 text-[11px] font-semibold tracking-wider uppercase ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
+                      Past Successful
+                    </label>
+                    <input
+                      id="cumulativeReferrals"
+                      type="number"
+                      min={0}
+                      value={cumulativeReferrals}
+                      onChange={(event) => setCumulativeReferrals(Math.max(0, Number(event.target.value) || 0))}
+                      className={`w-full p-2.5 rounded-lg border text-sm font-medium focus:border-neutral-500 outline-none transition-colors ${isDark ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-neutral-50/50 border-neutral-200 text-neutral-900'}`}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="tierMode" className={`block mb-2 text-[11px] font-semibold tracking-wider uppercase ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
+                    Tier Simulation Mode
+                  </label>
+                  <select
+                    id="tierMode"
+                    value={tierMode}
+                    onChange={(event) => setTierMode(event.target.value as TierMode)}
+                    className={`w-full p-2.5 rounded-lg border text-sm font-medium focus:border-neutral-500 outline-none transition-colors ${isDark ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-neutral-50/50 border-neutral-200 text-neutral-900'}`}
+                  >
+                    <option value="auto">Auto (based on cumulative referrals)</option>
+                    <option value="SCOUT">Scout (8%)</option>
+                    <option value="OPERATIVE">Operative (10%)</option>
+                    <option value="FIELD_AGENT">Field Agent (12%)</option>
+                    <option value="ELITE_OPERATIVE">Elite Operative (15%)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Results Display */}
+            <div className={`p-8 md:col-span-2 flex flex-col justify-center ${isDark ? 'bg-neutral-900/50' : 'bg-neutral-50/50'}`}>
+              <div className="space-y-8">
+                <div>
+                  <p className={`text-[11px] font-semibold uppercase tracking-wider mb-1 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>Monthly Outlook</p>
+                  <p className={`text-4xl font-bold tracking-tighter ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+                    {ghsCurrency(calculatorResults.monthlyCommission)}
                   </p>
                 </div>
-                
-                <div className="bg-white p-6 rounded-xl shadow-sm mb-8">
-                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    Why Refer to Us?
-                  </h3>
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      <span>Generous commission structure (5-15%)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      <span>Monthly payouts for all successful referrals</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      <span>Dedicated support for you and your referrals</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      <span>Access to our partner dashboard to track referrals</span>
-                    </li>
-                  </ul>
+
+                <div>
+                  <p className={`text-[11px] font-semibold uppercase tracking-wider mb-1 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>Annual Trajectory</p>
+                  <p className={`text-2xl font-semibold tracking-tight ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                    {ghsCurrency(calculatorResults.annualCommission)}
+                  </p>
                 </div>
-                
-                <div className="bg-gradient-to-br from-red-600 to-red-700 p-6 rounded-xl text-white shadow-lg">
-                  <h3 className="text-lg font-bold mb-3">Questions?</h3>
-                  <p className="mb-4">Our team is here to help you with any questions about our referral program.</p>
-                  <a href="mailto:referrals@bloop.com" className="inline-flex items-center gap-2 text-white font-medium hover:underline">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                    Contact Us
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            <div className="lg:w-2/3" id="refer-form">
-              <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                {!formSubmitted ? (
-                  <form onSubmit={handleSubmit} className="p-8">
-                    <div className="mb-8 pb-8 border-b border-gray-100">
-                      <h3 className="text-xl font-bold mb-6 text-gray-900">Your Information</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                          <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                              </svg>
-                            </div>
-                            <input
-                              id="name"
-                              name="name"
-                              type="text"
-                              required
-                              value={formData.name}
-                              onChange={handleInputChange}
-                              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
-                              placeholder="John Doe"
-                            />
-                          </div>
-                        </div>
-                        
-                        <div>
-                          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
-                          <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                              </svg>
-                            </div>
-                            <input
-                              id="email"
-                              name="email"
-                              type="email"
-                              required
-                              value={formData.email}
-                              onChange={handleInputChange}
-                              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
-                              placeholder="you@example.com"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="mt-6">
-                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Your Phone Number</label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                            </svg>
-                          </div>
-                          <input
-                            id="phone"
-                            name="phone"
-                            type="tel"
-                            required
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
-                            placeholder="+1 (555) 123-4567"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="mb-8">
-                      <h3 className="text-xl font-bold mb-6 text-gray-900">Client Information</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label htmlFor="referralName" className="block text-sm font-medium text-gray-700 mb-1">Client's Name</label>
-                          <input
-                            id="referralName"
-                            name="referralName"
-                            type="text"
-                            required
-                            value={formData.referralName}
-                            onChange={handleInputChange}
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
-                            placeholder="Jane Smith"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label htmlFor="referralEmail" className="block text-sm font-medium text-gray-700 mb-1">Client's Email</label>
-                          <input
-                            id="referralEmail"
-                            name="referralEmail"
-                            type="email"
-                            required
-                            value={formData.referralEmail}
-                            onChange={handleInputChange}
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
-                            placeholder="client@example.com"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="mt-6">
-                        <label htmlFor="referralPhone" className="block text-sm font-medium text-gray-700 mb-1">Client's Phone Number</label>
-                        <input
-                          id="referralPhone"
-                          name="referralPhone"
-                          type="tel"
-                          value={formData.referralPhone}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
-                          placeholder="+1 (555) 987-6543"
-                        />
-                      </div>
-                      
-                      <div className="mt-6">
-                        <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">Company Name (if applicable)</label>
-                        <input
-                          id="companyName"
-                          name="companyName"
-                          type="text"
-                          value={formData.companyName}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
-                          placeholder="Acme Inc."
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="mb-8">
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Additional Information</label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        rows={4}
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
-                        placeholder="Tell us about the client's needs and how we can help them..."
-                      />
-                    </div>
-                    
-                    <div className="flex items-center mb-6">
-                      <input id="terms" type="checkbox" required className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded" />
-                      <label htmlFor="terms" className="ml-2 block text-sm text-gray-600">
-                        I agree to the <a href="/referral/terms" className="text-red-600 hover:text-red-800 font-medium">Terms and Conditions</a> of the referral program
-                      </label>
-                    </div>
-                    
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className={`w-full py-4 px-6 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
-                    >
-                      {isLoading ? (
-                        <span className="flex items-center justify-center gap-2">
-                          <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Submitting...
-                        </span>
-                      ) : 'Submit Referral'}
-                    </button>
-                  </form>
-                ) : (
-                  <div className="p-12 text-center">
-                    <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <h3 className="text-3xl font-bold text-gray-900 mb-4">Thank You for Your Referral!</h3>
-                    <p className="text-xl text-gray-600 mb-8 max-w-lg mx-auto">
-                      We've received your referral and will reach out to the client shortly. We'll keep you updated on the status.
-                    </p>
-                    <div className="flex flex-wrap justify-center gap-4">
-                      <button
-                        onClick={() => {
-                          setFormSubmitted(false);
-                          setFormData({
-                            name: "",
-                            email: "",
-                            phone: "",
-                            referralName: "",
-                            referralEmail: "",
-                            referralPhone: "",
-                            companyName: "",
-                            message: ""
-                          });
-                        }}
-                        className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                      >
-                        Submit Another Referral
-                      </button>
-                      <Link 
-                        href="/referral/dashboard"
-                        className="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-lg transition-all"
-                      >
-                        View Dashboard
-                      </Link>
-                    </div>
+
+                <div className="pt-6 border-t border-neutral-200 dark:border-neutral-800">
+                  <p className={`text-[11px] font-semibold uppercase tracking-wider mb-3 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>6-Month Tier Projection</p>
+                  <div className={`inline-flex items-center px-3 py-1 rounded-md border text-xs font-semibold ${isDark ? 'bg-white text-black border-white' : 'bg-neutral-900 text-white border-neutral-900'}`}>
+                    {calculatorResults.tierInSixMonths.name}
                   </div>
-                )}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-      
-      {/* FAQ Section */}
-      <section className="py-20 px-4 bg-gray-50">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
-          
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-xl shadow-sm">
-              <h3 className="text-xl font-bold mb-2">How do I earn the 5% commission?</h3>
-              <p className="text-gray-600">
-                Simply refer a client to us using your unique referral link or by submitting their information through our referral form. If they sign up for any of our services, you'll earn a 5% commission on the total project value.
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-sm">
-              <h3 className="text-xl font-bold mb-2">What does "refer and close" mean?</h3>
-              <p className="text-gray-600">
-                "Refer and close" means you not only introduce the client to us but also help in the sales process to close the deal. This can include arranging meetings, helping explain our services, or providing additional information that helps convert the lead into a paying client.
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-sm">
-              <h3 className="text-xl font-bold mb-2">When and how do I get paid?</h3>
-              <p className="text-gray-600">
-                Commissions are paid out monthly for all successful referrals from the previous month. You can choose to receive payment via bank transfer, PayPal, or other available payment methods.
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-sm">
-              <h3 className="text-xl font-bold mb-2">Is there a limit to how many clients I can refer?</h3>
-              <p className="text-gray-600">
-                No, there's no limit to the number of clients you can refer. The more clients you refer, the more you can earn!
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-sm">
-              <h3 className="text-xl font-bold mb-2">How long is the referral valid?</h3>
-              <p className="text-gray-600">
-                A referral is valid for 90 days from the date of submission. If the client signs up within this period, you'll receive the commission.
-              </p>
-            </div>
+
+
+      {/* Application Form Section */}
+      <section id="application" className={`py-32 px-6 lg:px-20 ${isDark ? 'bg-neutral-950 border-t border-neutral-900' : 'bg-white border-t border-neutral-200'}`}>
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className={`text-3xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>Apply for Kazi</h2>
+            <p className={`text-[15px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
+              Takes 2 minutes. Acceptance within 48 hours. No cost to join.
+            </p>
           </div>
+
+          {!isApplicationSubmitted ? (
+            <motion.form
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={notionSpring}
+              className={`p-8 rounded-2xl border shadow-sm ${isDark ? 'bg-neutral-900/30 border-neutral-800' : 'bg-white border-neutral-200'}`}
+              onSubmit={handleApplicationSubmit}
+            >
+              <div className="space-y-6">
+                <div>
+                  <h4 className={`text-xs font-semibold tracking-wider uppercase mb-4 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>Profile Identity</h4>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <input
+                      name="fullName"
+                      required
+                      value={applicationForm.fullName}
+                      onChange={handleApplicationInput}
+                      placeholder="Full Name"
+                      className={inputClass}
+                    />
+                    <input
+                      name="emailAddress"
+                      type="email"
+                      required
+                      value={applicationForm.emailAddress}
+                      onChange={handleApplicationInput}
+                      placeholder="Email Address"
+                      readOnly={Boolean(currentUser?.email)}
+                      className={`${inputClass} ${currentUser?.email ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    />
+                    {!currentUser && (
+                      <input
+                        name="accountPassword"
+                        type="password"
+                        required
+                        minLength={6}
+                        value={applicationForm.accountPassword}
+                        onChange={handleApplicationInput}
+                        placeholder="Create Password"
+                        className={inputClass}
+                      />
+                    )}
+                    <input
+                      name="phoneNumber"
+                      required
+                      value={applicationForm.phoneNumber}
+                      onChange={handleApplicationInput}
+                      placeholder="Phone (+123...)"
+                      className={inputClass}
+                    />
+                    <input
+                      name="cityCountry"
+                      required
+                      value={applicationForm.cityCountry}
+                      onChange={handleApplicationInput}
+                      placeholder="City / Country"
+                      className={`${inputClass} sm:col-span-2`}
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <h4 className={`text-xs font-semibold tracking-wider uppercase mb-4 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>Professional Territory</h4>
+                  <select
+                    name="industry"
+                    required
+                    value={applicationForm.industry}
+                    onChange={handleApplicationInput}
+                    className={inputClass}
+                  >
+                    <option value="">Select industry category</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Agriculture">Agriculture</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Consulting">Consulting</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div className="pt-2">
+                  <h4 className={`text-xs font-semibold tracking-wider uppercase mb-4 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>Network Footprint</h4>
+                  <select
+                    name="network"
+                    required
+                    value={applicationForm.network}
+                    onChange={handleApplicationInput}
+                    className={inputClass}
+                  >
+                    <option value="">Select network persona</option>
+                    <option value="Startup founders">Startup founders</option>
+                    <option value="SME owners">SME owners</option>
+                    <option value="Corporate executives">Corporate executives</option>
+                    <option value="Mixed">Mixed</option>
+                  </select>
+                </div>
+
+                <div className="pt-2">
+                  <h4 className={`text-xs font-semibold tracking-wider uppercase mb-4 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>Details (Optional)</h4>
+                  <textarea
+                    name="motivation"
+                    rows={3}
+                    value={applicationForm.motivation}
+                    onChange={handleApplicationInput}
+                    placeholder="How do you plan to refer clients?"
+                    className={inputClass}
+                  />
+                </div>
+
+                {applicationSubmitError && (
+                  <p className="p-3 rounded-lg bg-red-500/10 text-red-500 text-sm font-medium">{applicationSubmitError}</p>
+                )}
+
+                <button type="submit" disabled={isSubmittingApplication} className={`w-full py-4 rounded-lg font-medium text-sm transition-all shadow-sm ${isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-neutral-900 text-white hover:bg-neutral-800'} disabled:opacity-50 disabled:cursor-not-allowed`}>
+                  {isSubmittingApplication ? "Processing submission..." : "Submit Application"}
+                </button>
+              </div>
+            </motion.form>
+          ) : (
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={notionSpring}
+              className="p-10 rounded-2xl border bg-green-500/5 border-green-500/20 text-center"
+            >
+              <div className="w-12 h-12 rounded-full bg-green-500/20 text-green-600 dark:text-green-400 flex items-center justify-center mx-auto mb-4">
+                <CheckCircle2 size={24} />
+              </div>
+              <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-neutral-900'}`}>Application Received</h3>
+              <p className={`text-sm mb-6 ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>{applicationSubmitMessage || "We will review your submission and respond within 48 hours."}</p>
+              <div className="flex justify-center gap-3">
+                <button onClick={() => setIsApplicationSubmitted(false)} className={`px-4 py-2 rounded-lg border text-sm font-medium ${isDark ? 'border-neutral-700 hover:bg-neutral-800 text-white' : 'border-neutral-300 hover:bg-neutral-50 text-neutral-900'}`}>
+                  Submit Another
+                </button>
+                <Link prefetch={false} href="/referral/dashboard" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-neutral-900 text-white hover:bg-neutral-800'}`}>
+                  View Dashboard
+                </Link>
+              </div>
+            </motion.div>
+          )}
         </div>
       </section>
-      
-      {/* Final CTA Section */}
-      <section className="py-16 px-4 bg-gradient-to-r from-red-500 to-red-600 text-white">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-extrabold mb-6">Start Earning Today!</h2>
-          <p className="text-xl mb-8">
-            Join our referral program and turn your network into income. It's easy, rewarding, and completely free to join.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a 
-              href="#refer-form"
-              className="bg-white hover:bg-gray-100 text-red-600 font-bold py-3 px-8 rounded-full transition-all shadow-lg hover:shadow-xl"
-            >
-              Refer a Client Now
-            </a>
-            <Link 
-              href="/referral/dashboard"
-              className="bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-8 rounded-full transition-all shadow-lg hover:shadow-xl border border-red-400"
-            >
-              View Your Dashboard
-            </Link>
-          </div>
-        </div>
-      </section>
+
     </main>
   );
 }

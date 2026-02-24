@@ -196,7 +196,7 @@ export default function ViewReferralsPage() {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Referrals</h1>
             <p className="text-gray-600">Track and manage all your referrals in one place.</p>
           </div>
-          <Link 
+          <Link prefetch={false} 
             href="/referral/form" 
             className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors flex items-center gap-2"
           >
@@ -465,7 +465,7 @@ export default function ViewReferralsPage() {
                     ? `You don't have any ${activeFilter} referrals yet.`
                     : "You haven't made any referrals yet."}
               </p>
-              <Link 
+              <Link prefetch={false} 
                 href="/referral/form" 
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               >

@@ -167,7 +167,7 @@ export default function CaseStudiesClient({ caseStudies }: CaseStudiesClientProp
                                         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                                         className={`group relative ${isWide ? 'lg:col-span-8' : 'lg:col-span-4'} ${isOffset ? 'lg:mt-40' : ''}`}
                                     >
-                                        <Link href={`/casestudies/${study.slug.current}`} className="block">
+                                        <Link prefetch={false} href={`/casestudies/${study.slug.current}`} className="block">
                                             {/* Visual Container */}
                                             <div className="relative aspect-[4/5] lg:aspect-auto lg:h-[80vh] overflow-hidden bg-zinc-900 group-hover:scale-[0.98] transition-transform duration-1000 ease-out border border-transparent group-hover:border-zinc-800 transition-colors">
                                                 <Image

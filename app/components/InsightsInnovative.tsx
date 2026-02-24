@@ -41,7 +41,7 @@ export default function InsightsInnovative({ posts }: InsightsInnovativeProps) {
             </p>
           </div>
           <div className="hidden md:block">
-            <Link href="/insight" className="group flex items-center text-lg font-medium hover:text-red-600 transition-colors">
+            <Link prefetch={false} href="/insight" className="group flex items-center text-lg font-medium hover:text-red-600 transition-colors">
               View All Articles
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
@@ -58,7 +58,7 @@ export default function InsightsInnovative({ posts }: InsightsInnovativeProps) {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.1 * idx, ease: "easeOut" }}
             >
-              <Link href={`/${post.slug.current}`} className="block">
+              <Link prefetch={false} href={`/${post.slug.current}`} className="block">
                 {/* Image Container */}
                 <div className="relative aspect-[4/3] mb-6 overflow-hidden bg-gray-100">
                   {post.mainImage && (
@@ -95,7 +95,7 @@ export default function InsightsInnovative({ posts }: InsightsInnovativeProps) {
 
         {/* Mobile CTA */}
         <div className="mt-12 md:hidden text-center">
-          <Link href="/insight" className="inline-flex items-center text-lg font-medium hover:text-red-600 transition-colors">
+          <Link prefetch={false} href="/insight" className="inline-flex items-center text-lg font-medium hover:text-red-600 transition-colors">
             View All Articles
             <ArrowRight className="ml-2 w-5 h-5" />
           </Link>

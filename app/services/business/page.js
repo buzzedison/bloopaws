@@ -85,11 +85,11 @@ export default function Services() {
 {/* 
         <p className="text-lg text-gray-600 text-center pb-10">
           Our team has decades of experience supporting high-growth companies across industries. 
-          <Link href="/services">
+          <Link prefetch={false} href="/services">
             <button className="text-red-600 underline">Learn more about our services</button>
           </Link> 
           or 
-          <Link href="/contact">
+          <Link prefetch={false} href="/contact">
             <button className="text-red-600 underline">schedule a consultation</button>
           </Link> 
           to discuss how we can help take your business to the next level.

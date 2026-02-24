@@ -16,7 +16,7 @@ export default function AICourseHighlights() {
 
  
           </ul>
-          <Link href="https://bloopglobal.ck.page/f1460a0d63" className="bg-red-800 text-white px-8 py-3 rounded-full font-semibold">Enroll Now</Link>
+          <Link prefetch={false} href="https://bloopglobal.ck.page/f1460a0d63" className="bg-red-800 text-white px-8 py-3 rounded-full font-semibold">Enroll Now</Link>
         </div>
       </div>
     );

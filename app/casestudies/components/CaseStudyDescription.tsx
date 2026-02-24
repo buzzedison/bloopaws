@@ -26,7 +26,7 @@ const CaseStudyDescription: React.FC<Props> = ({ title, description, links, imag
       {links && links.length > 0 && (
         <div className="mt-4 flex flex-wrap  gap-4">
           {links.map((link, index) => (
-            <Link key={index} href={link.url}className="text-lg text-blue-500 hover:text-blue-600 transition-colors duration-300">
+            <Link prefetch={false} key={index} href={link.url}className="text-lg text-blue-500 hover:text-blue-600 transition-colors duration-300">
                 {link.text}
               
             </Link>

@@ -27,11 +27,11 @@ export default function HeroPost({ post }: { post: Post }) {
           <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
             Featured
           </div>
-          <Link href={`/posts/${post.slug.current}`} className="block mt-1 text-2xl leading-tight font-medium text-black hover:underline">
+          <Link prefetch={false} href={`/posts/${post.slug.current}`} className="block mt-1 text-2xl leading-tight font-medium text-black hover:underline">
             {post.title}
           </Link>
           <p className="mt-2 text-gray-500">{post.excerpt}</p>
-          <Link href={`/posts/${post.slug.current}`} className="mt-4 inline-block px-4 py-2 bg-red-700 text-white rounded hover:bg-red-800 transition-colors duration-200">
+          <Link prefetch={false} href={`/posts/${post.slug.current}`} className="mt-4 inline-block px-4 py-2 bg-red-700 text-white rounded hover:bg-red-800 transition-colors duration-200">
             Read More
           </Link>
         </div>

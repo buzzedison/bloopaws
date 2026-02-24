@@ -154,7 +154,7 @@ export default function FundingPage() {
                 We've partnered with <strong>EV Venture Studio</strong>, the <strong>Crowdpen Creators Fund</strong>, <strong>Pitch Perfect</strong>, and <strong>Agripro Micro Funding</strong> to unlock capital, build support, and distribution for builders, creators, and agripreneurs.
               </p>
               <p className="mt-2 text-base text-neutral-500 dark:text-neutral-400">
-                Need help with <Link href="/services" className="text-red-600 hover:text-red-700 underline">product development</Link> or <Link href="/services/training" className="text-red-600 hover:text-red-700 underline">team training</Link> before applying for funding?
+                Need help with <Link prefetch={false} href="/services" className="text-red-600 hover:text-red-700 underline">product development</Link> or <Link prefetch={false} href="/services/training" className="text-red-600 hover:text-red-700 underline">team training</Link> before applying for funding?
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
@@ -215,7 +215,7 @@ export default function FundingPage() {
                 <Pill>Build credits</Pill>
               </div>
               <div className="mt-5">
-                <Link href="#apply" className="text-red-600 underline-offset-4 hover:underline">Apply via Bloop</Link>
+                <Link prefetch={false} href="#apply" className="text-red-600 underline-offset-4 hover:underline">Apply via Bloop</Link>
               </div>
             </article>
 
@@ -234,7 +234,7 @@ export default function FundingPage() {
                 <Pill>Creator growth</Pill>
               </div>
               <div className="mt-5">
-                <Link href="#apply" className="text-red-600 underline-offset-4 hover:underline">Apply via Bloop</Link>
+                <Link prefetch={false} href="#apply" className="text-red-600 underline-offset-4 hover:underline">Apply via Bloop</Link>
               </div>
             </article>
 
@@ -253,7 +253,7 @@ export default function FundingPage() {
                 <Pill>Warm intros</Pill>
               </div>
               <div className="mt-5">
-                <Link href="#apply" className="text-red-600 underline-offset-4 hover:underline">Apply via Bloop</Link>
+                <Link prefetch={false} href="#apply" className="text-red-600 underline-offset-4 hover:underline">Apply via Bloop</Link>
               </div>
             </article>
 
@@ -272,7 +272,7 @@ export default function FundingPage() {
                 <Pill>Advisory</Pill>
               </div>
               <div className="mt-5">
-                <Link href="#apply" className="text-red-600 underline-offset-4 hover:underline">Apply via Bloop</Link>
+                <Link prefetch={false} href="#apply" className="text-red-600 underline-offset-4 hover:underline">Apply via Bloop</Link>
               </div>
             </article>
           </div>
@@ -438,10 +438,10 @@ export default function FundingPage() {
                 Share your stage, goals, and timeline. We'll match you to EV Venture Studio, Crowdpen Creators Fund, Pitch Perfect, and/or Agripro Micro Funding.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/apply" className="rounded-2xl bg-white px-5 py-3 text-red-700 shadow-sm transition hover:bg-neutral-50">
+                <Link prefetch={false} href="/apply" className="rounded-2xl bg-white px-5 py-3 text-red-700 shadow-sm transition hover:bg-neutral-50">
                   Start application
                 </Link>
-                <Link href="/contact" className="rounded-2xl border border-white/30 px-5 py-3 text-white backdrop-blur-sm transition hover:bg-white/10">
+                <Link prefetch={false} href="/contact" className="rounded-2xl border border-white/30 px-5 py-3 text-white backdrop-blur-sm transition hover:bg-white/10">
                   Talk to the team
                 </Link>
               </div>

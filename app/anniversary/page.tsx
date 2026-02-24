@@ -83,7 +83,7 @@ export default function AnniversaryPage() {
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 mb-16">
 
-              <Link href="#packages">
+              <Link prefetch={false} href="#packages">
 
                   <motion.button
 
@@ -301,7 +301,7 @@ export default function AnniversaryPage() {
 
               >
 
-                <Link href={pkg.cta}>
+                <Link prefetch={false} href={pkg.cta}>
 
                   <div className="group h-full bg-gray-50 border border-gray-200 hover:border-red-600/50 rounded-2xl p-8 transition-all duration-300 cursor-pointer flex flex-col">
 
@@ -515,7 +515,7 @@ export default function AnniversaryPage() {
 
             </p>
 
-            <Link href="#packages">
+            <Link prefetch={false} href="#packages">
 
               <motion.button
 

@@ -136,10 +136,6 @@
   @apply absolute right-0 top-0 bottom-0 m-1 bg-red-600 hover:bg-black text-white px-6 py-4 rounded-lg;
 }
 
-/* Make text-gray-500 lighter */
-.text-gray-500 {
-  color: #d1d5db !important; /* Tailwind gray-300 */
-}
 
 .flexCenter {
   @apply flex justify-center items-center;

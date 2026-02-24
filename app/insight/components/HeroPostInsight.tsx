@@ -29,7 +29,7 @@ export default function HeroPost({ post }: HeroPostProps) {
           <div className="uppercase tracking-wide text-sm text-red-600 font-semibold mb-2">
             Featured Article
           </div>
-          <Link 
+          <Link prefetch={false} 
             href={`/insight/${post.slug.current}`}
             className="block mt-1 text-3xl md:text-4xl leading-tight font-serif font-bold text-gray-900 hover:underline transition duration-300 ease-in-out"
           >
@@ -38,7 +38,7 @@ export default function HeroPost({ post }: HeroPostProps) {
           <p className="mt-4 text-lg text-gray-600 leading-relaxed">
             {post.excerpt}
           </p>
-          <Link 
+          <Link prefetch={false} 
             href={`/insight/${post.slug.current}`}
             className="mt-6 inline-flex items-center text-lg font-semibold text-red-600 hover:text-red-800 transition duration-300 ease-in-out"
           >

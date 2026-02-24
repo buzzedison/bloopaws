@@ -34,7 +34,7 @@ export default function ModernCareerCard({ career, index }: ModernCareerCardProp
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
     >
-      <Link 
+      <Link prefetch={false} 
         href={`/careers/${career.slug.current}`}
         className="group block"
       >

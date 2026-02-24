@@ -234,13 +234,13 @@ export default function WebServicesClient() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: 'easeOut', delay: 0.5 }}
             >
-              <Link 
+              <Link prefetch={false} 
                 href="#services"
                 className="bg-red-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-red-700 transition-all duration-300 hover:shadow-xl hover:shadow-red-200/50 hover:-translate-y-1"
               >
                 See What We Build
               </Link>
-              <Link 
+              <Link prefetch={false} 
                 href="/contact"
                 className="bg-white text-red-600 px-8 py-4 rounded-full font-bold text-lg border-2 border-red-600 hover:bg-red-50 transition-all duration-300"
               >
@@ -578,14 +578,14 @@ export default function WebServicesClient() {
               Let's turn your idea into a website that works. Fast loading, great looking, built to convert.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
+              <Link prefetch={false} 
                 href="/contact"
                 className="bg-white text-red-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 inline-flex items-center justify-center"
               >
                 Start Your Project
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
-              <Link 
+              <Link prefetch={false} 
                 href="/casestudies"
                 className="bg-transparent text-white px-8 py-4 rounded-full font-bold text-lg border-2 border-white hover:bg-white hover:text-red-600 transition-all duration-300"
               >

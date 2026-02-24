@@ -286,7 +286,7 @@ export default function CaseStudyPage({ params }: CaseStudyParams) {
             Next <br />
             Perspective.
           </h2>
-          <Link href="/casestudies" className="group inline-flex flex-col items-center gap-6">
+          <Link prefetch={false} href="/casestudies" className="group inline-flex flex-col items-center gap-6">
             <div className={`w-20 h-20 rounded-full border flex items-center justify-center group-hover:border-red-600 transition-colors duration-700 ${isDark ? 'border-zinc-800 text-zinc-800' : 'border-zinc-200 text-zinc-300'}`}>
               <ArrowUpRight className="w-8 h-8 group-hover:text-red-600 transition-colors duration-700" />
             </div>

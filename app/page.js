@@ -148,7 +148,7 @@ export default async function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link href="/contact">
+              <Link prefetch={false} href="/contact">
                 <button className="group relative overflow-hidden bg-white text-black font-bold py-5 px-12 rounded-full shadow-2xl hover:shadow-white/20 transition-all duration-300 transform hover:-translate-y-1">
                   <span className="relative z-10 flex items-center text-lg">
                     Start Your Build

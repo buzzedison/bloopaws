@@ -215,7 +215,7 @@ export default function ServicesOrbit() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <Link href={`/services/${service.title.toLowerCase().replace(/\s+/g, '-')}`}>
+                        <Link prefetch={false} href={`/services/${service.title.toLowerCase().replace(/\s+/g, '-')}`}>
                           <button className="group flex items-center text-white font-medium mt-4">
                             Learn more
                             <motion.span
@@ -243,7 +243,7 @@ export default function ServicesOrbit() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 1.2 }}
         >
-          <Link href="/services">
+          <Link prefetch={false} href="/services">
             <button className="group relative overflow-hidden bg-white border border-red-600 text-red-600 font-medium py-3 px-8 rounded-full shadow-sm hover:shadow-md transition-shadow duration-300">
               <span className="relative z-10 flex items-center">
                 Explore All Services

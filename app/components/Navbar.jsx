@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 
 export default function BloopNavbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const supabase = createClient();
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -32,9 +33,23 @@ export default function BloopNavbar() {
       if (data.session) {
         setIsAuthenticated(true);
         setUserEmail(data.session.user.email);
+
+        // Also check admin status
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', data.session.user.id)
+          .single();
+
+        if (profile?.is_admin) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
       } else {
         setIsAuthenticated(false);
         setUserEmail('');
+        setIsAdmin(false);
       }
     };
 
@@ -53,11 +68,10 @@ export default function BloopNavbar() {
 
   const navItems = [
     { name: 'How We Help', href: '/services' },
-    { name: 'Our Stories', href: '/casestudies' },
+    { name: 'Launchpad', href: '/launchpad' },
     { name: 'The Playbook', href: '/playbook' },
     { name: 'About Us', href: '/about' },
     { name: 'Join the Crew', href: '/careers' },
-    { name: 'The Vanguard Program', href: '/vanguard' },
   ];
 
   const adminItems = [
@@ -76,12 +90,12 @@ export default function BloopNavbar() {
             {isAuthenticated && (
               <div className="absolute top-0 right-0 mt-2 mr-4 text-xs text-gray-600">
                 <span className="mr-2">{userEmail}</span>
-                <Link href="/dashboard" className="text-red-600 hover:text-red-800">Dashboard</Link>
+                <Link prefetch={false} href="/dashboard" className="text-red-600 hover:text-red-800">Dashboard</Link>
               </div>
             )}
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="flex items-center">
+              <Link prefetch={false} href="/" prefetch={false} className="flex items-center">
                 <Image
                   width={150}
                   height={40}
@@ -114,6 +128,7 @@ export default function BloopNavbar() {
                       <div className={`absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-20 py-2 ${activeItem === item.name ? '' : 'hidden'}`}>
                         {item.submenu.map((sub) => (
                           <Link
+                            prefetch={false}
                             key={sub.name}
                             href={sub.href}
                             className="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm"
@@ -137,6 +152,7 @@ export default function BloopNavbar() {
                       onMouseLeave={() => setActiveItem('')}
                     >
                       <Link
+                        prefetch={false}
                         href={item.href}
                         className={`px-3 py-2 text-sm font-medium transition-colors duration-300 text-gray-800`}
                       >
@@ -152,8 +168,8 @@ export default function BloopNavbar() {
                   )
                 ))}
 
-                {/* Admin Dropdown - Only show for authenticated users */}
-                {isAuthenticated && (
+                {/* Admin Dropdown - Only show for admin users */}
+                {isAdmin && (
                   <div
                     className="relative group"
                     onMouseEnter={() => setActiveItem('admin')}
@@ -171,6 +187,7 @@ export default function BloopNavbar() {
                     <div className={`absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-2 ${activeItem === 'admin' ? '' : 'hidden'}`}>
                       {adminItems.map((item) => (
                         <Link
+                          prefetch={false}
                           key={item.name}
                           href={item.href}
                           className="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm"
@@ -193,6 +210,7 @@ export default function BloopNavbar() {
             {/* CTA Button */}
             <div className="hidden lg:block">
               <Link
+                prefetch={false}
                 href="/contact"
                 className="relative bg-red-600 text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-black transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 inline-block"
               >
@@ -232,6 +250,7 @@ export default function BloopNavbar() {
                   <div className="text-white text-lg font-medium py-3 px-4">{item.name}</div>
                   {item.submenu.map((sub) => (
                     <Link
+                      prefetch={false}
                       key={sub.name}
                       href={sub.href}
                       className="block text-white text-base font-normal py-2 px-8 rounded-lg hover:bg-white/10 transition-colors duration-200"
@@ -247,6 +266,7 @@ export default function BloopNavbar() {
                   className="block w-full"
                 >
                   <Link
+                    prefetch={false}
                     href={item.href}
                     className="block text-white text-lg font-medium py-3 px-4 rounded-lg hover:bg-white/10 transition-colors duration-200"
                     onClick={() => setIsNavOpen(false)}
@@ -258,11 +278,12 @@ export default function BloopNavbar() {
             ))}
 
             {/* Admin Links - Mobile */}
-            {isAuthenticated && (
+            {isAdmin && (
               <div className="pt-4 mt-4 border-t border-white/20">
                 <div className="text-white text-lg font-medium py-3 px-4">Admin</div>
                 {adminItems.map((item) => (
                   <Link
+                    prefetch={false}
                     key={item.name}
                     href={item.href}
                     className="block text-white text-base font-normal py-2 px-8 rounded-lg hover:bg-white/10 transition-colors duration-200"
@@ -276,6 +297,7 @@ export default function BloopNavbar() {
 
             <div className="pt-4 mt-4 border-t border-white/20">
               <Link
+                prefetch={false}
                 href="/contact"
                 className="block w-full text-center bg-red-600 text-white py-3 px-4 rounded-full font-medium hover:bg-red-700 transition-colors duration-200"
                 onClick={() => setIsNavOpen(false)}

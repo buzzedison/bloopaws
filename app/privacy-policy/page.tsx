@@ -340,7 +340,7 @@ export default function PrivacyPolicyPage() {
                         Have questions about our privacy practices or want to exercise your rights? We're here to help.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link href="/contact">
+                        <Link prefetch={false} href="/contact">
                             <button className={`px-8 py-4 rounded-full font-bold transition-all duration-200 hover:scale-105 ${isDark
                                 ? 'bg-white text-black hover:bg-gray-200'
                                 : 'bg-black text-white hover:bg-gray-800'}`}
@@ -348,7 +348,7 @@ export default function PrivacyPolicyPage() {
                                 Contact Us
                             </button>
                         </Link>
-                        <Link href="/">
+                        <Link prefetch={false} href="/">
                             <button className={`px-8 py-4 rounded-full font-bold border transition-all duration-200 hover:scale-105 ${isDark
                                 ? 'border-gray-700 text-white hover:border-red-900/50 hover:bg-red-950/20'
                                 : 'border-gray-300 text-gray-900 hover:border-red-200 hover:bg-red-50'}`}

@@ -97,7 +97,7 @@ export default function ServiceTeaser() {
                   </p>
 
                   {/* Learn more link */}
-                  <Link 
+                  <Link prefetch={false} 
                     href={service.link}
                     className="inline-flex items-center text-red-600 hover:text-red-700 font-medium transition-colors duration-300"
                   >

@@ -191,7 +191,7 @@ export default function StrategyServices() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
-              <Link href="/contact">
+              <Link prefetch={false} href="/contact">
                 <button className="bg-white text-amber-900 px-8 py-3 rounded-md text-lg font-semibold hover:bg-amber-100 transition-colors shadow-lg">
                   Start Your Strategic Journey
                 </button>
@@ -516,7 +516,7 @@ export default function StrategyServices() {
             <p className="text-xl text-amber-100 mb-8 max-w-3xl mx-auto">
               Let's discuss how our strategic advisory services can help you overcome challenges and capitalize on opportunities.
             </p>
-            <Link href="/contact">
+            <Link prefetch={false} href="/contact">
               <button className="bg-white text-amber-900 px-8 py-3 rounded-md text-lg font-semibold hover:bg-amber-100 transition-colors shadow-lg">
                 Schedule a Strategy Session
               </button>

@@ -353,7 +353,7 @@ export default function PlaybookClient({
                         </span>
                       ) : null}
                       <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors leading-tight">
-                        <Link href={`/insight/${post.slug.current}`}>
+                        <Link prefetch={false} href={`/insight/${post.slug.current}`}>
                           {post.title}
                         </Link>
                       </h3>
@@ -404,7 +404,7 @@ export default function PlaybookClient({
                       <div className="h-px flex-1 bg-gray-100" />
                     </div>
 
-                    <Link href={`/insight/${featured.slug.current}`} className="block relative overflow-hidden bg-gray-100 aspect-[16/9] mb-10">
+                    <Link prefetch={false} href={`/insight/${featured.slug.current}`} className="block relative overflow-hidden bg-gray-100 aspect-[16/9] mb-10">
                       {featured.mainImage && (
                         <Image
                           src={builder.image(featured.mainImage).width(1200).height(675).url()}
@@ -416,7 +416,7 @@ export default function PlaybookClient({
                     </Link>
 
                     <h2 className="text-5xl md:text-6xl font-jakarta font-extrabold leading-tight text-black mb-8 group-hover:text-red-700 transition-colors">
-                      <Link href={`/insight/${featured.slug.current}`}>
+                      <Link prefetch={false} href={`/insight/${featured.slug.current}`}>
                         {featured.title}
                       </Link>
                     </h2>
@@ -468,7 +468,7 @@ export default function PlaybookClient({
                             </span>
                           ) : null}
                           <h3 className="text-lg font-bold text-gray-900 leading-snug group-hover:text-red-700 transition-colors">
-                            <Link href={`/insight/${p.slug.current}`}>
+                            <Link prefetch={false} href={`/insight/${p.slug.current}`}>
                               {p.title}
                             </Link>
                           </h3>
@@ -529,7 +529,7 @@ export default function PlaybookClient({
                     transition={{ duration: 0.6, delay: idx % 3 * 0.1 }}
                   >
                     {post.mainImage && (
-                      <Link href={`/insight/${post.slug.current}`} className="block relative aspect-[4/3] mb-8 overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 border border-gray-100">
+                      <Link prefetch={false} href={`/insight/${post.slug.current}`} className="block relative aspect-[4/3] mb-8 overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 border border-gray-100">
                         <Image
                           src={builder.image(post.mainImage).width(800).height(600).url()}
                           alt={post?.mainImage?.alt || post.title}
@@ -545,7 +545,7 @@ export default function PlaybookClient({
                         </span>
                       ) : null}
                       <h4 className="text-2xl font-jakarta font-extrabold text-black leading-tight group-hover:text-red-700 transition-colors">
-                        <Link href={`/insight/${post.slug.current}`}>
+                        <Link prefetch={false} href={`/insight/${post.slug.current}`}>
                           {post.title}
                         </Link>
                       </h4>

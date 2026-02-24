@@ -324,7 +324,7 @@ export default function ReferralFormPage() {
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">Referral Submitted Successfully!</h3>
                   <p className="text-gray-600 mb-8">Thank you for your referral. Our team will review it and get in touch with your contact soon.</p>
                   <div className="flex flex-wrap gap-4 justify-center">
-                    <Link href="/dashboard" className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-all shadow-md hover:shadow-lg">
+                    <Link prefetch={false} href="/dashboard" className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-all shadow-md hover:shadow-lg">
                       Go to Dashboard
                     </Link>
                     <button

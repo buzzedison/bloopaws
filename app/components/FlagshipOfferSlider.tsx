@@ -421,7 +421,7 @@ export default function FlagshipOfferSlider() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.7, duration: 0.5 }}
                     >
-                      <Link href="/files/bloop-offers.pdf">
+                      <Link prefetch={false} href="/files/bloop-offers.pdf">
                         <motion.button 
                           className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-full transition-all flex items-center justify-center relative overflow-hidden group"
                           whileHover={{ scale: 1.03 }}
@@ -446,7 +446,7 @@ export default function FlagshipOfferSlider() {
                           />
                         </motion.button>
                       </Link>
-                      <Link href="/contact">
+                      <Link prefetch={false} href="/contact">
                         <motion.button 
                           className={`bg-gradient-to-r ${offers[activeIndex].color} text-white font-semibold py-3 px-6 rounded-full shadow-md transition-all flex items-center justify-center overflow-hidden relative`}
                           whileHover={{ scale: 1.03, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}

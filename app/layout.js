@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import ChatBot from './components/ChatBot';
 import GoogleAnalytics from "../app/components/GoogleAnalytics";
 import MetaPixel from "./components/MetaPixel";
+import ReferralTracker from "./components/ReferralTracker";
 // Metadata is imported via the export const metadata object below
 
 export const metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
         {process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID ? (
           <MetaPixel pixel_id={process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID} />
         ) : null}
+        <ReferralTracker />
         <Navbar />
         <main>
           <ChatBot />

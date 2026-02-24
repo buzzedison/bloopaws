@@ -6,7 +6,7 @@ export default function CallToAction({ children }) {
         <div className="text-4xl font-extrabold text-white">
           {children}
         </div>
-        <Link href="/contact">
+        <Link prefetch={false} href="/contact">
         <button className="bg-white text-red-600 px-8 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition-all duration-300 ease-in-out">
           Take Action
         </button>

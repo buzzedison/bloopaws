@@ -6,7 +6,7 @@ export default function AICourseHero() {
       <div className="container mx-auto text-center pt-12 md:pt-24">
         <h1 className="text-4xl md:text-6xl font-extrabold mb-4">AI for Business Growth</h1>
         <p className="text-xl mb-8">The Complete Guide to Transforming Your Business with Generative AI</p>
-        <Link href="https://bloopglobal.ck.page/f1460a0d63" className="bg-red-800 text-white px-8 py-3 rounded-full font-semibold">Enroll Now</Link>
+        <Link prefetch={false} href="https://bloopglobal.ck.page/f1460a0d63" className="bg-red-800 text-white px-8 py-3 rounded-full font-semibold">Enroll Now</Link>
       </div>
     </div>
   );

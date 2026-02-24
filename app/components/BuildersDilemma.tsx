@@ -117,7 +117,7 @@ export default function BuildersDilemma() {
                 Take our 2-minute Disruptor's Diagnostic and get a personalized roadmap to bridge your gap.
               </p>
               
-              <Link href="/diagnostic">
+              <Link prefetch={false} href="/diagnostic">
                 <button className="group relative overflow-hidden bg-white text-red-600 hover:bg-black hover:text-white font-bold py-4 px-10 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-flex items-center text-lg">
                   <span className="relative z-10 flex items-center">
                     Take the Diagnostic

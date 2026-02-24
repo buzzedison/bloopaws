@@ -101,7 +101,7 @@ export default function ProductsSection() {
                       {product.description}
                     </p>
                   </div>
-                  <Link href={product.button.link} passHref>
+                  <Link prefetch={false} href={product.button.link} passHref>
                     <button className="inline-block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 self-start text-sm transform transition duration-500 hover:scale-110 hover:-rotate-12">
                       {product.button.text}
                     </button>

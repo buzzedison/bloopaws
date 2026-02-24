@@ -40,7 +40,7 @@ export default function MobileProdDevServices() {
       <section className="bg-purple-900 text-white p-16 text-center">
         <h2 className="text-4xl font-bold mb-4">Ready to Build Your Next Big Thing?</h2>
         <p className="text-lg mb-8">Let's turn your mobile and product ideas into reality.</p>
-        <Link href="/contact">
+        <Link prefetch={false} href="/contact">
           <button className="bg-white text-purple-900 px-8 py-2 rounded-full text-lg font-semibold hover:bg-gray-300">
             Get Started
           </button>

@@ -1,0 +1,1009 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { motion } from "framer-motion";
+import {
+  ShieldCheck,
+  Target,
+  Users,
+  Search,
+  MessageSquare,
+  Banknote,
+  Globe,
+  Smartphone,
+  Cpu,
+  Briefcase,
+  TrendingUp,
+  GraduationCap,
+  Layers,
+  Layout,
+  PieChart,
+  Quote as QuoteIcon,
+  CheckCircle2,
+} from "lucide-react";
+
+type TierId = "SCOUT" | "OPERATIVE" | "FIELD_AGENT" | "ELITE_OPERATIVE";
+type TierMode = "auto" | TierId;
+type CalculatorServiceId = "WEBSITE" | "WEB_APP" | "MOBILE_APP" | "AI_AUTOMATION" | "FRACTIONAL_CTO";
+
+type Tier = {
+  id: TierId;
+  name: string;
+  title: string;
+  bracket: string;
+  rate: number;
+  perks: string;
+};
+
+const tiers: Tier[] = [
+  {
+    id: "SCOUT",
+    name: "SCOUT",
+    title: "[ TIER 1 ]",
+    bracket: "1–2 successful client referrals",
+    rate: 0.08,
+    perks: "30-day payout cycle | Referral kit included | WhatsApp partner support",
+  },
+  {
+    id: "OPERATIVE",
+    name: "OPERATIVE",
+    title: "[ TIER 2 ]",
+    bracket: "3–5 successful client referrals",
+    rate: 0.1,
+    perks: "21-day payout cycle | Co-branded referral page | Monthly strategy call with Edison",
+  },
+  {
+    id: "FIELD_AGENT",
+    name: "FIELD AGENT",
+    title: "[ TIER 3 ]",
+    bracket: "6–10 successful client referrals",
+    rate: 0.12,
+    perks: "14-day payout cycle | Partner directory listing | Quarterly bonus pool entry",
+  },
+  {
+    id: "ELITE_OPERATIVE",
+    name: "ELITE OPERATIVE",
+    title: "[ TIER 4 ]",
+    bracket: "11+ successful client referrals",
+    rate: 0.15,
+    perks: "7-day payout cycle | Named on bloopglobal.com | Equity conversation eligible",
+  },
+];
+
+const serviceRates: Record<CalculatorServiceId, { label: string; dealSizeGhs: number }> = {
+  WEBSITE: { label: "Website", dealSizeGhs: 3000 },
+  WEB_APP: { label: "Web App", dealSizeGhs: 20000 },
+  MOBILE_APP: { label: "Mobile App", dealSizeGhs: 25000 },
+  AI_AUTOMATION: { label: "AI Automation", dealSizeGhs: 10000 },
+  FRACTIONAL_CTO: { label: "Fractional CTO", dealSizeGhs: 8000 },
+};
+
+const resolveTierByReferrals = (totalReferrals: number): Tier => {
+  if (totalReferrals >= 11) return tiers[3];
+  if (totalReferrals >= 6) return tiers[2];
+  if (totalReferrals >= 3) return tiers[1];
+  return tiers[0];
+};
+
+const getTier = (mode: TierMode, cumulativeReferrals: number): Tier => {
+  if (mode === "auto") {
+    return resolveTierByReferrals(cumulativeReferrals);
+  }
+
+  return tiers.find((tier) => tier.id === mode) ?? tiers[0];
+};
+
+type ApplicationFormData = {
+  fullName: string;
+  emailAddress: string;
+  accountPassword: string;
+  phoneNumber: string;
+  cityCountry: string;
+  industry: string;
+  network: string;
+  motivation: string;
+};
+
+const initialFormData: ApplicationFormData = {
+  fullName: "",
+  emailAddress: "",
+  accountPassword: "",
+  phoneNumber: "",
+  cityCountry: "",
+  industry: "",
+  network: "",
+  motivation: "",
+};
+
+const pillars = [
+  {
+    title: "01. PRECISION OVER VOLUME",
+    body: "We don't want you spamming your contact list. We want one well-targeted introduction per month that closes. Quality referrals move through our pipeline faster, meaning you get paid faster.",
+    icon: Target,
+  },
+  {
+    title: "02. SKIN IN THE GAME",
+    body: "The more clients you close, the higher your tier climbs — and the higher your cut grows. You start at 8%. You can reach 15% plus a 3% sub-referral bonus. Your earning rate is in your hands.",
+    icon: TrendingUp,
+  },
+  {
+    title: "03. INTELLIGENCE SUPPORT",
+    body: "You get a co-branded referral landing page, a pitch deck you can share, email and WhatsApp templates, and direct access to a Bloop team member who will support every introduction you make.",
+    icon: ShieldCheck,
+  },
+];
+
+const operationSteps = [
+  {
+    title: "STEP 1 — ENLIST",
+    body: "Fill out the Kazi application. You'll receive your unique referral code, your co-branded partner kit, and access to your personal dashboard within 48 hours.",
+    icon: Users,
+  },
+  {
+    title: "STEP 2 — IDENTIFY",
+    body: "Think about your network. Who is building something? Who is frustrated with their current tech agency? Who just raised funding and needs to build fast? That person is your target. One name. One introduction. That is all it takes.",
+    icon: Search,
+  },
+  {
+    title: "STEP 3 — INTRODUCE",
+    body: "Submit the referral through your dashboard, forward our co-branded deck, or simply connect us on WhatsApp. We take it from there. Our team will follow up, present, and close — so you never have to play salesperson.",
+    icon: MessageSquare,
+  },
+  {
+    title: "STEP 4 — EARN",
+    body: "When the client signs and makes their first payment, your commission is triggered. Paid to your bank account within your tier's payout window. No chasing. No paperwork. Clean transfer.",
+    icon: Banknote,
+  },
+];
+
+const services = [
+  {
+    name: "Website Design & Development",
+    audience: "For: Startups, SMEs, corporates who need a strong digital presence",
+    price: "Starting from GHS 3,000 / £300",
+    cut: "Your cut: GHS 240–450 / £24–45 per deal",
+    icon: Globe,
+  },
+  {
+    name: "Web Application Development",
+    audience: "For: Founders building their first SaaS, companies digitising operations",
+    price: "Starting from GHS 20,000 / £2,000",
+    cut: "Your cut: GHS 1,600–3,000 / £160–300 per deal",
+    icon: Layout,
+  },
+  {
+    name: "Mobile App Development",
+    audience: "For: Businesses going mobile-first, field ops, consumer apps",
+    price: "Starting from GHS 25,000 / £2,500",
+    cut: "Your cut: GHS 2,000–3,750 / £200–375 per deal",
+    icon: Smartphone,
+  },
+  {
+    name: "AI & Workflow Automation",
+    audience: "For: Companies drowning in manual processes, operations teams",
+    price: "Starting from GHS 10,000 / £1,200",
+    cut: "Your cut: GHS 800–1,500 / £96–180 per deal",
+    icon: Cpu,
+  },
+  {
+    name: "Fractional CTO Services",
+    audience: "For: Non-technical founders, CEOs who need a technical voice",
+    price: "From GHS 8,000/mo / £800/mo",
+    cut: "Your cut: up to GHS 1,200/mo / £120/mo RECURRING",
+    icon: Layers,
+  },
+  {
+    name: "Pitch Deck & Financial Modeling",
+    audience: "For: Founders going into fundraising rounds",
+    price: "From GHS 5,000 / £500",
+    cut: "Your cut: GHS 400–750 / £40–75 per deal",
+    icon: PieChart,
+  },
+  {
+    name: "Market Research & Strategy",
+    audience: "For: Founders pre-launch, companies entering new markets",
+    price: "From GHS 8,000 / £800",
+    cut: "Your cut: GHS 640–1,200 / £64–120 per deal",
+    icon: Briefcase,
+  },
+  {
+    name: "TaskWit Training Programs",
+    audience: "For: Corporate teams, accelerators, executive programmes",
+    price: "From GHS 10,000 / £1,000",
+    cut: "Your cut: GHS 800–1,500 / £80–150 per deal",
+    icon: GraduationCap,
+  },
+];
+
+const faqs = [
+  {
+    q: "Do I need to be a salesperson to participate?",
+    a: "No. Your only job is to make the introduction. Once you connect a potential client to Bloop — through your dashboard, a WhatsApp forward, or a direct email intro — our team takes the conversation forward. We qualify, present, and close. You earn when the deal lands.",
+  },
+  {
+    q: "What counts as a 'closed' referral?",
+    a: "A referral is closed when the client signs their service agreement and makes their first payment (the deposit). That is the trigger for your commission. Submitted leads that do not close do not generate commissions.",
+  },
+  {
+    q: "How exactly does the tier system work?",
+    a: "Your tier is based on your total cumulative successful referrals since joining. You start as a Scout. Close 3 deals and you're an Operative. Close 6 and you're a Field Agent. Hit 11 and you're Elite. Your rate is locked in at each tier and never goes backwards.",
+  },
+  {
+    q: "Can I refer internationally?",
+    a: "Yes. Bloop serves clients in Ghana, Nigeria, the UK, and globally. If you know a founder or business owner anywhere in the world who needs what we build, you can refer them. Commissions are paid in GHS, GBP, or USD depending on your preference and the client's contract currency.",
+  },
+  {
+    q: "What if I refer someone and they come back 6 months later?",
+    a: "If your referred client returns and signs a second project within 12 months of their first deal, you earn 50% of your standard commission on that second deal — automatically. Your relationship with your clients works in your favour.",
+  },
+  {
+    q: "Is there a minimum before I get paid?",
+    a: "No minimum. One successful referral, one commission payment. Payouts begin on the deal's first collected payment.",
+  },
+  {
+    q: "How do I track my referrals?",
+    a: "Every Kazi partner receives access to a personal dashboard showing submitted leads, lead status, closed deals, pending commissions, and total lifetime earnings. The dashboard also shows your current tier and how many closed deals you need to reach the next level.",
+  },
+];
+
+export default function ReferralPage() {
+  const searchParams = useSearchParams();
+  const supabase = useMemo(() => createClient(), []);
+  const [isDark, setIsDark] = useState(false);
+  const [referralsPerMonth, setReferralsPerMonth] = useState(1);
+  const [serviceType, setServiceType] = useState<CalculatorServiceId>("WEBSITE");
+  const [tierMode, setTierMode] = useState<TierMode>("auto");
+  const [cumulativeReferrals, setCumulativeReferrals] = useState(0);
+  const [applicationForm, setApplicationForm] = useState<ApplicationFormData>(initialFormData);
+  const [isSubmittingApplication, setIsSubmittingApplication] = useState(false);
+  const [isApplicationSubmitted, setIsApplicationSubmitted] = useState(false);
+  const [applicationSubmitMessage, setApplicationSubmitMessage] = useState("");
+  const [applicationSubmitError, setApplicationSubmitError] = useState("");
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("referral-theme");
+    if (savedTheme === "dark") {
+      setIsDark(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const loadCurrentUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data.user) return;
+
+      setCurrentUser(data.user);
+
+      setApplicationForm((prev) => ({
+        ...prev,
+        fullName: prev.fullName || data.user.user_metadata?.name || "",
+        emailAddress: prev.emailAddress || data.user.email || "",
+        phoneNumber: prev.phoneNumber || data.user.user_metadata?.phone || "",
+      }));
+    };
+
+    loadCurrentUser();
+  }, [supabase]);
+
+  const toggleTheme = () => {
+    setIsDark((previous) => {
+      const next = !previous;
+      window.localStorage.setItem("referral-theme", next ? "dark" : "light");
+      return next;
+    });
+  };
+
+  const effectiveTier = useMemo(() => getTier(tierMode, cumulativeReferrals), [tierMode, cumulativeReferrals]);
+
+  const calculatorResults = useMemo(() => {
+    const monthlyCommission = referralsPerMonth * serviceRates[serviceType].dealSizeGhs * effectiveTier.rate;
+    const annualCommission = monthlyCommission * 12;
+    const tierInSixMonths = resolveTierByReferrals(cumulativeReferrals + referralsPerMonth * 6);
+
+    return {
+      monthlyCommission,
+      annualCommission,
+      tierInSixMonths,
+    };
+  }, [referralsPerMonth, serviceType, effectiveTier, cumulativeReferrals]);
+
+  const handleApplicationInput = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setApplicationForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleApplicationSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setApplicationSubmitError("");
+    setApplicationSubmitMessage("");
+    setIsSubmittingApplication(true);
+
+    try {
+      const normalizedEmail = (currentUser?.email || applicationForm.emailAddress).trim().toLowerCase();
+      let userId: string | null = currentUser?.id || null;
+      let requiresEmailVerification = false;
+
+      if (!currentUser) {
+        if (!applicationForm.accountPassword || applicationForm.accountPassword.length < 6) {
+          throw new Error("Set a password with at least 6 characters.");
+        }
+
+        const signUpResult = await supabase.auth.signUp({
+          email: normalizedEmail,
+          password: applicationForm.accountPassword,
+          options: {
+            data: {
+              name: applicationForm.fullName,
+              phone: applicationForm.phoneNumber,
+              city_country: applicationForm.cityCountry,
+            },
+          },
+        });
+
+        if (signUpResult.error) {
+          const maybeExistingUser = signUpResult.error.message.toLowerCase().includes("already");
+          if (!maybeExistingUser) {
+            throw signUpResult.error;
+          }
+
+          const signInResult = await supabase.auth.signInWithPassword({
+            email: normalizedEmail,
+            password: applicationForm.accountPassword,
+          });
+
+          if (signInResult.error) {
+            throw new Error("Account exists. Use the correct password to continue your Kazi application.");
+          }
+
+          userId = signInResult.data.user?.id || null;
+          setCurrentUser(signInResult.data.user || null);
+        } else {
+          userId = signUpResult.data.user?.id || null;
+          requiresEmailVerification = !signUpResult.data.session;
+          if (signUpResult.data.user) {
+            setCurrentUser(signUpResult.data.user);
+          }
+        }
+      }
+
+      const { data: existingApplication, error: existingError } = await supabase
+        .from("referral_partner_applications")
+        .select("id, status")
+        .eq("email", normalizedEmail)
+        .maybeSingle();
+
+      if (existingError) {
+        throw existingError;
+      }
+
+      if (existingApplication?.status === "approved") {
+        setApplicationSubmitMessage("Your Kazi account is already approved. Access your dashboard now.");
+        setIsApplicationSubmitted(true);
+        return;
+      }
+
+      if (existingApplication?.status === "pending") {
+        setApplicationSubmitMessage("Your Kazi application is already pending admin approval.");
+        setIsApplicationSubmitted(true);
+        return;
+      }
+
+      if (existingApplication?.status === "rejected") {
+        setApplicationSubmitMessage("Your previous application was rejected. Contact support before reapplying.");
+        setIsApplicationSubmitted(true);
+        return;
+      }
+
+      const payload = {
+        user_id: userId,
+        full_name: applicationForm.fullName.trim(),
+        email: normalizedEmail,
+        phone_number: applicationForm.phoneNumber.trim(),
+        city_country: applicationForm.cityCountry.trim(),
+        industry: applicationForm.industry,
+        network: applicationForm.network,
+        motivation: applicationForm.motivation.trim() || null,
+        status: "pending" as const,
+      };
+
+      const { error: insertError } = await supabase
+        .from("referral_partner_applications")
+        .insert(payload);
+
+      if (insertError) throw insertError;
+
+      setApplicationSubmitMessage(
+        requiresEmailVerification
+          ? "Account created. Verify your email, then wait for admin approval."
+          : "Account created and application submitted. We will review and approve from the admin dashboard."
+      );
+      setIsApplicationSubmitted(true);
+      setApplicationForm((prev) => ({
+        ...initialFormData,
+        emailAddress: prev.emailAddress,
+        fullName: prev.fullName,
+      }));
+    } catch (error: any) {
+      console.error("Error submitting Kazi application:", error);
+      setApplicationSubmitError(error?.message || "Failed to submit application. Please try again.");
+    } finally {
+      setIsSubmittingApplication(false);
+    }
+  };
+
+  const ghsCurrency = (value: number) =>
+    new Intl.NumberFormat("en-GH", {
+      style: "currency",
+      currency: "GHS",
+      maximumFractionDigits: 0,
+    }).format(value);
+
+  const mainClass = isDark ? "bg-neutral-950 text-neutral-100" : "bg-neutral-50 text-neutral-900";
+  const heroSectionClass = isDark ? "border-b border-neutral-800" : "border-b border-neutral-200";
+  const sectionClass = isDark ? "border-b border-neutral-900 px-4 py-16" : "border-b border-neutral-200 px-4 py-16";
+  const heroGlow = isDark
+    ? "bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.2),transparent_40%)]"
+    : "bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.12),transparent_45%)]";
+
+  const headingText = isDark ? "text-white" : "text-neutral-900";
+  const bodyText = isDark ? "text-neutral-300" : "text-neutral-700";
+  const mutedText = isDark ? "text-neutral-400" : "text-neutral-500";
+  const sectionLabelClass = isDark
+    ? "inline-flex items-center rounded-full border border-red-500/40 bg-red-500/10 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-red-300"
+    : "inline-flex items-center rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-red-700";
+
+  const surfaceCard = isDark
+    ? "rounded-xl border border-neutral-800 bg-neutral-900"
+    : "rounded-xl border border-neutral-200 bg-white shadow-sm";
+  const subtleCard = isDark
+    ? "rounded-xl border border-neutral-800 bg-neutral-900/60"
+    : "rounded-xl border border-neutral-200 bg-white";
+
+  const primaryButton =
+    "inline-flex items-center justify-center rounded-md border border-red-500 bg-black px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-red-600";
+  const ghostButton = isDark
+    ? "inline-flex items-center justify-center rounded-md border border-neutral-600 bg-transparent px-6 py-3 text-sm font-bold uppercase tracking-wide text-neutral-100 transition hover:border-red-500 hover:text-red-200"
+    : "inline-flex items-center justify-center rounded-md border border-neutral-300 bg-transparent px-6 py-3 text-sm font-bold uppercase tracking-wide text-neutral-800 transition hover:border-red-600 hover:text-red-700";
+
+  const inputClass = isDark
+    ? "w-full rounded-md border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-white placeholder:text-neutral-500 focus:border-red-500 focus:outline-none"
+    : "w-full rounded-md border border-neutral-300 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-500 focus:border-red-500 focus:outline-none";
+  const pendingApprovalFromRedirect = searchParams.get("approval") === "pending";
+
+  return (
+    <main className={`min-h-screen ${mainClass} overflow-x-hidden selection:bg-red-600 selection:text-white`}>
+      {pendingApprovalFromRedirect && (
+        <div className="bg-yellow-100 px-4 py-3 text-center text-sm font-medium text-yellow-800 z-50 relative">
+          Your Kazi account is pending admin approval. Submit or update your application below.
+        </div>
+      )}
+
+      {/* Hero Section */}
+      <section className={`relative min-h-[90vh] flex items-center pt-24 pb-20 px-6 lg:px-20 overflow-hidden ${isDark ? 'bg-[#0a0a0a]' : 'bg-[#faf9f6]'}`}>
+
+        {/* Background Abstract Vectors */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <motion.div
+            animate={{ y: [0, -50, 0], x: [0, 30, 0], scale: [1, 1.1, 1] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            className={`absolute top-[10%] left-[15%] w-[600px] h-[600px] rounded-full blur-[150px] opacity-30 ${isDark ? 'bg-red-900/30' : 'bg-red-300/40'} mix-blend-multiply`}
+          />
+          <motion.div
+            animate={{ y: [0, 60, 0], x: [0, -40, 0], scale: [1, 1.2, 1] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className={`absolute bottom-[20%] right-[10%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-30 ${isDark ? 'bg-orange-900/30' : 'bg-orange-200/40'} mix-blend-multiply`}
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col gap-8"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 backdrop-blur-md self-start border-zinc-200 dark:border-white/10 shadow-sm">
+              <span className="flex h-2 w-2 rounded-full bg-red-600 animate-pulse"></span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em]">The Kazi Program</span>
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[1.1]">
+              You Know Who Needs Us. <br className="hidden md:block" />
+              <span className="text-red-600 italic font-light">Make It Worth Your War.</span>
+            </h1>
+
+            <p className={`text-xl font-light leading-relaxed tracking-wide ${isDark ? 'text-zinc-400' : 'text-zinc-600'} max-w-lg`}>
+              Turn your network into a revenue stream. We pay up to 15% commission on every client you bring to the alliance — with no cap, no expiry, and payouts in 7 days.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 mt-4">
+              <a href="#application" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-black transition-all shadow-xl hover:-translate-y-1">
+                Apply Now <ShieldCheck size={18} />
+              </a>
+              <a href="#calculator" className={`inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold border transition-all ${isDark ? 'border-zinc-800 hover:bg-zinc-800' : 'border-zinc-200 hover:bg-white bg-white/50 backdrop-blur-md shadow-sm'}`}>
+                See Earnings
+              </a>
+            </div>
+
+            <div className={`mt-8 flex gap-8 pt-8 border-t ${isDark ? 'border-zinc-800' : 'border-zinc-200'}`}>
+              <div>
+                <h4 className="text-2xl font-black text-red-600">15%</h4>
+                <p className={`text-xs font-bold uppercase tracking-widest mt-1 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>Max Commission</p>
+              </div>
+              <div>
+                <h4 className="text-2xl font-black text-red-600">7 Days</h4>
+                <p className={`text-xs font-bold uppercase tracking-widest mt-1 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>Fast Payouts</p>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+            className="relative"
+          >
+            <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl border border-white/20">
+              <Image src="/images/referral_hero_people.png" alt="World class networking" fill className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+              {/* Floating Action Badge */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute bottom-10 left-10 right-10 flex items-center gap-4 p-4 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 text-white"
+              >
+                <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shrink-0">
+                  <Banknote size={24} className="text-white" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold">Deal Closed</p>
+                  <p className="text-xs opacity-80 font-medium tracking-wide">Commission triggered automatically.</p>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* Mission Brief Section */}
+      <section className={`py-32 px-6 lg:px-20 ${isDark ? 'bg-zinc-950 border-y border-zinc-900' : 'bg-white border-y border-zinc-100'}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+              }}
+            >
+              <span className="text-xs font-black tracking-widest uppercase text-red-600 mb-4 block">Mission Brief</span>
+              <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-8 leading-[1.1]">
+                Not an Affiliate Program. <span className="text-red-600 italic font-light lowercase">An Alliance.</span>
+              </h2>
+              <div className={`space-y-6 text-lg font-light leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                <p>
+                  Most tech companies run referral programs as an afterthought. A form, a 5% cut, and a monthly check if you&apos;re lucky. That&apos;s not what this is.
+                </p>
+                <p>
+                  The Kazi Program is a structured revenue partnership. You embed yourself in the Bloop ecosystem — learning our offer, understanding our clients, and making precision introductions to the founders, executives, and business owners in your network who are ready to build.
+                </p>
+                <p className={`font-bold text-xl ${isDark ? 'text-white' : 'text-black'}`}>
+                  When they sign. You earn. Immediately. Proportionally. Permanently.
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                hidden: { opacity: 0, scale: 0.95 },
+                visible: { opacity: 1, scale: 1, transition: { duration: 0.8, delay: 0.2 } }
+              }}
+              className="grid gap-6"
+            >
+              {pillars.map((pillar, idx) => (
+                <div key={pillar.title} className={`p-8 rounded-3xl border transition-all hover:scale-[1.02] ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
+                  <pillar.icon className={`mb-6 h-8 w-8 ${isDark ? "text-red-500" : "text-red-600"}`} />
+                  <h3 className="text-lg font-black tracking-tight mb-3">{pillar.title}</h3>
+                  <p className={`text-sm leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>{pillar.body}</p>
+                </div>
+              ))}
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Operations Flow with Image Background */}
+      <section className="relative py-32 px-6 lg:px-20 overflow-hidden">
+        {/* Full blead Image Background */}
+        <div className="absolute inset-0">
+          <Image src="/images/digitalpeople.png" alt="Business Operations" fill className="object-cover" />
+          <div className={`absolute inset-0 ${isDark ? 'bg-black/90' : 'bg-white/95 backdrop-blur-md'}`}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <span className="text-xs font-black tracking-widest uppercase text-red-600 mb-4 block">The Operation</span>
+            <h2 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-6 leading-[1.1]">
+              Simple Brief. <span className="italic font-light text-red-600 lowercase">Clean Execution.</span>
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {operationSteps.map((step, idx) => (
+              <motion.div
+                key={step.title}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: idx * 0.1 } }
+                }}
+                className={`p-8 rounded-3xl border backdrop-blur-xl ${isDark ? 'bg-zinc-900/60 border-zinc-700 hover:bg-zinc-800' : 'bg-white/80 border-zinc-200 hover:bg-white'} transition-all`}
+              >
+                <div className="w-12 h-12 rounded-full mb-6 bg-red-600 flex items-center justify-center">
+                  <step.icon size={20} className="text-white" />
+                </div>
+                <h3 className="text-lg font-black tracking-tight mb-4">{step.title}</h3>
+                <p className={`text-sm leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>{step.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tiers Section */}
+      <section className={`py-32 px-6 lg:px-20 ${isDark ? 'bg-zinc-950 border-t border-zinc-900' : 'bg-[#faf9f6] border-t border-zinc-200'}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-20">
+            <span className="text-xs font-black tracking-widest uppercase text-red-600 mb-4 block">Your Rank. Your Rate.</span>
+            <h2 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-6 leading-[1.1]">
+              Four Tiers. <span className="italic font-light text-red-600 lowercase">One Direction: Up.</span>
+            </h2>
+            <p className={`text-xl font-light ${isDark ? 'text-zinc-400' : 'text-zinc-600'} max-w-2xl`}>
+              Every client you bring into the Bloop ecosystem moves you closer to Elite Operative status.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {tiers.map((tier, idx) => (
+              <motion.div
+                key={tier.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className={`p-8 rounded-[2rem] border relative overflow-hidden group ${idx === 3 ? 'border-red-600 shadow-2xl shadow-red-600/20' : isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200'}`}
+              >
+                {idx === 3 && <div className="absolute inset-0 bg-red-600/5 group-hover:bg-red-600/10 transition-colors"></div>}
+
+                <p className="text-[10px] font-black tracking-[0.2em] text-red-600 mb-4 uppercase">{tier.title}</p>
+                <h3 className={`text-2xl font-black tracking-tight mb-2 ${idx === 3 ? 'text-red-600' : ''}`}>{tier.name}</h3>
+                <p className={`text-sm font-medium mb-8 ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>{tier.bracket}</p>
+
+                <div className="py-6 border-y border-zinc-200 dark:border-zinc-800 mb-6">
+                  <p className={`text-4xl font-black ${headingText}`}>{Math.round(tier.rate * 100)}%</p>
+                  <p className={`text-xs font-bold uppercase tracking-widest mt-2 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>Commission Rate</p>
+                </div>
+
+                <ul className="space-y-3">
+                  {tier.perks.split(" | ").map((perk, i) => (
+                    <li key={i} className={`text-sm flex items-start gap-2 ${isDark ? 'text-zinc-300' : 'text-zinc-600'}`}>
+                      <CheckCircle2 className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                      <span>{perk}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Calculator Section with SaaS Feel */}
+      <section id="calculator" className={`py-32 px-6 lg:px-20 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-16 text-center leading-[1.1]">
+            Run the Numbers. <br />
+            <span className="italic font-light text-red-600 lowercase">See Your Potential.</span>
+          </h2>
+
+          <div className={`grid lg:grid-cols-2 rounded-[2.5rem] overflow-hidden border shadow-2xl ${isDark ? 'border-zinc-800 bg-zinc-900' : 'border-zinc-200 bg-zinc-50'}`}>
+            {/* Controls */}
+            <div className="p-10 lg:p-14 flex flex-col justify-center">
+              <div className="space-y-10">
+                <div>
+                  <div className="flex justify-between items-end mb-4">
+                    <label htmlFor="referralsPerMonth" className={`text-sm font-bold tracking-widest uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                      Referrals per month
+                    </label>
+                    <span className="text-3xl font-black text-red-600">{referralsPerMonth}</span>
+                  </div>
+                  <input
+                    id="referralsPerMonth"
+                    type="range"
+                    min={1}
+                    max={10}
+                    value={referralsPerMonth}
+                    onChange={(event) => setReferralsPerMonth(Number(event.target.value))}
+                    className="w-full h-2 bg-red-200 rounded-lg appearance-none cursor-pointer accent-red-600"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="serviceType" className={`block mb-3 text-xs font-bold tracking-widest uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                      Avg Service Type
+                    </label>
+                    <select
+                      id="serviceType"
+                      value={serviceType}
+                      onChange={(event) => setServiceType(event.target.value as CalculatorServiceId)}
+                      className={`w-full p-4 rounded-xl border text-sm font-semibold focus:border-red-600 outline-none ${isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-white border-zinc-200'}`}
+                    >
+                      {Object.entries(serviceRates).map(([key, service]) => (
+                        <option key={key} value={key}>{service.label}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="cumulativeReferrals" className={`block mb-3 text-xs font-bold tracking-widest uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                      Past Successful
+                    </label>
+                    <input
+                      id="cumulativeReferrals"
+                      type="number"
+                      min={0}
+                      value={cumulativeReferrals}
+                      onChange={(event) => setCumulativeReferrals(Math.max(0, Number(event.target.value) || 0))}
+                      className={`w-full p-4 rounded-xl border text-sm font-semibold focus:border-red-600 outline-none ${isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-white border-zinc-200'}`}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="tierMode" className={`block mb-3 text-xs font-bold tracking-widest uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                    Tier Simulation Mode
+                  </label>
+                  <select
+                    id="tierMode"
+                    value={tierMode}
+                    onChange={(event) => setTierMode(event.target.value as TierMode)}
+                    className={`w-full p-4 rounded-xl border text-sm font-semibold focus:border-red-600 outline-none ${isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-white border-zinc-200'}`}
+                  >
+                    <option value="auto">Auto (based on cumulative referrals)</option>
+                    <option value="SCOUT">Scout (8%)</option>
+                    <option value="OPERATIVE">Operative (10%)</option>
+                    <option value="FIELD_AGENT">Field Agent (12%)</option>
+                    <option value="ELITE_OPERATIVE">Elite Operative (15%)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Results Display */}
+            <div className={`p-10 lg:p-14 flex flex-col justify-center relative ${isDark ? 'bg-red-950/20' : 'bg-red-50'}`}>
+              <div className="absolute inset-0 opacity-10 mix-blend-multiply bg-[url('/images/noise.png')]"></div>
+              <div className="relative z-10 space-y-10">
+                <div>
+                  <p className={`text-xs font-black uppercase tracking-widest mb-2 ${isDark ? 'text-zinc-500' : 'text-zinc-500'}`}>Monthly Outlook</p>
+                  <p className="text-6xl font-black text-red-600 tracking-tighter">
+                    {ghsCurrency(calculatorResults.monthlyCommission)}
+                  </p>
+                </div>
+
+                <div>
+                  <p className={`text-xs font-black uppercase tracking-widest mb-2 ${isDark ? 'text-zinc-500' : 'text-zinc-500'}`}>Annual Trajectory</p>
+                  <p className="text-4xl font-bold tracking-tight">
+                    {ghsCurrency(calculatorResults.annualCommission)}
+                  </p>
+                </div>
+
+                <div className="pt-8 border-t border-red-200 dark:border-red-900/40">
+                  <p className={`text-xs font-black uppercase tracking-widest mb-2 ${isDark ? 'text-zinc-500' : 'text-zinc-500'}`}>6-Month Tier Projection</p>
+                  <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600 text-white text-xs font-bold tracking-widest uppercase">
+                    {calculatorResults.tierInSixMonths.name}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonial Feature (Real Image) */}
+      <section className="py-20 px-6 lg:px-20 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className={`rounded-[3rem] p-10 lg:p-20 relative overflow-hidden flex flex-col lg:flex-row items-center gap-16 ${isDark ? 'bg-[#1a1a1a]' : 'bg-[#050505]'}`}>
+            {/* Image */}
+            <div className="w-full lg:w-1/3 relative aspect-square rounded-[2rem] overflow-hidden shrink-0">
+              <Image src="/images/workwoman.jpg" alt="Partner Success" fill className="object-cover" />
+            </div>
+
+            {/* Content */}
+            <div className="w-full lg:w-2/3 text-white">
+              <QuoteIcon className="w-16 h-16 text-red-600 opacity-50 mb-8" />
+              <h3 className="text-3xl lg:text-4xl font-light leading-relaxed mb-8">
+                "I referred two startups in my founder circle. Both signed within 3 weeks. The Bloop team handled everything — I just made the intro. First commission hit my account before the month was out."
+              </h3>
+              <div>
+                <p className="font-bold text-lg">Sarah Jenkins</p>
+                <p className="text-red-400 text-sm font-semibold tracking-widest uppercase">SaaS Consultant · Field Agent</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Application Form Section */}
+      <section id="application" className={`py-32 px-6 lg:px-20 ${isDark ? 'bg-zinc-950 border-t border-zinc-900' : 'bg-white border-t border-zinc-200'}`}>
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="w-16 h-16 rounded-full bg-red-600 mx-auto flex items-center justify-center mb-8">
+              <Briefcase size={24} className="text-white" />
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4">Apply for Kazi</h2>
+            <p className={`text-lg ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+              Takes 2 minutes. Acceptance within 48 hours. No cost to join.
+            </p>
+          </div>
+
+          {!isApplicationSubmitted ? (
+            <motion.form
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className={`p-10 rounded-[2rem] border shadow-2xl ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200'}`}
+              onSubmit={handleApplicationSubmit}
+            >
+              <div className="space-y-8">
+                <div>
+                  <h4 className="border-b pb-4 mb-6 text-sm font-bold tracking-widest uppercase text-red-600">Your Identity</h4>
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <input
+                      name="fullName"
+                      required
+                      value={applicationForm.fullName}
+                      onChange={handleApplicationInput}
+                      placeholder="Full Name"
+                      className={`w-full p-4 rounded-xl border text-sm font-medium focus:border-red-600 outline-none ${isDark ? 'bg-zinc-950 border-zinc-800 text-white placeholder:text-zinc-600' : 'bg-zinc-50 border-zinc-200'}`}
+                    />
+                    <input
+                      name="emailAddress"
+                      type="email"
+                      required
+                      value={applicationForm.emailAddress}
+                      onChange={handleApplicationInput}
+                      placeholder="Email Address"
+                      readOnly={Boolean(currentUser?.email)}
+                      className={`w-full p-4 rounded-xl border text-sm font-medium focus:border-red-600 outline-none ${isDark ? 'bg-zinc-950 border-zinc-800 text-white placeholder:text-zinc-600' : 'bg-zinc-50 border-zinc-200'} ${currentUser?.email ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    />
+                    {!currentUser && (
+                      <input
+                        name="accountPassword"
+                        type="password"
+                        required
+                        minLength={6}
+                        value={applicationForm.accountPassword}
+                        onChange={handleApplicationInput}
+                        placeholder="Create Password"
+                        className={`w-full p-4 rounded-xl border text-sm font-medium focus:border-red-600 outline-none ${isDark ? 'bg-zinc-950 border-zinc-800 text-white placeholder:text-zinc-600' : 'bg-zinc-50 border-zinc-200'}`}
+                      />
+                    )}
+                    <input
+                      name="phoneNumber"
+                      required
+                      value={applicationForm.phoneNumber}
+                      onChange={handleApplicationInput}
+                      placeholder="Phone (+123...)"
+                      className={`w-full p-4 rounded-xl border text-sm font-medium focus:border-red-600 outline-none ${isDark ? 'bg-zinc-950 border-zinc-800 text-white placeholder:text-zinc-600' : 'bg-zinc-50 border-zinc-200'}`}
+                    />
+                    <input
+                      name="cityCountry"
+                      required
+                      value={applicationForm.cityCountry}
+                      onChange={handleApplicationInput}
+                      placeholder="City / Country"
+                      className={`w-full p-4 rounded-xl border text-sm font-medium focus:border-red-600 outline-none font-bold sm:col-span-2 ${isDark ? 'bg-zinc-950 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200'}`}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="border-b pb-4 mb-6 text-sm font-bold tracking-widest uppercase text-red-600">Your Territory</h4>
+                  <select
+                    name="industry"
+                    required
+                    value={applicationForm.industry}
+                    onChange={handleApplicationInput}
+                    className={`w-full p-4 rounded-xl border text-sm font-medium focus:border-red-600 outline-none ${isDark ? 'bg-zinc-950 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200'}`}
+                  >
+                    <option value="">Select industry</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Agriculture">Agriculture</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Consulting">Consulting</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <h4 className="border-b pb-4 mb-6 text-sm font-bold tracking-widest uppercase text-red-600">Your Network</h4>
+                  <select
+                    name="network"
+                    required
+                    value={applicationForm.network}
+                    onChange={handleApplicationInput}
+                    className={`w-full p-4 rounded-xl border text-sm font-medium focus:border-red-600 outline-none ${isDark ? 'bg-zinc-950 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200'}`}
+                  >
+                    <option value="">Select network type</option>
+                    <option value="Startup founders">Startup founders</option>
+                    <option value="SME owners">SME owners</option>
+                    <option value="Corporate executives">Corporate executives</option>
+                    <option value="Mixed">Mixed</option>
+                  </select>
+                </div>
+
+                <div>
+                  <h4 className="border-b pb-4 mb-6 text-sm font-bold tracking-widest uppercase text-red-600">Details (Optional)</h4>
+                  <textarea
+                    name="motivation"
+                    rows={4}
+                    value={applicationForm.motivation}
+                    onChange={handleApplicationInput}
+                    placeholder="How do you plan to refer clients?"
+                    className={`w-full p-4 rounded-xl border text-sm font-medium focus:border-red-600 outline-none ${isDark ? 'bg-zinc-950 border-zinc-800 text-white placeholder:text-zinc-600' : 'bg-zinc-50 border-zinc-200 placeholder:text-zinc-400'}`}
+                  />
+                </div>
+
+                {applicationSubmitError && (
+                  <p className="p-4 rounded-lg bg-red-600/10 text-red-600 text-sm font-bold">{applicationSubmitError}</p>
+                )}
+
+                <button type="submit" disabled={isSubmittingApplication} className="w-full py-5 rounded-xl bg-red-600 text-white font-black text-lg hover:bg-black transition-all shadow-xl hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed">
+                  {isSubmittingApplication ? "Processing..." : "Submit Application"}
+                </button>
+              </div>
+            </motion.form>
+          ) : (
+            <div className="p-10 rounded-[2rem] border bg-green-500/10 border-green-500/30 text-center">
+              <div className="w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-6">
+                <CheckCircle2 size={32} />
+              </div>
+              <h3 className="text-2xl font-black mb-4">Application Received.</h3>
+              <p className="text-zinc-500 mb-8">{applicationSubmitMessage || "We will review your submission and respond within 48 hours."}</p>
+              <div className="flex justify-center gap-4">
+                <button onClick={() => setIsApplicationSubmitted(false)} className={`px-6 py-3 rounded-xl border font-bold ${isDark ? 'border-zinc-700 hover:bg-zinc-800' : 'border-zinc-300 hover:bg-zinc-100'}`}>
+                  Submit Another
+                </button>
+                <Link href="/referral/dashboard" className="px-6 py-3 rounded-xl bg-green-600 text-white font-bold hover:bg-black transition-all">
+                  View Dashboard
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+    </main>
+  );
+}

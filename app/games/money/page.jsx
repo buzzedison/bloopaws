@@ -462,7 +462,7 @@ const Quiz = () => {
                   >
                     Take Again
                   </button>
-                  <Link href="/games">
+                  <Link prefetch={false} href="/games">
                     <button className="flex-1 bg-red-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-red-700 transition-colors">
                       Try Other Games
                     </button>

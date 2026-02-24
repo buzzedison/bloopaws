@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
   const menuItems = [
     { name: 'How It Works', href: '/' },
     { name: 'Pricing', href: '/services' },
-    { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Launchpad', href: '/launchpad' },
     { name: 'Who We Are', href: '/about' },
     { name: 'Education', href: '/education' },
     { name: 'Blog', href: '/blog' },
@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               className="flex-shrink-0 flex items-center"
             >
-              <Link href="/" className="flex items-center">
+              <Link prefetch={false} href="/" className="flex items-center">
                 <span className="text-3xl font-bold bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">Bloop</span>
                 <div className="ml-1 w-2 h-2 rounded-full bg-red-600 animate-pulse"></div>
               </Link>
@@ -169,7 +169,7 @@ const Navbar: React.FC = () => {
                   variants={menuItemVariants}
                   className="block w-full"
                 >
-                  <Link 
+                  <Link prefetch={false} 
                     href={item.href}
                     className="block text-white text-lg font-medium py-3 px-4 rounded-lg hover:bg-white/10 transition-colors duration-200"
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -182,7 +182,7 @@ const Navbar: React.FC = () => {
                 variants={menuItemVariants}
                 className="pt-4 mt-4 border-t border-white/20"
               >
-                <Link 
+                <Link prefetch={false} 
                   href="/contact"
                   className="block w-full text-center bg-black text-white py-3 px-4 rounded-lg font-medium hover:bg-black/90 transition-colors duration-200 border border-transparent hover:border-red-600"
                   onClick={() => setIsMobileMenuOpen(false)}

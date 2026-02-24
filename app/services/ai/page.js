@@ -233,7 +233,7 @@ export default function AIServices() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
-              <Link href="/contact">
+              <Link prefetch={false} href="/contact">
                 <button
                   className="bg-white text-violet-900 px-6 md:px-8 py-3 rounded-lg text-base md:text-lg font-semibold hover:bg-violet-100 hover:scale-105 focus:bg-violet-100 focus:scale-105 focus:outline-none focus:ring-4 focus:ring-violet-300 transition-all duration-200 shadow-lg hover:shadow-xl"
                   aria-label="Start your AI journey - Contact us to begin"
@@ -586,7 +586,7 @@ export default function AIServices() {
                   ))}
                 </ul>
 
-                <Link href="/contact" className="block">
+                <Link prefetch={false} href="/contact" className="block">
                   <button className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 ${
                     tier.popular
                       ? 'bg-violet-600 text-white hover:bg-violet-700 hover:scale-105'
@@ -609,7 +609,7 @@ export default function AIServices() {
             <p className="text-gray-600 mb-4">
               Need a custom solution? Let's discuss your specific requirements.
             </p>
-            <Link href="/contact">
+            <Link prefetch={false} href="/contact">
               <button className="bg-transparent border-2 border-violet-600 text-violet-600 px-6 py-3 rounded-lg font-semibold hover:bg-violet-600 hover:text-white transition-all duration-200 hover:scale-105">
                 Contact for Custom Quote
               </button>
@@ -696,7 +696,7 @@ export default function AIServices() {
             <p className="text-base md:text-xl text-violet-100 mb-6 md:mb-8 max-w-3xl mx-auto px-2">
               Let's discuss how our AI solutions can address your specific challenges and unlock new opportunities.
             </p>
-            <Link href="/contact">
+            <Link prefetch={false} href="/contact">
               <button className="bg-white text-violet-900 px-6 md:px-8 py-3 rounded-lg text-base md:text-lg font-semibold hover:bg-violet-100 hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
                 Schedule a Consultation
               </button>

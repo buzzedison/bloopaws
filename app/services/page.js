@@ -172,7 +172,7 @@ const PhaseSection = ({ phase, index }) => {
                       Visit TaskWit <ArrowRight className="ml-2 w-4 h-4 text-red-500" />
                     </a>
                   ) : (
-                    <Link href={service.link} className="inline-flex items-center font-bold text-sm tracking-wide uppercase group-hover:underline decoration-red-500 underline-offset-4">
+                    <Link prefetch={false} href={service.link} className="inline-flex items-center font-bold text-sm tracking-wide uppercase group-hover:underline decoration-red-500 underline-offset-4">
                       Learn More <ArrowRight className="ml-2 w-4 h-4 text-red-500" />
                     </Link>
                   )}
@@ -217,12 +217,12 @@ const ServicesPage = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/contact">
+              <Link prefetch={false} href="/contact">
                 <button className="bg-red-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">
                   Start Your Project
                 </button>
               </Link>
-              <Link href="#methodology">
+              <Link prefetch={false} href="#methodology">
                 <button className="px-8 py-4 rounded-full font-bold text-lg border border-gray-700 hover:bg-gray-900 transition-colors">
                   Our Process
                 </button>
@@ -278,7 +278,7 @@ const ServicesPage = () => {
           <p className="text-2xl text-gray-400 mb-12">
             You have the vision. We have the army. Let's build an empire.
           </p>
-          <Link href="/contact">
+          <Link prefetch={false} href="/contact">
             <button className="bg-white text-black px-10 py-5 rounded-full font-bold text-xl hover:bg-gray-200 transition-colors transform hover:scale-105 duration-200">
               Deploy Us Now
             </button>

@@ -417,7 +417,7 @@ export default function MarketFitResultsPage() {
             Let's turn these insights into action. Book a free 30-minute strategy call to discuss your market-fit roadmap.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
+            <Link prefetch={false} href="/contact">
               <button className="group relative overflow-hidden bg-white text-red-600 hover:bg-black hover:text-white font-bold py-4 px-10 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
                 <span className="relative z-10 flex items-center">
                   Book Strategy Call
@@ -425,7 +425,7 @@ export default function MarketFitResultsPage() {
                 </span>
               </button>
             </Link>
-            <Link href="/services">
+            <Link prefetch={false} href="/services">
               <button className="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
                 Explore Services
               </button>
@@ -435,7 +435,7 @@ export default function MarketFitResultsPage() {
 
         {/* Retake Option */}
         <div className="text-center mt-10">
-          <Link href="/market-fit" className="text-gray-500 hover:text-red-600 transition-colors font-medium">
+          <Link prefetch={false} href="/market-fit" className="text-gray-500 hover:text-red-600 transition-colors font-medium">
             ← Retake the assessment
           </Link>
         </div>

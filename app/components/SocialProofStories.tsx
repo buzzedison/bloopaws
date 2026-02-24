@@ -80,7 +80,7 @@ export default function SocialProofStories() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             >
-              <Link href="/casestudies">
+              <Link prefetch={false} href="/casestudies">
                 <motion.button
                   className="group relative overflow-hidden bg-white text-black font-bold py-4 px-8 rounded-full shadow-lg hover:shadow-white/20 transition-all duration-300"
                   whileHover={{ scale: 1.03 }}

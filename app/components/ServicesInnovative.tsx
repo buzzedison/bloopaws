@@ -148,7 +148,7 @@ export default function ServicesInnovative() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <Link href="/services">
+          <Link prefetch={false} href="/services">
             <button className="group relative overflow-hidden bg-black text-white font-bold py-4 px-10 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <span className="relative z-10 flex items-center text-lg">
                 Explore Our Capabilities

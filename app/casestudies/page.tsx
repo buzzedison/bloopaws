@@ -1,10 +1,6 @@
-import React from 'react';
-import { cachedClient } from "../../sanity/lib/client";
-import { caseStudiesQuery } from "../../sanity/lib/caseStudyQueries";
-import CaseStudiesClient from './CaseStudiesClient';
+import { redirect } from 'next/navigation';
 
-export default async function CaseStudiesPage() {
-  const caseStudies = await cachedClient(caseStudiesQuery);
-
-  return <CaseStudiesClient caseStudies={caseStudies} />;
+// Redirect /casestudies to /launchpad for backward compatibility
+export default function CaseStudiesPage() {
+  redirect('/launchpad');
 }

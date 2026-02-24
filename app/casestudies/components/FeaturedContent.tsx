@@ -21,8 +21,8 @@ const FeaturedContent: React.FC = () => {
           FundLab is the investment arm of Bloop Global.
 Elevating African startups through investment, guidance, and resources.
           </p>
-          <Link href="/fundlab" className="text-red-600 font-medium hover:underline hover:text-red-800 transition duration-300">Learn more →</Link>
-          {/* <Link href="#" className="text-red-600 font-medium hover:underline hover:text-red-800 transition duration-300">Rise to the moment →</Link> */}
+          <Link prefetch={false} href="/fundlab" className="text-red-600 font-medium hover:underline hover:text-red-800 transition duration-300">Learn more →</Link>
+          {/* <Link prefetch={false} href="#" className="text-red-600 font-medium hover:underline hover:text-red-800 transition duration-300">Rise to the moment →</Link> */}
         </div>
       </div>
 
@@ -41,7 +41,7 @@ Through Stories</h1>
           <p className="text-lg text-gray-700">
           A visionary platform designed to empower creators by providing a space to showcase their work, earn from their creativity, and connect with like-minded individuals. 
           </p>
-          <Link href="https://crowdpen.co" className="text-red-600 font-medium hover:underline hover:text-red-800 transition duration-300">Learn more →</Link>
+          <Link prefetch={false} href="https://crowdpen.co" className="text-red-600 font-medium hover:underline hover:text-red-800 transition duration-300">Learn more →</Link>
         </div>
       </div>
     </div>
