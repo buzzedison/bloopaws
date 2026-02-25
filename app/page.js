@@ -12,7 +12,7 @@ import SocialProofStories from "./components/SocialProofStories";
 import PlaybookTeaser from "./components/PlaybookTeaser";
 
 export const metadata = {
-  title: "Turn Your Incredible Idea Into a Real Business | Bloop Global",
+  title: "Turn Your Idea Into a Business",
   description: "We turn big ideas into businesses that actually work. From web development to SaaS platforms, mobile apps, and AI automations - we handle the tricky parts so you can focus on your vision.",
   keywords: "business development, SaaS development, web development, mobile app development, AI automation, startup funding, business strategy, technical co-founder",
   openGraph: {

@@ -2,6 +2,15 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AdminSidebar } from "./AdminSidebar";
 
+export const metadata = {
+    title: 'Bloop Console | Admin',
+    description: 'Internal management console for Bloop Global.',
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
+
 export default async function AdminLayout({
     children,
 }: {
