@@ -1,681 +1,464 @@
-'use client';
+"use client";
 
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Bot, Zap, Brain, MessageSquare, BarChart, FileCode, ChevronDown, Sparkles } from 'lucide-react';
+import { ArrowRight, Clock, ShieldCheck, Zap, FileText, CheckCircle2, TrendingUp, Building2, Terminal, Users, Search, Play, Server } from 'lucide-react';
 
-export default function AIServices() {
+export default function AIAutomationServices() {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end']
   });
 
-  // Parallax effect values
   const headerY = useTransform(scrollYProgress, [0, 0.3], [0, -100]);
-  
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2
-      }
-    }
-  };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 1 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5, ease: [0.4, 0.0, 0.2, 1] }
+  const useCases = [
+    {
+      icon: <FileText size={32} className="text-red-500" />,
+      title: "Invoice Processing",
+      features: [
+        "AI reads invoices (OCR)",
+        "Extracts key data",
+        "Validates against purchase orders",
+        "Routes for approval",
+        "Posts to accounting system"
+      ],
+      roi: "20-30 hours/week saved"
+    },
+    {
+      icon: <Users size={32} className="text-red-500" />,
+      title: "Customer Service",
+      features: [
+        "AI answers common questions",
+        "Routes complex issues to humans",
+        "Learns from interactions",
+        "Available 24/7"
+      ],
+      roi: "50%+ reduction in support volume"
+    },
+    {
+      icon: <Search size={32} className="text-red-500" />,
+      title: "Document Classification",
+      features: [
+        "AI reads documents",
+        "Classifies by type",
+        "Extracts key information",
+        "Routes to right department"
+      ],
+      roi: "15-25 hours/week saved"
+    },
+    {
+      icon: <Terminal size={32} className="text-red-500" />,
+      title: "Data Entry",
+      features: [
+        "AI reads forms, receipts, documents",
+        "Extracts structured data",
+        "Validates and cleans",
+        "Enters into your system"
+      ],
+      roi: "30-40 hours/week saved"
     }
-  };
+  ];
 
-  const aiSolutions = [
+  const packages = [
     {
-      icon: <MessageSquare size={32} className="text-violet-600" />,
-      title: "Conversational AI",
-      description: "Custom chatbots and virtual assistants that understand context, learn from interactions, and provide intelligent responses to your customers.",
-      features: [
-        "Natural language understanding",
-        "Multi-channel deployment",
-        "Continuous learning capabilities",
-        "Seamless handoff to human agents"
-      ]
+      name: "Process Audit Only",
+      price: "GHS 5K",
+      time: "1 week",
+      perfectFor: "Understanding automation opportunities before committing",
+      includes: "Analysis of 3-5 processes, ROI calculations, recommendations",
+      deliverable: "Process Audit Report",
+      roiDelay: "N/A",
+      popular: false
     },
     {
-      icon: <Zap size={32} className="text-violet-600" />,
-      title: "Process Automation",
-      description: "AI-powered workflows that automate repetitive tasks, analyze documents, and streamline operations across your organization.",
-      features: [
-        "Document processing & extraction",
-        "Workflow optimization",
-        "Error reduction systems",
-        "Integration with existing tools"
-      ]
+      name: "Single Workflow Automation",
+      price: "GHS 10K-15K",
+      time: "3-4 weeks",
+      perfectFor: "Automating one high-impact process",
+      includes: "Design, development, testing, deployment, training",
+      example: "Invoice processing, email classification, data extraction",
+      roiDelay: "Typically 90 days or less",
+      popular: true
     },
     {
-      icon: <Brain size={32} className="text-violet-600" />,
-      title: "Predictive Analytics",
-      description: "Machine learning models that analyze your data to forecast trends, identify opportunities, and make data-driven recommendations.",
-      features: [
-        "Custom prediction models",
-        "Anomaly detection",
-        "Trend forecasting",
-        "Decision support systems"
-      ]
+      name: "Multi-Workflow Automation",
+      price: "GHS 25K-35K",
+      time: "6-8 weeks",
+      perfectFor: "Automating 3-5 related processes",
+      includes: "Everything in Single Workflow × 3-5",
+      example: "End-to-end accounts payable automation",
+      roiDelay: "Typically 4-6 months",
+      popular: false
     },
     {
-      icon: <BarChart size={32} className="text-violet-600" />,
-      title: "Business Intelligence",
-      description: "AI-enhanced dashboards and visualization tools that transform complex data into actionable insights for your business.",
-      features: [
-        "Interactive dashboards",
-        "Real-time data processing",
-        "Automated reporting",
-        "Custom KPI tracking"
-      ]
+      name: "Enterprise AI Platform",
+      price: "GHS 80K-120K",
+      time: "12-16 weeks",
+      perfectFor: "Large-scale automation across departments",
+      includes: "Custom AI models, integrations across systems, admin dashboard",
+      example: "Customer service automation, document processing at scale",
+      roiDelay: "Typically 6-12 months",
+      popular: false
+    }
+  ];
+
+  const approachSteps = [
+    {
+      title: "Process Audit",
+      week: "Week 1",
+      desc: "We analyze your workflows. Identify automation opportunities. Calculate potential ROI. What processes take the most time? Which can be automated? What's the ROI? You get a Process Audit Report with specific recommendations and ROI calculations."
     },
     {
-      icon: <FileCode size={32} className="text-violet-600" />,
-      title: "Content Generation",
-      description: "AI systems that create high-quality content, from marketing copy and product descriptions to code and creative assets.",
-      features: [
-        "Multilingual content creation",
-        "Brand voice adaptation",
-        "SEO-optimized writing",
-        "Image and design generation"
-      ]
+      title: "Solution Design",
+      week: "Week 2",
+      desc: "We design the automation solution. Map data flows. Plan integrations. How will it work? What data is needed? How does it integrate with existing systems?"
     },
     {
-      icon: <Bot size={32} className="text-violet-600" />,
-      title: "Custom AI Solutions",
-      description: "Bespoke artificial intelligence applications built specifically for your unique business challenges and opportunities.",
-      features: [
-        "Tailored AI strategy",
-        "Custom model development",
-        "Ethical AI implementation",
-        "Ongoing optimization"
-      ]
+      title: "Development",
+      week: "Weeks 3-6",
+      desc: "We build and test the automation. Train AI models. Integrate with your systems using rigorous testing protocols."
+    },
+    {
+      title: "Deployment & Training",
+      week: "Weeks 7-8",
+      desc: "We deploy to production. Train your team. Monitor performance. You'll be fully equipped to handle and leverage the new system."
     }
   ];
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-white overflow-hidden" role="main">
-      {/* Skip Link for Accessibility */}
-      <a
-        href="#solutions-heading"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-violet-600 text-white px-4 py-2 rounded-md z-50 focus:outline-none focus:ring-4 focus:ring-violet-300"
-      >
-        Skip to main content
-      </a>
+    <div ref={containerRef} className="font-sans antialiased bg-white overflow-hidden text-black">
 
-      {/* Hero Section with Animated Background */}
-      <section
-        className="relative h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-violet-900 via-violet-800 to-indigo-900"
-        aria-labelledby="hero-heading"
-        role="banner"
-      >
-        {/* Animated Neural Network Background */}
-        <div className="absolute inset-0 opacity-20">
-          {[...Array(25)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full bg-white"
-              style={{
-                width: Math.random() * 8 + 3 + 'px',
-                height: Math.random() * 8 + 3 + 'px',
-                left: Math.random() * 100 + '%',
-                top: Math.random() * 100 + '%',
-                opacity: Math.random() * 0.4 + 0.2
-              }}
-              animate={{
-                scale: [1, 1.8, 1],
-                opacity: [0.2, 0.9, 0.2],
-                x: [0, Math.random() * 20 - 10, 0],
-                y: [0, Math.random() * 20 - 10, 0]
-              }}
-              transition={{
-                duration: Math.random() * 4 + 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: Math.random() * 2
-              }}
-            />
-          ))}
-
-          {/* Floating AI Icons */}
-          {[
-            { Icon: Bot, delay: 0 },
-            { Icon: Brain, delay: 1.5 },
-            { Icon: Zap, delay: 3 },
-            { Icon: MessageSquare, delay: 4.5 },
-            { Icon: Sparkles, delay: 2.5 }
-          ].map(({ Icon, delay }, i) => (
-            <motion.div
-              key={`icon-${i}`}
-              className="absolute opacity-10"
-              style={{
-                left: Math.random() * 80 + 10 + '%',
-                top: Math.random() * 80 + 10 + '%'
-              }}
-              animate={{
-                y: [0, -20, 0],
-                rotate: [0, 10, -10, 0],
-                scale: [1, 1.1, 1]
-              }}
-              transition={{
-                duration: 4 + Math.random() * 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: delay
-              }}
-            >
-              <Icon size={24 + Math.random() * 16} className="text-violet-200" />
-            </motion.div>
-          ))}
-
-          {/* Connection lines */}
-          {[...Array(12)].map((_, i) => (
-            <motion.div
-              key={`line-${i}`}
-              className="absolute bg-gradient-to-r from-transparent via-white to-transparent opacity-8"
-              style={{
-                width: '2px',
-                height: Math.random() * 150 + 50 + 'px',
-                left: Math.random() * 100 + '%',
-                top: Math.random() * 100 + '%',
-                transformOrigin: 'center',
-                rotate: Math.random() * 360 + 'deg'
-              }}
-              animate={{
-                opacity: [0.05, 0.3, 0.05],
-                scaleY: [1, 1.2, 1]
-              }}
-              transition={{
-                duration: Math.random() * 6 + 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: Math.random() * 2
-              }}
-            />
-          ))}
+      {/* Hero Section */}
+      <section className="relative min-h-[85vh] flex items-center justify-center bg-black text-white px-6 overflow-hidden pt-32 pb-20">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-600/20 rounded-full blur-[120px] animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-red-800/10 rounded-full blur-[150px]"></div>
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20"></div>
         </div>
 
         <motion.div
-          className="relative z-10 text-center px-4 md:px-6 max-w-4xl"
+          className="relative z-10 max-w-5xl mx-auto text-center"
           style={{ y: headerY }}
         >
           <motion.div
-            initial={{ opacity: 1, y: 30 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.4, 0.0, 0.2, 1] }}
+            transition={{ duration: 0.8 }}
           >
-            <h1
-              id="hero-heading"
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 md:mb-6 leading-tight"
-            >
-              Intelligent Automation <br className="hidden sm:block" />
-              <span className="text-violet-300">for the Modern Business</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 font-medium mb-8">
+              <Zap size={16} /> Enterprise AI That Actually Delivers ROI
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
+              See ROI in 90 Days or <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
+                We Keep Working Until You Do.
+              </span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-violet-100 mb-6 md:mb-8 max-w-3xl mx-auto px-2">
-              Harness the power of artificial intelligence to streamline operations,
-              enhance customer experiences, and unlock new business opportunities.
+
+            <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
+              Stop wasting time on repetitive tasks. We act where AI actually matters: from invoice processing and data entry to document classification and email routing.
             </p>
-            <motion.div
-              initial={{ opacity: 1, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link prefetch={false} href="/contact">
-                <button
-                  className="bg-white text-violet-900 px-6 md:px-8 py-3 rounded-lg text-base md:text-lg font-semibold hover:bg-violet-100 hover:scale-105 focus:bg-violet-100 focus:scale-105 focus:outline-none focus:ring-4 focus:ring-violet-300 transition-all duration-200 shadow-lg hover:shadow-xl"
-                  aria-label="Start your AI journey - Contact us to begin"
-                >
-                  Start Your AI Journey
+                <button className="bg-red-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-red-700 transition-colors shadow-[0_0_30px_-5px_rgba(220,38,38,0.5)]">
+                  Book Free Process Audit Call
                 </button>
               </Link>
+              <div className="text-gray-400 font-medium">
+                Save 40+ hours per week.
+              </div>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.4 }}
+              className="mt-16 sm:mt-24 relative mx-auto w-full max-w-4xl"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10 pointer-events-none"></div>
+              <Image
+                src="/images/ai/hero-ai.png"
+                alt="AI Automation Abstract"
+                layout="responsive"
+                width={1024}
+                height={1024}
+                className="rounded-t-3xl border-t border-x border-red-900/40 shadow-[0_0_50px_-15px_rgba(220,38,38,0.4)] object-cover"
+              />
             </motion.div>
           </motion.div>
         </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <div className="flex flex-col items-center text-white/70 cursor-pointer group">
-            <span className="text-sm mb-2 group-hover:text-white transition-colors duration-300">Explore More</span>
-            <ChevronDown size={24} className="group-hover:text-white transition-colors duration-300" />
-          </div>
-        </motion.div>
       </section>
 
-      {/* AI Solutions Grid */}
-      <motion.section
-        className="py-16 md:py-24 px-4 md:px-6 bg-white"
-        aria-labelledby="solutions-heading"
-      >
-        <div className="max-w-7xl mx-auto">
+      {/* The Problem & Opportunity */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={{ opacity: 1, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12 md:mb-16"
           >
-            <h2 id="solutions-heading" className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our AI Solutions</h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-2">
-              We build intelligent systems that learn, adapt, and deliver value across your organization.
-            </p>
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-8 leading-tight">
+              Your team wastes <span className="text-red-600">40+ hours/week</span> on tasks AI can do in seconds.
+            </h2>
+            <div className="space-y-4 mb-8 text-xl text-gray-600 leading-relaxed">
+              <p>Manual invoice processing. Repetitive data entry. Document classification. Email routing. Report generation.</p>
+              <p className="font-semibold text-black">These aren&apos;t strategic tasks. But they eat your team&apos;s time.</p>
+            </div>
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative"
           >
-            {aiSolutions.map((solution, index) => (
+            <div className="absolute inset-0 bg-red-100 rounded-3xl blur-3xl opacity-30 transform translate-x-4 translate-y-4"></div>
+            <div className="relative rounded-3xl overflow-hidden border border-gray-100 shadow-2xl bg-white group flex flex-col h-full">
+              <div className="relative w-full h-64 sm:h-80 overflow-hidden">
+                <Image
+                  src="/images/ai/use-cases-ai.png"
+                  alt="Data Processing Visualization"
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+              <div className="p-8 md:p-12 flex-1 bg-white relative">
+                <h3 className="text-2xl font-bold mb-4 text-black">The AI Opportunity</h3>
+                <p className="text-lg text-gray-600 mb-6">
+                  AI can automate these processes. But most companies don&apos;t know where to start.
+                  ChatGPT is impressive. But how does it help with your specific business problems?
+                </p>
+                <div className="inline-block px-6 py-3 bg-red-50 text-red-600 font-bold rounded-lg mt-2 group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
+                  We help you answer that question.
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Common Use Cases Grid */}
+      <section className="py-24 bg-black text-white relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none opacity-5">
+          <div className="absolute inset-0 bg-[url('/grid.svg')]"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-4">What We Automate</h2>
+            <p className="text-xl text-gray-400">Practical business problems, not hype.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {useCases.map((useCase, index) => (
               <motion.div
                 key={index}
-                className="bg-white p-6 md:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-violet-200 hover:scale-105 cursor-pointer group focus-within:shadow-2xl focus-within:border-violet-200"
-                variants={itemVariants}
-                whileHover={{ y: -5 }}
-                role="article"
-                tabIndex={0}
-                aria-labelledby={`solution-${index}-title`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-gray-900 border border-gray-800 p-8 rounded-2xl hover:border-red-500/50 transition-colors group"
               >
-                <div className="bg-violet-100 w-14 h-14 md:w-16 md:h-16 rounded-lg flex items-center justify-center mb-4 md:mb-6 group-hover:bg-violet-200 transition-colors duration-300">
-                  {solution.icon}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 bg-red-500/10 rounded-xl group-hover:scale-110 transition-transform">
+                    {useCase.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold">{useCase.title}</h3>
                 </div>
-                <h3
-                  id={`solution-${index}-title`}
-                  className="text-xl md:text-2xl font-bold text-gray-900 mb-3 group-hover:text-violet-900 transition-colors duration-300"
-                >
-                  {solution.title}
-                </h3>
-                <p className="text-gray-600 mb-4 md:mb-6 text-sm md:text-base">{solution.description}</p>
-                <ul className="space-y-2 md:space-y-3">
-                  {solution.features.map((feature, i) => (
-                    <li key={i} className="flex items-start group/item">
-                      <svg className="w-4 h-4 md:w-5 md:h-5 text-violet-600 mr-2 md:mr-3 mt-0.5 group-hover/item:text-violet-700 transition-colors duration-200" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      <span className="text-gray-700 text-sm md:text-base group-hover/item:text-gray-900 transition-colors duration-200">{feature}</span>
+
+                <ul className="space-y-3 mb-8">
+                  {useCase.features.map((feature, fIndex) => (
+                    <li key={fIndex} className="flex items-start text-gray-400">
+                      <CheckCircle2 size={18} className="text-red-500 mr-3 mt-1 flex-shrink-0" />
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </motion.section>
 
-      {/* Process Section with Timeline */}
-      <motion.section
-        className="py-16 md:py-24 px-4 md:px-6 bg-gray-50"
-      >
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 1, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12 md:mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our AI Development Process</h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-2">
-              A structured approach to creating intelligent solutions that deliver real business value.
-            </p>
-          </motion.div>
-
-          <div className="relative">
-            {/* Timeline Line - Hidden on mobile, visible on desktop */}
-            <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-violet-200"></div>
-
-            {/* Timeline Items */}
-            {[
-              {
-                title: "Discovery & Strategy",
-                description: "We analyze your business needs, data landscape, and opportunities for AI implementation.",
-                delay: 0.1,
-                step: "01"
-              },
-              {
-                title: "Solution Design",
-                description: "Our team designs a custom AI solution architecture tailored to your specific requirements.",
-                delay: 0.3,
-                step: "02"
-              },
-              {
-                title: "Development & Training",
-                description: "We develop and train AI models using your data, ensuring accuracy and performance.",
-                delay: 0.5,
-                step: "03"
-              },
-              {
-                title: "Integration & Testing",
-                description: "The AI solution is integrated with your existing systems and thoroughly tested.",
-                delay: 0.7,
-                step: "04"
-              },
-              {
-                title: "Deployment & Monitoring",
-                description: "We deploy your AI solution and establish continuous monitoring and improvement processes.",
-                delay: 0.9,
-                step: "05"
-              }
-            ].map((step, index) => (
-              <motion.div
-                key={index}
-                className="relative flex items-center justify-start md:justify-between mb-8 md:mb-16"
-                initial={{ opacity: 1, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: step.delay, duration: 0.6 }}
-              >
-                {/* Timeline Node - Mobile optimized */}
-                <div className="flex-shrink-0 w-12 h-12 md:w-8 md:h-8 rounded-full bg-violet-600 border-4 border-white shadow z-10 flex items-center justify-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
-                  <span className="text-white font-bold text-sm md:hidden">{step.step}</span>
+                <div className="pt-6 border-t border-gray-800">
+                  <div className="text-sm text-gray-500 uppercase font-bold tracking-wider mb-1">Typical ROI</div>
+                  <div className="text-lg font-bold text-red-400">{useCase.roi}</div>
                 </div>
-
-                {/* Content Box - Full width on mobile, half width on desktop */}
-                <div className="ml-4 md:ml-0 w-full md:w-5/12 bg-white p-4 md:p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <h3 className="text-lg md:text-xl font-bold text-violet-900 mb-2">{step.title}</h3>
-                  <p className="text-gray-600 text-sm md:text-base">{step.description}</p>
-                </div>
-
-                {/* Spacer for desktop layout */}
-                <div className="hidden md:block w-5/12"></div>
               </motion.div>
             ))}
           </div>
         </div>
-      </motion.section>
+      </section>
 
-      {/* Case Studies Section */}
-      <motion.section
-        className="py-16 md:py-24 px-4 md:px-6 bg-white"
-      >
-        <div className="max-w-7xl mx-auto">
+      {/* Success Story */}
+      <section className="py-24 bg-red-600 text-white perspective-1000">
+        <div className="max-w-6xl mx-auto px-6">
           <motion.div
-            initial={{ opacity: 1, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12 md:mb-16"
+            initial={{ opacity: 0, rotateX: 20, y: 50 }}
+            whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, type: "spring" }}
+            className="bg-red-700/50 backdrop-blur-md p-8 md:p-16 rounded-3xl border border-red-500/30 shadow-2xl"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">AI Success Stories</h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-2">
-              See how our AI solutions have transformed businesses across industries.
-            </p>
-          </motion.div>
+            <div className="flex items-center gap-2 text-red-200 mb-6 font-bold uppercase tracking-wider text-sm">
+              <TrendingUp size={18} /> Reality Check: Success Story
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-            {[
-              {
-                title: "E-commerce Personalization Engine",
-                industry: "Retail",
-                results: "43% increase in conversion rate, 27% higher average order value",
-                description: "We built a recommendation engine that analyzes customer behavior to deliver hyper-personalized product suggestions.",
-                color: "bg-violet-700"
-              },
-              {
-                title: "Intelligent Customer Service Platform",
-                industry: "Financial Services",
-                results: "68% reduction in response time, 92% customer satisfaction",
-                description: "Our AI-powered chatbot handles 80% of routine customer inquiries, freeing human agents for complex issues.",
-                color: "bg-indigo-700"
-              },
-              {
-                title: "Predictive Maintenance System",
-                industry: "Manufacturing",
-                results: "35% reduction in downtime, $1.2M annual savings",
-                description: "Our solution predicts equipment failures before they happen, optimizing maintenance schedules and preventing costly breakdowns.",
-                color: "bg-purple-700"
-              },
-              {
-                title: "Content Optimization Platform",
-                industry: "Media & Publishing",
-                results: "52% increase in engagement, 3x content production efficiency",
-                description: "We developed an AI system that generates, optimizes, and personalizes content across multiple channels.",
-                color: "bg-violet-800"
-              }
-            ].map((study, index) => (
-              <motion.div
-                key={index}
-                className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer group"
-                initial={{ opacity: 1, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-                whileHover={{ y: -5 }}
-              >
-                <div className={`${study.color} py-4 px-4 md:px-6 group-hover:opacity-90 transition-opacity duration-300`}>
-                  <span className="text-xs md:text-sm font-semibold text-white/80">{study.industry}</span>
-                  <h3 className="text-lg md:text-2xl font-bold text-white mt-1">{study.title}</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div>
+                <h3 className="text-3xl font-bold mb-6">Large Ghanaian Financial Services Firm</h3>
+                <div className="space-y-4 text-red-100">
+                  <p><strong className="text-white">Process:</strong> Manual invoice processing (200+ invoices/week)</p>
+                  <p><strong className="text-white">Team time:</strong> 30 hours/week (2 people × 15 hours)</p>
+                  <p><strong className="text-white">Cost:</strong> GHS 800/week in labor</p>
                 </div>
-                <div className="p-4 md:p-6">
-                  <p className="text-gray-600 mb-4 text-sm md:text-base">{study.description}</p>
-                  <div className="bg-violet-50 p-3 md:p-4 rounded-lg group-hover:bg-violet-100 transition-colors duration-300">
-                    <h4 className="font-semibold text-violet-900 mb-1 text-sm md:text-base">Results:</h4>
-                    <p className="text-violet-700 text-sm md:text-base">{study.results}</p>
+
+                <div className="mt-8 pt-8 border-t border-red-500/30 space-y-3">
+                  <h4 className="font-bold text-xl mb-4">We automated it:</h4>
+                  <ul className="space-y-2">
+                    <li className="flex items-center gap-2"><ArrowRight size={16} /> AI reads and validates invoices</li>
+                    <li className="flex items-center gap-2"><ArrowRight size={16} /> Auto-approves routine invoices</li>
+                    <li className="flex items-center gap-2"><ArrowRight size={16} /> Flags exceptions for human review</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="bg-white/10 rounded-2xl p-8">
+                <h4 className="text-2xl font-bold mb-6">The Result:</h4>
+                <div className="space-y-6">
+                  <div>
+                    <div className="text-4xl font-extrabold text-white mb-1">25 hrs</div>
+                    <div className="text-red-200">Saved per week (83% reduction)</div>
+                  </div>
+                  <div>
+                    <div className="text-4xl font-extrabold text-white mb-1">GHS 38,400</div>
+                    <div className="text-red-200">In yearly labor cost savings</div>
+                  </div>
+                  <div>
+                    <div className="text-4xl font-extrabold text-white mb-1">3.7 months</div>
+                    <div className="text-red-200">ROI Time (Project Cost: GHS 12K)</div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Our Approach */}
+      <section className="py-24 bg-gray-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-black">Our Approach</h2>
+            <p className="text-xl text-gray-600">How we turn chaos into clockwork.</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative order-2 lg:order-1 hidden lg:block"
+            >
+              <div className="absolute inset-0 bg-red-200 rounded-full blur-3xl opacity-20 transform -translate-x-12 translate-y-12"></div>
+              <Image
+                src="/images/ai/approach-pipeline-ai.png"
+                alt="Our Precise Pipeline"
+                layout="responsive"
+                width={1024}
+                height={1024}
+                className="relative z-10 rounded-3xl shadow-2xl object-cover"
+              />
+            </motion.div>
+
+            <div className="space-y-8 order-1 lg:order-2">
+              {approachSteps.map((step, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="flex flex-col md:flex-row gap-6 md:gap-8 bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex-shrink-0 w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center text-red-600 font-black text-2xl">
+                    {index + 1}
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-red-500 tracking-wider uppercase mb-1">{step.week}</div>
+                    <h3 className="text-2xl font-bold text-black mb-3">{step.title}</h3>
+                    <p className="text-lg text-gray-600 leading-relaxed">{step.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
-      {/* Pricing Preview Section */}
-      <section className="py-16 md:py-24 px-4 md:px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 1, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12 md:mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Service Tiers</h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-2">
-              Choose the perfect AI solution package for your business needs and budget.
-            </p>
-          </motion.div>
+      {/* Packages Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-black">Investment Packages</h2>
+            <p className="text-xl text-gray-600">Transparent pricing for real business outcomes.</p>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {[
-              {
-                name: "Starter AI",
-                price: "Starting at $2,500",
-                description: "Perfect for small businesses looking to automate basic processes",
-                features: [
-                  "Basic AI chatbot setup",
-                  "Simple workflow automation",
-                  "2 hours of training",
-                  "Email support",
-                  "Basic analytics dashboard"
-                ],
-                popular: false,
-                icon: <Bot size={32} className="text-violet-600" />
-              },
-              {
-                name: "Professional AI",
-                price: "Starting at $7,500",
-                description: "Comprehensive AI solutions for growing businesses",
-                features: [
-                  "Advanced conversational AI",
-                  "Multi-channel integration",
-                  "Custom model training",
-                  "8 hours of training",
-                  "Priority support",
-                  "Advanced analytics",
-                  "API integration"
-                ],
-                popular: true,
-                icon: <Brain size={32} className="text-violet-600" />
-              },
-              {
-                name: "Enterprise AI",
-                price: "Custom pricing",
-                description: "Full-scale AI transformation for large organizations",
-                features: [
-                  "Everything in Professional",
-                  "Custom AI model development",
-                  "Unlimited training sessions",
-                  "24/7 premium support",
-                  "Dedicated account manager",
-                  "On-premise deployment options",
-                  "Compliance & security features"
-                ],
-                popular: false,
-                icon: <Zap size={32} className="text-violet-600" />
-              }
-            ].map((tier, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            {packages.map((pkg, index) => (
               <motion.div
                 key={index}
-                className={`relative bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border-2 ${
-                  tier.popular
-                    ? 'border-violet-500 scale-105 hover:scale-110'
-                    : 'border-gray-100 hover:border-violet-200 hover:scale-105'
-                } p-6 md:p-8`}
-                initial={{ opacity: 1, y: 20 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className={`relative bg-white rounded-2xl p-8 border-2 transition-transform hover:-translate-y-1 ${pkg.popular
+                  ? 'border-red-500 shadow-xl'
+                  : 'border-gray-100 shadow-sm hover:border-red-200 hover:shadow-lg'
+                  }`}
               >
-                {tier.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-violet-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                {pkg.popular && (
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <span className="bg-red-600 text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wide">
                       Most Popular
                     </span>
                   </div>
                 )}
 
-                <div className="text-center mb-6">
-                  <div className="bg-violet-100 w-16 h-16 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                    {tier.icon}
+                <h3 className="text-xl font-bold text-black mb-2">{pkg.name}</h3>
+                <div className="text-3xl font-extrabold text-red-600 mb-2">{pkg.price}</div>
+                <div className="text-gray-500 text-sm font-medium mb-6">Timeline: {pkg.time}</div>
+
+                <div className="space-y-6">
+                  <div>
+                    <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Perfect For</div>
+                    <p className="text-sm text-gray-800 font-medium">{pkg.perfectFor}</p>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">{tier.name}</h3>
-                  <div className="text-2xl md:text-3xl font-bold text-violet-600 mb-2">{tier.price}</div>
-                  <p className="text-gray-600 text-sm md:text-base">{tier.description}</p>
-                </div>
-
-                <ul className="space-y-3 mb-8">
-                  {tier.features.map((feature, i) => (
-                    <li key={i} className="flex items-start">
-                      <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      <span className="text-gray-700 text-sm md:text-base">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link prefetch={false} href="/contact" className="block">
-                  <button className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 ${
-                    tier.popular
-                      ? 'bg-violet-600 text-white hover:bg-violet-700 hover:scale-105'
-                      : 'bg-gray-100 text-gray-900 hover:bg-violet-600 hover:text-white hover:scale-105'
-                  }`}>
-                    Get Started
-                  </button>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 1 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-center mt-12"
-          >
-            <p className="text-gray-600 mb-4">
-              Need a custom solution? Let's discuss your specific requirements.
-            </p>
-            <Link prefetch={false} href="/contact">
-              <button className="bg-transparent border-2 border-violet-600 text-violet-600 px-6 py-3 rounded-lg font-semibold hover:bg-violet-600 hover:text-white transition-all duration-200 hover:scale-105">
-                Contact for Custom Quote
-              </button>
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-16 md:py-24 px-4 md:px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 1, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12 md:mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What Our Clients Say</h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-2">
-              Hear from business leaders who have successfully implemented our AI solutions.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {[
-              {
-                quote: "The AI chatbot reduced our customer service costs by 40% while improving response quality. Our customers love the instant, intelligent support.",
-                author: "Sarah Johnson",
-                position: "CTO, TechFlow Solutions",
-                rating: 5
-              },
-              {
-                quote: "Their predictive analytics platform helped us optimize our supply chain, saving us $2.1M annually. The ROI was incredible.",
-                author: "Michael Chen",
-                position: "Operations Director, Global Manufacturing Corp",
-                rating: 5
-              },
-              {
-                quote: "The content generation AI transformed our marketing workflow. We're now producing 3x more content with the same team size.",
-                author: "Emma Rodriguez",
-                position: "Marketing Director, Digital Media Co",
-                rating: 5
-              }
-            ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                className="bg-white p-6 md:p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-                initial={{ opacity: 1, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-              >
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <blockquote className="text-gray-700 mb-6 text-sm md:text-base italic">
-                  "{testimonial.quote}"
-                </blockquote>
-                <div>
-                  <div className="font-semibold text-gray-900 text-sm md:text-base">{testimonial.author}</div>
-                  <div className="text-violet-600 text-xs md:text-sm">{testimonial.position}</div>
+                  <div>
+                    <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Includes</div>
+                    <p className="text-sm text-gray-600">{pkg.includes}</p>
+                  </div>
+                  {pkg.example && (
+                    <div>
+                      <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Example</div>
+                      <p className="text-sm text-gray-600">{pkg.example}</p>
+                    </div>
+                  )}
+                  {pkg.deliverable && (
+                    <div>
+                      <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Deliverable</div>
+                      <p className="text-sm text-gray-600 font-medium">{pkg.deliverable}</p>
+                    </div>
+                  )}
+                  <div className="pt-4 border-t border-gray-100">
+                    <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Expected ROI</div>
+                    <p className="text-sm font-bold text-red-600">{pkg.roiDelay}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -683,25 +466,29 @@ export default function AIServices() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-gradient-to-br from-violet-900 to-indigo-900 text-white py-16 md:py-20 px-4 md:px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 1, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-2xl md:text-4xl font-bold mb-4 md:mb-6">Ready to Transform Your Business with AI?</h2>
-            <p className="text-base md:text-xl text-violet-100 mb-6 md:mb-8 max-w-3xl mx-auto px-2">
-              Let's discuss how our AI solutions can address your specific challenges and unlock new opportunities.
-            </p>
-            <Link prefetch={false} href="/contact">
-              <button className="bg-white text-violet-900 px-6 md:px-8 py-3 rounded-lg text-base md:text-lg font-semibold hover:bg-violet-100 hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
-                Schedule a Consultation
-              </button>
-            </Link>
-          </motion.div>
+      {/* Guarantee & Final CTA */}
+      <section className="py-24 bg-black text-white relative overflow-hidden">
+        <div className="absolute inset-0 z-0 opacity-20">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,38,38,0.8)_0%,transparent_70%)]"></div>
+        </div>
+
+        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
+          <ShieldCheck size={64} className="text-red-500 mx-auto mb-8" />
+          <h2 className="text-5xl md:text-6xl font-extrabold mb-8 leading-tight">
+            Our Guarantee
+          </h2>
+          <p className="text-2xl md:text-3xl text-gray-300 font-light mb-8 max-w-2xl mx-auto leading-relaxed">
+            If you don&apos;t see ROI within 90 days, we keep working <span className="text-white font-bold border-b-2 border-red-500">for free</span> until you do.
+          </p>
+          <p className="text-xl text-red-400 font-bold mb-16 uppercase tracking-widest">
+            We&apos;re that confident.
+          </p>
+
+          <Link prefetch={false} href="/contact">
+            <button className="bg-white text-black px-10 py-5 rounded-full font-extrabold text-xl hover:bg-gray-200 transition-all transform hover:scale-105 duration-200 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]">
+              Book Free Process Audit Call
+            </button>
+          </Link>
         </div>
       </section>
     </div>

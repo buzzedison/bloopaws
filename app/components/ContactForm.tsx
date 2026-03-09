@@ -75,7 +75,7 @@ export default function ContactForm() {
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="px-8 py-6 bg-red-700">
             <h2 className="text-3xl font-bold text-white">Get in Touch</h2>
-            <p className="mt-2 text-red-100">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+            <p className="mt-2 text-red-100">We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="p-8 space-y-6">
@@ -130,10 +130,13 @@ export default function ContactForm() {
                 className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-transparent transition duration-200 outline-none"
               >
                 <option value="" disabled>Select a service</option>
-                <option value="Consulting">Consulting</option>
-                <option value="Mobile App">Mobile App</option>
-                <option value="Website Design">Website Design</option>
-                <option value="Funding">Funding</option>
+                <option value="AI Automation">AI Automation</option>
+                <option value="Web & Mobile App Development">Web & Mobile App Development</option>
+                <option value="Product Design (UI/UX)">Product Design (UI/UX)</option>
+                <option value="Funding & Pitch Strategy">Funding & Pitch Strategy</option>
+                <option value="Growth Engineering">Growth Engineering</option>
+                <option value="Consulting & Strategy">Consulting & Strategy</option>
+                <option value="Other">Other</option>
               </select>
             </div>
 
