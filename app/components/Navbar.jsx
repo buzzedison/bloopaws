@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createClient } from '../../lib/supabase/client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function BloopNavbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -15,6 +15,7 @@ export default function BloopNavbar() {
   const [activeItem, setActiveItem] = useState('');
   const navRef = useRef(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,6 +82,54 @@ export default function BloopNavbar() {
     { name: 'Referrals', href: '/admin/referrals' },
   ];
 
+  const isPlaybookRoute = pathname?.startsWith('/playbook') || pathname?.startsWith('/insight');
+
+  if (isPlaybookRoute) {
+    return (
+      <nav className={`fixed w-full z-[100] transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm border-b border-zinc-100' : 'bg-white'}`}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <div className="flex-shrink-0 flex items-center">
+              <Link prefetch={false} href="/" className="flex items-center">
+                <Image
+                  width={130}
+                  height={34}
+                  src="/images/blooplogo2.png"
+                  alt="Bloop logo"
+                  className="transition-transform duration-300 hover:scale-105"
+                />
+              </Link>
+            </div>
+
+            {/* Right side CTA */}
+            <div>
+              {pathname?.startsWith('/insight') ? (
+                <Link
+                  prefetch={false}
+                  href="/playbook"
+                  className="text-[11px] font-bold uppercase tracking-widest text-zinc-500 hover:text-red-600 transition-colors flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                  Back to Playbook
+                </Link>
+              ) : (
+                <Link
+                  prefetch={false}
+                  href="/"
+                  className="text-[11px] font-bold uppercase tracking-widest text-zinc-500 hover:text-red-600 transition-colors flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                  Back to Main Site
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <div ref={navRef}>
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/10 backdrop-blur-md shadow-lg' : 'bg-white shadow-sm'}`}>
@@ -95,7 +144,7 @@ export default function BloopNavbar() {
             )}
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
-              <Link prefetch={false} href="/" prefetch={false} className="flex items-center">
+              <Link prefetch={false} href="/" className="flex items-center">
                 <Image
                   width={150}
                   height={40}

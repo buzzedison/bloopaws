@@ -6,6 +6,7 @@ import Image from "next/image";
 import { format } from "date-fns";
 import imageUrlBuilder from "@sanity/image-url";
 import { client } from "../../../sanity/lib/client";
+import { groq } from "next-sanity";
 import { motion, useScroll, useSpring } from "framer-motion";
 import {
   Twitter,
@@ -25,6 +26,7 @@ const builder = imageUrlBuilder(client);
 
 interface PostPageProps {
   post: SanityDocument;
+  relatedPosts?: SanityDocument[];
 }
 
 const ShareBar = ({ url, title }: { url: string; title: string }) => {
@@ -84,7 +86,7 @@ const ShareBar = ({ url, title }: { url: string; title: string }) => {
   );
 };
 
-export default function Post({ post }: PostPageProps) {
+export default function Post({ post, relatedPosts = [] }: PostPageProps) {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -127,11 +129,20 @@ export default function Post({ post }: PostPageProps) {
           font-weight: 800;
           letter-spacing: -0.02em;
           color: #111827;
+          margin-top: 1.5em !important;
+          margin-bottom: 0.5em !important;
         }
 
         .prose p {
           color: #374151;
-          line-height: 1.8;
+          font-size: 18px !important;
+          line-height: 1.6;
+          margin-top: 0 !important;
+          margin-bottom: 0.75rem !important;
+        }
+
+        .prose p:empty {
+          display: none !important;
         }
 
         .prose blockquote {
@@ -149,20 +160,7 @@ export default function Post({ post }: PostPageProps) {
         style={{ scaleX }}
       />
 
-      {/* Back Button */}
-      <div className="sticky top-24 z-40 bg-white/80 backdrop-blur-md border-b border-zinc-100 lg:border-none">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <Link
-            href="/playbook"
-            className="inline-flex items-center gap-2 text-xs font-jakarta font-extrabold uppercase tracking-widest text-zinc-500 hover:text-red-600 transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Back to Playbook
-          </Link>
-        </div>
-      </div>
-
-      <article className="relative">
+      <article className="relative mt-20">
         {/* Header Section */}
         <header className="pt-12 pb-20 px-6">
           <div className="max-w-4xl mx-auto">
@@ -180,7 +178,7 @@ export default function Post({ post }: PostPageProps) {
                 </div>
               ) : null}
 
-              <h1 className="text-5xl md:text-7xl font-jakarta font-extrabold text-black mb-10 leading-[1.1] tracking-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-jakarta font-extrabold text-black mb-8 leading-[1.1] tracking-tight">
                 {post.title}
               </h1>
 
@@ -308,6 +306,49 @@ export default function Post({ post }: PostPageProps) {
             </div>
           </aside>
         </div>
+        {/* Recommended Articles Section */}
+        {relatedPosts && relatedPosts.length > 0 && (
+          <div className="border-t border-zinc-100 bg-zinc-50/50 pt-20 pb-32 mt-20">
+            <div className="max-w-7xl mx-auto px-6">
+              <h2 className="text-3xl font-jakarta font-extrabold text-black mb-12">More from the Playbook</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {relatedPosts.map((relatedPost) => (
+                  <Link 
+                    key={relatedPost._id} 
+                    href={`/insight/${relatedPost.slug.current}`}
+                    className="group block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-zinc-100"
+                  >
+                    {relatedPost.mainImage && (
+                      <div className="relative aspect-[16/9] overflow-hidden bg-zinc-100">
+                        <Image
+                          src={builder.image(relatedPost.mainImage).width(600).height(340).url()}
+                          alt={relatedPost.title}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      {relatedPost.categories?.length > 0 && (
+                        <p className="text-[10px] font-jakarta font-extrabold uppercase tracking-widest text-red-600 mb-3">
+                          {relatedPost.categories[0].title}
+                        </p>
+                      )}
+                      <h3 className="text-lg font-jakarta font-bold text-black mb-3 line-clamp-2 group-hover:text-red-600 transition-colors">
+                        {relatedPost.title}
+                      </h3>
+                      {relatedPost.excerpt && (
+                        <p className="text-sm text-zinc-500 line-clamp-2 leading-relaxed">
+                          {relatedPost.excerpt}
+                        </p>
+                      )}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </article>
     </main>
   );

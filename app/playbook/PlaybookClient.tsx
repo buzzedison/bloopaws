@@ -240,10 +240,10 @@ export default function PlaybookClient({
       `}</style>
 
       {/* Spacer for fixed navbar */}
-      <div className="h-24 md:h-32" />
+      <div className="h-20" />
 
       {/* HBR-Style Editorial Header */}
-      <section className="bg-white pt-12 pb-16 border-b border-gray-100">
+      <section className="bg-white pt-6 pb-12 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
             <div className="flex-1">
@@ -256,10 +256,10 @@ export default function PlaybookClient({
                   <span className="text-red-600 font-extrabold text-sm uppercase tracking-[0.3em]">Insights & Strategy</span>
                   <div className="h-px flex-1 bg-gray-100" />
                 </div>
-                <h1 className="text-7xl md:text-8xl font-jakarta font-extrabold text-black mb-6 -ml-1">
+                <h1 className="text-5xl md:text-7xl font-jakarta font-extrabold text-black mb-4 -ml-1">
                   The <span className="italic">Playbook</span>
                 </h1>
-                <p className="text-2xl text-zinc-600 font-light max-w-2xl leading-relaxed">
+                <p className="text-xl text-zinc-600 font-light max-w-2xl leading-relaxed">
                   Rigorous analysis and field-tested systems for high-growth ventures.
                 </p>
               </motion.div>
@@ -387,8 +387,8 @@ export default function PlaybookClient({
       {!searchQuery && (
         <>
           {/* Editorial Featured Section */}
-          <section id="featured" className="py-20 px-4 bg-white">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
+          <section id="featured" className="py-10 px-4 bg-white">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
               {/* Feature 1: Large Editorial Spread */}
               <div className="lg:col-span-8">
                 {featured && (
@@ -399,12 +399,12 @@ export default function PlaybookClient({
                     viewport={{ once: true }}
                     transition={{ duration: 1 }}
                   >
-                    <div className="flex items-center gap-2 mb-8 font-jakarta">
+                    <div className="flex items-center gap-2 mb-4 font-jakarta">
                       <span className="text-[11px] font-extrabold uppercase tracking-[0.4em] text-red-600">The Cover Story</span>
                       <div className="h-px flex-1 bg-gray-100" />
                     </div>
 
-                    <Link prefetch={false} href={`/insight/${featured.slug.current}`} className="block relative overflow-hidden bg-gray-100 aspect-[16/9] mb-10">
+                    <Link prefetch={false} href={`/insight/${featured.slug.current}`} className="block relative overflow-hidden bg-gray-100 aspect-[16/9] mb-6">
                       {featured.mainImage && (
                         <Image
                           src={builder.image(featured.mainImage).width(1200).height(675).url()}
@@ -415,15 +415,15 @@ export default function PlaybookClient({
                       )}
                     </Link>
 
-                    <h2 className="text-5xl md:text-6xl font-jakarta font-extrabold leading-tight text-black mb-8 group-hover:text-red-700 transition-colors">
+                    <h2 className="text-3xl md:text-4xl font-jakarta font-extrabold leading-tight text-black mb-4 group-hover:text-red-700 transition-colors">
                       <Link prefetch={false} href={`/insight/${featured.slug.current}`}>
                         {featured.title}
                       </Link>
                     </h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div className="md:col-span-2 font-jakarta">
-                        <p className="text-xl text-zinc-600 font-light leading-relaxed mb-8">
+                        <p className="text-lg text-zinc-600 font-light leading-relaxed mb-4">
                           {featured.excerpt || 'An in-depth analysis of field-tested systems for high-growth ventures.'}
                         </p>
                         <Link
@@ -458,16 +458,16 @@ export default function PlaybookClient({
                   <div className="space-y-12 font-jakarta">
                     {sidebarPosts.map((p, index) => (
                       <article key={p._id} className="group flex gap-8 py-2 items-start border-b border-gray-50 pb-8 last:border-0">
-                        <span className="text-4xl font-jakarta italic font-extrabold text-gray-100 group-hover:text-red-100 transition-colors leading-none">
+                        <span className="text-3xl font-jakarta italic font-extrabold text-gray-100 group-hover:text-red-100 transition-colors leading-none">
                           0{index + 1}
                         </span>
                         <div>
                           {p.categories?.length ? (
-                            <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-red-600 mb-2 block">
+                            <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-red-600 mb-2 block">
                               {p.categories[0].title}
                             </span>
                           ) : null}
-                          <h3 className="text-lg font-bold text-gray-900 leading-snug group-hover:text-red-700 transition-colors">
+                          <h3 className="text-base font-bold text-gray-900 leading-snug group-hover:text-red-700 transition-colors">
                             <Link prefetch={false} href={`/insight/${p.slug.current}`}>
                               {p.title}
                             </Link>
@@ -498,8 +498,8 @@ export default function PlaybookClient({
             <div className="max-w-7xl mx-auto">
               <div className="flex flex-col md:flex-row md:items-center justify-between mb-24 border-b border-gray-200 pb-12 font-jakarta">
                 <div className="mb-10 md:mb-0">
-                  <h2 className="text-[11px] font-extrabold uppercase tracking-[0.5em] text-red-600 mb-6 font-jakarta">Archive Repository</h2>
-                  <h3 className="text-4xl md:text-5xl font-jakarta font-extrabold text-black tracking-tight">The Collected Works</h3>
+                  <h2 className="text-[10px] font-extrabold uppercase tracking-[0.5em] text-red-600 mb-4 font-jakarta">Archive Repository</h2>
+                  <h3 className="text-3xl md:text-4xl font-jakarta font-extrabold text-black tracking-tight">The Collected Works</h3>
                 </div>
 
                 <div className="flex gap-x-8 gap-y-4 flex-wrap font-jakarta">
@@ -544,12 +544,12 @@ export default function PlaybookClient({
                           {post.categories[0].title}
                         </span>
                       ) : null}
-                      <h4 className="text-2xl font-jakarta font-extrabold text-black leading-tight group-hover:text-red-700 transition-colors">
+                      <h4 className="text-xl font-jakarta font-extrabold text-black leading-tight group-hover:text-red-700 transition-colors">
                         <Link prefetch={false} href={`/insight/${post.slug.current}`}>
                           {post.title}
                         </Link>
                       </h4>
-                      <p className="text-zinc-500 font-light leading-relaxed line-clamp-2">
+                      <p className="text-sm text-zinc-500 font-light leading-relaxed line-clamp-2">
                         {post.excerpt || 'Research-backed strategy for scaling high-growth ventures.'}
                       </p>
                       <div className="pt-4 font-jakarta">

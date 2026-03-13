@@ -2,6 +2,7 @@
 import { cachedClient } from "../../../sanity/lib/client";
 import Post from "../components/NewPost";
 import { postPathsQuery, postQuery } from "../../../sanity/lib/queries";
+import { groq } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import { client } from "../../../sanity/lib/client";
 import { Metadata } from "next";
@@ -66,5 +67,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function Page({ params }: { params: { slug: string } }) {
   const post = await cachedClient(postQuery, params);
 
-  return <Post post={post} />;
+  // Fetch related posts (latest 3 posts excluding the current one)
+  const relatedPostsQuery = groq`*[_type == "post" && slug.current != $slug && defined(slug.current)] | order(publishedAt desc)[0...3]{
+    _id, title, slug, mainImage, excerpt, publishedAt,
+    categories[]->{
+      _id,
+      title
+    }
+  }`;
+  
+  const relatedPosts = await cachedClient(relatedPostsQuery, params);
+
+  return <Post post={post} relatedPosts={relatedPosts} />;
 }
