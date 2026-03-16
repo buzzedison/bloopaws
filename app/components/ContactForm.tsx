@@ -35,7 +35,7 @@ export default function ContactForm() {
     setSubmitStatus('Submitting...');
 
     try {
-      const response = await fetch('/api/send-email', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
