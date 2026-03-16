@@ -10,6 +10,7 @@ import RealityCheck from "./components/RealityCheck";
 import ServicesInnovative from "./components/ServicesInnovative";
 import SocialProofStories from "./components/SocialProofStories";
 import PlaybookTeaser from "./components/PlaybookTeaser";
+import FAQInnovative from "./components/FAQInnovative";
 
 export const metadata = {
   title: "Turn Your Idea Into a Business",
@@ -61,6 +62,61 @@ export default async function Home() {
   const caseStudies = await cachedClient(caseStudiesQuery);
 
   // Structured data for SEO
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How long does it take to turn an idea into a product?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most MVPs ship in 8–12 weeks. We validate the concept first — CB Insights found that 42% of startups fail because they build something nobody wants. Our process cuts that risk before a single line of code is written."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you work with non-technical founders?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Over 70% of our clients have no coding background. We handle the entire technical build while keeping you informed at every milestone — no jargon, no black boxes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does it cost to build an MVP?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most MVPs range from $15,000–$50,000 depending on complexity. Startups with a working MVP raise funding 60% faster than those pitching on slides alone."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if my idea changes during development?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pivots are normal — Startup Genome data shows 70% of successful startups changed direction at least once. We build flexibility in from day one. Minor scope changes are included; major pivots are scoped transparently before work begins."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you provide ongoing support after launch?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. We offer retainer packages from $2,000/month covering hosting, security updates, and new features. Products with consistent post-launch investment see 3× better user retention in the first year."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you help with funding and investor readiness?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. We prepare pitch decks, financial models, and live product demos. According to First Round Capital, founders who demo a working product close seed rounds at twice the rate of those presenting mockups alone."
+        }
+      }
+    ]
+  };
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -109,6 +165,10 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
 
       <div className="flex flex-col w-full">
         {/* Hero Section */}
@@ -125,6 +185,9 @@ export default async function Home() {
 
         {/* Section 5: The Playbook - Content Hub Teaser */}
         <PlaybookTeaser />
+
+        {/* FAQ Section */}
+        <FAQInnovative />
 
         {/* Insights Section */}
         <InsightsInnovative posts={majorPosts} />

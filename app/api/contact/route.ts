@@ -3,13 +3,23 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const STRIDE_API_KEY = process.env.STRIDE_API_KEY!
-const STRIDE_BASE = 'https://strideos.cloud/api/v1'
+const STRIDE_BASE = process.env.STRIDE_BASE_URL || 'https://strideos.cloud/api/v1'
+
+async function stridePost(path: string, body: object) {
+  const res = await fetch(`${STRIDE_BASE}${path}`, {
+    method: 'POST',
+    headers: { 'X-API-Key': STRIDE_API_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+  const json = await res.json().catch(() => ({}))
+  if (!res.ok) console.error(`Stride ${path} failed:`, json)
+  return { ok: res.ok, data: json.data, error: json.error }
+}
 
 export async function POST(request: NextRequest) {
   try {
     const { name, email, phone, service, message } = await request.json()
 
-    // Basic validation
     if (!name || !email || !service) {
       return NextResponse.json(
         { error: 'Name, email and service are required' },
@@ -17,56 +27,42 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Split full name into first / last
     const parts = name.trim().split(' ')
     const firstName = parts[0]
     const lastName = parts.slice(1).join(' ') || ''
 
-    // ─── 1. Create contact in Stride ────────────────────────────────
-    const contactRes = await fetch(`${STRIDE_BASE}/contacts`, {
-      method: 'POST',
-      headers: {
-        'X-API-Key': STRIDE_API_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        phone: phone || '',
-        source: 'Website Contact Form',
-        tags: ['inbound', service.toLowerCase().replace(/\s+/g, '-')],
-        custom_fields: { service, message: message || '' },
-      }),
+    // ─── 1. Create contact ───────────────────────────────────────────
+    const { data: contact } = await stridePost('/contacts', {
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      phone: phone || '',
+      source: 'Website Contact Form',
+      tags: ['inbound', service.toLowerCase().replace(/\s+/g, '-')],
+      custom_fields: { service, message: message || '' },
     })
 
-    const contactBody = await contactRes.json().catch(() => ({}))
-    const contact = contactBody.data
-    console.log('Stride contact status:', contactRes.status, JSON.stringify(contactBody))
-    if (!contactRes.ok) {
-      console.error('Stride contact creation failed:', contactBody)
-    }
-
-    // ─── 2. Create deal in Stride ────────────────────────────────────
-    const dealRes = await fetch(`${STRIDE_BASE}/deals`, {
-      method: 'POST',
-      headers: {
-        'X-API-Key': STRIDE_API_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title: `${name} — ${service}`,
-        primary_contact_id: contact?.id || null,
-        description: `Service interest: ${service}\n\nMessage:\n${message || 'No message provided'}`,
-      }),
+    // ─── 2. Create deal ──────────────────────────────────────────────
+    const { data: deal } = await stridePost('/deals', {
+      name: `${name} — ${service}`,
+      primary_contact_id: contact?.id || null,
+      description: `Service interest: ${service}\n\nMessage:\n${message || 'No message provided'}`,
+      tags: ['inbound'],
     })
 
-    const dealBody = await dealRes.json().catch(() => ({}))
-    if (!dealRes.ok) {
-      console.error('Stride deal creation failed:', dealBody)
+    // ─── 3. Create note activity with the message ────────────────────
+    if (message?.trim()) {
+      await stridePost('/activities', {
+        type: 'note',
+        subject: `Inbound enquiry — ${service}`,
+        notes: message,
+        contact_id: contact?.id || null,
+        deal_id: deal?.id || null,
+        status: 'completed',
+      })
     }
 
-    // ─── 3. Auto-reply to prospect via Resend ───────────────────────
+    // ─── 4. Auto-reply to prospect ───────────────────────────────────
     await resend.emails.send({
       from: 'Bloop Global <noreply@updates.bloopglobal.com>',
       to: email,
@@ -99,7 +95,7 @@ export async function POST(request: NextRequest) {
       `,
     })
 
-    // ─── 4. Internal alert to Dennis via Resend ─────────────────────
+    // ─── 5. Internal alert to Dennis ─────────────────────────────────
     await resend.emails.send({
       from: 'Bloop Contact Form <noreply@updates.bloopglobal.com>',
       to: 'ask@bloopglobal.com',
@@ -121,7 +117,7 @@ export async function POST(request: NextRequest) {
           </div>
           <div style="background: #fff3e0; padding: 20px 32px; border: 1px solid #e0ddd8; border-top: none;">
             <p style="margin: 0; font-size: 14px; color: #1a1a2e;">
-              Contact + deal created in Stride. Reply to this email to reach ${firstName} directly.<br/>
+              Contact + deal + note created in Stride. Reply to this email to reach ${firstName} directly.<br/>
               <strong>Respond within 2 hours.</strong>
             </p>
           </div>

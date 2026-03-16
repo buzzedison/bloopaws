@@ -47,6 +47,30 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Bloop Global",
+              "url": "https://bloopglobal.com",
+              "logo": "https://bloopglobal.com/logo.png",
+              "sameAs": [
+                "https://www.linkedin.com/company/bloopglobal",
+                "https://twitter.com/bloopglobal"
+              ],
+              "contactPoint": [{
+                "@type": "ContactPoint",
+                "telephone": "+233 500002994",
+                "contactType": "Customer Service",
+                "areaServed": "US, Ghana, Uk, Canada, Nigeria"
+              }]
+            })
+          }}
+        />
+      </head>
       <body>
         {process.env.NEXT_PUBLIC_GA_ID ? (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />

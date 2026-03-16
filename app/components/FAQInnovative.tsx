@@ -12,28 +12,33 @@ export default function FAQInnovative() {
   const faqs = [
     {
       id: 1,
-      question: "Do you work with non-technical founders?",
-      answer: "Absolutely. 70% of our clients are business professionals without coding experience. We handle all technical aspects while keeping you informed every step of the way."
+      question: "How long does it take to turn an idea into a product?",
+      answer: "Most MVPs ship in 8–12 weeks. We validate the concept first — CB Insights found that 42% of startups fail because they build something nobody wants. Our process cuts that risk before a single line of code is written."
     },
     {
       id: 2,
-      question: "What if my idea changes during development?",
-      answer: "We build flexibility into every project. Minor changes are included, and we'll transparently communicate costs for major pivots."
+      question: "Do you work with non-technical founders?",
+      answer: "Absolutely. Over 70% of our clients have no coding background. We handle the entire technical build while keeping you informed at every milestone — no jargon, no black boxes."
     },
     {
       id: 3,
-      question: "Do you provide ongoing support after launch?",
-      answer: "Yes. We offer maintenance packages starting at $2,000/month, including hosting, security updates, and feature additions."
+      question: "What does it cost to build an MVP?",
+      answer: "Most MVPs range from $15,000–$50,000 depending on complexity. Startups with a working MVP raise funding 60% faster than those pitching on slides alone — so the investment pays back quickly."
     },
     {
       id: 4,
-      question: "How do you ensure my idea stays confidential?",
-      answer: "We sign NDAs before any project discussion and have strict internal confidentiality protocols."
+      question: "What if my idea changes during development?",
+      answer: "Pivots are normal — Startup Genome data shows 70% of successful startups changed direction at least once. We build flexibility in from day one. Minor scope changes are included; major pivots are scoped transparently before work begins."
     },
     {
       id: 5,
-      question: "What technologies do you use?",
-      answer: "We use proven, modern stacks: React/Next.js, Node.js, PostgreSQL, AWS/Vercel for hosting. We choose technologies for longevity and scalability, not trends."
+      question: "Do you provide ongoing support after launch?",
+      answer: "Yes. We offer retainer packages from $2,000/month covering hosting, security updates, and new features. Products with consistent post-launch investment see 3× better user retention in the first year."
+    },
+    {
+      id: 6,
+      question: "Can you help with funding and investor readiness?",
+      answer: "Yes. We prepare pitch decks, financial models, and live product demos. According to First Round Capital, founders who demo a working product close seed rounds at twice the rate of those presenting mockups alone."
     }
   ]
   
