@@ -41,10 +41,10 @@ export default async function LaunchpadPage() {
 }
 
 export const metadata = {
-  title: "The Launchpad - Founders We Backed | Bloop Global",
-  description: "Discover the founders and startups we've helped build. From MVP to scale, explore real stories of African founders creating acquisition systems that work.",
+  title: "Products We've Built | Bloop Global",
+  description: "Real products, real founders, real results. Browse the web apps, mobile platforms, and AI tools we've shipped — and the founders we built them with.",
   openGraph: {
-    title: "The Launchpad - Founders We Backed | Bloop Global",
-    description: "Discover the founders and startups we've helped build. From MVP to scale, explore real stories of African founders creating acquisition systems that work.",
+    title: "Products We've Built | Bloop Global",
+    description: "Real products, real founders, real results. Browse the web apps, mobile platforms, and AI tools we've shipped — and the founders we built them with.",
   },
 };

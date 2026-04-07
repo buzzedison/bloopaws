@@ -14,30 +14,30 @@ export default function ServicesInnovative() {
   const services = [
     {
       id: 1,
-      title: "The Silent Workforce",
+      title: "AI & Automation",
       subtitle: "AI & Intelligent Automation",
-      description: "Deploy autonomous agents that work 24/7, predicting trends and executing complex workflows while you sleep.",
+      description: "Automate the work that's eating your team's time. We build custom AI workflows — from lead handling to data processing — that run 24/7 without adding headcount.",
       icon: <Bot />,
     },
     {
       id: 2,
-      title: "Digital Infrastructure",
+      title: "Web & Mobile Apps",
       subtitle: "Web & Mobile Platforms",
-      description: "Scalable platforms engineered to handle millions of users without blinking. Speed, security, and stability as standard.",
+      description: "Full-stack apps built to handle real traffic from day one. Clean architecture, fast load times, and a codebase your team can actually maintain.",
       icon: <Code />,
     },
     {
       id: 3,
-      title: "The War Room",
+      title: "Strategy & Fundraising",
       subtitle: "Strategy & Fundraising",
-      description: "Market-piercing strategies and financial modeling that turn investor skepticism into 'where do I sign?'.",
+      description: "Investor-ready pitch decks, financial models, and go-to-market planning — from founders who've been on both sides of the table.",
       icon: <LineChart />,
     },
     {
       id: 4,
-      title: "Internal Capability",
+      title: "Training & Handover",
       subtitle: "Training & Enablement",
-      description: "We don't just build it for you; we train your team to wield it. Complete knowledge transfer and operational mastery.",
+      description: "We don't hand you a black box. Every build includes full knowledge transfer so your team owns the product long after we're done.",
       icon: <GraduationCap />,
     }
   ]
@@ -112,8 +112,8 @@ export default function ServicesInnovative() {
             animate={isInView ? "visible" : "hidden"}
             variants={titleVariants}
           >
-            We Don't Just Write Code.<br />
-            <span className="text-red-600">We Engineer Dominance.</span>
+            Everything You Need to Go<br />
+            <span className="text-red-600">From Idea to Revenue.</span>
           </motion.h2>
           <motion.p
             className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
@@ -121,7 +121,7 @@ export default function ServicesInnovative() {
             animate={isInView ? "visible" : "hidden"}
             variants={subtitleVariants}
           >
-            Your vision requires more than a website. It demands a digital fortress—built on bulletproof logic, seductive design, and strategy that ignores the competition.
+            Most founders need more than a developer. They need a team that can build the product, figure out the strategy, and help them get funded. That's what we do.
           </motion.p>
         </div>
 
@@ -249,7 +249,7 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
           </p>
 
           <div className="flex items-center text-black font-bold group-hover:text-red-600 transition-colors duration-300">
-            <span>Deploy</span>
+            <span>Learn more</span>
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
           </div>
         </div>

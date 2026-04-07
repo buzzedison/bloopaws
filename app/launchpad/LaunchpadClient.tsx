@@ -302,58 +302,58 @@ export default function LaunchpadClient({ stories }: LaunchpadClientProps) {
                 )}
             </AnimatePresence>
 
-            {/* Premium Hero Section */}
-            <section className="relative pt-40 pb-20 px-6 lg:px-20 z-10">
+            {/* Hero Section — compact header */}
+            <section className="relative pt-28 pb-8 px-6 lg:px-20 z-10">
                 <div className="max-w-7xl mx-auto">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="flex flex-col gap-10"
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="flex flex-col gap-4"
                     >
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 backdrop-blur-md self-start border-zinc-200 dark:border-white/10 shadow-sm">
-                            <span className="flex h-2 w-2 rounded-full bg-red-600"></span>
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Success Stories Portfolio</span>
-                        </div>
-
-                        <h1 className="text-5xl md:text-7xl lg:text-[6rem] font-black tracking-tighter leading-[0.9] -ml-1">
-                            Visionaries <br className="hidden md:block" /> changing the world <br className="hidden md:block" />
-                            <span className="text-red-600 italic font-light">with us.</span>
-                        </h1>
-
-                        <div className="max-w-3xl mt-4">
-                            <p className={`text-xl lg:text-3xl font-light leading-relaxed tracking-wide ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                                Discover the brilliant founders and ambitious companies doing amazing things globally. These are their stories, their products, and their vision.
+                        {/* Top row: badge + heading + description side by side on desktop */}
+                        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+                            <div className="flex flex-col gap-3">
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border bg-white/5 backdrop-blur-md self-start border-zinc-200 dark:border-white/10 shadow-sm">
+                                    <span className="flex h-1.5 w-1.5 rounded-full bg-red-600"></span>
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Products We've Built</span>
+                                </div>
+                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-none">
+                                    Real Products. Real Founders.{' '}
+                                    <span className="text-red-600 italic font-light">Real Results.</span>
+                                </h1>
+                            </div>
+                            <p className={`text-sm lg:text-base font-light leading-relaxed max-w-sm lg:text-right ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                                Every project here started with a founder who needed a technical team to build it. Here's what we shipped.
                             </p>
                         </div>
 
                         {/* Search & Filter Bar */}
-                        <div className="mt-8 flex flex-col md:flex-row items-stretch md:items-center gap-4 max-w-4xl">
+                        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 mt-2">
                             <div className="relative flex-1 group">
-                                <Search className={`absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 transition-colors ${isDark ? 'text-zinc-500 group-focus-within:text-white' : 'text-zinc-400 group-focus-within:text-black'}`} />
+                                <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${isDark ? 'text-zinc-500 group-focus-within:text-white' : 'text-zinc-400 group-focus-within:text-black'}`} />
                                 <input
                                     type="text"
                                     placeholder="Search by founder, company, or industry..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className={`w-full pl-16 pr-6 py-5 rounded-2xl border text-lg focus:outline-none transition-all shadow-xl hover:shadow-2xl ${isDark ? 'bg-white/5 border-white/10 focus:border-red-600 text-white placeholder-zinc-500 hover:border-white/20' : 'bg-white/80 backdrop-blur-lg border-zinc-200 focus:border-red-600 text-black placeholder-zinc-400 hover:border-zinc-300'}`}
+                                    className={`w-full pl-11 pr-5 py-3 rounded-xl border text-sm focus:outline-none transition-all ${isDark ? 'bg-white/5 border-white/10 focus:border-red-600 text-white placeholder-zinc-500 hover:border-white/20' : 'bg-white/80 backdrop-blur-lg border-zinc-200 focus:border-red-600 text-black placeholder-zinc-400 hover:border-zinc-300'}`}
                                 />
                                 {searchQuery && (
                                     <button
                                         onClick={() => setSearchQuery('')}
-                                        className="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-red-600 transition-colors"
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-red-600 transition-colors"
                                     >
-                                        <X className="w-5 h-5" />
+                                        <X className="w-4 h-4" />
                                     </button>
                                 )}
                             </div>
-
                             <button
                                 onClick={() => setShowFilters(true)}
-                                className={`flex items-center justify-center gap-3 px-8 py-5 rounded-2xl font-bold transition-all whitespace-nowrap border shadow-xl hover:shadow-2xl ${isDark ? 'bg-white/10 hover:bg-white/15 border-white/10 text-white' : 'bg-white/80 backdrop-blur-lg hover:bg-white border-zinc-200 text-black'}`}
+                                className={`flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all whitespace-nowrap border ${isDark ? 'bg-white/10 hover:bg-white/15 border-white/10 text-white' : 'bg-white/80 backdrop-blur-lg hover:bg-white border-zinc-200 text-black'}`}
                             >
-                                <Filter className="w-5 h-5" />
-                                Filters {activeFilterCount > 0 && <span className="flex items-center justify-center w-6 h-6 rounded-full bg-red-600 text-white text-xs">{activeFilterCount}</span>}
+                                <Filter className="w-4 h-4" />
+                                Filters {activeFilterCount > 0 && <span className="flex items-center justify-center w-5 h-5 rounded-full bg-red-600 text-white text-xs">{activeFilterCount}</span>}
                             </button>
                         </div>
                     </motion.div>
@@ -361,12 +361,12 @@ export default function LaunchpadClient({ stories }: LaunchpadClientProps) {
             </section>
 
             {/* Intelligent Grid Section */}
-            <section className="px-6 lg:px-20 pb-40 relative z-10 min-h-[50vh]">
+            <section className="px-6 lg:px-20 pb-24 pt-6 relative z-10 min-h-[50vh]">
                 <div className="max-w-7xl mx-auto">
                     {/* Results Overview */}
-                    <div className="mb-10 flex items-center justify-between">
+                    <div className="mb-6 flex items-center justify-between">
                         <p className={`text-sm font-bold tracking-widest uppercase ${isDark ? 'text-zinc-500' : 'text-zinc-500'}`}>
-                            {filteredStories.length} {filteredStories.length === 1 ? 'Visionary' : 'Visionaries'} Found
+                            {filteredStories.length} {filteredStories.length === 1 ? 'Project' : 'Projects'} Found
                         </p>
                         {searchQuery && (
                             <p className="text-sm font-medium">Results for "{searchQuery}"</p>
@@ -498,17 +498,17 @@ export default function LaunchpadClient({ stories }: LaunchpadClientProps) {
                 <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-20 mix-blend-overlay pointer-events-none"></div>
 
                 <div className="max-w-5xl mx-auto text-center relative z-10">
-                    <span className="inline-block px-4 py-2 rounded-full bg-red-600/10 text-red-600 text-xs font-bold uppercase tracking-[0.2em] mb-8">Join the Vanguard</span>
+                    <span className="inline-block px-4 py-2 rounded-full bg-red-600/10 text-red-600 text-xs font-bold uppercase tracking-[0.2em] mb-8">Work With Us</span>
                     <h2 className="text-5xl lg:text-7xl font-black tracking-tighter mb-10">
-                        Ready to accelerate your <br /> <span className="text-red-600 italic font-light">growth story?</span>
+                        Ready to be the next <br /> <span className="text-red-600 italic font-light">project on this page?</span>
                     </h2>
 
                     <p className={`text-xl lg:text-2xl font-light mb-12 max-w-2xl mx-auto ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                        Our ecosystem supports the brightest minds. Let's build products and scale services that shape the future.
+                        We've built for founders at every stage. Tell us your idea and let's figure out exactly what we'd build together — no commitment required.
                     </p>
 
                     <Link prefetch={false} href="/contact" className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-red-600 text-white rounded-full font-bold text-lg hover:bg-black hover:text-white transition-all shadow-2xl shadow-red-600/20 hover:shadow-xl hover:-translate-y-1">
-                        Start your journey <ArrowRight className="w-5 h-5" />
+                        Book a Free Call <ArrowRight className="w-5 h-5" />
                     </Link>
                 </div>
             </section>

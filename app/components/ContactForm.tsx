@@ -91,10 +91,10 @@ export default function ContactForm() {
                   Let&apos;s Talk
                 </span>
                 <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-                  Build Something <span className="text-red-500">Big.</span>
+                  Let&apos;s figure out <span className="text-red-500">what to build.</span>
                 </h1>
                 <p className="text-gray-400 text-lg leading-relaxed">
-                  Tell us about your idea. We&apos;ll get back to you within 2 hours with a clear path forward.
+                  Tell us what you&apos;re working on. We&apos;ll come back within 2 hours with a clear view on how we&apos;d approach it.
                 </p>
               </motion.div>
 
@@ -181,8 +181,8 @@ export default function ContactForm() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <h2 className="text-2xl font-bold text-black mb-1">Request a Briefing</h2>
-                  <p className="text-gray-400 text-sm mb-8">All fields marked * are required.</p>
+                  <h2 className="text-2xl font-bold text-black mb-1">Tell Us What You&apos;re Building</h2>
+                  <p className="text-gray-400 text-sm mb-8">All fields marked * are required. We respond within 2 hours.</p>
 
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Name */}
@@ -307,7 +307,7 @@ export default function ContactForm() {
                         </>
                       ) : (
                         <>
-                          Send Brief
+                          Send Message
                           <ArrowRight className="w-5 h-5" />
                         </>
                       )}

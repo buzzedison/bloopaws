@@ -12,20 +12,20 @@ export default function SocialProofStories() {
   const projects = [
     {
       name: "CrowdPen",
-      stats: "2000+ Beta Users",
-      description: "Content monetization platform built from zero.",
+      stats: "2,000+ Beta Users in 90 Days",
+      description: "Content monetisation platform, built and shipped from scratch.",
       icon: <Target className="w-6 h-6 text-red-500" />
     },
     {
       name: "TaskWit",
-      stats: "B2B Enterprise",
-      description: "Professional networking & recruitment ecosystem.",
+      stats: "B2B Enterprise Contracts, Q1",
+      description: "Professional networking and recruitment platform that landed paying clients fast.",
       icon: <Shield className="w-6 h-6 text-red-500" />
     },
     {
-      name: "Loudspeaker",
-      stats: "Real-time Data",
-      description: "Market intelligence engine for rapid analysis.",
+      name: "Strideos",
+      stats: "All-in-One Workspace",
+      description: "Replace your scattered tools with one unified, blazing-fast platform. Project management, docs, CRM, finance, and chat built for modern product teams.",
       icon: <Zap className="w-6 h-6 text-red-500" />
     }
   ]
@@ -61,8 +61,8 @@ export default function SocialProofStories() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold leading-tight mb-6">
-                Battle-Tested. <br />
-                <span className="text-red-600">Market-Proven.</span>
+                We've Built Our Own Products.<br />
+                <span className="text-red-600">Now We Build Yours.</span>
               </h2>
             </motion.div>
 
@@ -72,7 +72,7 @@ export default function SocialProofStories() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
-              We don't guess. We deploy strategies forged in the fires of real-world product launches. Our internal ventures are our R&D labs—where we break things so your product is bulletproof.
+              Before we take on client work, we validate our approach through our own ventures. CrowdPen hit 2,000 beta users in 90 days. TaskWit landed B2B enterprise contracts in its first quarter. We apply those same systems to your build.
             </motion.p>
 
             <motion.div
@@ -87,7 +87,7 @@ export default function SocialProofStories() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="relative z-10 flex items-center">
-                    View Mission Logs
+                    See What We've Built
                     <motion.span
                       className="inline-block ml-2"
                       initial={{ x: 0 }}

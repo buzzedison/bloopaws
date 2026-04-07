@@ -53,7 +53,7 @@ export default function PlaybookTeaser() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            The Founder's <span className="text-red-600">Arsenal.</span>
+            The Founder's <span className="text-red-600">Playbook — Free.</span>
           </motion.h2>
 
           {/* Body text */}
@@ -63,7 +63,7 @@ export default function PlaybookTeaser() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
-            Stop guessing. Steal our internal frameworks, financial models, and go-to-market checklists. 100% Free. No catch.
+            The templates, financial models, and launch checklists we use on every build. No signup wall, no sales call required. Take what's useful.
           </motion.p>
 
           {/* CTA Button */}
@@ -79,7 +79,7 @@ export default function PlaybookTeaser() {
                 whileTap={{ scale: 0.98 }}
               >
                 <span className="relative z-10 flex items-center">
-                  Access The Vault
+                  Browse the Resources
                   <motion.span
                     className="inline-block ml-2"
                     initial={{ x: 0 }}

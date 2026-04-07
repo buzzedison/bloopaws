@@ -1,219 +1,253 @@
 'use client';
 
-import React, { useState } from 'react';
-import Image from 'next/image';
+import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Shield, Target, Zap, Users, Lock, Terminal, FileText, Crosshair, Sun, Moon } from 'lucide-react';
+import { ArrowRight, Calendar, Code2, Lightbulb, Handshake, Users } from 'lucide-react';
+
+const values = [
+  {
+    icon: <Lightbulb className="w-6 h-6 text-red-600" />,
+    title: "Honest before comfortable",
+    body: "We'll tell you when an idea needs work before we build it. A rough conversation early saves months of wasted development later.",
+  },
+  {
+    icon: <Code2 className="w-6 h-6 text-red-600" />,
+    title: "Build it right the first time",
+    body: "Clean architecture, readable code, proper documentation. We build things you can hand off to an internal team without it falling apart.",
+  },
+  {
+    icon: <Users className="w-6 h-6 text-red-600" />,
+    title: "Founders first",
+    body: "We work with founders, not for them. That means showing up to weekly calls, explaining decisions, and treating your product like it's ours.",
+  },
+  {
+    icon: <Handshake className="w-6 h-6 text-red-600" />,
+    title: "Transparency over theater",
+    body: "No inflated timelines, no mystery pricing, no holding code hostage. You own everything we build from day one.",
+  },
+];
+
+const team = [
+  {
+    name: "Coming Soon",
+    role: "Founder & CEO",
+    bio: "Leads strategy, client relationships, and product direction. Previously built and sold two SaaS products.",
+    location: "Accra / London",
+  },
+  {
+    name: "Coming Soon",
+    role: "Head of Engineering",
+    bio: "Full-stack architect with a background in fintech infrastructure. Obsessive about performance and code quality.",
+    location: "Lagos",
+  },
+  {
+    name: "Coming Soon",
+    role: "Head of AI & Automation",
+    bio: "Builds the AI systems and workflow automations that save our clients hundreds of hours a month.",
+    location: "Remote",
+  },
+];
+
+const stats = [
+  { value: "2015", label: "Founded" },
+  { value: "100+", label: "Products shipped" },
+  { value: "3", label: "Countries active" },
+  { value: "8 wks", label: "Avg. MVP timeline" },
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, delay: i * 0.1, ease: 'easeOut' },
+  }),
+};
 
 export default function AboutPage() {
-  const [theme, setTheme] = useState('dark');
-
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
-  };
-
-  const isDark = theme === 'dark';
-
   return (
-    <div className={`min-h-screen font-sans transition-colors duration-500 ${isDark ? 'bg-black text-white selection:bg-red-900 selection:text-white' : 'bg-gray-50 text-gray-900 selection:bg-red-200 selection:text-black'}`}>
+    <div className="min-h-screen bg-white font-sans antialiased text-black">
 
-      {/* Theme Toggle - Fixed Position */}
-      <div className="fixed top-24 right-6 z-50">
-        <button
-          onClick={toggleTheme}
-          className={`p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 ${isDark ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800'}`}
-          aria-label="Toggle Theme"
-        >
-          {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-        </button>
-      </div>
-
-      {/* Hero Section */}
-      <section className={`relative pt-40 pb-20 px-6 border-b overflow-hidden transition-colors duration-500 ${isDark ? 'border-gray-800' : 'border-gray-200 bg-white'}`}>
-        {/* Background Elements */}
-        <div className={`absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] ${isDark ? 'opacity-100' : 'opacity-50'}`}></div>
-        <div className={`absolute top-0 left-0 w-[500px] h-[500px] rounded-full blur-[100px] pointer-events-none transition-opacity duration-500 ${isDark ? 'bg-red-900/10' : 'bg-red-500/5'}`}></div>
+      {/* Hero */}
+      <section className="relative pt-36 pb-24 px-6 overflow-hidden border-b border-zinc-100">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:28px_28px]" />
+        <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-red-50 rounded-full blur-[120px] opacity-60 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className={`inline-flex items-center space-x-2 mb-6 border px-4 py-1.5 rounded-full transition-colors duration-500 ${isDark ? 'border-red-900/50 bg-red-950/20' : 'border-red-200 bg-red-50'}`}>
-              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-              <span className="text-red-500 text-xs font-mono tracking-widest uppercase">
-                {isDark ? 'Origin Story: Declassified' : 'Corporate History: Public'}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+
+            <motion.div
+              className="lg:col-span-7"
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+            >
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-200 bg-white text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-8 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-600 inline-block" />
+                Who We Are
               </span>
-            </div>
 
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-8 uppercase">
-              The <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800">Rebellion.</span>
-            </h1>
+              <h1 className="text-5xl md:text-6xl xl:text-7xl font-extrabold tracking-tight leading-tight mb-8">
+                We're the technical team <br className="hidden md:block" />
+                <span className="text-red-600">founders wish they had</span>{' '}
+                from day one.
+              </h1>
 
-            <p className={`text-xl md:text-2xl max-w-3xl leading-relaxed border-l-2 border-red-600 pl-6 transition-colors duration-500 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Bloop Global was built for one reason: To engineer market dominance. We provide the capital, the code, and the strategy to turn ambitious ideas into industry leaders.
+              <p className="text-xl text-zinc-600 leading-relaxed max-w-2xl">
+                Bloop Global is a product development studio. We build web apps, mobile platforms, and AI automation systems for founders who know what they want to build but don't yet have the technical team to build it.
+              </p>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              className="lg:col-span-5"
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              custom={1}
+            >
+              <div className="grid grid-cols-2 gap-4">
+                {stats.map((s, i) => (
+                  <div key={i} className="p-6 rounded-2xl border border-zinc-100 bg-zinc-50 hover:border-red-100 hover:bg-red-50/30 transition-all duration-300">
+                    <p className="text-4xl font-black text-black mb-1">{s.value}</p>
+                    <p className="text-sm text-zinc-500 font-medium">{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Origin Story */}
+      <section className="py-24 px-6 bg-black text-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+
+            <motion.div
+              className="lg:col-span-5"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+            >
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-red-500 mb-6">Our Story</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold leading-tight mb-8">
+                We built our own products first.{' '}
+                <span className="text-red-500">Then we helped others build theirs.</span>
+              </h2>
+            </motion.div>
+
+            <motion.div
+              className="lg:col-span-7 space-y-6 text-zinc-400 text-lg leading-relaxed"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+              custom={1}
+            >
+              <p>
+                Bloop started because we kept seeing the same problem: founders with genuinely good ideas spending months finding the right developers, burning budget on agencies that treated them like a ticket number, and ending up with products that were hard to maintain and impossible to hand off.
+              </p>
+              <p>
+                We'd been through it ourselves. We built CrowdPen, TaskWit, and Strideos — our own products — before we started taking client work. That experience taught us what a good build process actually looks like: clear communication, iterative demos, clean code, and a handover that doesn't leave the client stranded.
+              </p>
+              <p className="text-white font-medium">
+                That's the standard we hold ourselves to for every client. Not because it's good marketing — because we've felt what the alternative costs.
+              </p>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="py-24 px-6 bg-zinc-50 border-y border-zinc-100">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">How We Work</h2>
+            <p className="text-zinc-500 text-lg max-w-xl mx-auto">
+              These aren't aspirational values on a wall. They're the actual things we argue about internally when we're deciding how to handle something.
             </p>
           </motion.div>
-        </div>
-      </section>
 
-      {/* The Mission Brief */}
-      <section className={`py-24 px-6 border-b transition-colors duration-500 ${isDark ? 'border-gray-800 bg-gray-900/30' : 'border-gray-200 bg-gray-100/50'}`}>
-        <div className="max-w-4xl mx-auto text-center">
-          <Target className="w-12 h-12 text-red-500 mx-auto mb-6" />
-          <h2 className={`text-4xl font-bold mb-8 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>The Mission Brief</h2>
-          <p className={`text-xl leading-relaxed mb-12 transition-colors duration-500 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-            Most startups fail because they move too slow. We fix that. <br />
-            We don't just advise; we build. We equip founders with the elite engineering, aggressive strategy, and financial firepower needed to win.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            <div className={`p-6 border rounded-xl transition-all duration-300 ${isDark ? 'border-gray-800 bg-black hover:border-red-900/50' : 'border-gray-200 bg-white hover:border-red-200 hover:shadow-lg'}`}>
-              <Zap className="w-8 h-8 text-red-500 mb-4" />
-              <h3 className={`font-bold text-lg mb-2 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>Speed is Survival</h3>
-              <p className={`text-sm transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>We launch fast. We iterate daily. We outpace the competition.</p>
-            </div>
-            <div className={`p-6 border rounded-xl transition-all duration-300 ${isDark ? 'border-gray-800 bg-black hover:border-red-900/50' : 'border-gray-200 bg-white hover:border-red-200 hover:shadow-lg'}`}>
-              <Shield className="w-8 h-8 text-red-500 mb-4" />
-              <h3 className={`font-bold text-lg mb-2 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>Unbreakable Code</h3>
-              <p className={`text-sm transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>We build scalable, military-grade tech that handles millions of users.</p>
-            </div>
-            <div className={`p-6 border rounded-xl transition-all duration-300 ${isDark ? 'border-gray-800 bg-black hover:border-red-900/50' : 'border-gray-200 bg-white hover:border-red-200 hover:shadow-lg'}`}>
-              <Crosshair className="w-8 h-8 text-red-500 mb-4" />
-              <h3 className={`font-bold text-lg mb-2 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>Precision Strikes</h3>
-              <p className={`text-sm transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>We identify market gaps and attack them with laser focus.</p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {values.map((v, i) => (
+              <motion.div
+                key={i}
+                className="p-8 rounded-2xl bg-white border border-zinc-100 hover:border-red-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUp}
+                custom={i * 0.5}
+              >
+                <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center mb-5">
+                  {v.icon}
+                </div>
+                <h3 className="text-xl font-bold text-black mb-3">{v.title}</h3>
+                <p className="text-zinc-500 leading-relaxed">{v.body}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* The Operatives (Team) */}
-      <section className="py-24 px-6">
+      {/* Team — hidden until ready */}
+
+      {/* Where We Work */}
+      <section className="py-16 px-6 bg-zinc-50 border-t border-zinc-100">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-16">
-            <h2 className={`text-4xl font-bold transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>The Operatives</h2>
-            <div className="flex space-x-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-              <div className={`w-3 h-3 rounded-full transition-colors duration-500 ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Where We Operate</p>
+              <p className="text-xl font-bold text-black">Ghana · Nigeria · United Kingdom · United States · Canada</p>
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Operative 1 */}
-            <div className={`group relative border overflow-hidden transition-all duration-300 ${isDark ? 'border-gray-800 bg-gray-900/50 hover:border-red-900/50' : 'border-gray-200 bg-white hover:border-red-200 hover:shadow-xl'}`}>
-              <div className="absolute top-0 right-0 p-4 opacity-50">
-                <Lock className="w-4 h-4 text-gray-500" />
-              </div>
-              <div className="aspect-square relative grayscale group-hover:grayscale-0 transition-all duration-500">
-                {/* Placeholder for team image */}
-                <div className={`absolute inset-0 flex items-center justify-center transition-colors duration-500 ${isDark ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                  <Users className={`w-20 h-20 transition-colors duration-500 ${isDark ? 'text-gray-700' : 'text-gray-400'}`} />
-                </div>
-              </div>
-              <div className={`p-6 border-t transition-colors duration-500 ${isDark ? 'border-gray-800' : 'border-gray-100'}`}>
-                <div className="text-red-500 text-xs font-mono uppercase tracking-widest mb-1">Founder / CEO</div>
-                <h3 className={`text-2xl font-bold mb-2 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>Agent "Alpha"</h3>
-                <p className={`text-sm mb-4 transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>
-                  Specialization: Grand Strategy & Capital Allocation.
-                </p>
-                <div className="flex items-center space-x-2 text-xs font-mono text-gray-600">
-                  <span>STATUS: ACTIVE</span>
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                </div>
-              </div>
-            </div>
-
-            {/* Operative 2 */}
-            <div className={`group relative border overflow-hidden transition-all duration-300 ${isDark ? 'border-gray-800 bg-gray-900/50 hover:border-red-900/50' : 'border-gray-200 bg-white hover:border-red-200 hover:shadow-xl'}`}>
-              <div className="absolute top-0 right-0 p-4 opacity-50">
-                <Lock className="w-4 h-4 text-gray-500" />
-              </div>
-              <div className="aspect-square relative grayscale group-hover:grayscale-0 transition-all duration-500">
-                <div className={`absolute inset-0 flex items-center justify-center transition-colors duration-500 ${isDark ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                  <Terminal className={`w-20 h-20 transition-colors duration-500 ${isDark ? 'text-gray-700' : 'text-gray-400'}`} />
-                </div>
-              </div>
-              <div className={`p-6 border-t transition-colors duration-500 ${isDark ? 'border-gray-800' : 'border-gray-100'}`}>
-                <div className="text-red-500 text-xs font-mono uppercase tracking-widest mb-1">Head of Engineering</div>
-                <h3 className={`text-2xl font-bold mb-2 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>Agent "Zero"</h3>
-                <p className={`text-sm mb-4 transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>
-                  Specialization: System Architecture & AI Warfare.
-                </p>
-                <div className="flex items-center space-x-2 text-xs font-mono text-gray-600">
-                  <span>STATUS: ACTIVE</span>
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                </div>
-              </div>
-            </div>
-
-            {/* Operative 3 */}
-            <div className={`group relative border overflow-hidden transition-all duration-300 ${isDark ? 'border-gray-800 bg-gray-900/50 hover:border-red-900/50' : 'border-gray-200 bg-white hover:border-red-200 hover:shadow-xl'}`}>
-              <div className="absolute top-0 right-0 p-4 opacity-50">
-                <Lock className="w-4 h-4 text-gray-500" />
-              </div>
-              <div className="aspect-square relative grayscale group-hover:grayscale-0 transition-all duration-500">
-                <div className={`absolute inset-0 flex items-center justify-center transition-colors duration-500 ${isDark ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                  <FileText className={`w-20 h-20 transition-colors duration-500 ${isDark ? 'text-gray-700' : 'text-gray-400'}`} />
-                </div>
-              </div>
-              <div className={`p-6 border-t transition-colors duration-500 ${isDark ? 'border-gray-800' : 'border-gray-100'}`}>
-                <div className="text-red-500 text-xs font-mono uppercase tracking-widest mb-1">Head of Growth</div>
-                <h3 className={`text-2xl font-bold mb-2 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>Agent "Velocity"</h3>
-                <p className={`text-sm mb-4 transition-colors duration-500 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>
-                  Specialization: Viral Loops & Market Penetration.
-                </p>
-                <div className="flex items-center space-x-2 text-xs font-mono text-gray-600">
-                  <span>STATUS: ACTIVE</span>
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* The Code (Values) */}
-      <section className={`py-24 px-6 border-t transition-colors duration-500 ${isDark ? 'border-gray-800 bg-black' : 'border-gray-200 bg-gray-50'}`}>
-        <div className="max-w-7xl mx-auto">
-          <h2 className={`text-4xl font-bold mb-12 text-center transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>The Code</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className={`border-l-4 border-red-600 pl-8 py-2 transition-colors duration-300 ${isDark ? 'hover:bg-gray-900/30' : 'hover:bg-red-50'}`}>
-              <h3 className={`text-2xl font-bold mb-4 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>01. Radical Truth</h3>
-              <p className={`transition-colors duration-500 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>We don't sell comfort. We sell reality. If your idea is bad, we kill it. If it's good, we scale it.</p>
-            </div>
-            <div className={`border-l-4 pl-8 py-2 transition-all duration-300 ${isDark ? 'border-gray-700 hover:border-red-600 hover:bg-gray-900/30' : 'border-gray-300 hover:border-red-600 hover:bg-red-50'}`}>
-              <h3 className={`text-2xl font-bold mb-4 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>02. Speed Over Perfection</h3>
-              <p className={`transition-colors duration-500 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Perfection is procrastination in a tuxedo. We ship fast, break things, and fix them faster.</p>
-            </div>
-            <div className={`border-l-4 pl-8 py-2 transition-all duration-300 ${isDark ? 'border-gray-700 hover:border-red-600 hover:bg-gray-900/30' : 'border-gray-300 hover:border-red-600 hover:bg-red-50'}`}>
-              <h3 className={`text-2xl font-bold mb-4 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>03. Impact or Nothing</h3>
-              <p className={`transition-colors duration-500 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>We don't build for vanity metrics. We build for revenue, dominance, and legacy.</p>
-            </div>
-            <div className={`border-l-4 border-red-600 pl-8 py-2 transition-colors duration-300 ${isDark ? 'hover:bg-gray-900/30' : 'hover:bg-red-50'}`}>
-              <h3 className={`text-2xl font-bold mb-4 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>04. Loyalty to the Mission</h3>
-              <p className={`transition-colors duration-500 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Once we partner, we are in the trenches with you. Your war is our war.</p>
+            <div className="flex items-center gap-2 text-sm text-zinc-500">
+              <Calendar className="w-4 h-4" />
+              <span>Available for new projects — typical start time is 2 weeks from contract</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className={`py-32 border-t relative overflow-hidden transition-colors duration-500 ${isDark ? 'border-gray-800' : 'border-gray-200 bg-white'}`}>
-        <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] ${isDark ? 'from-red-900/20 via-black to-black' : 'from-red-100/50 via-white to-white'}`}></div>
-        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-          <h2 className={`text-5xl md:text-6xl font-black mb-8 tracking-tight transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            Join the <span className="text-red-600">Alliance.</span>
-          </h2>
-          <p className={`text-xl mb-12 max-w-2xl mx-auto transition-colors duration-500 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-            We are looking for the next generation of industry titans. Are you one of them?
-          </p>
-          <Link prefetch={false} href="/contact">
-            <button className={`px-10 py-5 rounded-full font-bold text-xl transition-colors transform hover:scale-105 duration-200 shadow-[0_0_20px_rgba(255,255,255,0.3)] ${isDark ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800 shadow-none'}`}>
-              Request Briefing
-            </button>
-          </Link>
+      <section className="py-28 bg-black text-white px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-red-950/30 via-transparent to-transparent pointer-events-none" />
+        <div className="max-w-3xl mx-auto text-center relative z-10">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+          >
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+              Want to work together?
+            </h2>
+            <p className="text-xl text-zinc-400 mb-10 leading-relaxed">
+              Tell us what you're building. We'll come back with a clear view on how we'd approach it and whether we're a good fit — no sales pressure, no commitment required.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link prefetch={false} href="/contact">
+                <button className="bg-red-600 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-red-700 transition-colors inline-flex items-center gap-3 shadow-lg shadow-red-900/20">
+                  Book a Free Call <ArrowRight className="w-5 h-5" />
+                </button>
+              </Link>
+              <Link prefetch={false} href="/services">
+                <button className="border border-zinc-700 text-zinc-300 px-10 py-5 rounded-full font-bold text-lg hover:bg-zinc-900 hover:text-white transition-colors">
+                  See What We Build
+                </button>
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 

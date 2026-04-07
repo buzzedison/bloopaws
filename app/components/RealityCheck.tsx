@@ -31,13 +31,13 @@ export default function RealityCheck() {
 
             <div className="space-y-6 text-lg md:text-xl text-gray-300 leading-relaxed">
               <p>
-                You're juggling a million things: the tech, the funding, the marketing, finding customers... it's a lot.
+                You know what you want to build. What you need is someone who can actually build it — without burning your budget, missing deadlines, or handing you code you can't maintain.
               </p>
               <p>
-                You don't need another consultant with a 50-page PowerPoint. You need a crew that gets their hands dirty.
+                Most agencies write code. We think about your business first — what will get you funded, what will retain users, and what will scale when things take off.
               </p>
               <p className="font-semibold text-white border-l-4 border-red-600 pl-4">
-                That's us. We handle the tricky parts so you can focus on your vision.
+                We've built our own products. We know what breaks, what investors ask for, and what actually gets users to stay. That experience is what you're hiring.
               </p>
             </div>
           </motion.div>

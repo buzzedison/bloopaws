@@ -66,7 +66,7 @@ export default function FAQInnovative() {
           transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-black inline-block relative">
-            Frequently Asked Questions
+            Common Questions
             <motion.div 
               className="absolute -bottom-3 left-0 h-1 bg-red-600"
               initial={{ width: 0 }}

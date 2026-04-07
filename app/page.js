@@ -13,12 +13,12 @@ import PlaybookTeaser from "./components/PlaybookTeaser";
 import FAQInnovative from "./components/FAQInnovative";
 
 export const metadata = {
-  title: "Turn Your Idea Into a Business",
-  description: "We turn big ideas into businesses that actually work. From web development to SaaS platforms, mobile apps, and AI automations - we handle the tricky parts so you can focus on your vision.",
+  title: "Your Technical Co-Founder | Bloop Global",
+  description: "We build the product while you build the business. Web apps, mobile platforms, and AI automation — shipped fast, built to scale, and designed to raise funding.",
   keywords: "business development, SaaS development, web development, mobile app development, AI automation, startup funding, business strategy, technical co-founder",
   openGraph: {
-    title: "Turn Your Incredible Idea Into a Real Business | Bloop Global",
-    description: "We turn big ideas into businesses that actually work. We've been in the trenches, built our own stuff, and we're here to help you build yours.",
+    title: "The Technical Co-Founder You Don't Have Yet | Bloop Global",
+    description: "We build the product while you build the business. Web apps, mobile platforms, and AI automation — shipped fast, built to scale, and designed to raise funding.",
     type: "website",
     url: "https://bloopglobal.com",
     siteName: "Bloop Global",
@@ -33,8 +33,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Turn Your Incredible Idea Into a Real Business | Bloop Global",
-    description: "We turn big ideas into businesses that actually work. We've been in the trenches, built our own stuff, and we're here to help you build yours.",
+    title: "The Technical Co-Founder You Don't Have Yet | Bloop Global",
+    description: "We build the product while you build the business. Web apps, mobile platforms, and AI automation — shipped fast, built to scale, and designed to raise funding.",
     images: ["/images/blooplogo.png"]
   },
   robots: {
@@ -203,25 +203,25 @@ export default async function Home() {
 
           <div className="max-w-5xl mx-auto text-center relative z-10">
             <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight">
-              Ready to <span className="text-black">Dominate?</span>
+              Let's Build Something <span className="text-black">Real.</span>
             </h2>
 
             <p className="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto leading-relaxed font-light">
-              The market doesn't wait for perfect. It rewards action. Let's build something that makes your competition irrelevant.
+              You have the idea. We have the team, the tools, and the track record. Tell us what you're working on and we'll tell you exactly how we'd approach it — no commitment required.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <Link prefetch={false} href="/contact">
                 <button className="group relative overflow-hidden bg-white text-black font-bold py-5 px-12 rounded-full shadow-2xl hover:shadow-white/20 transition-all duration-300 transform hover:-translate-y-1">
                   <span className="relative z-10 flex items-center text-lg">
-                    Start Your Build
+                    Book a Free Call
                     <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
                 </button>
               </Link>
 
               <a href="mailto:ask@bloopglobal.com" className="text-white/80 hover:text-white font-medium underline decoration-white/30 hover:decoration-white transition-all">
-                Or email us directly
+                Or email us at ask@bloopglobal.com
               </a>
             </div>
           </div>

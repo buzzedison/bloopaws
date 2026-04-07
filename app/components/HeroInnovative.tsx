@@ -44,14 +44,13 @@ export default function HeroInnovative() {
 
   // Headline words with custom styling
   const headlineWords = [
-    { text: "Turn", className: "text-black" },
-    { text: "Your", className: "text-black" },
-    { text: "Vision", className: "text-black" },
-    { text: "Into", className: "text-black" },
-    { text: "A", className: "text-black" },
-    { text: "Market-Leading", className: "text-red-600" },
-    { text: "Tech", className: "text-black" },
-    { text: "Company.", className: "text-black" }
+    { text: "The", className: "text-black" },
+    { text: "Technical", className: "text-black" },
+    { text: "Co-Founder", className: "text-red-600" },
+    { text: "You", className: "text-black" },
+    { text: "Don't", className: "text-black" },
+    { text: "Have", className: "text-black" },
+    { text: "Yet.", className: "text-black" },
   ]
 
   // Calculate dynamic positions for floating elements
@@ -124,7 +123,7 @@ export default function HeroInnovative() {
                 }
               }}
             >
-              We don't just write code. We build award-winning web apps, mobile platforms, and AI systems that drive real revenue. From MVP to IPO, we are your technical co-founder.
+              We build the product while you build the business. AI automation and workflows, web apps, and mobile platforms — shipped fast, built to scale, and designed to raise funding.
             </motion.p>
 
             {/* CTA buttons with staggered animation */}
@@ -148,7 +147,7 @@ export default function HeroInnovative() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="relative z-10 flex items-center">
-                    Start Your Build
+                    Tell Us Your Idea
                     <motion.span
                       className="inline-block ml-2"
                       initial={{ x: 0 }}
@@ -167,7 +166,7 @@ export default function HeroInnovative() {
               </Link>
 
               <Link prefetch={false} href="/contact" className="text-gray-600 hover:text-black transition-colors duration-300 flex items-center px-6">
-                or, let's chat about your project →
+                See how it works →
               </Link>
             </motion.div>
           </div>

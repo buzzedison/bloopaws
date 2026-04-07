@@ -34,10 +34,10 @@ export default function InsightsInnovative({ posts }: InsightsInnovativeProps) {
         >
           <div className="max-w-2xl">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-              Latest Intelligence
+              From the Blog
             </h2>
             <p className="text-xl text-gray-700 leading-relaxed">
-              No fluff. Just actionable insights from the front lines of product development.
+              Practical guides on building, shipping, and scaling — from a team that's done it.
             </p>
           </div>
           <div className="hidden md:block">
