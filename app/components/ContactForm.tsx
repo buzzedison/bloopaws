@@ -112,7 +112,7 @@ export default function ContactForm() {
                 {[
                   { icon: Clock, label: 'Response time', value: 'Within 2 hours' },
                   { icon: Mail, label: 'Email', value: 'ask@bloopglobal.com' },
-                  { icon: Phone, label: 'Phone', value: '+233 500 002 994' },
+                  { icon: Phone, label: 'Phone', value: '+233 503 874 448' },
                   { icon: MapPin, label: 'Serving', value: 'US · UK · Ghana · Canada · Nigeria' },
                 ].map(({ icon: Icon, label, value }) => (
                   <div key={label} className="flex items-start gap-4">

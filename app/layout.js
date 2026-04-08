@@ -89,7 +89,7 @@ export default function RootLayout({ children }) {
               ],
               "contactPoint": [{
                 "@type": "ContactPoint",
-                "telephone": "+233500002994",
+                "telephone": "+233503874448",
                 "contactType": "sales",
                 "areaServed": ["US", "GB", "GH", "CA", "NG"],
                 "availableLanguage": "English"

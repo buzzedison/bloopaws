@@ -84,9 +84,9 @@ export default function Component() {
             This is for the starters. For professionals who have a killer idea but haven't tested it. If you're in the idea stage, this is your chance to launch without breaking the bank.
           </p>
           <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6">
-            <Link prefetch={false} href="tel:0500002994" className="flex items-center bg-red-600 text-white px-8 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 w-full md:w-auto justify-center">
+            <Link prefetch={false} href="tel:+233503874448" className="flex items-center bg-red-600 text-white px-8 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 w-full md:w-auto justify-center">
               <Phone className="mr-3 h-6 w-6" />
-              Call: 0500002994
+              Call: +233 503 874 448
             </Link>
             <Link prefetch={false} href="https://wa.me/0277667561" className="flex items-center bg-green-500 text-white px-8 py-4 rounded-full hover:bg-green-600 transition-colors duration-300 w-full md:w-auto justify-center">
               <MessageCircle className="mr-3 h-6 w-6" />
