@@ -11,14 +11,17 @@ interface FormData {
   phone: string;
   message: string;
   service: string;
+  promo: string;
+  referral: string;
 }
 
 const SERVICES = [
-  'AI Automation',
-  'Web & Mobile App Development',
+  'AI & Automation',
+  'Web App Development',
+  'Mobile App Development',
+  'Website Design',
   'Product Design (UI/UX)',
   'Funding & Pitch Strategy',
-  'Growth Engineering',
   'Consulting & Strategy',
   'Other',
 ];
@@ -30,6 +33,8 @@ export default function ContactForm() {
     phone: '',
     message: '',
     service: '',
+    promo: '',
+    referral: '',
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -166,7 +171,7 @@ export default function ContactForm() {
                   <button
                     onClick={() => {
                       setSubmitted(false);
-                      setFormData({ name: '', email: '', phone: '', message: '', service: '' });
+                      setFormData({ name: '', email: '', phone: '', message: '', service: '', promo: '', referral: '' });
                     }}
                     className="mt-8 text-sm text-red-600 font-medium hover:underline"
                   >
@@ -263,6 +268,45 @@ export default function ContactForm() {
                         readOnly
                         className="sr-only"
                         tabIndex={-1}
+                      />
+                    </div>
+
+                    {/* Where did you hear about us */}
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                        Where did you hear about us?
+                      </label>
+                      <select
+                        name="referral"
+                        value={formData.referral}
+                        onChange={e => setFormData(prev => ({ ...prev, referral: e.target.value }))}
+                        className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50 text-black focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent focus:bg-white transition-all duration-200 text-sm"
+                      >
+                        <option value="">Select an option</option>
+                        <option value="Google">Google Search</option>
+                        <option value="LinkedIn">LinkedIn</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Twitter / X">Twitter / X</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="Referral">Referred by someone</option>
+                        <option value="Podcast">Podcast</option>
+                        <option value="YouTube">YouTube</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+
+                    {/* Promo code */}
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                        Promo Code <span className="normal-case font-normal text-gray-400">(optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="promo"
+                        value={formData.promo}
+                        onChange={handleChange}
+                        placeholder="Enter promo code if you have one"
+                        className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent focus:bg-white transition-all duration-200 text-sm"
                       />
                     </div>
 

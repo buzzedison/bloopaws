@@ -18,7 +18,7 @@ async function stridePost(path: string, body: object) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, phone, service, message } = await request.json()
+    const { name, email, phone, service, message, promo, referral } = await request.json()
 
     if (!name || !email || !service) {
       return NextResponse.json(
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       phone: phone || '',
       source: 'Website Contact Form',
       tags: ['inbound', service.toLowerCase().replace(/\s+/g, '-')],
-      custom_fields: { service, message: message || '' },
+      custom_fields: { service, message: message || '', referral: referral || '', promo: promo || '' },
     })
 
     // ─── 2. Create deal ──────────────────────────────────────────────
@@ -112,6 +112,8 @@ export async function POST(request: NextRequest) {
               <tr><td style="padding: 8px 0; color: #999;">Email</td><td style="padding: 8px 0;"><a href="mailto:${email}" style="color: #e35d00;">${email}</a></td></tr>
               <tr><td style="padding: 8px 0; color: #999;">Phone</td><td style="padding: 8px 0;">${phone || '—'}</td></tr>
               <tr><td style="padding: 8px 0; color: #999;">Service</td><td style="padding: 8px 0;"><strong>${service}</strong></td></tr>
+              <tr><td style="padding: 8px 0; color: #999;">Heard via</td><td style="padding: 8px 0;">${referral || '—'}</td></tr>
+              <tr><td style="padding: 8px 0; color: #999;">Promo code</td><td style="padding: 8px 0;">${promo || '—'}</td></tr>
               <tr><td style="padding: 8px 0; color: #999; vertical-align: top;">Message</td><td style="padding: 8px 0;">${message || '—'}</td></tr>
             </table>
           </div>
