@@ -1,5 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { getRegionConfig } from '../../lib/leadQualify'
+import crypto from 'crypto'
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bloopglobal.com'
+const QUALIFY_SECRET = process.env.QUALIFY_SECRET || 'bloop-qualify-secret'
+
+function qualifyLink(email: string, question: string, answer: string): string {
+  const token = crypto
+    .createHmac('sha256', QUALIFY_SECRET)
+    .update(`${email}:${question}:${answer}`)
+    .digest('hex')
+    .slice(0, 16)
+  return `${BASE_URL}/api/qualify?email=${encodeURIComponent(email)}&q=${question}&a=${encodeURIComponent(answer)}&token=${token}`
+}
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const STRIDE_API_KEY = process.env.STRIDE_API_KEY!
@@ -19,6 +33,8 @@ async function stridePost(path: string, body: object) {
 export async function POST(request: NextRequest) {
   try {
     const { name, email, phone, service, message, promo, referral } = await request.json()
+    const countryCode = request.headers.get('x-vercel-ip-country') || 'US'
+    const region = getRegionConfig(countryCode)
 
     if (!name || !email || !service) {
       return NextResponse.json(
@@ -122,6 +138,95 @@ export async function POST(request: NextRequest) {
               Contact + deal + note created in Stride. Reply to this email to reach ${firstName} directly.<br/>
               <strong>Respond within 2 hours.</strong>
             </p>
+          </div>
+        </div>
+      `,
+    })
+
+    // ─── 6. Qualifying email — sent 30 min later ─────────────────────
+    const budgetLinks = region.tiers.map(tier => `
+      <a href="${qualifyLink(email, 'budget', tier.value)}"
+         style="display:block; margin: 8px 0; padding: 12px 20px; background: #f5f5f5; border: 1px solid #e0e0e0; border-radius: 8px; color: #1a1a2e; text-decoration: none; font-size: 15px;">
+        ${tier.label}
+      </a>`).join('')
+
+    const stageLinks = [
+      { label: "I'm still exploring the idea",  value: 'exploring' },
+      { label: 'I have a rough spec or wireframes', value: 'has-spec' },
+      { label: "I've built something and need to improve it", value: 'existing-product' },
+    ].map(s => `
+      <a href="${qualifyLink(email, 'stage', s.value)}"
+         style="display:block; margin: 8px 0; padding: 12px 20px; background: #f5f5f5; border: 1px solid #e0e0e0; border-radius: 8px; color: #1a1a2e; text-decoration: none; font-size: 15px;">
+        ${s.label}
+      </a>`).join('')
+
+    const timelineLinks = [
+      { label: 'Just researching for now',   value: 'researching' },
+      { label: 'Within the next 1–3 months', value: '1-3-months' },
+      { label: 'As soon as possible',        value: 'asap' },
+    ].map(t => `
+      <a href="${qualifyLink(email, 'timeline', t.value)}"
+         style="display:block; margin: 8px 0; padding: 12px 20px; background: #f5f5f5; border: 1px solid #e0e0e0; border-radius: 8px; color: #1a1a2e; text-decoration: none; font-size: 15px;">
+        ${t.label}
+      </a>`).join('')
+
+    const thirtyMinFromNow = new Date(Date.now() + 30 * 60 * 1000).toISOString()
+
+    await resend.emails.send({
+      from: 'Dennis at Bloop <dennis@updates.bloopglobal.com>',
+      to: email,
+      subject: `Quick question before we chat, ${firstName}`,
+      scheduledAt: thirtyMinFromNow,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; color: #1a1a2e;">
+          <div style="background: #1a1a2e; padding: 32px 40px;">
+            <h2 style="color: #dc2626; margin: 0; font-size: 20px;">Bloop Global</h2>
+          </div>
+          <div style="padding: 40px;">
+            <p style="font-size: 16px; margin-top: 0;">Hey ${firstName},</p>
+            <p style="font-size: 15px; line-height: 1.7; color: #444;">
+              Thanks for reaching out about <strong>${service}</strong>. Before we jump on a call,
+              I'd love to know a bit more so we can make the most of our time together.
+            </p>
+            <p style="font-size: 15px; line-height: 1.7; color: #444;">
+              Just click your answers below — takes 30 seconds.
+            </p>
+
+            <hr style="border: none; border-top: 1px solid #eee; margin: 28px 0;" />
+
+            <p style="font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em; color: #999; margin-bottom: 12px;">
+              1. What's your rough budget for this project?
+            </p>
+            ${budgetLinks}
+
+            <hr style="border: none; border-top: 1px solid #eee; margin: 28px 0;" />
+
+            <p style="font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em; color: #999; margin-bottom: 12px;">
+              2. Where are you right now?
+            </p>
+            ${stageLinks}
+
+            <hr style="border: none; border-top: 1px solid #eee; margin: 28px 0;" />
+
+            <p style="font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em; color: #999; margin-bottom: 12px;">
+              3. When are you looking to get started?
+            </p>
+            ${timelineLinks}
+
+            <hr style="border: none; border-top: 1px solid #eee; margin: 28px 0;" />
+
+            <p style="font-size: 14px; color: #888; line-height: 1.6;">
+              Or if you'd rather just talk — reply to this email and we'll set something up.
+            </p>
+
+            <p style="font-size: 16px; margin-top: 32px;">
+              Cheers,<br/>
+              <strong>Dennis</strong><br/>
+              <span style="color: #999; font-size: 13px;">Bloop Global · ask@bloopglobal.com</span>
+            </p>
+          </div>
+          <div style="background: #f7f3ee; padding: 20px 40px; font-size: 12px; color: #aaa;">
+            Bloop Global LLC · bloopglobal.com
           </div>
         </div>
       `,
