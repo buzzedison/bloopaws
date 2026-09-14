@@ -65,6 +65,8 @@ export default function BloopNavbar() {
   const navItems = [
     { name: 'Work', href: '/launchpad' },
     { name: 'Services', href: '/services' },
+    { name: 'AI Services', href: '/services/ai' },
+    { name: 'Promo Packages', href: '/repackage' },
     { name: 'How It Works', href: '/how-it-works' },
     { name: 'Insights', href: '/playbook' },
     { name: 'About Us', href: '/about' },
@@ -121,6 +123,10 @@ export default function BloopNavbar() {
               )}
             </div>
           </div>
+          <div className="flex items-center gap-5 pb-3 text-sm font-semibold">
+            <Link prefetch={false} href="/services/ai" className="text-zinc-700 hover:text-red-600">AI Services</Link>
+            <Link prefetch={false} href="/repackage" className="text-red-700 hover:text-red-900">Promo Packages</Link>
+          </div>
         </div>
       </nav>
     );
@@ -159,15 +165,15 @@ export default function BloopNavbar() {
             </div>
 
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden xl:flex items-center gap-1">
               {navItems.map((item) => {
-                const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+                const isActive = (pathname === item.href || pathname?.startsWith(item.href + '/')) && !navItems.some(other => other.href.length > item.href.length && (pathname === other.href || pathname?.startsWith(other.href + '/')));
                 return (
                   <Link
                     key={item.name}
                     prefetch={false}
                     href={item.href}
-                    className={`relative px-4 py-2 text-[13px] font-medium rounded-lg transition-all duration-200 ${
+                    className={`relative px-3 py-2 text-[13px] font-medium rounded-lg transition-all duration-200 ${
                       isActive
                         ? 'text-black bg-zinc-100'
                         : 'text-zinc-500 hover:text-black hover:bg-zinc-50'
@@ -216,7 +222,7 @@ export default function BloopNavbar() {
             </div>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden xl:flex items-center gap-3">
               <Link
                 prefetch={false}
                 href="/contact"
@@ -227,7 +233,7 @@ export default function BloopNavbar() {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="lg:hidden">
+            <div className="xl:hidden">
               <button
                 onClick={() => setIsNavOpen(!isNavOpen)}
                 className="text-zinc-700 hover:text-red-600 inline-flex items-center justify-center p-2 rounded-lg transition-colors duration-200"
@@ -252,10 +258,10 @@ export default function BloopNavbar() {
 
       {/* Mobile Menu */}
       {isNavOpen && (
-        <div id="mobile-navigation" className="fixed inset-0 z-40 lg:hidden pt-[72px] bg-black/95 backdrop-blur-md">
+        <div id="mobile-navigation" className="fixed inset-0 z-40 xl:hidden overflow-y-auto pt-[72px] bg-black/95 backdrop-blur-md">
           <div className="px-6 py-8 space-y-1">
             {navItems.map((item) => {
-              const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+              const isActive = (pathname === item.href || pathname?.startsWith(item.href + '/')) && !navItems.some(other => other.href.length > item.href.length && (pathname === other.href || pathname?.startsWith(other.href + '/')));
               return (
                 <Link
                   prefetch={false}

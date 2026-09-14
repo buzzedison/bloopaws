@@ -48,7 +48,7 @@ export function blankQuote(): Quote {
     logo: "",
   };
 }
-export function validateQuote(value: unknown): string | null {
+export function validateQuote(value: unknown, draft = false): string | null {
   if (!value || typeof value !== "object") return "Enter your quote details.";
   const q = value as Quote;
   for (const [key, max] of Object.entries({
@@ -67,15 +67,19 @@ export function validateQuote(value: unknown): string | null {
     )
       return `Check ${key}.`;
   }
-  if (!q.business.trim() || !q.customer.trim() || !q.reference.trim())
+  if (
+    !draft &&
+    (!q.business.trim() || !q.customer.trim() || !q.reference.trim())
+  )
     return "Add your business, customer and quote reference.";
   const validDate = (s: string) =>
     /^\d{4}-\d{2}-\d{2}$/.test(s) &&
     !Number.isNaN(Date.parse(s)) &&
     new Date(s).toISOString().slice(0, 10) === s;
   if (
-    !validDate(q.date) ||
-    (q.validUntil && (!validDate(q.validUntil) || q.validUntil < q.date))
+    !draft &&
+    (!validDate(q.date) ||
+      (q.validUntil && (!validDate(q.validUntil) || q.validUntil < q.date)))
   )
     return "Check the quote dates. Valid until must be on or after the quote date.";
   if (!Array.isArray(q.items) || !q.items.length || q.items.length > 30)
@@ -84,10 +88,10 @@ export function validateQuote(value: unknown): string | null {
     if (
       !item ||
       typeof item.description !== "string" ||
-      !item.description.trim() ||
+      (!draft && !item.description.trim()) ||
       item.description.length > 180 ||
       !Number.isFinite(item.quantity) ||
-      item.quantity <= 0 ||
+      (draft ? item.quantity < 0 : item.quantity <= 0) ||
       item.quantity > 100000 ||
       !Number.isFinite(item.price) ||
       item.price < 0 ||

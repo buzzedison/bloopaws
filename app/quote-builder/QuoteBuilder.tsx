@@ -20,6 +20,7 @@ import {
 import { whatsappText } from "./model";
 import { track, trackVisit } from "./analytics";
 import s from "./quote.module.css";
+import { prepareLogo } from "./logo";
 const KEY = "bloop:quotes:v1";
 const input = (
   label: string,
@@ -47,6 +48,9 @@ export default function QuoteBuilder() {
   const [remember, setRemember] = useState(false);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [logoBusy, setLogoBusy] = useState(false);
+  const [logoMessage, setLogoMessage] = useState("");
+  const logoVersion = useRef(0);
   const [showLead, setShowLead] = useState(false);
   const [leadStatus, setLeadStatus] = useState("");
   const [leadBusy, setLeadBusy] = useState(false);
@@ -62,19 +66,8 @@ export default function QuoteBuilder() {
       if (stored) {
         const data = JSON.parse(stored);
         if (data.version === 1 && data.draft && Array.isArray(data.quotes)) {
-          // Never trust stale / corrupted browser data enough to break the editor.
-          if (
-            !validateQuote({
-              ...data.draft,
-              business: data.draft.business || "Business",
-              customer: data.draft.customer || "Customer",
-              items: data.draft.items?.map((i: Quote["items"][number]) => ({
-                ...i,
-                description: i.description || "Item",
-              })),
-            })
-          )
-            setQ(data.draft);
+          // Preserve incomplete drafts while rejecting malformed storage data.
+          if (!validateQuote(data.draft, true)) setQ(data.draft);
           setSaved(
             data.quotes
               .filter((item: unknown) => !validateQuote(item))
@@ -124,7 +117,7 @@ export default function QuoteBuilder() {
       );
   }
   async function download() {
-    if (!valid() || busy) return;
+    if (!valid() || busy || logoBusy) return;
     setBusy(true);
     setMessage("Creating your PDF…");
     try {
@@ -155,7 +148,7 @@ export default function QuoteBuilder() {
     }
   }
   function share() {
-    if (!valid()) return;
+    if (busy || logoBusy || !valid()) return;
     const w = window.open(
       `https://wa.me/?text=${encodeURIComponent(whatsappText(q))}`,
       "_blank",
@@ -165,10 +158,12 @@ export default function QuoteBuilder() {
     rememberQuote();
     track("quote_whatsapp_open", { item_count: q.items.length });
     setMessage(
-      "WhatsApp opens with your quote text. Choose a recipient and review before sending. Attach your downloaded PDF separately.",
+      "Choose a recipient in WhatsApp and review before sending. Attach your downloaded PDF separately. If no tab opens, allow pop-ups for this site and try again.",
     );
   }
   function newQuote() {
+    if (busy || logoBusy) return;
+    if (!validateQuote(q)) rememberQuote();
     const fresh = blankQuote();
     setQ({
       ...fresh,
@@ -182,23 +177,38 @@ export default function QuoteBuilder() {
   }
   async function logo(file?: File) {
     if (!file) return;
-    if (
-      !["image/png", "image/jpeg"].includes(file.type) ||
-      file.size > 250000
-    ) {
-      setMessage("Choose a PNG or JPEG logo under 250 KB.");
-      return;
+    const version = ++logoVersion.current;
+    setLogoBusy(true);
+    setLogoMessage("Preparing your logo…");
+    try {
+      const result = await prepareLogo(file);
+      if (version !== logoVersion.current) return;
+      update("logo", result);
+      setLogoMessage("Logo added. It will appear on your downloaded PDF.");
+    } catch (error) {
+      if (version === logoVersion.current)
+        setLogoMessage(
+          error instanceof Error
+            ? error.message
+            : "Could not add this logo. Please try again.",
+        );
+    } finally {
+      if (version === logoVersion.current) setLogoBusy(false);
     }
-    const reader = new FileReader();
-    reader.onload = () => update("logo", String(reader.result));
-    reader.readAsDataURL(file);
   }
   async function submitLead(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (leadBusy) return;
     setLeadBusy(true);
     setLeadStatus("Sending your enquiry…");
-    const data = Object.fromEntries(new FormData(event.currentTarget));
+    const data = Object.fromEntries(
+      Array.from(new FormData(event.currentTarget).entries()).map(
+        ([key, value]) => [
+          key,
+          typeof value === "string" ? value.trim() : value,
+        ],
+      ),
+    );
     try {
       const res = await fetch("/api/quote-builder/enquiry", {
         method: "POST",
@@ -287,17 +297,39 @@ export default function QuoteBuilder() {
                 )}
               </div>
               <label className={s.upload}>
-                Business logo <span>PNG or JPG · up to 250 KB</span>
+                Business logo{" "}
+                <span>
+                  PNG, JPG or WebP · up to 10 MB · resized automatically
+                </span>
                 <input
                   type="file"
-                  accept="image/png,image/jpeg"
-                  onChange={(e) => logo(e.target.files?.[0])}
+                  accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp"
+                  aria-describedby="logo-feedback"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    e.target.value = "";
+                    void logo(file);
+                  }}
                 />
               </label>
+              <p id="logo-feedback" role="status" className={s.hint}>
+                {logoMessage}
+              </p>
               {q.logo && (
-                <button type="button" onClick={() => update("logo", "")}>
-                  Remove logo
-                </button>
+                <div className={s.logoPreview}>
+                  <img src={q.logo} alt="Uploaded logo" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logoVersion.current++;
+                      setLogoBusy(false);
+                      update("logo", "");
+                      setLogoMessage("Logo removed.");
+                    }}
+                  >
+                    Remove logo
+                  </button>
+                </div>
               )}
               <h3>
                 <span>02</span> The customer & dates
@@ -467,7 +499,7 @@ export default function QuoteBuilder() {
                   you download a PDF and are not stored there.
                 </p>
               </div>
-              <button type="submit" className={s.primary}>
+              <button type="submit" className={s.primary} disabled={logoBusy}>
                 <Download size={18} /> {busy ? "Creating PDF…" : "Download PDF"}
               </button>
               <button type="button" className={s.whatsapp} onClick={share}>

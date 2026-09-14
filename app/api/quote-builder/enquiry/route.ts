@@ -30,7 +30,20 @@ export async function POST(request: NextRequest) {
         { error: "Enquiry is too long." },
         { status: 413 },
       );
-    const data = JSON.parse(raw);
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid enquiry. Please check the form and try again." },
+        { status: 400 },
+      );
+    }
+    if (!data || typeof data !== "object" || Array.isArray(data))
+      return NextResponse.json({ error: "Invalid enquiry." }, { status: 400 });
+    Object.keys(data).forEach((key) => {
+      if (typeof data[key] === "string") data[key] = data[key].trim();
+    });
     if (data.website_url)
       return NextResponse.json(
         { error: "Unable to accept this enquiry." },

@@ -100,6 +100,10 @@ const data = {
   };
   res = await POST(request({ ...data, consent: "no" }, "test4"));
   assert.equal(res.status, 400);
+  res = await POST(request(null, "test-null"));
+  assert.equal(res.status, 400);
+  res = await POST(new NextRequest("http://localhost/api/quote-builder/enquiry", { method: "POST", body: "{invalid", headers: { "x-forwarded-for": "test-json" } }));
+  assert.equal(res.status, 400);
   global.fetch = originalFetch;
   fs.mkdirSync("output/quote-builder", { recursive: true });
   fs.writeFileSync("output/quote-builder/sample.json", JSON.stringify(q));
