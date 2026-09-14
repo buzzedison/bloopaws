@@ -1,3 +1,5 @@
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
+
 const nextConfig = {
   images: {
     domains: ['lh3.googleusercontent.com', 'res.cloudinary.com'],
@@ -21,4 +23,8 @@ const nextConfig = {
   // ...other config settings
 };
 
-module.exports = nextConfig;
+module.exports = (phase) => ({
+  ...nextConfig,
+  // Keep a running dev preview independent from production builds and previews.
+  distDir: phase === PHASE_DEVELOPMENT_SERVER ? '.next-dev' : '.next',
+});

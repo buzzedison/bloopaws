@@ -16,6 +16,7 @@ export default function BloopNavbar() {
   const navRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
+  const isBuzzEdisonFunnel = pathname?.startsWith('/founder-scorecard') || pathname?.startsWith('/master-the-system');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,9 +63,10 @@ export default function BloopNavbar() {
   }, []);
 
   const navItems = [
-    { name: 'How We Help', href: '/services' },
+    { name: 'Work', href: '/launchpad' },
+    { name: 'Services', href: '/services' },
     { name: 'How It Works', href: '/how-it-works' },
-    { name: 'Launchpad', href: '/launchpad' },
+    { name: 'Insights', href: '/playbook' },
     { name: 'About Us', href: '/about' },
   ];
 
@@ -76,6 +78,10 @@ export default function BloopNavbar() {
   ];
 
   const isPlaybookRoute = pathname?.startsWith('/playbook') || pathname?.startsWith('/insight');
+
+  if (isBuzzEdisonFunnel) {
+    return null;
+  }
 
   if (isPlaybookRoute) {
     return (
@@ -216,7 +222,7 @@ export default function BloopNavbar() {
                 href="/contact"
                 className="bg-red-600 text-white px-5 py-2.5 rounded-full text-[13px] font-semibold hover:bg-red-700 transition-colors duration-200 shadow-sm"
               >
-                Book a Call
+                Discuss a Project
               </Link>
             </div>
 
@@ -226,6 +232,8 @@ export default function BloopNavbar() {
                 onClick={() => setIsNavOpen(!isNavOpen)}
                 className="text-zinc-700 hover:text-red-600 inline-flex items-center justify-center p-2 rounded-lg transition-colors duration-200"
                 aria-label="Toggle menu"
+                aria-expanded={isNavOpen}
+                aria-controls="mobile-navigation"
               >
                 {!isNavOpen ? (
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5" stroke="currentColor" fill="none">
@@ -244,7 +252,7 @@ export default function BloopNavbar() {
 
       {/* Mobile Menu */}
       {isNavOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden pt-[72px] bg-black/95 backdrop-blur-md">
+        <div id="mobile-navigation" className="fixed inset-0 z-40 lg:hidden pt-[72px] bg-black/95 backdrop-blur-md">
           <div className="px-6 py-8 space-y-1">
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
@@ -291,9 +299,9 @@ export default function BloopNavbar() {
                 className="block w-full text-center bg-red-600 text-white py-4 px-4 rounded-full font-semibold text-base hover:bg-red-700 transition-colors duration-200"
                 onClick={() => setIsNavOpen(false)}
               >
-                Book a Call
+                Discuss a Project
               </Link>
-              <p className="text-center text-xs text-zinc-600 mt-3">Free 45-minute call · No commitment</p>
+              <p className="text-center text-xs text-zinc-600 mt-3">Share a brief · No commitment</p>
             </div>
           </div>
         </div>

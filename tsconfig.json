@@ -24,7 +24,9 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
   "include": [
@@ -36,7 +38,8 @@
     "app/insight/components/Slider.jsx",
     "app/showcase/page.js",
     ".next/grafbase.config.ts",
-    "app/transformation/components/Contact.jsx"
+    "app/transformation/components/Contact.jsx",
+    ".next-dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

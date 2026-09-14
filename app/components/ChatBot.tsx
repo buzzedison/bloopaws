@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -14,6 +15,7 @@ interface ContactInfo {
 }
 
 export default function ChatBot() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [hasProvidedContact, setHasProvidedContact] = useState(false);
   const [contactInfo, setContactInfo] = useState<ContactInfo>({ name: '', email: '' });
@@ -145,6 +147,10 @@ export default function ChatBot() {
     }
     setIsOpen(false);
   };
+
+  if (pathname?.startsWith('/founder-scorecard') || pathname?.startsWith('/master-the-system')) {
+    return null;
+  }
 
   return (
     <>

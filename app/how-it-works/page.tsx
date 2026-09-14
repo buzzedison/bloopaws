@@ -86,7 +86,7 @@ const phases = [
 const faqs = [
   {
     q: 'How much does it cost?',
-    a: 'Most MVPs run $15,000–$50,000 depending on complexity. AI automation projects typically start from $8,000. We give a fixed price in the proposal — not an estimate that expands later.',
+    a: 'Project cost depends on scope, integrations, and the support required. Your proposal sets out deliverables, costs, and any third-party fees before work begins.',
   },
   {
     q: 'How long does a typical build take?',
@@ -94,7 +94,7 @@ const faqs = [
   },
   {
     q: 'Do I need to be technical?',
-    a: 'No. Over 70% of our clients have no coding background. We handle all technical decisions and explain our choices in plain language at every step.',
+    a: 'No. We work with non-technical founders and business teams. We handle all technical decisions and explain our choices in plain language at every step.',
   },
   {
     q: 'What if the scope changes mid-build?',
@@ -146,7 +146,7 @@ export default function HowItWorksPage() {
             <div className="flex flex-wrap gap-6">
               {[
                 { icon: <Clock className="w-4 h-4 text-red-600" />, label: '8–12 week average MVP' },
-                { icon: <Users className="w-4 h-4 text-red-600" />, label: '70% non-technical founders' },
+                { icon: <Users className="w-4 h-4 text-red-600" />, label: 'Non-technical teams welcome' },
                 { icon: <Shield className="w-4 h-4 text-red-600" />, label: 'Fixed price, no surprises' },
               ].map((s, i) => (
                 <div key={i} className="flex items-center gap-2 text-sm font-medium text-zinc-600">
@@ -291,7 +291,7 @@ export default function HowItWorksPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link prefetch={false} href="/contact">
                 <button className="bg-red-600 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-red-700 transition-colors inline-flex items-center gap-3 shadow-lg shadow-red-900/20">
-                  Book a Free Call <ArrowRight className="w-5 h-5" />
+                  Discuss Your Project <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>
               <Link prefetch={false} href="/services">

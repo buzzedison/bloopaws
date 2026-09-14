@@ -1,7 +1,16 @@
+"use client";
+
 import Link from 'next/link';
 import Image from "next/image"
+import { usePathname } from 'next/navigation';
 
-const Footer = () => (
+const Footer = () => {
+  const pathname = usePathname();
+  const isBuzzEdisonFunnel = pathname?.startsWith('/founder-scorecard') || pathname?.startsWith('/master-the-system');
+
+  if (isBuzzEdisonFunnel) return null;
+
+  return (
   <footer className="bg-zinc-50 text-zinc-900 pt-20 pb-10 px-4 md:px-8 lg:px-16 border-t border-zinc-100">
     <div className="max-w-7xl mx-auto">
 
@@ -20,18 +29,18 @@ const Footer = () => (
             <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
           </div>
           <p className="text-zinc-500 text-sm leading-relaxed max-w-xs mb-6">
-            The technical co-founder for non-technical founders. We build web apps, mobile platforms, and AI automation — shipped fast, built to scale.
+            Digital products and better ways of working. We help founders build products and growing teams automate everyday work.
           </p>
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 bg-red-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-red-700 transition-colors"
           >
-            Book a Free Call
+            Discuss Your Project
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
-          <p className="text-xs text-zinc-400 mt-2">45 minutes · No commitment</p>
+          <p className="text-xs text-zinc-400 mt-2">Share a brief · No commitment</p>
         </div>
 
         {/* Company */}
@@ -42,7 +51,7 @@ const Footer = () => (
               { name: 'About Us', href: '/about' },
               { name: 'How We Help', href: '/services' },
               { name: 'How It Works', href: '/how-it-works' },
-              { name: 'Launchpad', href: '/launchpad' },
+              { name: 'Selected Work', href: '/launchpad' },
               { name: 'Careers', href: '/careers' },
             ].map(({ name, href }) => (
               <li key={name}>
@@ -140,7 +149,7 @@ const Footer = () => (
             { name: 'Privacy Policy', href: '/privacy-policy' },
             { name: 'Terms of Service', href: '/terms' },
             { name: 'Contact', href: '/contact' },
-            { name: 'Sitemap', href: '/sitemap' },
+            { name: 'Sitemap', href: '/sitemap.xml' },
           ].map(({ name, href }) => (
             <Link key={name} href={href} className="text-xs text-zinc-400 hover:text-black transition-colors duration-200">
               {name}
@@ -151,6 +160,7 @@ const Footer = () => (
 
     </div>
   </footer>
-);
+  );
+};
 
 export default Footer;

@@ -1,234 +1,245 @@
-import Link from "next/link"
-import Image from "next/image"
-import { cachedClient } from "../sanity/lib/client"
-import { postsQuery } from "../sanity/lib/queries";
-import { caseStudiesQuery } from "../sanity/lib/caseStudyQueries";
-import InsightsInnovative from "./components/InsightsInnovative";
-import { ArrowRight, CheckCircle2, Download, ExternalLink } from "lucide-react";
-import HeroInnovative from "./components/HeroInnovative";
-import RealityCheck from "./components/RealityCheck";
-import ServicesInnovative from "./components/ServicesInnovative";
-import SocialProofStories from "./components/SocialProofStories";
-import PlaybookTeaser from "./components/PlaybookTeaser";
-import FAQInnovative from "./components/FAQInnovative";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight, Check, ArrowRight } from "lucide-react";
+import {
+  Action,
+  ServicePaths,
+  ProjectCards,
+  Questions,
+  ClosingCTA,
+} from "./components/agency/AgencySections";
+import { projects } from "./lib/agency-content";
+import s from "./components/agency/agency.module.css";
 
 export const metadata = {
-  title: "Your Technical Co-Founder | Bloop Global",
-  description: "We build the product while you build the business. Web apps, mobile platforms, and AI automation — shipped fast, built to scale, and designed to raise funding.",
-  keywords: "business development, SaaS development, web development, mobile app development, AI automation, startup funding, business strategy, technical co-founder",
+  title: { absolute: "Bloop Global | Digital Products & AI Automation" },
+  description:
+    "We help founders build digital products and growing teams automate everyday work. Web and mobile development, AI assistants, and connected business workflows.",
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "The Technical Co-Founder You Don't Have Yet | Bloop Global",
-    description: "We build the product while you build the business. Web apps, mobile platforms, and AI automation — shipped fast, built to scale, and designed to raise funding.",
-    type: "website",
-    url: "https://bloopglobal.com",
-    siteName: "Bloop Global",
+    title: "Digital products. Better ways of working. | Bloop Global",
+    description: "Build a product. Automate your business. Work with Bloop.",
+    url: "/",
     images: [
       {
-        url: "/images/blooplogo.png",
-        width: 1200,
-        height: 630,
-        alt: "Bloop Global - Turn Ideas Into Businesses"
-      }
-    ]
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "The Technical Co-Founder You Don't Have Yet | Bloop Global",
-    description: "We build the product while you build the business. Web apps, mobile platforms, and AI automation — shipped fast, built to scale, and designed to raise funding.",
-    images: ["/images/blooplogo.png"]
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-verification-code',
-  },
-}
-
-export default async function Home() {
-  // Fetch blog posts from Sanity
-  const posts = await cachedClient(postsQuery);
-  const majorPosts = posts.slice(0, 3);
-
-  // Fetch case studies from Sanity
-  const caseStudies = await cachedClient(caseStudiesQuery);
-
-  // Structured data for SEO
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How long does it take to turn an idea into a product?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Most MVPs ship in 8–12 weeks. We validate the concept first — CB Insights found that 42% of startups fail because they build something nobody wants. Our process cuts that risk before a single line of code is written."
-        }
+        url: "/images/portfolio/stride-dashboard.png",
+        alt: "Stride workspace and AI planning dashboard",
       },
-      {
-        "@type": "Question",
-        "name": "Do you work with non-technical founders?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Over 70% of our clients have no coding background. We handle the entire technical build while keeping you informed at every milestone — no jargon, no black boxes."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What does it cost to build an MVP?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Most MVPs range from $15,000–$50,000 depending on complexity. Startups with a working MVP raise funding 60% faster than those pitching on slides alone."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What if my idea changes during development?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Pivots are normal — Startup Genome data shows 70% of successful startups changed direction at least once. We build flexibility in from day one. Minor scope changes are included; major pivots are scoped transparently before work begins."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Do you provide ongoing support after launch?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. We offer retainer packages from $2,000/month covering hosting, security updates, and new features. Products with consistent post-launch investment see 3× better user retention in the first year."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can you help with funding and investor readiness?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. We prepare pitch decks, financial models, and live product demos. According to First Round Capital, founders who demo a working product close seed rounds at twice the rate of those presenting mockups alone."
-        }
-      }
-    ]
-  };
-
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Bloop Global",
-    "url": "https://bloopglobal.com",
-    "logo": "https://bloopglobal.com/images/blooplogo.png",
-    "description": "We turn big ideas into businesses that actually work. From web development to SaaS platforms, mobile apps, and AI automations.",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+1-XXX-XXX-XXXX",
-      "contactType": "customer service",
-      "email": "ask@bloopglobal.com"
-    },
-    "sameAs": [
-      "https://twitter.com/bloopglobal",
-      "https://linkedin.com/company/bloopglobal"
     ],
-    "service": [
-      {
-        "@type": "Service",
-        "name": "SaaS Development",
-        "description": "Custom SaaS platform development that generates measurable ROI"
-      },
-      {
-        "@type": "Service",
-        "name": "Web Development",
-        "description": "Modern web applications that turn visitors into customers"
-      },
-      {
-        "@type": "Service",
-        "name": "Mobile App Development",
-        "description": "Mobile apps that scale and engage users"
-      },
-      {
-        "@type": "Service",
-        "name": "AI Business Automation",
-        "description": "AI automations that streamline business operations"
-      }
-    ]
-  };
+  },
+};
 
+export default function Home() {
   return (
-    <>
-      {/* Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
-      <div className="flex flex-col w-full">
-        {/* Hero Section */}
-        <HeroInnovative />
-
-        {/* Section 2: The Reality Check */}
-        <RealityCheck />
-
-        {/* Section 4: How We Can Help - Services */}
-        <ServicesInnovative />
-
-        {/* Section 4: Social Proof - Our Stories Teaser */}
-        <SocialProofStories />
-
-        {/* Section 5: The Playbook - Content Hub Teaser */}
-        <PlaybookTeaser />
-
-        {/* FAQ Section */}
-        <FAQInnovative />
-
-        {/* Insights Section */}
-        <InsightsInnovative posts={majorPosts} />
-
-        {/* Final CTA Section */}
-        <section className="py-32 px-4 bg-gradient-to-br from-red-600 to-red-800 text-white relative overflow-hidden">
-          {/* Background decorative elements */}
-          <div className="absolute inset-0">
-            <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] opacity-20"></div>
-            <div className="absolute top-20 left-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-20 right-20 w-64 h-64 bg-black/20 rounded-full blur-3xl"></div>
-          </div>
-
-          <div className="max-w-5xl mx-auto text-center relative z-10">
-            <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight">
-              Let's Build Something <span className="text-black">Real.</span>
-            </h2>
-
-            <p className="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto leading-relaxed font-light">
-              You have the idea. We have the team, the tools, and the track record. Tell us what you're working on and we'll tell you exactly how we'd approach it — no commitment required.
+    <div className={s.page}>
+      <section className={s.hero}>
+        <div className={`${s.container} ${s.heroGrid}`}>
+          <div>
+            <p className={s.eyebrow}>
+              <span /> YOUR PRODUCT & AUTOMATION PARTNER
             </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link prefetch={false} href="/contact">
-                <button className="group relative overflow-hidden bg-white text-black font-bold py-5 px-12 rounded-full shadow-2xl hover:shadow-white/20 transition-all duration-300 transform hover:-translate-y-1">
-                  <span className="relative z-10 flex items-center text-lg">
-                    Book a Free Call
-                    <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
-                  </span>
-                </button>
-              </Link>
-
-              <a href="mailto:ask@bloopglobal.com" className="text-white/80 hover:text-white font-medium underline decoration-white/30 hover:decoration-white transition-all">
-                Or email us at ask@bloopglobal.com
-              </a>
+            <h1>
+              Digital products.
+              <br />
+              Better ways
+              <br />
+              <em>of working.</em>
+            </h1>
+            <p className={s.heroCopy}>
+              We help founders build web and mobile products, and growing teams
+              automate the work that slows them down.
+            </p>
+            <div className={s.actions}>
+              <Action />
+              <Action secondary href="/launchpad">
+                Explore our work
+              </Action>
             </div>
+            <p className={s.heroNote}>
+              Clear scope. Working demos. A team you can talk to.
+            </p>
           </div>
-        </section>
+          <Link
+            prefetch={false}
+            href="/launchpad/stride"
+            className={s.heroProject}
+            aria-label="Explore the Stride workspace platform"
+          >
+            <div className={s.browserBar}>
+              <span>
+                <i />
+                <i />
+                <i />
+              </span>
+              <span>SELECTED WORK / STRIDE</span>
+              <ArrowUpRight size={18} />
+            </div>
+            <div className={s.heroScreen}>
+              <Image
+                src="/images/portfolio/stride-dashboard.png"
+                alt="Stride dashboard with projects, quick actions, and AI weekly planning."
+                width={1140}
+                height={720}
+                priority
+                sizes="(max-width: 800px) 100vw, 55vw"
+              />
+            </div>
+            <div className={s.heroProjectCaption}>
+              <div>
+                <span className={s.label}>WORKSPACE & AI PLATFORM</span>
+                <strong>One workspace. Connected work.</strong>
+              </div>
+              <span className={s.roundArrow}>
+                <ArrowUpRight size={22} />
+              </span>
+            </div>
+          </Link>
+        </div>
+      </section>
+      <div className={s.principles}>
+        <div className={s.container}>
+          {[
+            "Built around your business",
+            "A clear plan before the build",
+            "Your team involved throughout",
+          ].map((text) => (
+            <span key={text}>
+              <Check size={16} aria-hidden="true" />
+              {text}
+            </span>
+          ))}
+        </div>
       </div>
-    </>
-  )
+      <section className={`${s.container} ${s.section}`}>
+        <div className={s.sectionHead}>
+          <div>
+            <p className={s.eyebrow}>TWO WAYS WE CAN HELP</p>
+            <h2>
+              What needs to
+              <br />
+              work better?
+            </h2>
+          </div>
+          <p>
+            Start with the problem you want to solve.
+            <br />
+            We’ll help define the right build.
+          </p>
+        </div>
+        <ServicePaths />
+      </section>
+      <section className={s.workSection}>
+        <div className={s.container}>
+          <div className={s.sectionHead}>
+            <div>
+              <p className={s.eyebrow}>WORK YOU CAN EXPLORE</p>
+              <h2>
+                From the brief
+                <br />
+                to the browser.
+              </h2>
+            </div>
+            <Action href="/launchpad" secondary>
+              See selected work
+            </Action>
+          </div>
+          <ProjectCards
+            items={["stride", "taskwit", "agripro-hub-or-ai-knowledge-hub"].map(
+              (slug) => projects.find((project) => project.slug === slug),
+            )}
+          />
+        </div>
+      </section>
+      <section className={`${s.container} ${s.section}`}>
+        <div className={s.sectionHead}>
+          <div>
+            <p className={s.eyebrow}>A CLEAR WAY TO WORK TOGETHER</p>
+            <h2>
+              You see the plan.
+              <br />
+              Then the progress.
+            </h2>
+          </div>
+          <Action href="/how-it-works" secondary>
+            See how we work
+          </Action>
+        </div>
+        <ol className={s.steps}>
+          {[
+            [
+              "Understand the job",
+              "We explore your goals, existing tools, and constraints, then agree what success should look like.",
+            ],
+            [
+              "Define and build",
+              "We set out the scope and milestones. You review designs and working demos as the project develops.",
+            ],
+            [
+              "Launch and hand over",
+              "We test, launch, and equip your team with the agreed documentation, training, and support.",
+            ],
+          ].map(([title, copy], i) => (
+            <li key={title}>
+              <span>0{i + 1}</span>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section className={s.studio}>
+        <div className={`${s.container} ${s.studioGrid}`}>
+          <div>
+            <p className={s.eyebrow}>BUILDERS WHO UNDERSTAND THE BUSINESS</p>
+            <h2>
+              Practical thinking.
+              <br />
+              Hands-on delivery.
+            </h2>
+          </div>
+          <div>
+            <p>
+              We build products of our own as well as work for clients. That
+              keeps us close to the decisions behind a launch: what to
+              prioritise, what to simplify, and what a team needs next.
+            </p>
+            <p>
+              From the first conversation to handover, we connect the technical
+              work to the business it serves.
+            </p>
+            <Action href="/about" secondary>
+              Meet Bloop
+            </Action>
+          </div>
+        </div>
+      </section>
+      <Questions />
+      <section className={`${s.container} ${s.resource}`}>
+        <div>
+          <p className={s.eyebrow}>THE BLOOP PLAYBOOK</p>
+          <h2>
+            A useful perspective
+            <br />
+            before you build.
+          </h2>
+          <p>
+            Explore our writing on product decisions, business strategy, and
+            practical uses of AI.
+          </p>
+        </div>
+        <Link prefetch={false} href="/playbook" className={s.resourceLink}>
+          <span>
+            Ideas, experience,
+            <br />
+            and things worth asking.
+          </span>
+          <span>
+            Read the Playbook <ArrowRight size={20} />
+          </span>
+        </Link>
+      </section>
+      <section className={`${s.container} ${s.resource}`}><div><p className={s.eyebrow}>FREE BUSINESS TOOL</p><h2>From enquiry<br />to quotation.</h2><p>Create a quote in GHS, download a PDF and share it on WhatsApp. Save your details for the next customer.</p></div><Link prefetch={false} href="/quote-builder" className={s.resourceLink}><span>A professional quote.<br />No signup needed.</span><span>Open Quote Builder <ArrowRight size={20} /></span></Link></section>
+      <ClosingCTA />
+    </div>
+  );
 }
-
-

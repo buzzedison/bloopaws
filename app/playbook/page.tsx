@@ -38,11 +38,14 @@ export default async function PlaybookPage() {
   const latestPosts = posts.slice(3, 9); // Next 6 as latest posts
 
   return (
+    <>
+    <section className="bg-[#f7f5f0] pt-32 pb-8 px-6"><div className="max-w-6xl mx-auto rounded-xl border border-stone-300 p-7 flex flex-wrap items-center justify-between gap-6"><div><p className="text-xs tracking-widest text-red-700 font-bold mb-2">FREE BUSINESS TOOL</p><h2 className="text-2xl font-bold text-stone-900">Your next quotation, ready to send.</h2><p className="text-stone-600 mt-2">Create a quote in GHS. Download a PDF. Share on WhatsApp.</p></div><a href="/quote-builder" className="rounded-lg bg-red-700 text-white px-6 py-3 font-semibold">Open Quote Builder →</a></div></section>
     <PlaybookClient
       cornerstoneArticles={cornerstoneArticles}
       latestPosts={latestPosts}
       allPosts={posts}
       categories={categories}
     />
+    </>
   );
 } 

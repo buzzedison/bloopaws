@@ -4,24 +4,24 @@ import Link from "next/link"
 import type { Metadata } from 'next/types'
 
 export const metadata: Metadata = {
-  title: "MVP Builder Package | For Idea-Stage Companies",
+  title: "Idea Validation Landing Page | For Idea-Stage Companies",
   description: "Transform your idea into a professional MVP with our Builder Package. Includes landing page design, brainstorming session, and hosting. Perfect for idea-stage startups.",
   keywords: "MVP, startup, idea-stage, landing page, web development, Ghana",
   openGraph: {
-    title: "MVP Builder Package | For Idea-Stage Companies",
+    title: "Idea Validation Landing Page | For Idea-Stage Companies",
     description: "Transform your idea into a professional MVP with our Builder Package. Includes landing page design, brainstorming session, and hosting.",
     images: [
       {
         url: "https://bloopglobal.com/images/mvp.png",
         width: 1200,
         height: 630,
-        alt: "MVP Builder Package",
+        alt: "Idea Validation Landing Page",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MVP Builder Package | For Idea-Stage Companies",
+    title: "Idea Validation Landing Page | For Idea-Stage Companies",
     description: "Transform your idea into a professional MVP with our Builder Package. Includes landing page design, brainstorming session, and hosting.",
     images: ["https://example.com/twitter-image.jpg"],
   },
@@ -33,7 +33,7 @@ export default function Component() {
       <div className="container mx-auto px-4 py-16 md:py-24">
         <header className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-up pt-24">
-            MVP Builder Package
+            Idea Validation Landing Page
           </h1>
           <p className="text-xl md:text-2xl font-light mb-8 animate-fade-in-up animation-delay-200">
             For Idea-Stage Companies
@@ -52,11 +52,11 @@ export default function Component() {
             <ul className="space-y-4">
               <li className="flex items-start">
                 <Check className="mr-2 h-6 w-6 text-white flex-shrink-0" />
-                <span>Professional landing page design (value: 10,000 GHC)</span>
+                <span>Professional landing page design</span>
               </li>
               <li className="flex items-start">
                 <Check className="mr-2 h-6 w-6 text-white flex-shrink-0" />
-                <span>Free brainstorming session (value: 10,000 GHC)</span>
+                <span>A brainstorming session to clarify your idea</span>
               </li>
               <li className="flex items-start">
                 <Check className="mr-2 h-6 w-6 text-white flex-shrink-0" />
@@ -88,7 +88,7 @@ export default function Component() {
               <Phone className="mr-3 h-6 w-6" />
               Call: +233 503 874 448
             </Link>
-            <Link prefetch={false} href="https://wa.me/0277667561" className="flex items-center bg-green-500 text-white px-8 py-4 rounded-full hover:bg-green-600 transition-colors duration-300 w-full md:w-auto justify-center">
+            <Link prefetch={false} href="https://wa.me/233277667561" className="flex items-center bg-green-500 text-white px-8 py-4 rounded-full hover:bg-green-600 transition-colors duration-300 w-full md:w-auto justify-center">
               <MessageCircle className="mr-3 h-6 w-6" />
               WhatsApp: 0277667561
             </Link>

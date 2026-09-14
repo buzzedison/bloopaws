@@ -1,0 +1,250 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/",
+    "title": "Your Technical Co-Founder | Bloop Global",
+    "bytes": 37651,
+    "seconds": 0.71
+  },
+  {
+    "path": "/services",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/services",
+    "title": "Elite Services | Bloop Global",
+    "bytes": 25476,
+    "seconds": 1.07
+  },
+  {
+    "path": "/services/ai",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/services/ai",
+    "title": "Elite Services | Bloop Global",
+    "bytes": 26066,
+    "seconds": 1.01
+  },
+  {
+    "path": "/services/web",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/services/web",
+    "title": "Web Development Services | Bloop Global",
+    "bytes": 23978,
+    "seconds": 0.97
+  },
+  {
+    "path": "/services/mobile",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/services/mobile",
+    "title": "Elite Services | Bloop Global",
+    "bytes": 28245,
+    "seconds": 1.02
+  },
+  {
+    "path": "/services/strategy",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/services/strategy",
+    "title": "Elite Services | Bloop Global",
+    "bytes": 26096,
+    "seconds": 0.92
+  },
+  {
+    "path": "/services/training",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/services/training",
+    "title": "Elite Services | Bloop Global",
+    "bytes": 26095,
+    "seconds": 0.89
+  },
+  {
+    "path": "/services/business",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/services/business",
+    "title": "Elite Services | Bloop Global",
+    "bytes": 37338,
+    "seconds": 0.91
+  },
+  {
+    "path": "/about",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/about",
+    "title": "About Us | Bloop Global",
+    "bytes": 25418,
+    "seconds": 0.59
+  },
+  {
+    "path": "/how-it-works",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/how-it-works",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25514,
+    "seconds": 0.87
+  },
+  {
+    "path": "/contact",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/contact",
+    "title": "Book a Free Call | Bloop Global",
+    "bytes": 25009,
+    "seconds": 0.65
+  },
+  {
+    "path": "/launchpad",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/launchpad",
+    "title": "Products We&#x27;ve Built | Bloop Global | Bloop Global",
+    "bytes": 25701,
+    "seconds": 0.62
+  },
+  {
+    "path": "/casestudies",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/casestudies",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25046,
+    "seconds": 0.92
+  },
+  {
+    "path": "/playbook",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/playbook",
+    "title": "Bloop Playbook: Insights, Strategies, and Templates | Bloop Global | Bloop Global",
+    "bytes": 53517,
+    "seconds": 1.04
+  },
+  {
+    "path": "/insight",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/insight",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 265842,
+    "seconds": 2.0
+  },
+  {
+    "path": "/resources",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/resources",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 27939,
+    "seconds": 0.9
+  },
+  {
+    "path": "/funding",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/funding",
+    "title": "Funding for Startups &amp; Entrepreneurs | Bloop Global | Bloop Global",
+    "bytes": 53926,
+    "seconds": 0.9
+  },
+  {
+    "path": "/web",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/web",
+    "title": "Bloop Global Website | Bloop Global",
+    "bytes": 28126,
+    "seconds": 0.99
+  },
+  {
+    "path": "/web/mvp",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/web/mvp",
+    "title": "MVP Builder Package | For Idea-Stage Companies",
+    "bytes": 31629,
+    "seconds": 0.92
+  },
+  {
+    "path": "/repackage",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/repackage",
+    "title": "Digital Launch Promo \u2014 Websites &amp; Apps | Bloop Global",
+    "bytes": 24437,
+    "seconds": 0.61
+  },
+  {
+    "path": "/courses",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/courses",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 29404,
+    "seconds": 0.92
+  },
+  {
+    "path": "/careers",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/careers",
+    "title": "Join the Crew | Bloop Global | Bloop Global",
+    "bytes": 26476,
+    "seconds": 0.62
+  },
+  {
+    "path": "/templates",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/templates",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25791,
+    "seconds": 0.92
+  },
+  {
+    "path": "/whitepapers",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/whitepapers",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25799,
+    "seconds": 0.94
+  },
+  {
+    "path": "/sitemap",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/sitemap",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25755,
+    "seconds": 0.97
+  },
+  {
+    "path": "/sitemap.xml",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/sitemap.xml",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25771,
+    "seconds": 0.94
+  },
+  {
+    "path": "/robots.txt",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/robots.txt",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25767,
+    "seconds": 1.02
+  },
+  {
+    "path": "/privacy-policy",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/privacy-policy",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25476,
+    "seconds": 0.97
+  },
+  {
+    "path": "/terms",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/terms",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25432,
+    "seconds": 1.0
+  },
+  {
+    "path": "/founder-scorecard",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/founder-scorecard",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25795,
+    "seconds": 3.01
+  },
+  {
+    "path": "/master-the-system",
+    "status": 200,
+    "url": "https://www.bloopglobal.com/master-the-system",
+    "title": "Bloop Global | Your Technical Co-Founder",
+    "bytes": 25795,
+    "seconds": 3.0
+  }
+]

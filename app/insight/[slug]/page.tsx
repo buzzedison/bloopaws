@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 
 import { cachedClient } from "../../../sanity/lib/client";
 import Post from "../components/NewPost";
@@ -12,7 +13,7 @@ const builder = imageUrlBuilder(client);
 // Prepare Next.js to know which routes already exist
 export async function generateStaticParams() {
   const posts = await cachedClient(postPathsQuery);
-  return posts;
+  return posts.map((post: { params: { slug: string } }) => post.params);
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const seoTitle = `${post.title} | Bloop Playbook`;
   const seoDescription = post.excerpt || "Strategy and insights for scaling high-growth ventures.";
   const seoImage = post.mainImage ? builder.image(post.mainImage).width(1200).height(630).url() : "";
-  const canonicalUrl = `https://bloopglobal.com/insight/${params.slug}`;
+  const canonicalUrl = `https://www.bloopglobal.com/insight/${params.slug}`;
 
   return {
     title: seoTitle,
@@ -66,6 +67,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const post = await cachedClient(postQuery, params);
+
+  if (!post) notFound();
 
   // Fetch related posts (latest 3 posts excluding the current one)
   const relatedPostsQuery = groq`*[_type == "post" && slug.current != $slug && defined(slug.current)] | order(publishedAt desc)[0...3]{

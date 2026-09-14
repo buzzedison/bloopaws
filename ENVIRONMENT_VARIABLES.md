@@ -15,6 +15,9 @@ RESEND_API_KEY=your_resend_api_key_here
 CONVERTKIT_API_KEY=your_convertkit_api_key_here
 CONVERTKIT_VANGUARD_FORM_ID=your_convertkit_form_id_here
 CONVERTKIT_BUILD_SHEET_FORM_ID=your_convertkit_build_sheet_form_id_here
+CONVERTKIT_MASTER_SYSTEM_FORM_ID=your_master_the_system_form_id_here
+BUZZEDISON_FROM_EMAIL="BuzzEdison <hello@updates.buzzedison.com>"
+BUZZEDISON_REPLY_TO=ask@buzzedison.com
 ```
 - Get your API key from [ConvertKit Account Settings](https://app.convertkit.com/account_settings/advanced)
 - Create forms in ConvertKit for Vanguard applicants and Build Sheet subscribers

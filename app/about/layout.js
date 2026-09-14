@@ -1,6 +1,6 @@
 export const metadata = {
     title: 'About Us',
-    description: 'Bloop Global is a product development studio. We build web apps, mobile platforms, and AI automation systems for founders who need a technical team to build their vision.',
+    description: 'Get to know Bloop, a product development and automation studio for founders and business teams.',
 }
 
 export default function AboutLayout({ children }) {

@@ -7,12 +7,12 @@ import MetaPixel from "./components/MetaPixel";
 import ReferralTracker from "./components/ReferralTracker";
 
 export const metadata = {
-  metadataBase: new URL('https://bloopglobal.com'),
+  metadataBase: new URL('https://www.bloopglobal.com'),
   title: {
-    default: 'Bloop Global | Your Technical Co-Founder',
+    default: 'Bloop Global | Digital Products & AI Automation',
     template: '%s | Bloop Global'
   },
-  description: 'Bloop Global is a product development studio for non-technical founders. We build web apps, mobile platforms, and AI automation — shipped fast, built to scale, and designed to raise funding.',
+  description: 'Bloop helps founders build digital products and growing teams automate everyday work. Websites, web apps, mobile development, and AI automation.',
   keywords: [
     'technical co-founder',
     'MVP development',
@@ -111,7 +111,7 @@ export default function RootLayout({ children }) {
                     "itemOffered": {
                       "@type": "Service",
                       "name": "Web & Mobile App Development",
-                      "description": "Full-stack web and mobile applications built for scale and designed to raise funding."
+                      "description": "Full-stack web and mobile applications built around your business."
                     }
                   },
                   {
@@ -119,7 +119,7 @@ export default function RootLayout({ children }) {
                     "itemOffered": {
                       "@type": "Service",
                       "name": "MVP Development",
-                      "description": "Launch-ready MVPs in 8–12 weeks with fixed pricing and weekly demos."
+                      "description": "Product development with an agreed scope, milestones, and working demos."
                     }
                   }
                 ]

@@ -1,10 +1,16 @@
-import ContactForm from '../components/ContactForm';
-
+import ContactForm from "../components/ContactForm";
 export const metadata = {
-  title: 'Book a Free Call',
-  description: 'Tell us what you\'re building. We\'ll come back with a clear view on how we\'d approach it — no commitment required.',
-}
-
-export default function ContactPage() {
-  return <ContactForm />;
+  title: "Discuss Your Project",
+  description:
+    "Tell Bloop what you want to build or automate. Share a short brief and we’ll help define the next step.",
+  alternates: { canonical: "/contact" },
+};
+export default function ContactPage({ searchParams }) {
+  return (
+    <ContactForm
+      initialService={
+        typeof searchParams?.service === "string" ? searchParams.service : ""
+      }
+    />
+  );
 }
