@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { checkSpam } from '../../../lib/spamGuard'
 
 interface WaitlistPayload {
   name: string
@@ -12,6 +13,8 @@ interface WaitlistPayload {
 export async function POST(request: NextRequest) {
   try {
     const body: WaitlistPayload = await request.json()
+    const spam = checkSpam(request, body as unknown as Record<string, unknown>, { scope: 'waitlist' })
+    if (spam) return spam
     const { name, email, url, businessType, adSpend } = body
 
     if (!name || !email) {

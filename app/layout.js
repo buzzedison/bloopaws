@@ -5,6 +5,7 @@ import ChatBot from './components/ChatBot';
 import GoogleAnalytics from "../app/components/GoogleAnalytics";
 import MetaPixel from "./components/MetaPixel";
 import ReferralTracker from "./components/ReferralTracker";
+import TurnstileGate from "./components/TurnstileGate";
 
 export const metadata = {
   metadataBase: new URL('https://www.bloopglobal.com'),
@@ -136,6 +137,7 @@ export default function RootLayout({ children }) {
           <MetaPixel pixel_id={process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID} />
         ) : null}
         <ReferralTracker />
+        <TurnstileGate />
         <Navbar />
         <main>
           <ChatBot />

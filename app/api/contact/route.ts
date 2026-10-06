@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { getRegionConfig } from '../../lib/leadQualify'
 import crypto from 'crypto'
+import { checkSpam } from '../../lib/spamGuard'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bloopglobal.com'
 const QUALIFY_SECRET = process.env.QUALIFY_SECRET || 'bloop-qualify-secret'
@@ -32,7 +33,10 @@ async function stridePost(path: string, body: object) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, phone, service, message, promo, referral } = await request.json()
+    const body = await request.json()
+    const spam = checkSpam(request, body, { scope: 'contact' })
+    if (spam) return spam
+    const { name, email, phone, service, message, promo, referral } = body
     const countryCode = request.headers.get('x-vercel-ip-country') || 'US'
     const region = getRegionConfig(countryCode)
 

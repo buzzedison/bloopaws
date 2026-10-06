@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useRef, type FormEvent } from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Mail, Phone } from "lucide-react";
 import * as tracking from "../lib/tracking";
@@ -23,6 +23,7 @@ const emptyForm = {
   message: "",
   referral: "",
   promo: "",
+  website: "", // honeypot
 };
 const inputClass =
   "mt-2 w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-base text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent";
@@ -39,6 +40,7 @@ export default function ContactForm({
   const [status, setStatus] = useState<
     "idle" | "sending" | "success" | "error"
   >("idle");
+  const startedAt = useRef(Date.now());
   const update = (name: keyof typeof emptyForm, value: string) =>
     setForm((previous) => ({ ...previous, [name]: value }));
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -49,7 +51,7 @@ export default function ContactForm({
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, _t: startedAt.current }),
       });
       if (!response.ok) throw new Error("Request not accepted");
       setStatus("success");
@@ -139,6 +141,21 @@ export default function ContactForm({
               <p className="text-sm text-zinc-500 mb-7">
                 Fields marked * are required.
               </p>
+              <div
+                aria-hidden="true"
+                style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}
+              >
+                <label htmlFor="contact-website">Leave this field empty</label>
+                <input
+                  id="contact-website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={form.website}
+                  onChange={(e) => update("website", e.target.value)}
+                />
+              </div>
               <fieldset
                 disabled={status === "sending"}
                 className="space-y-5 disabled:opacity-70"

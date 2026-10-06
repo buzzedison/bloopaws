@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { checkSpam } from '../../lib/spamGuard';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    const spam = checkSpam(request, body, { scope: 'funding' });
+    if (spam) return spam;
     const { name, email, stage, goals, pathways } = body as {
       name?: string;
       email?: string;

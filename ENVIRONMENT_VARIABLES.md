@@ -86,3 +86,8 @@ To test the complete application system:
 - Use different API keys for development and production
 - Regularly rotate API keys
 - Monitor email sending limits and costs
+
+# Cloudflare Turnstile (bot protection for all public forms)
+# Create a widget at https://dash.cloudflare.com -> Turnstile (type: Managed, add bloopglobal.com)
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=your_site_key
+TURNSTILE_SECRET_KEY=your_secret_key
